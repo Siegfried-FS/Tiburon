@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiburón - Mi Camino a AWS Cloud Practitioner</title>
+    <meta name="description" content="Proyecto Tiburón: Blog gratuito documentando mi evolución hacia AWS Cloud Practitioner - Como un tiburón, nunca paro de moverme y aprender">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- Particles.js container -->
+    <div id="particles-js"></div>
+
+    <!-- Header con menú hamburguesa -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1>🦈 Tiburón</h1>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html" onclick="closeMenu()">Inicio</a></li>
+                <li><a href="glosario.html" onclick="closeMenu()">Glosario</a></li>
+                <li><a href="laboratorios.html" onclick="closeMenu()">Laboratorios</a></li>
+                <li><a href="servicios.html" onclick="closeMenu()">Servicios AWS</a></li>
+                <li><a href="#about" onclick="closeMenu()">Acerca</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <img src="assets/images/profile-photo.jpg" alt="Roberto Flores Segundo" class="profile-photo">
+            <h1>🦈 Proyecto Tiburón</h1>
+            <p class="tagline">Mi Camino hacia AWS Cloud Practitioner ☁️<br>
+            Como un tiburón: nunca paro de moverme, siempre creciendo nuevos dientes 🦷</p>
+            
+            <!-- Redes Sociales -->
+            <div class="social-links">
+                <a href="https://www.instagram.com/siegfried_fs/" target="_blank" class="social-btn instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    Instagram
+                </a>
+                <a href="https://www.linkedin.com/in/roberto-flores-b1a012322/" target="_blank" class="social-btn linkedin">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    LinkedIn
+                </a>
+            </div>
+            
+            <a href="https://builder.aws.com/community/@robertoflores" target="_blank" class="aws-link">🚀 AWS Builder Center Profile</a>
+        </section>
+
+        <!-- Certificaciones -->
+        <section class="content-section">
+            <h2>🏆 Certificaciones del Tiburón</h2>
+            <div class="credly-badges">
+                <!-- Tus badges reales de AWS -->
+                <div class="badge-item">
+                    <img src="https://images.credly.com/images/30816e43-2550-4e1c-be22-3f03c5573bb9/blob" alt="AWS Cloud Quest: Cloud Practitioner">
+                    <p>AWS Cloud Quest: Cloud Practitioner</p>
+                </div>
+                <div class="badge-item">
+                    <img src="https://images.credly.com/images/8f006312-3154-45bf-a845-4a043641e83c/blob" alt="AWS Partner: Technical Accredited">
+                    <p>AWS Partner: Technical Accredited</p>
+                </div>
+                <div class="badge-item">
+                    <img src="https://images.credly.com/images/46ea4542-72a8-46a1-8d68-b72c4ca50820/blob" alt="AWS Partner: Sales Accreditation">
+                    <p>AWS Partner: Sales Accreditation</p>
+                </div>
+                <div class="badge-item">
+                    <img src="https://images.credly.com/images/5749832b-21b7-47f9-9ad4-b2fef13d0454/blob" alt="AWS Partner: Cloud Economics">
+                    <p>AWS Partner: Cloud Economics</p>
+                </div>
+                <div class="badge-item">
+                    <img src="https://images.credly.com/images/fc6fa322-80f4-45a5-9def-91e9bcfde837/blob" alt="AWS Educate Getting Started with Security">
+                    <p>AWS Educate: Security</p>
+                </div>
+                <div class="badge-item">
+                    <img src="https://images.credly.com/images/e51a8579-188d-4363-8ed1-12ad164ef57b/blob" alt="AWS Educate Introduction to Cloud 101">
+                    <p>AWS Educate: Cloud 101</p>
+                </div>
+                
+                <!-- Objetivo: Cloud Practitioner Certification -->
+                <div class="badge-item target-badge">
+                    <img src="https://images.credly.com/size/340x340/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png" alt="AWS Cloud Practitioner - Objetivo">
+                    <p>AWS Certified Cloud Practitioner</p>
+                    <span class="target-label">🎯 Objetivo</span>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="https://www.credly.com/users/roberto-flores.0f207daf/badges" target="_blank" class="verify-badge">🔗 Ver Perfil Completo en Credly</a>
+            </div>
+        </section>
+
+        <!-- Navegación Principal -->
+        <section class="content-section">
+            <h2>🌊 Explora las Aguas del Conocimiento</h2>
+            <div class="navigation-grid">
+                <a href="glosario.html" class="nav-card">
+                    <div class="nav-icon">📚</div>
+                    <h3>Glosario de Términos</h3>
+                    <p>Conceptos clave organizados por dominio del examen Cloud Practitioner</p>
+                    <span class="nav-arrow">→</span>
+                </a>
+
+                <a href="laboratorios.html" class="nav-card">
+                    <div class="nav-icon">🔬</div>
+                    <h3>Laboratorios Re/Start</h3>
+                    <p>PDFs organizados por módulos: Fundamentos, Linux, Python, AWS y más</p>
+                    <span class="nav-arrow">→</span>
+                </a>
+
+                <a href="servicios.html" class="nav-card">
+                    <div class="nav-icon">🛠️</div>
+                    <h3>Servicios AWS</h3>
+                    <p>Tarjetas interactivas con información detallada para el examen</p>
+                    <span class="nav-arrow">→</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Mi Historia -->
+        <section class="content-section">
+            <h2>🦈 La Evolución del Tiburón Tech</h2>
+            <div class="story-grid">
+                <div class="story-card">
+                    <h3>🔧 De Soporte a Cazador</h3>
+                    <p>Empecé limpiando equipos, inventariando, cargando DBs para devs. Cada tarea me enseñó algo nuevo, como un tiburón que nunca para de nadar y aprender.</p>
+                </div>
+
+                <div class="story-card">
+                    <h3>📋 Compliance: Mis Primeros Dientes</h3>
+                    <p>El compliance me dio estructura y me enseñó la importancia de la seguridad. Pero como todo tiburón, necesitaba más: quería construir, experimentar, crear.</p>
+                </div>
+
+                <div class="story-card">
+                    <h3>⚡ Hambre de Tecnología</h3>
+                    <p>Ahora busco experiencia técnica real. Me encanta la seguridad, pero mi pasión está en construir y jugar con herramientas. AWS es mi nuevo océano para explorar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Por Qué Comparto -->
+        <section class="content-section">
+            <h2>🌊 ¿Por Qué Comparto Mi Caza?</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">🌟</div>
+                    <h3>Conocimiento Libre</h3>
+                    <p>Creo firmemente que el conocimiento debe ser accesible para todos. Si mi camino puede ayudar a alguien más, entonces vale la pena compartirlo.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">🤝</div>
+                    <h3>Comunidad Tech</h3>
+                    <p>La comunidad tech me ha dado mucho. Es mi forma de devolver y crear conexiones con otros que están en el mismo viaje de aprendizaje.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">📚</div>
+                    <h3>Aprender Enseñando</h3>
+                    <p>Documentar mi proceso me ayuda a consolidar el conocimiento. Si además ayuda a otros, es un win-win total.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sobre el Proyecto -->
+        <section id="about" class="content-section">
+            <h2>🦈 Sobre Proyecto Tiburón</h2>
+            <div class="about-content">
+                <div class="about-card">
+                    <h3>🎯 La Misión</h3>
+                    <p>Crear el recurso más completo y accesible en español para estudiar AWS Cloud Practitioner. Sin barreras, sin costos, solo conocimiento puro y experiencias reales.</p>
+                </div>
+
+                <div class="about-card">
+                    <h3>🦈 ¿Por Qué "Tiburón"?</h3>
+                    <p>Los tiburones nunca paran de moverse y siempre les crecen nuevos dientes. Como yo: nunca paro de aprender y siempre estoy creciendo nuevas habilidades técnicas.</p>
+                </div>
+
+                <div class="about-card">
+                    <h3>☕ Alimenta al Tiburón</h3>
+                    <p>Si este contenido te ayuda en tu camino, considera alimentar al tiburón. Cada contribución me ayuda a seguir nadando y creando contenido de calidad.</p>
+                    
+                    <div class="donation-section">
+                        <button class="donation-btn" onclick="showDonationInfo()">
+                            🦈 Alimentar al Tiburón
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
