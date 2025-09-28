@@ -417,3 +417,103 @@ document.addEventListener('DOMContentLoaded', function() {
 window.showDonationInfo = showDonationInfo;
 window.toggleMenu = toggleMenu;
 window.closeMenu = closeMenu;
+// Funciones para labs dinámicos
+function showContent(contentId, type) {
+    const content = document.getElementById(contentId);
+    const buttons = ['btn-1-pdf', 'btn-1-arch', 'btn-1-desc'];
+    
+    buttons.forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (btn) btn.className = 'secondary-btn';
+    });
+    
+    if (type === 'pdf') document.getElementById('btn-1-pdf').className = 'primary-btn';
+    if (type === 'architecture') document.getElementById('btn-1-arch').className = 'primary-btn';
+    if (type === 'description') document.getElementById('btn-1-desc').className = 'primary-btn';
+    
+    if (type === 'pdf') {
+        content.innerHTML = '<div class="pdf-preview-simple"><embed src="restart-labs/fundamentos-nube/01-Cloud-Databases.pdf#page=1&zoom=60" type="application/pdf" width="100%" height="500px"></div>';
+    } else if (type === 'architecture') {
+        content.innerHTML = '<div class="architecture-view"><img src="assets/images/architecture-placeholder.svg" alt="Arquitectura" style="width:100%;"><p>Diagrama de arquitectura</p></div>';
+    } else if (type === 'description') {
+        content.innerHTML = '<div class="description-view"><h3>📝 Descripción</h3><p>Laboratorio de bases de datos en la nube</p></div>';
+    }
+}
+
+function showContent2(contentId, type) {
+    const content = document.getElementById(contentId);
+    const buttons = ['btn-2-pdf', 'btn-2-arch', 'btn-2-desc'];
+    
+    buttons.forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (btn) btn.className = 'secondary-btn';
+    });
+    
+    if (type === 'pdf') document.getElementById('btn-2-pdf').className = 'primary-btn';
+    if (type === 'architecture') document.getElementById('btn-2-arch').className = 'primary-btn';
+    if (type === 'description') document.getElementById('btn-2-desc').className = 'primary-btn';
+    
+    if (type === 'pdf') {
+        content.innerHTML = '<div class="pdf-preview-simple"><embed src="restart-labs/fundamentos-nube/02-Well-Architected.pdf#page=1&zoom=60" type="application/pdf" width="100%" height="500px"></div>';
+    } else if (type === 'architecture') {
+        content.innerHTML = '<div class="architecture-view"><img src="assets/images/architecture-placeholder.svg" alt="Arquitectura" style="width:100%;"><p>Well-Architected Framework</p></div>';
+    } else if (type === 'description') {
+        content.innerHTML = '<div class="description-view"><h3>📝 Descripción</h3><p>Framework de buenas prácticas AWS</p></div>';
+    }
+}
+
+function openFullPDF(pdfPath) {
+    window.open(pdfPath, '_blank');
+}
+// Función para abrir lab específico
+function openLab(labId) {
+    if (labId === 'lab1') {
+        // Crear vista interactiva para Lab 1
+        document.querySelector('main .container').innerHTML = `
+            <div class="breadcrumb">
+                <a href="laboratorios.html">🧪 Laboratorios</a> > 
+                <a href="lab-fundamentos.html">🌥️ Fundamentos</a> > 
+                📊 Cloud Databases
+            </div>
+            
+            <h1>📊 Cloud Databases</h1>
+            
+            <div class="lab-controls">
+                <button onclick="showLabContent('lab1-content', 'pdf')" class="primary-btn" id="lab1-pdf">📄 PDF</button>
+                <button onclick="showLabContent('lab1-content', 'architecture')" class="secondary-btn" id="lab1-arch">🏗️ Arquitectura</button>
+                <button onclick="showLabContent('lab1-content', 'description')" class="secondary-btn" id="lab1-desc">📝 Descripción</button>
+                <button onclick="openFullPDF('restart-labs/fundamentos-nube/01-Cloud-Databases.pdf')" class="primary-btn">Ver Completo</button>
+            </div>
+
+            <div class="lab-content" id="lab1-content">
+                <div class="pdf-preview-simple">
+                    <embed src="restart-labs/fundamentos-nube/01-Cloud-Databases.pdf#page=1&zoom=60" type="application/pdf" width="100%" height="500px">
+                </div>
+            </div>
+        `;
+    } else if (labId === 'lab2') {
+        // Crear vista interactiva para Lab 2
+        document.querySelector('main .container').innerHTML = `
+            <div class="breadcrumb">
+                <a href="laboratorios.html">🧪 Laboratorios</a> > 
+                <a href="lab-fundamentos.html">🌥️ Fundamentos</a> > 
+                🏛️ Well-Architected
+            </div>
+            
+            <h1>🏛️ Well-Architected Framework</h1>
+            
+            <div class="lab-controls">
+                <button onclick="showLabContent('lab2-content', 'pdf')" class="primary-btn" id="lab2-pdf">📄 PDF</button>
+                <button onclick="showLabContent('lab2-content', 'architecture')" class="secondary-btn" id="lab2-arch">🏗️ Arquitectura</button>
+                <button onclick="showLabContent('lab2-content', 'description')" class="secondary-btn" id="lab2-desc">📝 Descripción</button>
+                <button onclick="openFullPDF('restart-labs/fundamentos-nube/02-Well-Architected.pdf')" class="primary-btn">Ver Completo</button>
+            </div>
+
+            <div class="lab-content" id="lab2-content">
+                <div class="pdf-preview-simple">
+                    <embed src="restart-labs/fundamentos-nube/02-Well-Architected.pdf#page=1&zoom=60" type="application/pdf" width="100%" height="500px">
+                </div>
+            </div>
+        `;
+    }
+}

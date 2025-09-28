@@ -20,10 +20,10 @@
                 <span></span>
             </div>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="glosario.html">Glosario</a></li>
-                <li><a href="laboratorios.html" class="active">Laboratorios</a></li>
-                <li><a href="servicios.html">Servicios AWS</a></li>
+                <li><a href="index.html" onclick="closeMenu()">🏠 Inicio</a></li>
+                <li><a href="glosario.html" onclick="closeMenu()">📚 Glosario</a></li>
+                <li><a href="laboratorios.html" onclick="closeMenu()">🧪 Laboratorios</a></li>
+                <li><a href="servicios.html" onclick="closeMenu()">☁️ Servicios</a></li>
             </ul>
         </nav>
     </header>
@@ -37,12 +37,7 @@
                 <div class="lab-module">
                     <h3>🌥️ Fundamentos de la Nube</h3>
                     <p>Conceptos básicos de cloud computing, modelos de servicio y despliegue</p>
-                    <div class="pdf-list" id="fundamentos-pdfs">
-                        <div class="pdf-placeholder">
-                            <p>📁 Carpeta: restart-labs/fundamentos-nube/</p>
-                            <p>Los PDFs aparecerán aquí cuando los suba</p>
-                        </div>
-                    </div>
+                    <a href="lab-fundamentos.html" class="primary-btn">🚀 Acceder al Lab</a>
                 </div>
 
                 <div class="lab-module">

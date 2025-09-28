@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios AWS - Tiburón Cloud Practitioner</title>
+    <title>Fundamentos de la Nube - Tiburón</title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
@@ -29,14 +29,28 @@
     </header>
 
     <main style="margin-top: 100px;">
-        <section class="content-section">
-            <h2>🛠️ Servicios AWS - Guía de Certificación</h2>
-            <p>Tarjetas interactivas con información detallada para el examen Cloud Practitioner. Haz clic en cada tarjeta para ver más información y en los tipos para detalles específicos.</p>
-            
-            <div class="services-grid" id="services-container">
-                <!-- Los servicios se cargarán dinámicamente -->
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="laboratorios.html">🧪 Laboratorios</a> > 🌥️ Fundamentos de la Nube
             </div>
-        </section>
+            
+            <h1>🌥️ Fundamentos de la Nube</h1>
+            <p>Selecciona un laboratorio para comenzar:</p>
+            
+            <div class="pdf-list">
+                <div class="pdf-item" onclick="openLab('lab1')">
+                    <h3>📊 01 - Cloud Databases</h3>
+                    <p>Conceptos fundamentales de bases de datos en la nube</p>
+                    <span class="pdf-status">✅ Disponible</span>
+                </div>
+                
+                <div class="pdf-item" onclick="openLab('lab2')">
+                    <h3>🏛️ 02 - Well-Architected Framework</h3>
+                    <p>Principios de arquitectura bien diseñada en AWS</p>
+                    <span class="pdf-status">✅ Disponible</span>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
