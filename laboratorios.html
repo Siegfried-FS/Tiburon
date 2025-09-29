@@ -4,7 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laboratorios - Tiburón AWS Cloud Practitioner</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css?v=2024">
+    <style>
+        .labs-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+            gap: 20px !important;
+            margin-top: 30px !important;
+        }
+        .lab-card {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 2px solid #00d4ff !important;
+            border-radius: 15px !important;
+            padding: 25px !important;
+            text-align: center !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2) !important;
+        }
+        .lab-card.active {
+            border-color: #00ff88 !important;
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3) !important;
+        }
+    </style>
 </head>
 <body>
     <div id="particles-js"></div>
@@ -29,99 +52,63 @@
     </header>
 
     <main style="margin-top: 100px;">
-        <section class="content-section">
-            <h2>🔬 Laboratorios AWS Re/Start</h2>
-            <p>Documentos PDF de cada módulo del programa, organizados por tema. Aquí podrás encontrar todos los laboratorios conforme los vaya completando.</p>
+        <div class="container">
+            <h1>🧪 Laboratorios AWS Re/Start</h1>
+            <p>Selecciona un módulo para acceder a los laboratorios:</p>
             
             <div class="labs-grid">
-                <div class="lab-module">
+                <div class="lab-card active" onclick="window.location.href='lab-fundamentos.html'">
                     <h3>🌥️ Fundamentos de la Nube</h3>
-                    <p>Conceptos básicos de cloud computing, modelos de servicio y despliegue</p>
-                    <a href="lab-fundamentos.html" class="primary-btn">🚀 Acceder al Lab</a>
+                    <p>Conceptos básicos de cloud computing</p>
+                    <span class="pdf-count">📄 2 PDFs disponibles</span>
                 </div>
 
-                <div class="lab-module">
+                <div class="lab-card disabled">
                     <h3>🐧 Linux</h3>
-                    <p>Comandos básicos, administración de sistemas y scripting</p>
-                    <div class="pdf-list" id="linux-pdfs">
-                        <div class="pdf-placeholder">
-                            <p>📁 Carpeta: restart-labs/linux/</p>
-                            <p>Los PDFs aparecerán aquí cuando los suba</p>
-                        </div>
-                    </div>
+                    <p>Comandos y administración de sistemas</p>
+                    <span class="pdf-count">📄 Próximamente</span>
                 </div>
 
-                <div class="lab-module">
+                <div class="lab-card disabled">
                     <h3>🔗 Conexión</h3>
-                    <p>Redes, protocolos y conectividad en la nube</p>
-                    <div class="pdf-list" id="conexion-pdfs">
-                        <div class="pdf-placeholder">
-                            <p>📁 Carpeta: restart-labs/conexion/</p>
-                            <p>Los PDFs aparecerán aquí cuando los suba</p>
-                        </div>
-                    </div>
+                    <p>Redes y protocolos</p>
+                    <span class="pdf-count">📄 Próximamente</span>
                 </div>
 
-                <div class="lab-module">
+                <div class="lab-card active" onclick="alert('Próximamente disponible')">
                     <h3>🔒 Seguridad</h3>
-                    <p>Principios de seguridad, IAM y mejores prácticas</p>
-                    <div class="pdf-list" id="seguridad-pdfs">
-                        <div class="pdf-placeholder">
-                            <p>📁 Carpeta: restart-labs/seguridad/</p>
-                            <p>Los PDFs aparecerán aquí cuando los suba</p>
-                        </div>
-                    </div>
+                    <p>IAM y mejores prácticas</p>
+                    <span class="pdf-count">📄 1 PDF disponible</span>
                 </div>
 
-                <div class="lab-module">
+                <div class="lab-card disabled">
                     <h3>🐍 Python</h3>
-                    <p>Programación básica y automatización con Python</p>
-                    <div class="pdf-list" id="python-pdfs">
-                        <div class="pdf-placeholder">
-                            <p>📁 Carpeta: restart-labs/python/</p>
-                            <p>Los PDFs aparecerán aquí cuando los suba</p>
-                        </div>
-                    </div>
+                    <p>Programación y automatización</p>
+                    <span class="pdf-count">📄 Próximamente</span>
                 </div>
 
-                <div class="lab-module">
+                <div class="lab-card active" onclick="alert('Próximamente disponible')">
                     <h3>🗄️ Bases de Datos</h3>
-                    <p>Conceptos de bases de datos relacionales y NoSQL</p>
-                    <div class="pdf-list" id="bases-pdfs">
-                        <div class="pdf-placeholder">
-                            <p>📁 Carpeta: restart-labs/bases-datos/</p>
-                            <p>Los PDFs aparecerán aquí cuando los suba</p>
-                        </div>
-                    </div>
+                    <p>Conceptos relacionales y NoSQL</p>
+                    <span class="pdf-count">📄 1 PDF disponible</span>
                 </div>
 
-                <div class="lab-module">
+                <div class="lab-card active" onclick="alert('Próximamente disponible')">
                     <h3>🚀 Jumpstart AWS</h3>
-                    <p>Introducción práctica a los servicios principales de AWS</p>
-                    <div class="pdf-list" id="jumpstart-pdfs">
-                        <div class="pdf-placeholder">
-                            <p>📁 Carpeta: restart-labs/jumpstart-aws/</p>
-                            <p>Los PDFs aparecerán aquí cuando los suba</p>
-                        </div>
-                    </div>
+                    <p>Servicios principales de AWS</p>
+                    <span class="pdf-count">📄 1 PDF disponible</span>
                 </div>
 
-                <div class="lab-module">
-                    <h3>🚀+ Jumpstart AWS Advanced</h3>
-                    <p>Servicios avanzados y arquitecturas complejas</p>
-                    <div class="pdf-list" id="jumpstart-advanced-pdfs">
-                        <div class="pdf-placeholder">
-                            <p>📁 Carpeta: restart-labs/jumpstart-aws-advanced/</p>
-                            <p>Los PDFs aparecerán aquí cuando los suba</p>
-                        </div>
-                    </div>
+                <div class="lab-card disabled">
+                    <h3>⚡ Jumpstart Advanced</h3>
+                    <p>Servicios avanzados y arquitecturas</p>
+                    <span class="pdf-count">📄 Próximamente</span>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="assets/js/pdf-index.js"></script>
     <script src="assets/js/app.js"></script>
 </body>
 </html>
