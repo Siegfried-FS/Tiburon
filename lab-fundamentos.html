@@ -30,8 +30,16 @@
 
     <main style="margin-top: 100px;">
         <div class="container">
-            <div class="breadcrumb">
-                <a href="laboratorios.html">🧪 Laboratorios</a> > 🌥️ Fundamentos de la Nube
+            <div class="breadcrumb-modern">
+                <a href="laboratorios.html" class="breadcrumb-btn">
+                    <span class="breadcrumb-icon">🧪</span>
+                    <span class="breadcrumb-text">Laboratorios</span>
+                </a>
+                <span class="breadcrumb-separator">›</span>
+                <div class="breadcrumb-current">
+                    <span class="breadcrumb-icon">🌥️</span>
+                    <span class="breadcrumb-text">Fundamentos de la Nube</span>
+                </div>
             </div>
             
             <h1>🌥️ Fundamentos de la Nube</h1>
@@ -43,13 +51,17 @@
                     <div class="flip-card-inner" id="card1">
                         <div class="flip-card-front">
                             <h3>📊 Cloud Databases</h3>
-                            <div class="pdf-preview">
-                                <embed src="restart-labs/fundamentos-nube/O'Reilly-Introduction-to-Cloud-Databases-eBook-FINAL-ESXL.pdf#page=1&zoom=60" type="application/pdf" width="100%" height="300px">
+                            <div class="pdf-preview" id="preview1">
+                                <div class="pdf-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <p>Clic en PDF para cargar</p>
+                                </div>
                             </div>
                             <div class="card-controls">
                                 <button onclick="showCardContent('card1', 'pdf')" class="btn-active">📄 PDF</button>
                                 <button onclick="showCardContent('card1', 'architecture')">🏗️ Arquitectura</button>
                                 <button onclick="showCardContent('card1', 'description')">📝 Descripción</button>
+                                <button onclick="openFullPDF('restart-labs/fundamentos-nube/OReilly-Cloud-Databases-eBook.pdf')" class="btn-full">🔍 Ver Completo</button>
                             </div>
                         </div>
                     </div>
@@ -60,13 +72,17 @@
                     <div class="flip-card-inner" id="card2">
                         <div class="flip-card-front">
                             <h3>📋 Reto 4 - Roberto Flores</h3>
-                            <div class="pdf-preview">
-                                <embed src="restart-labs/fundamentos-nube/20250923-RETO4-ROBERTOFLORESSEGUNDO.pdf#page=1&zoom=60" type="application/pdf" width="100%" height="300px">
+                            <div class="pdf-preview" id="preview2">
+                                <div class="pdf-placeholder">
+                                    <div class="placeholder-icon">📄</div>
+                                    <p>Clic en PDF para cargar</p>
+                                </div>
                             </div>
                             <div class="card-controls">
                                 <button onclick="showCardContent('card2', 'pdf')" class="btn-active">📄 PDF</button>
                                 <button onclick="showCardContent('card2', 'architecture')">🏗️ Arquitectura</button>
                                 <button onclick="showCardContent('card2', 'description')">📝 Descripción</button>
+                                <button onclick="openFullPDF('restart-labs/fundamentos-nube/20250923-RETO4-ROBERTOFLORESSEGUNDO.pdf')" class="btn-full">🔍 Ver Completo</button>
                             </div>
                         </div>
                     </div>

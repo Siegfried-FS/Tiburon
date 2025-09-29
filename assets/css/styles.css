@@ -1174,3 +1174,127 @@ html {
         height: 250px;
     }
 }
+/* Breadcrumb moderno */
+.breadcrumb-modern {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 15px 0;
+}
+
+.breadcrumb-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 2px solid #00d4ff;
+    border-radius: 25px;
+    color: #00d4ff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.breadcrumb-btn:hover {
+    background: rgba(0, 212, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+}
+
+.breadcrumb-current {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(0, 255, 136, 0.1);
+    border: 2px solid #00ff88;
+    border-radius: 25px;
+    color: #00ff88;
+    font-weight: 500;
+}
+
+.breadcrumb-separator {
+    color: #666;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.breadcrumb-icon {
+    font-size: 1.2em;
+}
+
+.breadcrumb-text {
+    font-size: 0.95em;
+}
+
+/* Responsive para móvil */
+@media (max-width: 768px) {
+    .breadcrumb-modern {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .breadcrumb-separator {
+        display: none;
+    }
+    
+    .breadcrumb-btn,
+    .breadcrumb-current {
+        justify-content: center;
+        text-align: center;
+    }
+}
+/* Placeholder para PDFs */
+.pdf-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: 2px dashed #666;
+    color: #999;
+}
+
+.placeholder-icon {
+    font-size: 3em;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+.pdf-placeholder p {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+/* Botón Ver Completo */
+.btn-full {
+    background: rgba(0, 255, 136, 0.2) !important;
+    color: #00ff88 !important;
+    border: 1px solid #00ff88 !important;
+    font-weight: bold;
+}
+
+.btn-full:hover {
+    background: rgba(0, 255, 136, 0.4) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+}
+
+/* Ajustar controles para 4 botones */
+.card-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+@media (max-width: 480px) {
+    .card-controls {
+        grid-template-columns: 1fr;
+    }
+}
