@@ -521,9 +521,9 @@ function openLab(labId) {
 function showCardContent(cardId, type) {
     const card = document.getElementById(cardId);
     const front = card.querySelector('.flip-card-front');
-    const buttons = front.querySelectorAll('.card-controls button');
+    const buttons = front.querySelectorAll('.card-controls button:not(.btn-full)');
     
-    // Reset button styles
+    // Reset button styles (except Ver Completo)
     buttons.forEach(btn => btn.classList.remove('btn-active'));
     
     // Set active button
@@ -535,11 +535,21 @@ function showCardContent(cardId, type) {
     // Update content based on type
     if (type === 'pdf') {
         const pdfSrc = cardNum === '1' ? 
-            "restart-labs/fundamentos-nube/O'Reilly-Introduction-to-Cloud-Databases-eBook-FINAL-ESXL.pdf" : 
+            "restart-labs/fundamentos-nube/OReilly-Cloud-Databases-eBook.pdf" : 
             'restart-labs/fundamentos-nube/20250923-RETO4-ROBERTOFLORESSEGUNDO.pdf';
         
+        // Mostrar loading
         front.querySelector('.pdf-preview').innerHTML = 
-            `<embed src="${pdfSrc}#page=1&zoom=60" type="application/pdf" width="100%" height="300px">`;
+            `<div class="pdf-placeholder">
+                <div class="placeholder-icon">⏳</div>
+                <p>Cargando PDF...</p>
+            </div>`;
+            
+        // Cargar PDF después de un momento
+        setTimeout(() => {
+            front.querySelector('.pdf-preview').innerHTML = 
+                `<embed src="${pdfSrc}#page=1&zoom=60" type="application/pdf" width="100%" height="300px">`;
+        }, 500);
             
     } else if (type === 'architecture') {
         const imageSrc = cardNum === '1' ? 
@@ -558,7 +568,7 @@ function showCardContent(cardId, type) {
     } else if (type === 'description') {
         const description = cardNum === '1' ? 
             'Laboratorio sobre conceptos fundamentales de bases de datos en la nube, incluyendo tipos de bases de datos, escalabilidad y mejores prácticas.' :
-            'Framework de AWS Well-Architected que proporciona principios y mejores prácticas para diseñar arquitecturas seguras, eficientes y resilientes.';
+            'Documento del Reto 4 completado por Roberto Flores Segundo, demostrando conocimientos adquiridos en el programa AWS Re/Start.';
             
         front.querySelector('.pdf-preview').innerHTML = 
             `<div class="description-view" style="padding:20px; text-align:left; color:#ccc; line-height:1.6;">
@@ -572,6 +582,11 @@ function showCardContent(cardId, type) {
                 </div>
             </div>`;
     }
+}
+
+// Función para abrir PDF completo en nueva pestaña
+function openFullPDF(pdfPath) {
+    window.open(pdfPath, '_blank');
 }
 
 // Función para abrir imagen en modal
