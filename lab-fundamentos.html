@@ -35,19 +35,41 @@
             </div>
             
             <h1>🌥️ Fundamentos de la Nube</h1>
-            <p>Selecciona un laboratorio para comenzar:</p>
+            <p>Selecciona una opción para ver el contenido:</p>
             
-            <div class="pdf-list">
-                <div class="pdf-item" onclick="openLab('lab1')">
-                    <h3>📊 01 - Cloud Databases</h3>
-                    <p>Conceptos fundamentales de bases de datos en la nube</p>
-                    <span class="pdf-status">✅ Disponible</span>
+            <div class="flip-cards-grid">
+                <!-- Tarjeta 1: Cloud Databases -->
+                <div class="flip-card">
+                    <div class="flip-card-inner" id="card1">
+                        <div class="flip-card-front">
+                            <h3>📊 Cloud Databases</h3>
+                            <div class="pdf-preview">
+                                <embed src="restart-labs/fundamentos-nube/O'Reilly-Introduction-to-Cloud-Databases-eBook-FINAL-ESXL.pdf#page=1&zoom=60" type="application/pdf" width="100%" height="300px">
+                            </div>
+                            <div class="card-controls">
+                                <button onclick="showCardContent('card1', 'pdf')" class="btn-active">📄 PDF</button>
+                                <button onclick="showCardContent('card1', 'architecture')">🏗️ Arquitectura</button>
+                                <button onclick="showCardContent('card1', 'description')">📝 Descripción</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="pdf-item" onclick="openLab('lab2')">
-                    <h3>🏛️ 02 - Well-Architected Framework</h3>
-                    <p>Principios de arquitectura bien diseñada en AWS</p>
-                    <span class="pdf-status">✅ Disponible</span>
+
+                <!-- Tarjeta 2: Reto 4 -->
+                <div class="flip-card">
+                    <div class="flip-card-inner" id="card2">
+                        <div class="flip-card-front">
+                            <h3>📋 Reto 4 - Roberto Flores</h3>
+                            <div class="pdf-preview">
+                                <embed src="restart-labs/fundamentos-nube/20250923-RETO4-ROBERTOFLORESSEGUNDO.pdf#page=1&zoom=60" type="application/pdf" width="100%" height="300px">
+                            </div>
+                            <div class="card-controls">
+                                <button onclick="showCardContent('card2', 'pdf')" class="btn-active">📄 PDF</button>
+                                <button onclick="showCardContent('card2', 'architecture')">🏗️ Arquitectura</button>
+                                <button onclick="showCardContent('card2', 'description')">📝 Descripción</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

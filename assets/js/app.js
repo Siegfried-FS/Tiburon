@@ -517,3 +517,77 @@ function openLab(labId) {
         `;
     }
 }
+// Función para mostrar contenido en tarjetas flip
+function showCardContent(cardId, type) {
+    const card = document.getElementById(cardId);
+    const front = card.querySelector('.flip-card-front');
+    const buttons = front.querySelectorAll('.card-controls button');
+    
+    // Reset button styles
+    buttons.forEach(btn => btn.classList.remove('btn-active'));
+    
+    // Set active button
+    event.target.classList.add('btn-active');
+    
+    // Get card number from cardId
+    const cardNum = cardId.replace('card', '');
+    
+    // Update content based on type
+    if (type === 'pdf') {
+        const pdfSrc = cardNum === '1' ? 
+            "restart-labs/fundamentos-nube/O'Reilly-Introduction-to-Cloud-Databases-eBook-FINAL-ESXL.pdf" : 
+            'restart-labs/fundamentos-nube/20250923-RETO4-ROBERTOFLORESSEGUNDO.pdf';
+        
+        front.querySelector('.pdf-preview').innerHTML = 
+            `<embed src="${pdfSrc}#page=1&zoom=60" type="application/pdf" width="100%" height="300px">`;
+            
+    } else if (type === 'architecture') {
+        const imageSrc = cardNum === '1' ? 
+            'restart-labs/fundamentos-nube/810009.jpg' : 
+            'restart-labs/fundamentos-nube/810009.jpg';
+            
+        front.querySelector('.pdf-preview').innerHTML = 
+            `<div class="architecture-view">
+                <img src="${imageSrc}" 
+                     alt="Arquitectura" 
+                     style="width:100%; height:100%; object-fit:contain; cursor:pointer; border-radius:10px;"
+                     onclick="openImageModal('${imageSrc}')">
+                <p style="color:#ccc; margin-top:10px; font-size:0.9em;">🔍 Clic para ampliar</p>
+            </div>`;
+            
+    } else if (type === 'description') {
+        const description = cardNum === '1' ? 
+            'Laboratorio sobre conceptos fundamentales de bases de datos en la nube, incluyendo tipos de bases de datos, escalabilidad y mejores prácticas.' :
+            'Framework de AWS Well-Architected que proporciona principios y mejores prácticas para diseñar arquitecturas seguras, eficientes y resilientes.';
+            
+        front.querySelector('.pdf-preview').innerHTML = 
+            `<div class="description-view" style="padding:20px; text-align:left; color:#ccc; line-height:1.6;">
+                <h4 style="color:#00d4ff; margin-bottom:15px;">📝 Descripción del Laboratorio</h4>
+                <p>${description}</p>
+                <div style="margin-top:20px; padding:15px; background:rgba(0,212,255,0.1); border-radius:10px;">
+                    <strong style="color:#00ff88;">💡 Objetivos:</strong><br>
+                    • Comprender conceptos clave<br>
+                    • Aplicar mejores prácticas<br>
+                    • Implementar soluciones escalables
+                </div>
+            </div>`;
+    }
+}
+
+// Función para abrir imagen en modal
+function openImageModal(imageSrc) {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.9); display: flex; justify-content: center;
+        align-items: center; z-index: 9999; cursor: pointer;
+    `;
+    
+    const img = document.createElement('img');
+    img.src = imageSrc;
+    img.style.cssText = 'max-width: 90%; max-height: 90%; border-radius: 10px;';
+    
+    modal.appendChild(img);
+    modal.onclick = () => document.body.removeChild(modal);
+    document.body.appendChild(modal);
+}
