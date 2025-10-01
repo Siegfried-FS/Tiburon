@@ -1,18 +1,22 @@
 // Script principal del proyecto Fenix - Blog AWS Cloud Practitioner
 
 // Configuración de particles.js con colores elegantes
-particlesJS('particles-js', {
-    particles: {
-        number: {
-            value: 60,
-            density: {
-                enable: true,
-                value_area: 800
-            }
-        },
-        color: {
-            value: '#00d4ff'
-        },
+function initParticles() {
+    const isLight = document.body.getAttribute('data-theme') === 'light';
+    const particleColor = isLight ? '#1e40af' : '#00d4ff';
+    
+    particlesJS('particles-js', {
+        particles: {
+            number: {
+                value: 60,
+                density: {
+                    enable: true,
+                    value_area: 800
+                }
+            },
+            color: {
+                value: particleColor
+            },
         shape: {
             type: 'circle',
             stroke: {
@@ -103,6 +107,10 @@ particlesJS('particles-js', {
     },
     retina_detect: true
 });
+}
+
+// Inicializar particles
+initParticles();
 
 // Funciones del menú hamburguesa
 function toggleMenu() {
@@ -609,17 +617,33 @@ function openImageModal(imageSrc) {
 // Función para cambiar tema
 function toggleTheme() {
     const body = document.body;
+    const html = document.documentElement;
     const themeToggle = document.querySelector('.theme-toggle');
     
     if (body.getAttribute('data-theme') === 'light') {
         body.removeAttribute('data-theme');
+        html.removeAttribute('data-theme');
         themeToggle.textContent = '🌙';
         localStorage.setItem('theme', 'dark');
     } else {
         body.setAttribute('data-theme', 'light');
+        html.setAttribute('data-theme', 'light');
         themeToggle.textContent = '☀️';
         localStorage.setItem('theme', 'light');
     }
+    
+    // Cerrar menú hamburguesa si está abierto
+    const navMenu = document.querySelector('.nav-menu');
+    const hamburger = document.querySelector('.hamburger');
+    if (navMenu && hamburger) {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+    }
+    
+    // Reinicializar particles con nuevo color
+    setTimeout(() => {
+        initParticles();
+    }, 100);
 }
 
 // Cargar tema guardado
@@ -631,9 +655,18 @@ function loadTheme() {
         document.body.setAttribute('data-theme', 'light');
         if (themeToggle) themeToggle.textContent = '☀️';
     } else {
+        document.body.removeAttribute('data-theme');
         if (themeToggle) themeToggle.textContent = '🌙';
     }
 }
+
+// Cargar tema inmediatamente (antes del DOM)
+(function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+})();
 
 // Cargar tema al iniciar
 document.addEventListener('DOMContentLoaded', loadTheme);

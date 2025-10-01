@@ -13,19 +13,66 @@
             margin-top: 30px;
         }
         .lab-card {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #00d4ff;
+            background: var(--bg-card);
+            border: 2px solid var(--primary-color);
             border-radius: 15px;
             padding: 25px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
+            box-shadow: var(--shadow);
         }
         .lab-card.active {
-            border-color: #00ff88;
-            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+        }
+        
+        [data-theme="light"] .lab-card.active {
+            box-shadow: 0 8px 32px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* Arreglar texto y colores para tema claro */
+        [data-theme="light"] .lab-card {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--primary-color);
+        }
+        
+        [data-theme="light"] .lab-card h3 {
+            color: var(--primary-color);
+        }
+        
+        [data-theme="light"] .lab-card p {
+            color: var(--text-secondary);
+        }
+        
+        [data-theme="light"] .pdf-count {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        /* Aplicar mismo estilo exitoso de botones de PDFs */
+        [data-theme="light"] .lab-card {
+            color: var(--text-primary) !important;
+            background: rgba(255, 255, 255, 0.9) !important;
+            border: 2px solid var(--primary-color) !important;
+        }
+        
+        [data-theme="light"] .lab-card h3 {
+            color: var(--primary-color) !important;
+        }
+        
+        [data-theme="light"] .lab-card p {
+            color: var(--text-secondary) !important;
+        }
+        
+        [data-theme="light"] .pdf-count {
+            color: var(--primary-color) !important;
+            background: rgba(37, 99, 235, 0.1) !important;
+            padding: 4px 8px !important;
+            border-radius: 12px !important;
+            font-weight: 600 !important;
         }
         .lab-card.disabled {
             opacity: 0.6;
