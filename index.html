@@ -6,6 +6,15 @@
     <title>Tiburón - Mi Camino a AWS Cloud Practitioner</title>
     <meta name="description" content="Proyecto Tiburón: Blog gratuito documentando mi evolución hacia AWS Cloud Practitioner - Como un tiburón, nunca paro de moverme y aprender">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <script>
+        // Aplicar tema inmediatamente para evitar delay
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 </head>
 <body>
     <!-- Particles.js container -->
