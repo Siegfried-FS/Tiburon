@@ -502,10 +502,34 @@
         }
         
         .desc-section p {
-            color: var(--text-light);
+            color: var(--text-primary);
             font-size: 0.85em;
             line-height: 1.4;
             margin-bottom: 15px;
+        }
+        
+        /* Mejorar legibilidad en tema claro */
+        [data-theme="light"] .flip-card-front {
+            background: rgba(37, 99, 235, 0.1);
+            border: 2px solid var(--primary-color);
+        }
+        
+        [data-theme="light"] .flip-card-front h3 {
+            color: var(--primary-color);
+        }
+        
+        [data-theme="light"] .card-controls button {
+            background: var(--primary-color);
+            color: white;
+            border: 1px solid var(--primary-color);
+        }
+        
+        [data-theme="light"] .card-controls .btn-active {
+            background: var(--secondary-color);
+        }
+        
+        [data-theme="light"] .pdf-placeholder p {
+            color: var(--text-secondary);
         }
         
         .desc-tags {
@@ -521,6 +545,55 @@
             border-radius: 12px;
             font-size: 0.75em;
             font-weight: 500;
+        }
+        
+        /* Arreglar colores específicos para tema claro */
+        [data-theme="light"] .breadcrumb-btn {
+            background: rgba(37, 99, 235, 0.1) !important;
+            color: var(--primary-color) !important;
+            border: 1px solid var(--primary-color) !important;
+            border-radius: 12px !important;
+            padding: 8px 16px !important;
+            font-weight: 600 !important;
+        }
+        
+        [data-theme="light"] .breadcrumb-current {
+            color: var(--text-primary) !important;
+            background: rgba(37, 99, 235, 0.05) !important;
+            padding: 8px 16px !important;
+            border-radius: 12px !important;
+            border: 1px solid rgba(37, 99, 235, 0.2) !important;
+        }
+        
+        [data-theme="light"] .breadcrumb-separator {
+            color: var(--text-secondary) !important;
+        }
+        
+        [data-theme="light"] .btn-full {
+            background: var(--primary-color) !important;
+            color: white !important;
+            border: 1px solid var(--primary-color) !important;
+        }
+        
+        /* Aplicar mismo estilo exitoso a botones de PDFs */
+        [data-theme="light"] .card-controls button {
+            color: var(--primary-color) !important;
+            background: rgba(37, 99, 235, 0.1) !important;
+            padding: 6px 12px !important;
+            border-radius: 12px !important;
+            font-weight: 600 !important;
+            border: 1px solid var(--primary-color) !important;
+        }
+        
+        [data-theme="light"] .card-controls .btn-active {
+            background: var(--primary-color) !important;
+            color: white !important;
+        }
+        
+        [data-theme="light"] .card-controls .btn-full {
+            background: rgba(37, 99, 235, 0.1) !important;
+            color: var(--primary-color) !important;
+            border: 1px solid var(--primary-color) !important;
         }
     </style>
 </body>
