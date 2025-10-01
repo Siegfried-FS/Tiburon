@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laboratorios - Tiburón AWS Cloud Practitioner</title>
     <link rel="stylesheet" href="assets/css/styles.css?v=2024">
+    <script>
+        // Aplicar tema inmediatamente para evitar delay
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
     <style>
         .labs-grid {
             display: grid;

@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fundamentos de la Nube - Tiburón</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <script>
+        // Aplicar tema inmediatamente para evitar delay
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 </head>
 <body>
     <div id="particles-js"></div>
@@ -239,7 +248,7 @@
             preview.innerHTML = `<div class="pdf-loading"><div class="loading-spinner"></div></div>`;
             
             try {
-                preview.innerHTML = `<iframe src="${pdfPath}" class="pdf-simple"></iframe>`;
+                preview.innerHTML = `<iframe src="${pdfPath}#toolbar=0&navpanes=0&scrollbar=0" class="pdf-simple"></iframe>`;
                 pdfLoaded[pdfId] = true;
             } catch (error) {
                 preview.innerHTML = `<div class="pdf-error">Error cargando PDF</div>`;
@@ -364,6 +373,49 @@
             height: 100%;
             border: none;
             border-radius: 8px;
+        }
+        
+        /* Arreglar PDFs en móvil */
+        @media (max-width: 768px) {
+            .pdf-preview {
+                height: 300px;
+                min-height: 300px;
+            }
+            
+            .pdf-simple {
+                width: 100%;
+                height: 300px;
+                min-height: 300px;
+            }
+        }
+        
+        .pdf-mobile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .pdf-mobile-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .pdf-mobile p {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+        
+        .pdf-mobile-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
         }
         
         .pdf-loading {
@@ -594,6 +646,59 @@
             background: rgba(37, 99, 235, 0.1) !important;
             color: var(--primary-color) !important;
             border: 1px solid var(--primary-color) !important;
+        }
+        
+        /* Ampliar y reorganizar tarjetas correctamente */
+        .flip-card {
+            height: 580px !important;
+        }
+        
+        .flip-card-front {
+            padding: 25px !important;
+        }
+        
+        .pdf-preview {
+            height: 380px !important;
+            min-height: 380px !important;
+            margin: 20px 0 !important;
+        }
+        
+        .card-controls {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            grid-template-rows: 1fr 1fr !important;
+            gap: 10px !important;
+            margin-top: auto !important;
+            padding: 15px 0 !important;
+        }
+        
+        .card-controls button {
+            padding: 8px 16px !important;
+            margin: 0 !important;
+            min-width: 100px !important;
+        }
+        
+        /* Orden específico de botones */
+        .card-controls button:nth-child(1) { grid-area: 1 / 1; } /* PDF - arriba izquierda */
+        .card-controls button:nth-child(3) { grid-area: 1 / 2; } /* Descripción - arriba derecha */
+        .card-controls button:nth-child(2) { grid-area: 2 / 1; } /* Arquitectura - abajo izquierda */
+        .card-controls button:nth-child(4) { grid-area: 2 / 2; } /* Ver Completo - abajo derecha */
+        
+        /* Móvil sin problemas */
+        @media (max-width: 768px) {
+            .flip-cards-grid {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+            }
+            
+            .pdf-simple {
+                width: 100% !important;
+                height: 100% !important;
+            }
+            
+            .pdf-preview {
+                overflow: hidden !important;
+            }
         }
     </style>
 </body>
