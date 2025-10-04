@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://tiburoncp.siegfried-fs.com/sitemap.xml
+
+# Optimización para buscadores
+Crawl-delay: 1
