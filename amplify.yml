@@ -1,0 +1,20 @@
+version: 1
+frontend:
+  phases:
+    build:
+      commands:
+        - echo "Building secure Tiburon"
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
+customHeaders:
+  - pattern: '**/*'
+    headers:
+      # Seguridad básica sin romper funcionalidad
+      - key: 'X-Frame-Options'
+        value: 'SAMEORIGIN'
+      - key: 'X-Content-Type-Options'
+        value: 'nosniff'
+      - key: 'Referrer-Policy'
+        value: 'strict-origin-when-cross-origin'
