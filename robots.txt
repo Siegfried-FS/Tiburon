@@ -1,27 +1,26 @@
 #
-#                                     .-""-.
-#                                   .'      '.
-#                                  /          \
-#                                 |            |
-#                                 |,  .-.  .-, |
-#                                 | )(__/  \__)( |
-#                                 |/     /\     \|
-#                       (@_       (_     ^^     _)
-#                  _     ) \_______\__|IIIIII|__/________________________
-#                 (_)@8@8{}<________|-\IIIIII/-|________________________>
-#                        )_/        \          /
-#                       (@           `--------`
+#                           .-""-.
+#                         .'      '.
+#                        /          \
+#                       |            |
+#                       |,  .-.  .-, |
+#                       | )(__/  \__)( |
+#                       |/     /\     \|
+#             (@_       (_     ^^     _)
+#        _     ) \_______\__|IIIIII|__/________________________
+#       (_)@8@8{}<________|-\IIIIII/-|________________________>
+#              )_/        \          /
+#             (@           `--------`
 #
-#     ████████╗██╗██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗
-#     ╚══██╔══╝██║██╔══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║
-#        ██║   ██║██████╔╝██║   ██║██████╔╝██║   ██║██╔██╗ ██║
-#        ██║   ██║██╔══██╗██║   ██║██╔══██╗██║   ██║██║╚██╗██║
-#        ██║   ██║██████╔╝╚██████╔╝██║  ██║╚██████╔╝██║ ╚████║
-#        ╚═╝   ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+#   ████████ ██ ██████  ██   ██ ██████   ██████  ███    ██ 
+#      ██    ██ ██   ██ ██   ██ ██   ██ ██    ██ ████   ██ 
+#      ██    ██ ██████  ██   ██ ██████  ██    ██ ██ ██  ██ 
+#      ██    ██ ██   ██ ██   ██ ██   ██ ██    ██ ██  ██ ██ 
+#      ██    ██ ██████   █████  ██   ██  ██████  ██   ████ 
 #
-#     🦈 "Como un tiburón, nunca paro de moverme y aprender" 🦈
+#     "Como un tiburon, nunca paro de moverme y aprender"
 #
-# Robots.txt - Proyecto Tiburón Security Enhanced
+# Robots.txt - Proyecto Tiburon Security Enhanced
 
 User-agent: *
 Allow: /
@@ -63,7 +62,7 @@ Disallow: /
 User-agent: BLEXBot
 Disallow: /
 
-# Permitir bots educativos y académicos
+# Permitir bots educativos y academicos
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
@@ -81,7 +80,7 @@ Allow: /
 User-agent: LinkedInBot
 Allow: /
 
-# Bots académicos
+# Bots academicos
 User-agent: ia_archiver
 Allow: /
 
