@@ -1,56 +1,27 @@
-// ASCII Art para Tiburón - Dibujo de Tiburón
+// ASCII Art para Tiburón - Dibujo Realista de Tiburón
 function showSharkArt() {
     const sharkArt = `
-                              ___
-                         _..-'   '-..
-                      .-'           '-.
-                    .'                 '.
-                   /                     \\
-                  ;                       ;
-                 ;                         ;
-                ;             ___           ;
-               ;           .-'   '-.         ;
-              ;          .'         '.       ;
-             ;          /             \\       ;
-            ;          ;               ;      ;
-           ;           ;      ___      ;       ;
-          ;            ;   .-'   '-.   ;        ;
-         ;             ; .'         '. ;         ;
-        ;              ;/             \\;          ;
-       ;               ;               ;           ;
-      ;                ;               ;            ;
-     ;                 ;               ;             ;
-    ;                  ;               ;              ;
-   ;                   ;               ;               ;
-  ;                    ;               ;                ;
- ;                     ;               ;                 ;
-;                      ;               ;                  ;
-;                      ;               ;                  ;
-;                      ;               ;                  ;
- ;                     ;               ;                 ;
-  ;                    ;               ;                ;
-   ;                   ;               ;               ;
-    ;                  ;               ;              ;
-     ;                 ;               ;             ;
-      ;                ;               ;            ;
-       ;               ;               ;           ;
-        ;              ;\\             /;          ;
-         ;             ; '.         .' ;         ;
-          ;            ;   '-.___.-'   ;        ;
-           ;           ;               ;       ;
-            ;          ;               ;      ;
-             ;          \\             /       ;
-              ;          '.         .'       ;
-               ;           '-.___.-'         ;
-                ;                           ;
-                 ;                         ;
-                  ;                       ;
-                   \\                     /
-                    '.                 .'
-                      '-.           .-'
-                         '-..___..-'
-
-    🦈 PROYECTO TIBURÓN - Nunca paro de aprender 🦈
+                                    .-""-.
+                                  .'      '.
+                                 /          \\
+                                |            |
+                                |,  .-.  .-, |
+                                | )(__/  \\__)( |
+                                |/     /\\     \\|
+                      (@_       (_     ^^     _)
+                 _     ) \\_______\\__|IIIIII|__/________________________
+                (_)@8@8{}<________|-\\IIIIII/-|________________________>
+                       )_/        \\          /
+                      (@           \`--------\`
+                                    
+    ████████╗██╗██████╗ ██╗   ██╗██████╗  ██████╗ ███╗   ██╗
+    ╚══██╔══╝██║██╔══██╗██║   ██║██╔══██╗██╔═══██╗████╗  ██║
+       ██║   ██║██████╔╝██║   ██║██████╔╝██║   ██║██╔██╗ ██║
+       ██║   ██║██╔══██╗██║   ██║██╔══██╗██║   ██║██║╚██╗██║
+       ██║   ██║██████╔╝╚██████╔╝██║  ██║╚██████╔╝██║ ╚████║
+       ╚═╝   ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
+                                    
+    🦈 "Como un tiburón, nunca paro de moverme y aprender" 🦈
     `;
     
     console.log(sharkArt);
@@ -65,8 +36,8 @@ function showSharkArt() {
         background: rgba(0, 20, 40, 0.95);
         color: #00d4ff;
         font-family: 'Courier New', monospace;
-        font-size: 8px;
-        padding: 20px;
+        font-size: 10px;
+        padding: 25px;
         border-radius: 15px;
         border: 3px solid #00d4ff;
         z-index: 1000;
@@ -75,6 +46,9 @@ function showSharkArt() {
         animation: sharkSwim 3s ease-in;
         cursor: pointer;
         text-align: center;
+        max-width: 90vw;
+        max-height: 90vh;
+        overflow: auto;
     `;
     
     artContainer.textContent = sharkArt;
