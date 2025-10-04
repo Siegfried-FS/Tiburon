@@ -1,8 +1,69 @@
+# Robots.txt - Proyecto Tiburón Security Enhanced
 User-agent: *
+Allow: /
+
+# Permitir acceso completo a contenido educativo
+Allow: /glosario.html
+Allow: /laboratorios.html
+Allow: /servicios.html
+Allow: /assets/
+Allow: /restart-labs/
+
+# Bloquear directorios sensibles
+Disallow: /admin/
+Disallow: /config/
+Disallow: /backup/
+Disallow: /logs/
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /cache/
+Disallow: /.env
+Disallow: /database/
+
+# Bloquear bots que no aportan valor educativo
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# Permitir bots educativos y académicos
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Bots académicos
+User-agent: ia_archiver
 Allow: /
 
 # Sitemap
 Sitemap: https://tiburoncp.siegfried-fs.com/sitemap.xml
 
-# Optimización para buscadores
-Crawl-delay: 1
+# Información del proyecto educativo
+# Contact: tiburon@siegfried-fs.com
+# Purpose: Free AWS Cloud Practitioner education in Spanish
