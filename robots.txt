@@ -112,4 +112,5 @@ Allow: /
 Sitemap: https://tiburoncp.siegfried-fs.com/sitemap.xml
 
 # Contact: tiburon@siegfried-fs.com
+# Creator: Roberto Flores Segundo (Siegfried_FS)
 # Purpose: Free AWS Cloud Practitioner education in Spanish
