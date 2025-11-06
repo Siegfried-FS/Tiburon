@@ -1,10 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios AWS - Tiburón Cloud Practitioner</title>
+    <title>Eventos - AWS User Group Playa Vicente</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 </head>
 <body>
     <div id="particles-js"></div>
@@ -31,14 +40,15 @@
     </header>
 
     <main style="margin-top: 100px;">
-        <section class="content-section">
-            <h2>🛠️ Servicios AWS - Guía de Certificación</h2>
-            <p>Tarjetas interactivas con información detallada para el examen Cloud Practitioner. Haz clic en cada tarjeta para ver más información y en los tipos para detalles específicos.</p>
+        <div class="container">
+            <h1>🗓️ Calendario de Eventos</h1>
+            <p>Aquí encontrarás información sobre nuestras próximas reuniones, workshops y webinars.</p>
             
-            <div class="services-grid" id="services-container">
-                <!-- Los servicios se cargarán dinámicamente -->
+            <div class="events-placeholder" style="text-align: center; padding: 50px; border: 2px dashed var(--primary-color); border-radius: 15px; margin-top: 30px;">
+                <h2>Próximamente</h2>
+                <p>Estamos trabajando en nuestro calendario de eventos. ¡Vuelve pronto!</p>
             </div>
-        </section>
+        </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laboratorios - Tiburón AWS Cloud Practitioner</title>
+    <title>Recursos y Juegos - AWS User Group Playa Vicente</title>
     <link rel="stylesheet" href="assets/css/styles.css?v=2024">
     <script>
         // Aplicar tema inmediatamente para evitar delay
@@ -105,8 +105,9 @@
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html" onclick="closeMenu()">🏠 Inicio</a></li>
                 <li><a href="glosario.html" onclick="closeMenu()">📚 Glosario</a></li>
-                <li><a href="laboratorios.html" onclick="closeMenu()">🧪 Laboratorios</a></li>
+                <li><a href="recursos.html" onclick="closeMenu()">🎲 Recursos</a></li>
                 <li><a href="servicios.html" onclick="closeMenu()">☁️ Servicios</a></li>
+                <li><a href="eventos.html" onclick="closeMenu()">🗓️ Eventos</a></li>
                 <li><button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button></li>
             </ul>
         </nav>
@@ -114,56 +115,32 @@
 
     <main style="margin-top: 100px;">
         <div class="container">
-            <h1>🧪 Laboratorios AWS Re/Start</h1>
-            <p>Selecciona un módulo para acceder a los laboratorios:</p>
+            <h1>🎲 Recursos y Juegos para la Comunidad</h1>
+            <p>Aquí encontrarás talleres, tutoriales y recursos interactivos para aprender AWS de forma práctica y divertida.</p>
             
             <div class="labs-grid">
-                <div class="lab-card active" onclick="window.location.href='lab-fundamentos.html'">
-                    <h3>🌥️ Fundamentos de la Nube</h3>
-                    <p>Conceptos básicos de cloud computing</p>
-                    <span class="pdf-count">📄 2 PDFs disponibles</span>
+                <div class="lab-card active" onclick="alert('Próximamente disponible')">
+                    <h3>📝 Workshops y Tutoriales</h3>
+                    <p>Documentación y guías paso a paso de nuestros talleres. ¡Aprende a tu ritmo!</p>
+                    <span class="pdf-count">🚀 Próximamente</span>
                 </div>
 
-                <div class="lab-card disabled">
-                    <h3>🐧 Linux</h3>
-                    <p>Comandos y administración de sistemas</p>
-                    <span class="pdf-count">📄 Próximamente</span>
+                <div class="lab-card active" onclick="window.open('https://aws.amazon.com/training/digital/aws-cloud-quest/', '_blank')">
+                    <h3>🎮 AWS Cloud Quest</h3>
+                    <p>Aprende jugando y obtén badges oficiales. Mencionaremos las de Cloud Practitioner y GenAI.</p>
+                    <span class="pdf-count">¡Obtén Badges Gratis!</span>
                 </div>
 
-                <div class="lab-card disabled">
-                    <h3>🔗 Conexión</h3>
-                    <p>Redes y protocolos</p>
-                    <span class="pdf-count">📄 Próximamente</span>
+                <div class="lab-card active" onclick="window.open('https://aws.amazon.com/training/digital/aws-card-clash/', '_blank')">
+                    <h3>🃏 AWS Card Clash</h3>
+                    <p>Pon a prueba tus conocimientos de arquitectura de AWS con este juego de cartas virtual.</p>
+                    <span class="pdf-count">Diseña y Aprende</span>
                 </div>
 
                 <div class="lab-card active" onclick="alert('Próximamente disponible')">
-                    <h3>🔒 Seguridad</h3>
-                    <p>IAM y mejores prácticas</p>
-                    <span class="pdf-count">📄 1 PDF disponible</span>
-                </div>
-
-                <div class="lab-card disabled">
-                    <h3>🐍 Python</h3>
-                    <p>Programación y automatización</p>
-                    <span class="pdf-count">📄 Próximamente</span>
-                </div>
-
-                <div class="lab-card active" onclick="alert('Próximamente disponible')">
-                    <h3>🗄️ Bases de Datos</h3>
-                    <p>Conceptos relacionales y NoSQL</p>
-                    <span class="pdf-count">📄 1 PDF disponible</span>
-                </div>
-
-                <div class="lab-card active" onclick="alert('Próximamente disponible')">
-                    <h3>🚀 Jumpstart AWS</h3>
-                    <p>Servicios principales de AWS</p>
-                    <span class="pdf-count">📄 1 PDF disponible</span>
-                </div>
-
-                <div class="lab-card disabled">
-                    <h3>⚡ Jumpstart Advanced</h3>
-                    <p>Servicios avanzados y arquitecturas</p>
-                    <span class="pdf-count">📄 Próximamente</span>
+                    <h3>📚 Recursos para Novatos</h3>
+                    <p>Enlaces a AWS Educate, Skillbuilder y otros recursos esenciales para empezar tu viaje en la nube.</p>
+                    <span class="pdf-count">🚀 Empieza Aquí</span>
                 </div>
             </div>
         </div>
