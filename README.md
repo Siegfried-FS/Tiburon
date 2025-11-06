@@ -1,10 +1,6 @@
-# 🦈 Proyecto Tiburón - Mi Evolución a AWS Cloud Practitioner
+# 🦈 AWS User Group Playa Vicente
 
-Como un tiburón que nunca para de moverse y siempre le crecen nuevos dientes, este proyecto documenta mi evolución técnica hacia la certificación AWS Cloud Practitioner.
-
-## 🌊 La Historia del Tiburón
-
-De soporte técnico limpiando equipos, pasando por compliance y regulaciones, hasta convertirme en un cazador de conocimiento técnico. AWS es mi nuevo océano para explorar, construir y experimentar.
+¡Bienvenidos a la plataforma oficial del AWS User Group de Playa Vicente! Este es un espacio abierto para aprender, compartir y construir comunidad alrededor de Amazon Web Services en español.
 
 ## 🦈 ¿Por Qué "Tiburón"?
 
@@ -13,9 +9,9 @@ De soporte técnico limpiando equipos, pasando por compliance y regulaciones, ha
 - **Depredadores del océano**: Dominando las aguas de AWS
 - **Jarocho del Golfo**: Tiburón tech desde Veracruz 🌊
 
-## 🎯 Misión
+## 🎯 Nuestra Misión
 
-Crear el recurso más completo y accesible en español para estudiar AWS Cloud Practitioner. Sin barreras, sin costos, solo conocimiento puro compartido con la comunidad.
+Crear una comunidad inclusiva y vibrante para entusiastas de AWS en el sur de Veracruz y más allá. Nuestra misión es democratizar el conocimiento de la nube, ofreciendo recursos, talleres y un espacio para conectar y crecer profesionalmente, todo en español.
 
 ## 📚 Contenido
 
@@ -27,16 +23,15 @@ Diccionario completo de siglas y términos técnicos AWS:
 - **IAM** = Identity and Access Management
 - Y muchos más organizados por categoría
 
-### 🔬 Laboratorios AWS Re/Start
-Documentos PDF organizados por módulos:
-- **🌥️ Fundamentos de la Nube**: Conceptos básicos de cloud computing
-- **🐧 Linux**: Comandos y administración de sistemas
-- **🔗 Conexión**: Redes y protocolos
-- **🔒 Seguridad**: Principios de seguridad e IAM
-- **🐍 Python**: Programación y automatización
-- **🗄️ Bases de Datos**: Relacionales y NoSQL
-- **🚀 Jumpstart AWS**: Servicios principales
-- **🚀+ Jumpstart AWS Advanced**: Servicios avanzados
+### 🎲 Recursos y Juegos
+Talleres, tutoriales y juegos interactivos para aprender AWS de forma práctica:
+- **Workshops**: Guías prácticas de nuestros eventos.
+- **AWS Cloud Quest**: Aprende y obtén badges de Cloud Practitioner y GenAI.
+- **AWS Card Clash**: Domina la arquitectura de AWS jugando.
+- **Recursos para Novatos**: Enlaces a AWS Educate, Skillbuilder y más.
+
+### 🗓️ Eventos
+Calendario de nuestras próximas reuniones, webinars y talleres. ¡No te pierdas ninguno!
 
 ### 🛠️ Servicios AWS Interactivos
 Tarjetas interactivas con información detallada:
@@ -56,10 +51,11 @@ Tarjetas interactivas con información detallada:
 
 ```
 tiburon/
-├── index.html              # Landing page principal
+├── index.html              # Landing page del User Group
 ├── glosario.html           # Diccionario de términos AWS
-├── laboratorios.html       # Laboratorios Re/Start
-├── servicios.html          # Servicios AWS interactivos
+├── recursos.html           # Workshops, tutoriales y juegos
+├── servicios.html          # Guía de Servicios AWS
+├── eventos.html            # Calendario de eventos
 ├── assets/
 │   ├── css/
 │   │   └── styles.css      # Estilos principales
@@ -67,24 +63,16 @@ tiburon/
 │   │   └── app.js          # JavaScript funcional
 │   └── images/
 │       └── profile-photo.jpg
-├── restart-labs/           # PDFs de laboratorios
-│   ├── fundamentos-nube/
-│   ├── linux/
-│   ├── conexion/
-│   ├── seguridad/
-│   ├── python/
-│   ├── bases-datos/
-│   ├── jumpstart-aws/
-│   └── jumpstart-aws-advanced/
+├── restart-labs/           # (Legado) PDFs de laboratorios
 └── README.md
 ```
 
-## 🌊 Cómo Usar
+## 🚀 ¿Cómo Participar?
 
-1. **Explora el Glosario**: Aprende las siglas y términos técnicos
-2. **Revisa los Laboratorios**: Sigue mi progreso en Re/Start
-3. **Interactúa con Servicios**: Haz clic en las tarjetas para aprender
-4. **Estudia a tu ritmo**: Todo el contenido es autoguiado
+1. **Explora los Recursos**: Navega por el glosario, los tutoriales y los juegos.
+2. **Revisa los Eventos**: Apúntate a nuestros próximos meetups y workshops.
+3. **Aprende y Comparte**: Utiliza los materiales para aprender y no dudes en compartir tus conocimientos.
+4. **Únete a la Comunidad**: ¡Participa activamente y ayúdanos a crecer!
 
 ## 🌐 Despliegue
 
@@ -96,20 +84,19 @@ Optimizado para despliegue en:
 
 ## 🦈 La Evolución Continúa
 
-### Próximas Funcionalidades
-- [ ] Simulador de examen
-- [ ] Calculadora de costos AWS
-- [ ] Casos de uso reales
-- [ ] Videos explicativos
-- [ ] Comunidad de estudio
+### Próximas Metas de la Comunidad
+- [ ] Foro o canal de discusión para miembros.
+- [ ] Galería de proyectos de la comunidad.
+- [ ] Sección de "Miembros Destacados".
+- [ ] Videos de nuestros workshops.
 
 ## 🤝 Para la Comunidad
 
-Este proyecto es **completamente gratuito** y está diseñado para ayudar a cualquier persona que quiera estudiar AWS Cloud Practitioner. Si te ayuda, compártelo con otros tiburones en formación.
+Este proyecto es la plataforma de nuestro **AWS User Group Playa Vicente**, y está diseñado para ser un recurso **completamente gratuito** y abierto para todos los que deseen aprender y crecer en el mundo de AWS. ¡Tu participación es clave para que sigamos creciendo!
 
-## 🦈 Alimenta al Tiburón
+## 🦈 Apoya al User Group
 
-Si este contenido te resulta útil y quieres apoyar el proyecto, puedes "alimentar al tiburón" para que siga nadando y creando contenido de calidad.
+Si este contenido te resulta útil y quieres apoyar las actividades del User Group, puedes "alimentar al tiburón" para que siga nadando y creando más eventos y recursos de calidad.
 
 ## 📄 Licencia
 
@@ -117,12 +104,12 @@ Proyecto de código abierto para uso educativo. El conocimiento debe ser libre c
 
 ## 🌊 Agradecimientos
 
-- AWS Re/Start Program
-- Comunidad tech de Veracruz
-- Todos los tiburones que comparten conocimiento
+- A la comunidad de AWS en general por su constante innovación y apoyo.
+- A todos los miembros del AWS User Group Playa Vicente por su entusiasmo y participación.
+- A todos los que comparten conocimiento y hacen de la nube un lugar más accesible.
 
 ---
 
-**"Como un tiburón, nunca paro de moverme y siempre estoy creciendo nuevos dientes técnicos"** 🦈⚡
+**"Juntos, navegamos las aguas de AWS y crecemos como comunidad."** 🦈⚡
 
-*Proyecto creado con 🦈 desde el Golfo de México*
+*AWS User Group Playa Vicente - Conectando la nube en el Golfo de México*
