@@ -3,7 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recursos y Juegos - AWS User Group Playa Vicente</title>
+    
+    <!-- SEO Optimizado para Roberto Flores -->
+    <title>Recursos y Juegos para Aprender AWS - por Roberto Flores</title>
+    <meta name="description" content="Colección de recursos, juegos y herramientas para aprender AWS y Cloud, curada por Roberto Flores para la comunidad del AWS User Group Playa Vicente.">
+    <meta name="keywords" content="Roberto Flores, Siegfried FS, AWS, Cloud, Developer, Desarrollador, Portfolio, Recursos, Juegos, Git, AWS Cloud Quest, AWS Skill Builder">
+    <meta name="author" content="Roberto Flores">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Recursos y Juegos de AWS - por Roberto Flores">
+    <meta property="og:description" content="Colección de recursos y herramientas para aprender AWS y Cloud, curada por Roberto Flores.">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Recursos y Juegos de AWS - por Roberto Flores">
+    <meta name="twitter:description" content="Recursos y herramientas para aprender AWS y Cloud, curada por Roberto Flores.">
+
     <link rel="stylesheet" href="assets/css/styles.css?v=2024">
     <script>
         // Aplicar tema inmediatamente para evitar delay
@@ -18,74 +33,8 @@
         .labs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 25px;
             margin-top: 30px;
-        }
-        .lab-card {
-            background: var(--bg-card);
-            border: 2px solid var(--primary-color);
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow);
-        }
-        .lab-card.active {
-            border-color: var(--primary-color);
-            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
-        }
-        
-        [data-theme="light"] .lab-card.active {
-            box-shadow: 0 8px 32px rgba(37, 99, 235, 0.3);
-        }
-        
-        /* Arreglar texto y colores para tema claro */
-        [data-theme="light"] .lab-card {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid var(--primary-color);
-        }
-        
-        [data-theme="light"] .lab-card h3 {
-            color: var(--primary-color);
-        }
-        
-        [data-theme="light"] .lab-card p {
-            color: var(--text-secondary);
-        }
-        
-        [data-theme="light"] .pdf-count {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        /* Aplicar mismo estilo exitoso de botones de PDFs */
-        [data-theme="light"] .lab-card {
-            color: var(--text-primary) !important;
-            background: rgba(255, 255, 255, 0.9) !important;
-            border: 2px solid var(--primary-color) !important;
-        }
-        
-        [data-theme="light"] .lab-card h3 {
-            color: var(--primary-color) !important;
-        }
-        
-        [data-theme="light"] .lab-card p {
-            color: var(--text-secondary) !important;
-        }
-        
-        [data-theme="light"] .pdf-count {
-            color: var(--primary-color) !important;
-            background: rgba(37, 99, 235, 0.1) !important;
-            padding: 4px 8px !important;
-            border-radius: 12px !important;
-            font-weight: 600 !important;
-        }
-        .lab-card.disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
     </style>
 </head>

@@ -1439,36 +1439,141 @@ html {
     color: var(--text-secondary);
 }
 
-/* Estilos para las tarjetas de Eventos y Recursos cargados dinámicamente */
-.event-card {
+/* ========================================================================== */
+/*   DISEÑO FINAL DE TARJETAS DE EVENTOS Y RECURSOS                     */
+/* ========================================================================== */
+
+/* 1. Diseño FINAL de Tarjetas de Recursos */
+.lab-card {
     background: var(--bg-card);
     border-radius: var(--border-radius);
     overflow: hidden;
     border: 1px solid var(--border-color);
     transition: all 0.3s ease;
     box-shadow: var(--shadow);
+    text-decoration: none;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+.lab-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    border-color: var(--primary-color);
+}
+
+.lab-card-image-container {
+    position: relative;
+    width: 100%;
+    height: 180px; /* Altura de imagen más razonable */
+    overflow: hidden;
+}
+
+.lab-card .resource-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.lab-card:hover .resource-image {
+    transform: scale(1.05);
+}
+
+.resource-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 50px; /* Badge más pequeño */
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.lab-card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.lab-card-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    color: var(--text-primary) !important; /* Forzar el color correcto */
+}
+
+.lab-card-content .resource-tags {
+    margin-top: auto; /* Empuja los tags al final */
+}
+
+.resource-badges-strip {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.resource-badge-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+}
+
+
+/* 2. Diseño de Tarjetas de Eventos (Estilo Calendario) */
+.event-card {
+    display: flex;
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    gap: 20px;
+    align-items: stretch;
 }
 
 .event-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    border-color: var(--primary-color);
 }
 
-.event-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.event-content {
+.event-date-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary-color);
+    color: var(--bg-primary);
     padding: 20px;
+    min-width: 100px;
+    text-align: center;
 }
 
-.event-date {
-    font-size: 0.9rem;
-    color: var(--primary-color);
-    font-weight: 600;
-    margin-bottom: 10px;
+[data-theme="light"] .event-date-block {
+    color: white;
+}
+
+.event-date-block .day {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.event-date-block .month {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.event-details {
+    padding: 20px 20px 20px 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .event-title {
@@ -1480,6 +1585,7 @@ html {
 .event-description {
     font-size: 1rem;
     color: var(--text-secondary);
+    flex-grow: 1;
     margin-bottom: 15px;
 }
 
@@ -1496,19 +1602,14 @@ html {
     border-radius: 15px;
     font-size: 0.8rem;
     font-weight: 500;
-}
-
-.resource-image {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 15px 15px 0 0;
-    margin-bottom: 15px;
+    text-decoration: none; /* Quitar cualquier subrayado heredado */
 }
 
 .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: 1fr;
     gap: 25px;
     margin-top: 30px;
 }
+
+
