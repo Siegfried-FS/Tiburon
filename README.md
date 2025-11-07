@@ -67,6 +67,44 @@ tiburon/
 └── README.md
 ```
 
+## 🗃️ Gestión de Contenido (¡Nuevo!)
+
+Para facilitar la actualización del sitio sin tener que editar el HTML, el contenido de las secciones de Eventos y Recursos se gestiona a través de archivos JSON.
+
+### ¿Cómo Añadir un Nuevo Evento?
+
+1.  **Abre el archivo:** `assets/data/events.json`
+2.  **Añade un nuevo objeto** al array con la siguiente estructura:
+    ```json
+    {
+      "date": "YYYY-MM-DD",
+      "title": "Título del Evento",
+      "description": "Descripción del evento.",
+      "image": "assets/images/events/nombre-de-tu-imagen.jpg",
+      "tags": ["Tag1", "Tag2"]
+    }
+    ```
+3.  **Sube la imagen:** Asegúrate de subir la imagen correspondiente a la carpeta `assets/images/events/`.
+
+### ¿Cómo Añadir un Nuevo Recurso?
+
+1.  **Abre el archivo:** `assets/data/resources.json`
+2.  **Añade un nuevo objeto** al array con la siguiente estructura:
+    ```json
+    {
+      "title": "Título del Recurso",
+      "description": "Descripción del recurso.",
+      "url": "https://enlace.al/recurso",
+      "image": "assets/images/resources/nombre-de-tu-imagen.jpg",
+      "tags": ["Tag1", "Tag2"]
+    }
+    ```
+3.  **Sube la imagen:** Asegúrate de subir la imagen correspondiente a la carpeta `assets/images/resources/`.
+
+### Futuro: Escalado con Amazon S3
+
+Actualmente, las imágenes se guardan localmente en el proyecto. El siguiente paso en la hoja de ruta es migrar todo el contenido multimedia (imágenes, videos, PDFs) a un **bucket de Amazon S3**. Las rutas en los archivos JSON se actualizarán para apuntar a las URLs de S3, haciendo el sitio más ligero y escalable.
+
 ## 🚀 ¿Cómo Participar?
 
 1. **Explora los Recursos**: Navega por el glosario, los tutoriales y los juegos.

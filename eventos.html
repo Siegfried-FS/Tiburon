@@ -23,18 +23,18 @@
             <div class="nav-brand">
                 <h1>🦈 Tiburón</h1>
             </div>
-            <div class="hamburger" onclick="toggleMenu()">
+            <div class="hamburger">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html" onclick="closeMenu()">🏠 Inicio</a></li>
-                <li><a href="glosario.html" onclick="closeMenu()">📚 Glosario</a></li>
-                <li><a href="recursos.html" onclick="closeMenu()">🎲 Recursos</a></li>
-                <li><a href="servicios.html" onclick="closeMenu()">☁️ Servicios</a></li>
-                <li><a href="eventos.html" onclick="closeMenu()">🗓️ Eventos</a></li>
-                <li><button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button></li>
+                <li><a href="index.html">🏠 Inicio</a></li>
+                <li><a href="glosario.html">📚 Glosario</a></li>
+                <li><a href="recursos.html">🎲 Recursos</a></li>
+                <li><a href="servicios.html">☁️ Servicios</a></li>
+                <li><a href="eventos.html">🗓️ Eventos</a></li>
+                <li><button class="theme-toggle" title="Cambiar tema">🌙</button></li>
             </ul>
         </nav>
     </header>
@@ -44,9 +44,8 @@
             <h1>🗓️ Calendario de Eventos</h1>
             <p>Aquí encontrarás información sobre nuestras próximas reuniones, workshops y webinars.</p>
             
-            <div class="events-placeholder" style="text-align: center; padding: 50px; border: 2px dashed var(--primary-color); border-radius: 15px; margin-top: 30px;">
-                <h2>Próximamente</h2>
-                <p>Estamos trabajando en nuestro calendario de eventos. ¡Vuelve pronto!</p>
+            <div id="events-container" class="events-grid">
+                <!-- Los eventos se cargarán aquí dinámicamente -->
             </div>
         </div>
     </main>

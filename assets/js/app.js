@@ -4,20 +4,64 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🦈 Proyecto Tiburón iniciado');
-
-    // Cargar tema guardado al inicio
     loadTheme();
+    addEventListeners();
 
-    // Inicializar Particles.js
     if (document.getElementById('particles-js')) {
         initParticles();
     }
-
-    // Cargar servicios de AWS si estamos en la página de servicios
     if (document.getElementById('services-container')) {
         loadAWSServices();
     }
+    if (document.getElementById('events-container')) {
+        loadEvents();
+    }
+    if (document.getElementById('resources-container')) {
+        loadResources();
+    }
 });
+
+// =============================================================================
+// REGISTRO CENTRAL DE EVENT LISTENERS
+// =============================================================================
+
+function addEventListeners() {
+    const hamburger = document.querySelector('.hamburger');
+    if (hamburger) {
+        hamburger.addEventListener('click', (event) => {
+            event.stopPropagation();
+            toggleMenu();
+        });
+    }
+
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    const terminos = document.querySelectorAll('.termino');
+    terminos.forEach(termino => {
+        termino.addEventListener('click', () => toggleTermino(termino));
+    });
+
+    const donationBtn = document.querySelector('.donation-btn');
+    if (donationBtn) {
+        donationBtn.addEventListener('click', showDonationInfo);
+    }
+
+    document.addEventListener('click', (event) => {
+        const nav = document.querySelector('.nav');
+        const navMenu = document.getElementById('nav-menu');
+        if (nav && navMenu && !nav.contains(event.target) && navMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+}
 
 // =============================================================================
 // MENÚ DE NAVEGACIÓN (HAMBURGUESA)
@@ -41,15 +85,6 @@ function closeMenu() {
     }
 }
 
-// Cierra el menú si se hace clic fuera de él
-document.addEventListener('click', (event) => {
-    const nav = document.querySelector('.nav');
-    const navMenu = document.getElementById('nav-menu');
-    if (nav && navMenu && !nav.contains(event.target) && navMenu.classList.contains('active')) {
-        closeMenu();
-    }
-});
-
 // =============================================================================
 // CAMBIO DE TEMA (CLARO/OSCURO)
 // =============================================================================
@@ -69,7 +104,6 @@ function toggleTheme() {
         if(themeToggle) themeToggle.textContent = '☀️';
     }
 
-    // Re-inicializar particles.js para que tome el nuevo color de fondo
     if (document.getElementById('particles-js')) {
         setTimeout(initParticles, 100);
     }
@@ -87,7 +121,6 @@ function loadTheme() {
     }
 }
 
-// Aplica el tema guardado inmediatamente al cargar la página para evitar el parpadeo
 (function() {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
@@ -101,8 +134,8 @@ function loadTheme() {
 
 function initParticles() {
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    const particleColor = isLight ? '#1e40af' : '#00d4ff'; // Azul en claro, cian en oscuro
-    const lineColor = isLight ? '#3b82f6' : '#00d4ff'; // Azul más claro en claro, cian en oscuro
+    const particleColor = isLight ? '#1e40af' : '#00d4ff';
+    const lineColor = isLight ? '#3b82f6' : '#00d4ff';
 
     particlesJS('particles-js', {
         particles: {
@@ -205,10 +238,9 @@ const awsServices = [
 function createServiceCard(service) {
     const card = document.createElement('div');
     card.className = 'service-card';
-    card.onclick = () => toggleServiceDetail(card);
 
     const typeTags = Object.keys(service.types).map(type =>
-        `<span class="type-tag" onclick="event.stopPropagation(); showTypeDetail(this, '${service.name}', '${type}')">${type}</span>`
+        `<span class="type-tag" data-service="${service.name}" data-type="${type}">${type}</span>`
     ).join('');
 
     card.innerHTML = `
@@ -252,6 +284,15 @@ function loadAWSServices() {
             const serviceCard = createServiceCard(service);
             servicesContainer.appendChild(serviceCard);
         });
+        servicesContainer.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', () => toggleServiceDetail(card));
+        });
+        servicesContainer.querySelectorAll('.type-tag').forEach(tag => {
+            tag.addEventListener('click', (event) => {
+                event.stopPropagation();
+                showTypeDetail(tag, tag.dataset.service, tag.dataset.type);
+            });
+        });
     }
 }
 
@@ -267,19 +308,80 @@ function toggleTermino(elemento) {
 }
 
 // =============================================================================
+// CARGA DINÁMICA DE CONTENIDO (EVENTOS Y RECURSOS)
+// =============================================================================
+
+async function loadEvents() {
+    const container = document.getElementById('events-container');
+    if (!container) return;
+
+    try {
+        const response = await fetch('assets/data/events.json');
+        const events = await response.json();
+
+        if (events.length === 0) {
+            container.innerHTML = '<p>No hay eventos próximos. ¡Vuelve pronto!</p>';
+            return;
+        }
+
+        let html = '';
+        events.forEach(event => {
+            const tagsHtml = event.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            html += `
+                <div class="event-card">
+                    <img src="${event.image}" alt="Imagen del evento ${event.title}" class="event-image">
+                    <div class="event-content">
+                        <div class="event-date">${event.date}</div>
+                        <h3 class="event-title">${event.title}</h3>
+                        <p class="event-description">${event.description}</p>
+                        <div class="event-tags">${tagsHtml}</div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    } catch (error) {
+        console.error('Error al cargar los eventos:', error);
+        container.innerHTML = '<p>Error al cargar los eventos. Intenta recargar la página.</p>';
+    }
+}
+
+async function loadResources() {
+    const container = document.getElementById('resources-container');
+    if (!container) return;
+
+    try {
+        const response = await fetch('assets/data/resources.json');
+        const resources = await response.json();
+
+        if (resources.length === 0) {
+            container.innerHTML = '<p>No hay recursos disponibles en este momento.</p>';
+            return;
+        }
+
+        let html = '';
+        resources.forEach(resource => {
+            const tagsHtml = resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            html += `
+                <a href="${resource.url}" target="_blank" class="lab-card active">
+                    <img src="${resource.image}" alt="Imagen de ${resource.title}" class="resource-image">
+                    <h3>${resource.title}</h3>
+                    <p>${resource.description}</p>
+                    <div class="resource-tags">${tagsHtml}</div>
+                </a>
+            `;
+        });
+        container.innerHTML = html;
+    } catch (error) {
+        console.error('Error al cargar los recursos:', error);
+        container.innerHTML = '<p>Error al cargar los recursos. Intenta recargar la página.</p>';
+    }
+}
+
+// =============================================================================
 // OTRAS FUNCIONES
 // =============================================================================
 
 function showDonationInfo() {
     alert('¡Gracias por tu interés en apoyar el proyecto! 🙏\n\nEn el futuro aquí habrá opciones para donaciones voluntarias. Por ahora, ¡compartir el proyecto ya es una gran ayuda! 😊');
 }
-
-// =============================================================================
-// EXPORTACIÓN DE FUNCIONES PARA USO EN HTML (onclick)
-// =============================================================================
-
-window.toggleMenu = toggleMenu;
-window.closeMenu = closeMenu;
-window.toggleTheme = toggleTheme;
-window.toggleTermino = toggleTermino;
-window.showDonationInfo = showDonationInfo;
