@@ -327,11 +327,18 @@ async function loadEvents() {
         let html = '';
         events.forEach(event => {
             const tagsHtml = event.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            // La fecha en el JSON debe ser un formato válido como "YYYY-MM-DD"
+            const date = new Date(event.date);
+            const month = date.toLocaleString('es-ES', { month: 'short' }).toUpperCase().replace('.','');
+            const day = date.getDate();
+
             html += `
                 <div class="event-card">
-                    <img src="${event.image}" alt="Imagen del evento ${event.title}" class="event-image">
-                    <div class="event-content">
-                        <div class="event-date">${event.date}</div>
+                    <div class="event-date-block">
+                        <span class="day">${day}</span>
+                        <span class="month">${month}</span>
+                    </div>
+                    <div class="event-details">
                         <h3 class="event-title">${event.title}</h3>
                         <p class="event-description">${event.description}</p>
                         <div class="event-tags">${tagsHtml}</div>
@@ -362,12 +369,27 @@ async function loadResources() {
         let html = '';
         resources.forEach(resource => {
             const tagsHtml = resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            
+            let badgesHtml = '';
+            if (resource.badges && resource.badges.length > 0) {
+                badgesHtml = '<div class="resource-badges-strip">';
+                resource.badges.forEach(badgeSrc => {
+                    badgesHtml += `<img src="${badgeSrc}" alt="Badge de recurso" class="resource-badge-icon">
+`;
+                });
+                badgesHtml += '</div>';
+            }
+
             html += `
                 <a href="${resource.url}" target="_blank" class="lab-card active">
-                    <img src="${resource.image}" alt="Imagen de ${resource.title}" class="resource-image">
-                    <h3>${resource.title}</h3>
-                    <p>${resource.description}</p>
-                    <div class="resource-tags">${tagsHtml}</div>
+                    <div class="lab-card-image-container">
+                        <img src="${resource.image}" alt="Imagen de ${resource.title}" class="resource-image">
+                    </div>
+                    <div class="lab-card-content">
+                        ${badgesHtml}
+                        <h3>${resource.title}</h3>
+                        <div class="resource-tags">${tagsHtml}</div>
+                    </div>
                 </a>
             `;
         });
