@@ -14,18 +14,18 @@
             <div class="nav-brand">
                 <h1>🦈 Tiburón</h1>
             </div>
-            <div class="hamburger" onclick="toggleMenu()">
+            <div class="hamburger">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html" onclick="closeMenu()">🏠 Inicio</a></li>
-                <li><a href="glosario.html" onclick="closeMenu()">📚 Glosario</a></li>
-                <li><a href="recursos.html" onclick="closeMenu()">🎲 Recursos</a></li>
-                <li><a href="servicios.html" onclick="closeMenu()">☁️ Servicios</a></li>
-                <li><a href="eventos.html" onclick="closeMenu()">🗓️ Eventos</a></li>
-                <li><button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌙</button></li>
+                <li><a href="index.html">🏠 Inicio</a></li>
+                <li><a href="glosario.html">📚 Glosario</a></li>
+                <li><a href="recursos.html">🎲 Recursos</a></li>
+                <li><a href="servicios.html">☁️ Servicios</a></li>
+                <li><a href="eventos.html">🗓️ Eventos</a></li>
+                <li><button class="theme-toggle" title="Cambiar tema">🌙</button></li>
             </ul>
         </nav>
     </header>
@@ -39,28 +39,28 @@
                 <div class="temario-card">
                     <h3>🖥️ Servicios de Cómputo</h3>
                     <div class="terminos-list">
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">EC2</span>
                             <div class="termino-detail">
                                 <strong>Elastic Compute Cloud</strong><br>
                                 Servidores virtuales escalables en la nube
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">ECS</span>
                             <div class="termino-detail">
                                 <strong>Elastic Container Service</strong><br>
                                 Servicio para ejecutar contenedores Docker
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">EKS</span>
                             <div class="termino-detail">
                                 <strong>Elastic Kubernetes Service</strong><br>
                                 Kubernetes administrado por AWS
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">Lambda</span>
                             <div class="termino-detail">
                                 <strong>AWS Lambda</strong><br>
@@ -73,28 +73,28 @@
                 <div class="temario-card">
                     <h3>🗄️ Almacenamiento</h3>
                     <div class="terminos-list">
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">S3</span>
                             <div class="termino-detail">
                                 <strong>Simple Storage Service</strong><br>
                                 Almacenamiento de objetos escalable
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">EBS</span>
                             <div class="termino-detail">
                                 <strong>Elastic Block Store</strong><br>
                                 Almacenamiento en bloque para EC2
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">EFS</span>
                             <div class="termino-detail">
                                 <strong>Elastic File System</strong><br>
                                 Sistema de archivos compartido
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">FSx</span>
                             <div class="termino-detail">
                                 <strong>Amazon FSx</strong><br>
@@ -107,28 +107,28 @@
                 <div class="temario-card">
                     <h3>🗃️ Bases de Datos</h3>
                     <div class="terminos-list">
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">RDS</span>
                             <div class="termino-detail">
                                 <strong>Relational Database Service</strong><br>
                                 Bases de datos relacionales administradas
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">DynamoDB</span>
                             <div class="termino-detail">
                                 <strong>Amazon DynamoDB</strong><br>
                                 Base de datos NoSQL completamente administrada
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">ElastiCache</span>
                             <div class="termino-detail">
                                 <strong>Amazon ElastiCache</strong><br>
                                 Servicio de cache en memoria (Redis/Memcached)
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">Redshift</span>
                             <div class="termino-detail">
                                 <strong>Amazon Redshift</strong><br>
@@ -141,28 +141,28 @@
                 <div class="temario-card">
                     <h3>🌐 Redes y CDN</h3>
                     <div class="terminos-list">
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">VPC</span>
                             <div class="termino-detail">
                                 <strong>Virtual Private Cloud</strong><br>
                                 Red privada virtual aislada en AWS
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">CloudFront</span>
                             <div class="termino-detail">
                                 <strong>Amazon CloudFront</strong><br>
                                 Red de entrega de contenido (CDN)
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">Route 53</span>
                             <div class="termino-detail">
                                 <strong>Amazon Route 53</strong><br>
                                 Servicio DNS escalable y confiable
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">ELB</span>
                             <div class="termino-detail">
                                 <strong>Elastic Load Balancer</strong><br>
@@ -175,28 +175,28 @@
                 <div class="temario-card">
                     <h3>🔒 Seguridad</h3>
                     <div class="terminos-list">
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">IAM</span>
                             <div class="termino-detail">
                                 <strong>Identity and Access Management</strong><br>
                                 Gestión de identidades y accesos
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">KMS</span>
                             <div class="termino-detail">
                                 <strong>Key Management Service</strong><br>
                                 Gestión de claves de cifrado
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">WAF</span>
                             <div class="termino-detail">
                                 <strong>Web Application Firewall</strong><br>
                                 Firewall para aplicaciones web
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">Shield</span>
                             <div class="termino-detail">
                                 <strong>AWS Shield</strong><br>
@@ -209,28 +209,28 @@
                 <div class="temario-card">
                     <h3>📊 Monitoreo y Gestión</h3>
                     <div class="terminos-list">
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">CloudWatch</span>
                             <div class="termino-detail">
                                 <strong>Amazon CloudWatch</strong><br>
                                 Monitoreo y observabilidad
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">CloudTrail</span>
                             <div class="termino-detail">
                                 <strong>AWS CloudTrail</strong><br>
                                 Auditoría de actividades de la cuenta
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">Config</span>
                             <div class="termino-detail">
                                 <strong>AWS Config</strong><br>
                                 Evaluación y auditoría de configuraciones
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">Systems Manager</span>
                             <div class="termino-detail">
                                 <strong>AWS Systems Manager</strong><br>
@@ -243,28 +243,28 @@
                 <div class="temario-card">
                     <h3>🏗️ Infraestructura</h3>
                     <div class="terminos-list">
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">AZ</span>
                             <div class="termino-detail">
                                 <strong>Availability Zone</strong><br>
                                 Zona de disponibilidad - centro de datos aislado
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">Region</span>
                             <div class="termino-detail">
                                 <strong>AWS Region</strong><br>
                                 Área geográfica con múltiples AZ
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">Edge Location</span>
                             <div class="termino-detail">
                                 <strong>Edge Location</strong><br>
                                 Punto de presencia para CloudFront CDN
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">ARN</span>
                             <div class="termino-detail">
                                 <strong>Amazon Resource Name</strong><br>
@@ -277,28 +277,28 @@
                 <div class="temario-card">
                     <h3>💰 Facturación</h3>
                     <div class="terminos-list">
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">TCO</span>
                             <div class="termino-detail">
                                 <strong>Total Cost of Ownership</strong><br>
                                 Costo total de propiedad
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">RI</span>
                             <div class="termino-detail">
                                 <strong>Reserved Instance</strong><br>
                                 Instancia reservada con descuento
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">PAYG</span>
                             <div class="termino-detail">
                                 <strong>Pay As You Go</strong><br>
                                 Pago por uso sin compromisos
                             </div>
                         </div>
-                        <div class="termino" onclick="toggleTermino(this)">
+                        <div class="termino">
                             <span class="termino-name">CapEx vs OpEx</span>
                             <div class="termino-detail">
                                 <strong>Capital vs Operational Expenditure</strong><br>

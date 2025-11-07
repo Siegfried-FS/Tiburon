@@ -1,0 +1,30 @@
+[
+    {
+        "title": "AWS Cloud Quest: Cloud Practitioner",
+        "description": "Aprende los fundamentos de la nube de AWS a través de un juego de rol 3D. Resuelve desafíos prácticos y obtén una badge digital al finalizar.",
+        "url": "https://aws.amazon.com/training/digital/aws-cloud-quest/",
+        "image": "assets/images/resources/cloud-quest.jpg",
+        "tags": ["Juego", "AWS", "Gratis", "Badge"]
+    },
+    {
+        "title": "AWS Card Clash",
+        "description": "Un juego de cartas virtual para poner a prueba y mejorar tus conocimientos sobre diseño de arquitecturas de AWS. Aprende mientras te diviertes.",
+        "url": "https://aws.amazon.com/training/digital/aws-card-clash/",
+        "image": "assets/images/resources/card-clash.jpg",
+        "tags": ["Juego", "AWS", "Arquitectura"]
+    },
+    {
+        "title": "Learn Git Branching",
+        "description": "Una herramienta interactiva y visual para aprender y dominar los comandos de Git, especialmente el manejo de ramas. ¡Muy recomendado!",
+        "url": "https://learngitbranching.js.org/",
+        "image": "assets/images/resources/learn-git.jpg",
+        "tags": ["Git", "Herramienta", "Gratis"]
+    },
+    {
+        "title": "AWS Skill Builder",
+        "description": "La plataforma oficial de AWS con más de 600 cursos digitales y planes de aprendizaje para desarrollar tus habilidades en la nube a tu propio ritmo.",
+        "url": "https://skillbuilder.aws/",
+        "image": "assets/images/resources/skill-builder.jpg",
+        "tags": ["Cursos", "AWS", "Oficial"]
+    }
+]

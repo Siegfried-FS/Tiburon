@@ -1,0 +1,16 @@
+[
+    {
+        "date": "2025-11-15",
+        "title": "Reunión Inaugural - AWS User Group Playa Vicente",
+        "description": "¡Nuestra primera reunión! Discutiremos los objetivos del grupo, planificaremos futuros eventos y tendremos una sesión de networking para conocernos.",
+        "image": "assets/images/events/placeholder-1.jpg",
+        "tags": ["Comunidad", "Networking"]
+    },
+    {
+        "date": "2025-12-05",
+        "title": "Workshop: Despliega tu Primer Sitio Web en AWS",
+        "description": "Un taller práctico donde aprenderás a desplegar un sitio web estático utilizando Amazon S3, CloudFront y Route 53. Ideal para principiantes.",
+        "image": "assets/images/events/placeholder-2.jpg",
+        "tags": ["Workshop", "S3", "Principiantes"]
+    }
+]
