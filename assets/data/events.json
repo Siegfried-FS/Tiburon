@@ -1,16 +1,42 @@
 [
     {
-        "date": "2025-11-15",
-        "title": "Reunión Inaugural - AWS User Group Playa Vicente",
-        "description": "¡Nuestra primera reunión! Discutiremos los objetivos del grupo, planificaremos futuros eventos y tendremos una sesión de networking para conocernos.",
-        "image": "assets/images/events/placeholder-1.jpg",
-        "tags": ["Comunidad", "Networking"]
-    },
-    {
         "date": "2025-12-05",
         "title": "Workshop: Despliega tu Primer Sitio Web en AWS",
         "description": "Un taller práctico donde aprenderás a desplegar un sitio web estático utilizando Amazon S3, CloudFront y Route 53. Ideal para principiantes.",
         "image": "assets/images/events/placeholder-2.jpg",
-        "tags": ["Workshop", "S3", "Principiantes"]
+        "tags": ["Workshop", "S3", "Principiantes"],
+        "format": "Online"
+    },
+    {
+        "date": "2025-12-01",
+        "title": "AWS re:Invent 2025",
+        "description": "La conferencia de computación en la nube más grande del mundo, organizada por AWS en Las Vegas. Una semana de anuncios, sesiones técnicas y aprendizaje.",
+        "image": "https://d1.awsstatic.com/reinvent/social-share/reinvent-2023-social-share.3692cb9c1585a243355a3d56a04a055775a8b63b.png",
+        "tags": ["Internacional", "AWS", "Conferencia"],
+        "format": "Presencial"
+    },
+    {
+        "date": "2025-11-15",
+        "title": "Reunión Inaugural - AWS User Group Playa Vicente",
+        "description": "¡Nuestra primera reunión! Discutiremos los objetivos del grupo, planificaremos futuros eventos y tendremos una sesión de networking para conocernos.",
+        "image": "assets/images/events/placeholder-1.jpg",
+        "tags": ["Comunidad", "Networking"],
+        "format": "Presencial"
+    },
+    {
+        "year": "2026",
+        "title": "AWS Community Day México",
+        "description": "El evento más grande de la comunidad de AWS en México, organizado por y para la comunidad. Un día lleno de charlas técnicas, talleres y networking.",
+        "image": "https://d1.awsstatic.com/events/community-day/community-day-meet-ups.e391a43b73a383ca98d27822d34a098f8b8b8b8b.png",
+        "tags": ["Comunidad", "Nacional", "Conferencia"],
+        "format": "Híbrido (Por confirmar)"
+    },
+    {
+        "year": "2026",
+        "title": "AWS Summit México",
+        "description": "El evento oficial de AWS en México. Conoce los últimos servicios, aprende de los expertos de AWS y conecta con otros profesionales de la industria.",
+        "image": "https://d1.awsstatic.com/events/summit-2022/logo-lockups/Summit-Social-Default-2022.b639b0b7d8722c71f691731800a007d5c5d10111.png",
+        "tags": ["Oficial", "AWS", "Conferencia"],
+        "format": "Híbrido (Por confirmar)"
     }
 ]

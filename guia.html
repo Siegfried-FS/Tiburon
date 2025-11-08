@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Estudio AWS para Certificación | Roberto Flores (Siegfried FS)</title>
+    <meta name="description" content="La guía de estudio de AWS definitiva para principiantes en Playa Vicente. Aprende todo lo necesario para tu certificación Cloud Practitioner con Roberto Flores (Siegfried FS).">
+    <meta name="keywords" content="Roberto Flores, Siegfried FS, Guía de Estudio AWS, Certificación AWS, Playa Vicente, AWS para principiantes, Cloud Practitioner">
+    <meta name="author" content="Roberto Flores (Siegfried FS)">
+    <link rel="canonical" href="https://tiburoncp.siegfried-fs.com/guia.html">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1>🦈 Tiburón</h1>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html">🏠 Inicio</a></li>
+                <li><a href="guia.html">📖 Guía de Estudio</a></li>
+                <li><a href="glosario.html">📚 Glosario</a></li>
+                <li><a href="recursos.html">🎲 Recursos</a></li>
+                <li><a href="servicios.html">☁️ Servicios</a></li>
+                <li><a href="eventos.html">🗓️ Eventos</a></li>
+                <li><a href="juegos.html">🎮 Juegos</a></li>
+                <li><button class="theme-toggle" title="Cambiar tema">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main style="margin-top: 100px;">
+        <div class="container">
+            <section class="content-section">
+                <h2>🚀 Guía de Estudio AWS para Principiantes</h2>
+                <p class="tagline" style="text-align: center;">Una guía completa para comenzar tu journey en Amazon Web Services, diseñada para principiantes y con un enfoque práctico.</p>
+            </section>
+
+            <section id="intro" class="content-section">
+                <h2>🎯 Introducción</h2>
+                <p>¡Bienvenido al mundo de Amazon Web Services! Esta guía está diseñada para ayudarte a dar tus primeros pasos en la nube de AWS de manera estructurada y efectiva. Ya seas completamente nuevo en la nube o tengas algo de experiencia, encontrarás recursos valiosos para acelerar tu aprendizaje.</p>
+                <h3>Objetivos de esta Guía:</h3>
+                <ul>
+                    <li>Entender qué es AWS y por qué es importante</li>
+                    <li>Conocer los servicios fundamentales</li>
+                    <li>Aprender los principios de arquitectura en la nube</li>
+                    <li>Descubrir recursos de aprendizaje interactivos</li>
+                    <li>Trazar una ruta de certificación clara</li>
+                </ul>
+            </section>
+
+            <section id="what-is-aws" class="content-section">
+                <h2>☁️ ¿Qué es AWS?</h2>
+                <h3>📖 Definición</h3>
+                <p>Amazon Web Services (AWS) es la plataforma de servicios en la nube más completa y ampliamente adoptada del mundo. Ofrece más de 200 servicios desde centros de datos ubicados globalmente.</p>
+                <h3>🌟 ¿Por qué AWS?</h3>
+                <ul>
+                    <li><strong>🌍 Alcance Global:</strong> Presencia en múltiples regiones del mundo</li>
+                    <li><strong>💰 Modelo de Pago:</strong> Solo pagas por lo que usas</li>
+                    <li><strong>🔒 Seguridad:</strong> Estándares de seguridad de nivel empresarial</li>
+                    <li><strong>📈 Escalabilidad:</strong> Crece con tu negocio</li>
+                    <li><strong>🚀 Innovación:</strong> Nuevos servicios constantemente</li>
+                </ul>
+                <h3>🏢 Casos de Uso Principales</h3>
+                <ul>
+                    <li>Hosting de aplicaciones web</li>
+                    <li>Almacenamiento y respaldo de datos</li>
+                    <li>Big Data y Analytics</li>
+                    <li>Inteligencia Artificial y Machine Learning</li>
+                    <li>Internet of Things (IoT)</li>
+                    <li>Desarrollo y testing de aplicaciones</li>
+                </ul>
+            </section>
+
+            <section id="well-architected" class="content-section">
+                <h2>🏛️ Los 6 Pilares del Well-Architected Framework</h2>
+                <p>El AWS Well-Architected Framework proporciona las mejores prácticas para construir sistemas seguros, confiables, eficientes y rentables en la nube.</p>
+                <div class="about-content">
+                    <div class="about-card">
+                        <h3>1. 🎯 Excelencia Operacional</h3>
+                        <p>Capacidad de ejecutar y monitorear sistemas para entregar valor empresarial. Principios: operaciones como código, cambios pequeños, refinar procedimientos, anticipar fallas.</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>2. 🔒 Seguridad</h3>
+                        <p>Capacidad de proteger información, sistemas y activos. Principios: base sólida de identidad, seguridad en todas las capas, automatizar, proteger datos.</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>3. ⚡ Confiabilidad</h3>
+                        <p>Capacidad de un sistema para recuperarse de fallas. Principios: recuperación automática, probar recuperación, escalar horizontalmente, gestionar cambios en automatización.</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>4. 🚀 Eficiencia de Rendimiento</h3>
+                        <p>Capacidad de usar recursos de computación de manera eficiente. Principios: democratizar tecnologías, globalizar en minutos, usar serverless, experimentar más.</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>5. 💰 Optimización de Costos</h3>
+                        <p>Capacidad de ejecutar sistemas al menor precio. Principios: gestión financiera en la nube, medir eficiencia, analizar gastos.</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>6. 🌱 Sustentabilidad</h3>
+                        <p>Capacidad de mejorar continuamente los impactos de sustentabilidad. Principios: entender tu impacto, maximizar utilización, usar servicios administrados.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cert-paths" class="content-section">
+                <h2>🎓 Rutas de Certificación</h2>
+                <p>AWS ofrece certificaciones para validar tu conocimiento y habilidades en la nube. Se dividen en niveles: Fundacional, Asociado, Profesional y Especialidad.</p>
+                <h3>Ruta Recomendada para Principiantes:</h3>
+                <ol>
+                    <li><strong>AWS Certified Cloud Practitioner (Fundacional):</strong> El punto de partida ideal. Valida tu comprensión general de la nube de AWS.</li>
+                    <li><strong>Nivel Asociado (Elige uno):</strong>
+                        <ul>
+                            <li><strong>Solutions Architect – Associate:</strong> Para quienes diseñan arquitecturas.</li>
+                            <li><strong>Developer – Associate:</strong> Para desarrolladores que construyen en AWS.</li>
+                            <li><strong>SysOps Administrator – Associate:</strong> Para administradores de sistemas.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Nivel Profesional o Especialidad:</strong> Una vez que tengas experiencia, puedes aspirar a los niveles más altos para demostrar un conocimiento profundo.</li>
+                </ol>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="https://d1.awsstatic.com/es_ES/training-and-certification/docs/AWS_certification_paths.pdf" target="_blank" class="cta-button">Ver Rutas de Certificación (PDF)</a>
+                </div>
+            </section>
+
+            <section id="tips" class="content-section">
+                <h2>💡 Consejos Finales</h2>
+                <div class="about-content">
+                    <div class="about-card" style="border-left: 5px solid var(--success-color);">
+                        <h3>✅ Qué Hacer (Do's)</h3>
+                        <ul>
+                            <li>Practica con la capa gratuita de AWS.</li>
+                            <li>Únete a comunidades de AWS.</li>
+                            <li>Mantente actualizado con nuevos servicios.</li>
+                            <li>Combina teoría con práctica.</li>
+                            <li>Usa múltiples recursos de aprendizaje.</li>
+                        </ul>
+                    </div>
+                    <div class="about-card" style="border-left: 5px solid var(--accent-color);">
+                        <h3>❌ Qué No Hacer (Don'ts)</h3>
+                        <ul>
+                            <li>No te saltes los fundamentos.</li>
+                            <li>No estudies solo teoría sin práctica.</li>
+                            <li>No ignores la seguridad y mejores prácticas.</li>
+                            <li>No tengas miedo de experimentar.</li>
+                            <li>No te desanimes si algo no funciona la primera vez.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

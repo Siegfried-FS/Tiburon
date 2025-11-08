@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('resources-container')) {
         loadResources();
     }
+    if (document.getElementById('matching-game')) {
+        initMatchingGame();
+    }
+    initScrollAnimations();
 });
 
 // =============================================================================
@@ -324,29 +328,74 @@ async function loadEvents() {
             return;
         }
 
-        let html = '';
-        events.forEach(event => {
-            const tagsHtml = event.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-            // La fecha en el JSON debe ser un formato válido como "YYYY-MM-DD"
-            const date = new Date(event.date);
-            const month = date.toLocaleString('es-ES', { month: 'short' }).toUpperCase().replace('.','');
-            const day = date.getDate();
-
-            html += `
-                <div class="event-card">
-                    <div class="event-date-block">
-                        <span class="day">${day}</span>
-                        <span class="month">${month}</span>
-                    </div>
-                    <div class="event-details">
-                        <h3 class="event-title">${event.title}</h3>
-                        <p class="event-description">${event.description}</p>
-                        <div class="event-tags">${tagsHtml}</div>
-                    </div>
-                </div>
-            `;
+        // Sort events: events with specific dates first, then by date; events with only year last.
+        events.sort((a, b) => {
+            const aDate = a.date ? new Date(a.date) : null;
+            const bDate = b.date ? new Date(b.date) : null;
+            if (aDate && bDate) return bDate - aDate;
+            if (aDate) return -1;
+            if (bDate) return 1;
+            return b.year - a.year;
         });
+
+        // Group events by year
+        const eventsByYear = events.reduce((acc, event) => {
+            const year = event.date ? new Date(event.date).getFullYear() : event.year;
+            if (!acc[year]) {
+                acc[year] = [];
+            }
+            acc[year].push(event);
+            return acc;
+        }, {});
+
+        let html = '';
+        const sortedYears = Object.keys(eventsByYear).sort((a, b) => b - a);
+
+        sortedYears.forEach(year => {
+            html += `<section class="content-section"><h2>Eventos ${year}</h2><div class="events-grid">`;
+            
+            eventsByYear[year].forEach(event => {
+                const tagsHtml = event.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                const formatHtml = event.format ? `<span class="tag format-tag">${event.format}</span>` : '';
+                
+                let dateBlockHtml = '';
+                if (event.date) {
+                    const date = new Date(event.date);
+                    const month = date.toLocaleString('es-ES', { month: 'short' }).toUpperCase().replace('.','');
+                    const day = date.getDate();
+                    dateBlockHtml = `
+                        <div class="event-date-block">
+                            <span class="day">${day}</span>
+                            <span class="month">${month}</span>
+                        </div>
+                    `;
+                } else {
+                    dateBlockHtml = `
+                        <div class="event-date-block coming-soon">
+                            <span class="day">🗓️</span>
+                            <span class="month">PRÓXIMO</span>
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="event-card">
+                        ${dateBlockHtml}
+                        <div class="event-details">
+                            <h3 class="event-title">${event.title}</h3>
+                            <p class="event-description">${event.description}</p>
+                            <div class="event-tags">${tagsHtml}${formatHtml}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div></section>`;
+        });
+
         container.innerHTML = html;
+        // Re-initialize scroll animations to include the new cards
+        initScrollAnimations();
     } catch (error) {
         console.error('Error al cargar los eventos:', error);
         container.innerHTML = '<p>Error al cargar los eventos. Intenta recargar la página.</p>';
@@ -359,41 +408,50 @@ async function loadResources() {
 
     try {
         const response = await fetch('assets/data/resources.json');
-        const resources = await response.json();
+        const categories = await response.json();
 
-        if (resources.length === 0) {
+        if (categories.length === 0) {
             container.innerHTML = '<p>No hay recursos disponibles en este momento.</p>';
             return;
         }
 
         let html = '';
-        resources.forEach(resource => {
-            const tagsHtml = resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+        categories.forEach(category => {
+            html += `<section class="content-section"><h2>${category.category}</h2><div class="labs-grid">`;
             
-            let badgesHtml = '';
-            if (resource.badges && resource.badges.length > 0) {
-                badgesHtml = '<div class="resource-badges-strip">';
-                resource.badges.forEach(badgeSrc => {
-                    badgesHtml += `<img src="${badgeSrc}" alt="Badge de recurso" class="resource-badge-icon">
-`;
-                });
-                badgesHtml += '</div>';
-            }
+            category.items.forEach(resource => {
+                const tagsHtml = resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                
+                let badgesHtml = '';
+                if (resource.badges && resource.badges.length > 0) {
+                    badgesHtml = '<div class="resource-badges-strip">';
+                    resource.badges.forEach(badgeSrc => {
+                        badgesHtml += `<img src="${badgeSrc}" alt="Badge de recurso" class="resource-badge-icon">`;
+                    });
+                    badgesHtml += '</div>';
+                }
 
-            html += `
-                <a href="${resource.url}" target="_blank" class="lab-card active">
-                    <div class="lab-card-image-container">
-                        <img src="${resource.image}" alt="Imagen de ${resource.title}" class="resource-image">
-                    </div>
-                    <div class="lab-card-content">
-                        ${badgesHtml}
-                        <h3>${resource.title}</h3>
-                        <div class="resource-tags">${tagsHtml}</div>
-                    </div>
-                </a>
-            `;
+                html += `
+                    <a href="${resource.url}" target="_blank" class="lab-card active">
+                        <div class="lab-card-image-container">
+                            <img src="${resource.image}" alt="Imagen de ${resource.title}" class="resource-image">
+                        </div>
+                        <div class="lab-card-content">
+                            ${badgesHtml}
+                            <h3>${resource.title}</h3>
+                            <p>${resource.description}</p>
+                            <div class="resource-tags">${tagsHtml}</div>
+                        </div>
+                    </a>
+                `;
+            });
+
+            html += `</div></section>`;
         });
+
         container.innerHTML = html;
+        // Re-initialize scroll animations to include the new cards
+        initScrollAnimations();
     } catch (error) {
         console.error('Error al cargar los recursos:', error);
         container.innerHTML = '<p>Error al cargar los recursos. Intenta recargar la página.</p>';
@@ -406,4 +464,121 @@ async function loadResources() {
 
 function showDonationInfo() {
     alert('¡Gracias por tu interés en apoyar el proyecto! 🙏\n\nEn el futuro aquí habrá opciones para donaciones voluntarias. Por ahora, ¡compartir el proyecto ya es una gran ayuda! 😊');
+}
+
+// =============================================================================
+// ANIMACIONES DE SCROLL
+// =============================================================================
+
+function initScrollAnimations() {
+    const animatedElements = document.querySelectorAll('.content-section, .nav-card, .badge-item, .about-card, .contact-card');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    animatedElements.forEach(element => {
+        observer.observe(element);
+    });
+}
+
+// =============================================================================
+// JUEGO DE RELACIONAR SERVICIOS
+// =============================================================================
+
+function initMatchingGame() {
+    const gameContainer = document.getElementById('matching-game');
+    if (!gameContainer) return;
+
+    const questionEl = document.getElementById('game-question').querySelector('p');
+    const optionsContainer = document.getElementById('game-options');
+    const correctScoreEl = document.getElementById('game-score-correct');
+    const incorrectScoreEl = document.getElementById('game-score-incorrect');
+    const accuracyEl = document.getElementById('game-accuracy');
+    const nextButton = document.getElementById('next-question-btn');
+    const feedbackContainer = document.getElementById('feedback-container');
+
+    let correctAnswers = 0;
+    let incorrectAnswers = 0;
+    let currentCorrectAnswer = null;
+    let answered = false;
+
+    function updateStats() {
+        const total = correctAnswers + incorrectAnswers;
+        const accuracy = total === 0 ? 100 : Math.round((correctAnswers / total) * 100);
+        correctScoreEl.textContent = correctAnswers;
+        incorrectScoreEl.textContent = incorrectAnswers;
+        accuracyEl.textContent = `${accuracy}%`;
+    }
+
+    function generateQuestion() {
+        answered = false;
+        optionsContainer.innerHTML = '';
+        feedbackContainer.innerHTML = '';
+        nextButton.style.display = 'none';
+
+        const correctIndex = Math.floor(Math.random() * awsServices.length);
+        currentCorrectAnswer = awsServices[correctIndex];
+
+        const incorrectServices = awsServices
+            .filter(s => s.name !== currentCorrectAnswer.name)
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 3);
+
+        const options = [currentCorrectAnswer, ...incorrectServices].sort(() => 0.5 - Math.random());
+
+        questionEl.textContent = currentCorrectAnswer.description;
+
+        options.forEach(option => {
+            const optionCard = document.createElement('div');
+            optionCard.className = 'option-card';
+            optionCard.dataset.serviceName = option.name;
+            optionCard.innerHTML = `
+                <div class="option-icon">${option.icon}</div>
+                <h4>${option.name}</h4>
+            `;
+            optionCard.addEventListener('click', handleAnswer);
+            optionsContainer.appendChild(optionCard);
+        });
+    }
+
+    function handleAnswer(event) {
+        if (answered) return;
+        answered = true;
+
+        const selectedCard = event.currentTarget;
+        const selectedService = selectedCard.dataset.serviceName;
+
+        if (selectedService === currentCorrectAnswer.name) {
+            correctAnswers++;
+            selectedCard.classList.add('correct');
+            feedbackContainer.innerHTML = `<p style="color: var(--success-color);">¡Correcto! ✅</p>`;
+        } else {
+            incorrectAnswers++;
+            selectedCard.classList.add('incorrect');
+            const correctCard = optionsContainer.querySelector(`[data-service-name="${currentCorrectAnswer.name}"]`);
+            if (correctCard) {
+                correctCard.classList.add('correct');
+            }
+            feedbackContainer.innerHTML = `
+                <p style="color: var(--accent-color);">Incorrecto. La respuesta era <strong>${currentCorrectAnswer.name}</strong>.</p>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">${currentCorrectAnswer.detail}</p>
+            `;
+        }
+
+        updateStats();
+        nextButton.style.display = 'block';
+    }
+
+    nextButton.addEventListener('click', generateQuestion);
+
+    updateStats();
+    generateQuestion();
 }
