@@ -1,34 +1,160 @@
 [
     {
-        "title": "AWS Cloud Quest",
-        "description": "Plataforma de aprendizaje gamificada. Ofrece badges gratis (Cloud Practitioner, Generativa AI) y otras especializadas de pago.",
-        "url": "https://aws.amazon.com/training/digital/aws-cloud-quest/",
-        "image": "assets/images/resources/cloud-quest-game.jpg",
-        "badges": [
-            "assets/images/resources/cloud-quest-badge.png",
-            "assets/images/resources/cloud-quest-ai-badge.png"
-        ],
-        "tags": ["Juego", "AWS", "Gratis", "De Pago", "Badges"]
+        "category": "Juegos y Experiencias de AWS",
+        "items": [
+            {
+                "title": "AWS Cloud Quest",
+                "description": "Plataforma de aprendizaje gamificada. Ofrece badges gratis (Cloud Practitioner, Generativa AI) y otras especializadas de pago.",
+                "url": "https://aws.amazon.com/training/digital/aws-cloud-quest/",
+                "image": "assets/images/resources/cloud-quest-game.jpg",
+                "tags": ["Juego", "AWS", "Gratis", "De Pago", "Badges"]
+            },
+            {
+                "title": "AWS Card Clash",
+                "description": "Un juego de cartas virtual para poner a prueba y mejorar tus conocimientos sobre diseño de arquitecturas de AWS.",
+                "url": "https://aws.amazon.com/training/digital/aws-card-clash/",
+                "image": "assets/images/resources/card-clash.jpg",
+                "tags": ["Juego", "AWS", "Arquitectura"]
+            },
+            {
+                "title": "AWS Escape Room",
+                "description": "Sala de escape virtual para prepararte para el examen de Cloud Practitioner con puzzles y laboratorios prácticos.",
+                "url": "https://explore.skillbuilder.aws/learn/course/external/view/elearning/17373/aws-escape-room-for-exam-prep-aws-certified-cloud-practitioner-clf-c02",
+                "image": "https://d1.awsstatic.com/training-and-certification/learning_experiences/AWS-Escape-Room-Exam-Prep_card.e2a204d25a334161861093838191054005505345.png",
+                "tags": ["Juego", "AWS", "Examen", "Certificación"]
+            }
+        ]
     },
     {
-        "title": "AWS Card Clash",
-        "description": "Un juego de cartas virtual para poner a prueba y mejorar tus conocimientos sobre diseño de arquitecturas de AWS. Ahora disponible para Android y iOS.",
-        "url": "https://aws.amazon.com/training/digital/aws-card-clash/",
-        "image": "assets/images/resources/card-clash.jpg",
-        "tags": ["Juego", "AWS", "Arquitectura", "Móvil"]
+        "category": "Herramientas de Productividad y Comunidad",
+        "items": [
+            {
+                "title": "Kahoot!",
+                "description": "Crea, juega y comparte juegos de aprendizaje o trivias en minutos. ¡Ideal para eventos y repasos de estudio!",
+                "url": "https://kahoot.it/",
+                "image": "https://logosarchive.com/wp-content/uploads/2021/11/Kahoot-logo.svg",
+                "tags": ["Juego", "Trivia", "Comunidad"]
+            },
+            {
+                "title": "Notion",
+                "description": "El espacio de trabajo conectado donde puedes escribir, planificar, organizar y colaborar. Ideal para tomar notas y gestionar proyectos.",
+                "url": "https://www.notion.so/",
+                "image": "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",
+                "tags": ["Productividad", "Notas", "Organización"]
+            }
+        ]
     },
     {
-        "title": "Learn Git Branching",
-        "description": "Una herramienta interactiva y visual para aprender y dominar los comandos de Git, especialmente el manejo de ramas. ¡Muy recomendado!",
-        "url": "https://learngitbranching.js.org/",
-        "image": "assets/images/resources/learn-git.jpg",
-        "tags": ["Git", "Herramienta", "Gratis"]
+        "category": "Herramientas de Desarrollo y Seguridad",
+        "items": [
+            {
+                "title": "Learn Git Branching",
+                "description": "Una herramienta interactiva y visual para aprender y dominar los comandos de Git, especialmente el manejo de ramas.",
+                "url": "https://learngitbranching.js.org/",
+                "image": "assets/images/resources/learn-git.jpg",
+                "tags": ["Git", "Herramienta", "Gratis"]
+            },
+            {
+                "title": "Docker",
+                "description": "Plataforma de contenedores para construir, desplegar y ejecutar aplicaciones de forma aislada y consistente.",
+                "url": "https://www.docker.com/",
+                "image": "https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png",
+                "tags": ["Contenedores", "DevOps", "Herramienta"]
+            },
+            {
+                "title": "Bitwarden",
+                "description": "Gestor de contraseñas de código abierto para almacenar y proteger tus credenciales de forma segura.",
+                "url": "https://bitwarden.com/",
+                "image": "https://github.com/bitwarden/brand/blob/master/icons/icon.png?raw=true",
+                "tags": ["Seguridad", "Contraseñas", "Gratis"]
+            },
+            {
+                "title": "VirusTotal",
+                "description": "Servicio online gratuito que analiza archivos y URLs en busca de malware y virus.",
+                "url": "https://www.virustotal.com/",
+                "image": "https://www.svgrepo.com/show/303201/virustotal-logo.svg",
+                "tags": ["Seguridad", "Análisis", "Gratis"]
+            },
+            {
+                "title": "Have I Been Pwned?",
+                "description": "Comprueba si tu correo electrónico o contraseña ha sido comprometido en alguna filtración de datos.",
+                "url": "https://haveibeenpwned.com/",
+                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Have_I_Been_Pwned_logo.svg/1200px-Have_I_Been_Pwned_logo.svg.png",
+                "tags": ["Seguridad", "Filtraciones", "Gratis"]
+            },
+            {
+                "title": "LastPass",
+                "description": "Gestor de contraseñas que simplifica el acceso a tus cuentas y protege tu vida digital.",
+                "url": "https://www.lastpass.com/es",
+                "image": "https://www.lastpass.com/-/media/images/lp-com/lastpass/logos/lastpass-logo-red-600x600.png",
+                "tags": ["Seguridad", "Contraseñas"]
+            },
+            {
+                "title": "Google Authenticator",
+                "description": "Añade una capa extra de seguridad a tus cuentas con la verificación en dos pasos (2FA).",
+                "url": "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2",
+                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Authenticator_icon.svg/1200px-Google_Authenticator_icon.svg.png",
+                "tags": ["Seguridad", "2FA", "Móvil"]
+            },
+            {
+                "title": "Authy",
+                "description": "Alternativa a Google Authenticator con sincronización en la nube para tus tokens 2FA.",
+                "url": "https://authy.com/",
+                "image": "https://vectorlogo.zone/logos/authy/authy-icon.svg",
+                "tags": ["Seguridad", "2FA", "Móvil"]
+            }
+        ]
     },
     {
-        "title": "AWS Skill Builder",
-        "description": "La plataforma oficial de AWS con más de 600 cursos digitales y planes de aprendizaje para desarrollar tus habilidades en la nube a tu propio ritmo.",
-        "url": "https://skillbuilder.aws/",
-        "image": "assets/images/resources/skill-builder.jpg",
-        "tags": ["Cursos", "AWS", "Oficial"]
+        "category": "Plataformas de Aprendizaje",
+        "items": [
+            {
+                "title": "AWS Skill Builder",
+                "description": "La plataforma oficial de AWS con más de 600 cursos digitales y planes de aprendizaje para desarrollar tus habilidades.",
+                "url": "https://skillbuilder.aws/",
+                "image": "assets/images/resources/skill-builder.jpg",
+                "tags": ["Cursos", "AWS", "Oficial"]
+            },
+            {
+                "title": "AWS Educate",
+                "description": "Programa educativo global de AWS para estudiantes y educadores con créditos gratuitos y laboratorios prácticos.",
+                "url": "https://aws.amazon.com/education/awseducate/",
+                "image": "https://d2j6dbq0eux0l1.cloudfront.net/images/1111207/1329845201.jpg",
+                "tags": ["Cursos", "AWS", "Estudiantes", "Gratis"]
+            }
+        ]
+    },
+    {
+        "category": "Documentación y Comunidad",
+        "items": [
+            {
+                "title": "AWS Builder ID",
+                "description": "Tu perfil personal para acceder a las herramientas y comunidades de AWS, incluyendo Skill Builder y re:Post.",
+                "url": "https://builder.aws.com/",
+                "image": "https://d1.awsstatic.com/community-builders/logo/AWS-Community-Builders-Logo_R_REV.135fb88593a76f2396927988b97312288c1d33f1.png",
+                "tags": ["Comunidad", "Perfil", "AWS"]
+            },
+            {
+                "title": "Documentación Oficial de AWS",
+                "description": "La fuente de verdad para todos los servicios de AWS. Guías de usuario, referencias de API y tutoriales.",
+                "url": "https://docs.aws.amazon.com/",
+                "image": "https://static.wikia.nocookie.net/aws/images/9/92/AWS-Cloud-alt_light-bg.svg/revision/latest",
+                "tags": ["Documentación", "Oficial"]
+            },
+            {
+                "title": "AWS Well-Architected Framework",
+                "description": "Las mejores prácticas de AWS para construir arquitecturas seguras, de alto rendimiento, resilientes y eficientes.",
+                "url": "https://aws.amazon.com/architecture/well-architected/",
+                "image": "https://www.aws-icons.com/Architecture-Service-Icons/Arch_AWS-Well-Architected-Tool.svg",
+                "tags": ["Buenas Prácticas", "Arquitectura"]
+            },
+            {
+                "title": "AWS re:Post",
+                "description": "Comunidad de preguntas y respuestas de AWS, gestionada por expertos, para obtener ayuda técnica.",
+                "url": "https://repost.aws/",
+                "image": "https://www.aws-icons.com/Architecture-Service-Icons/Arch_AWS-rePost.svg",
+                "tags": ["Comunidad", "Ayuda"]
+            }
+        ]
     }
 ]

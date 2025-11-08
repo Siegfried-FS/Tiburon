@@ -1,10 +1,10 @@
-# 🦈 Proyecto Tiburón - AWS User Group Playa Vicente
+# Proyecto Tiburón - AWS User Group Playa Vicente
 
 ¡Bienvenidos a la plataforma oficial del AWS User Group de Playa Vicente! Este es un espacio abierto para aprender, compartir y construir comunidad alrededor de Amazon Web Services en español.
 
 ---
 
-## 🚀 Cómo Probar en Local
+## Cómo Probar en Local
 
 Para que el sitio web funcione correctamente en tu computadora (especialmente la carga de eventos y recursos), necesitas ejecutarlo a través de un pequeño servidor web local.
 
@@ -17,7 +17,7 @@ Para que el sitio web funcione correctamente en tu computadora (especialmente la
 
 ---
 
-## ✍️ Cómo Actualizar el Contenido
+## Cómo Actualizar el Contenido
 
 Para facilitar la actualización, el contenido de **Eventos** y **Recursos** se gestiona desde archivos `JSON`, sin necesidad de tocar el HTML.
 
@@ -73,15 +73,15 @@ Para facilitar la actualización, el contenido de **Eventos** y **Recursos** se 
 
 ---
 
-## 🎯 Estado y Próximos Pasos
+## Estado y Próximos Pasos
 
 ### Funcionalidades Actuales
 
-*   ✅ **Contenido Dinámico:** Eventos y Recursos se cargan desde archivos JSON.
-*   ✅ **Diseño Responsivo:** Adaptable a móvil y escritorio.
-*   ✅ **Tema Oscuro/Claro:** Selector de tema con memoria local.
-*   ✅ **Diseño de Tarjetas Personalizado:** Componentes visuales únicos para eventos y recursos.
-*   ✅ **Estructura de Proyecto Limpia:** Todos los activos están centralizados en la carpeta `assets`.
+*   **Contenido Dinámico:** Eventos y Recursos se cargan desde archivos JSON.
+*   **Diseño Responsivo:** Adaptable a móvil y escritorio.
+*   **Tema Oscuro/Claro:** Selector de tema con memoria local.
+*   **Diseño de Tarjetas Personalizado:** Componentes visuales únicos para eventos y recursos.
+*   **Estructura de Proyecto Limpia:** Todos los activos están centralizados en la carpeta `assets`.
 
 ### Próximos Pasos
 
@@ -91,7 +91,7 @@ Para facilitar la actualización, el contenido de **Eventos** y **Recursos** se 
 
 ---
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 tiburon/

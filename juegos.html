@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juegos Interactivos de AWS | Roberto Flores (Siegfried FS)</title>
+    <meta name="description" content="Aprende y pon a prueba tus conocimientos de AWS con los juegos interactivos de la comunidad de Playa Vicente, creados por Roberto Flores (Siegfried FS).">
+    <meta name="keywords" content="Roberto Flores, Siegfried FS, AWS, Playa Vicente, Juegos AWS, Estudio de AWS, Certificación AWS">
+    <meta name="author" content="Roberto Flores (Siegfried FS)">
+    <link rel="canonical" href="https://tiburoncp.siegfried-fs.com/juegos.html">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        .game-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        .question-card {
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary-color);
+        }
+        .question-card p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .option-card {
+            background: var(--bg-card-hover);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .option-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+        .option-card.correct {
+            border-color: var(--success-color);
+            background: rgba(0, 200, 81, 0.2);
+        }
+        .option-card.incorrect {
+            border-color: var(--accent-color);
+            background: rgba(255, 107, 53, 0.2);
+        }
+        .option-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        .game-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .score {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .next-btn {
+            padding: 10px 20px;
+            background: var(--gradient-accent);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s ease;
+        }
+        .next-btn:hover {
+            transform: scale(1.05);
+        }
+    </style>
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1>🦈 Tiburón</h1>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html">🏠 Inicio</a></li>
+                <li><a href="guia.html">📖 Guía de Estudio</a></li>
+                <li><a href="glosario.html">📚 Glosario</a></li>
+                <li><a href="recursos.html">🎲 Recursos</a></li>
+                <li><a href="servicios.html">☁️ Servicios</a></li>
+                <li><a href="eventos.html">🗓️ Eventos</a></li>
+                <li><a href="juegos.html">🎮 Juegos</a></li>
+                <li><button class="theme-toggle" title="Cambiar tema">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main style="margin-top: 100px;">
+        <div class="container">
+            <section class="content-section">
+                <h2>🎮 Juegos de la Comunidad</h2>
+                <p style="text-align: center;">¡Pon a prueba tus conocimientos de AWS de una forma divertida!</p>
+            </section>
+
+            <div class="game-container" id="matching-game">
+                <h3>Relaciona el Servicio con su Descripción</h3>
+                <div class="question-card" id="game-question">
+                    <p>Cargando pregunta...</p>
+                </div>
+                <div class="options-grid" id="game-options">
+                    <!-- Opciones se cargarán aquí -->
+                </div>
+                <div class="game-hud">
+                    <div class="score">Buenas: <span id="game-score-correct">0</span></div>
+                    <div class="score">Malas: <span id="game-score-incorrect">0</span></div>
+                    <div class="score">Precisión: <span id="game-accuracy">100%</span></div>
+                    <button class="next-btn" id="next-question-btn" style="display: none;">Siguiente</button>
+                </div>
+                <div id="feedback-container" style="margin-top: 20px; text-align: center;"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
