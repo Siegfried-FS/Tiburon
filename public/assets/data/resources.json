@@ -93,14 +93,14 @@
                 "title": "Google Authenticator",
                 "description": "Añade una capa extra de seguridad a tus cuentas con la verificación en dos pasos (2FA).",
                 "url": "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2",
-                "image": "https://play-lh.googleusercontent.com/NntMALIH4odanPPYSqUOXsX8zy_giiK2olJiqkcxwFIOOspVrhMi9Miv6LYdRnKIg-3R=w240-h480-rw",
+                "image": "https://tutecnomundo.com/wp-content/uploads/sites/2/2024/08/google-auth-1024x576.webp",
                 "tags": ["Seguridad", "2FA", "Móvil"]
             },
             {
                 "title": "Authy",
                 "description": "Alternativa a Google Authenticator con sincronización en la nube para tus tokens 2FA.",
                 "url": "https://authy.com/",
-                "image": "https://play-lh.googleusercontent.com/NxyEuJRx4jjR1Q9PXOPGExFQXDKr_pZJ61Cb15eR0aX3UTZKAxWsXvK9Gh4K-NUd5A",
+                "image": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/86/cd/29/86cd290b-5137-4fbb-c01f-5b1e4e629b71/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/1200x630wa.png",
                 "tags": ["Seguridad", "2FA", "Móvil"]
             }
         ]
@@ -112,14 +112,14 @@
                 "title": "AWS Skill Builder",
                 "description": "La plataforma oficial de AWS con más de 600 cursos digitales y planes de aprendizaje para desarrollar tus habilidades.",
                 "url": "https://skillbuilder.aws/",
-                "image": "assets/images/resources/skill-builder.jpg",
+                "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGG_yOLX0N7eyNckdF6uFHlTR4fm2OBc24tFqekNMPMhSlAJD4ZI6khnQI2sWkWJ-EkG8&usqp=CAU",
                 "tags": ["Cursos", "AWS", "Oficial"]
             },
             {
                 "title": "AWS Educate",
                 "description": "Programa educativo global de AWS para estudiantes y educadores con créditos gratuitos y laboratorios prácticos.",
                 "url": "https://aws.amazon.com/education/awseducate/",
-                "image": "https://upload.wikimedia.org/wikipedia/commons/e/e3/AWS_Educate_logo.png",
+                "image": "https://eazzysolutions.com/wp-content/uploads/2021/07/3d997961-2e52-44b8-9b59-1ef2f39fb546-300x300.jpg",
                 "tags": ["Cursos", "AWS", "Estudiantes", "Gratis"]
             }
         ]
@@ -131,28 +131,28 @@
                 "title": "AWS Builder ID",
                 "description": "Tu perfil personal para acceder a las herramientas y comunidades de AWS, incluyendo Skill Builder y re:Post.",
                 "url": "https://builder.aws.com/",
-                "image": "https://d1.awsstatic.com/community-builders/logo/AWS-Community-Builders-Logo_R_REV.135fb88593a76f2396927988b97312288c1d33f1.png",
+                "image": "https://images.ctfassets.net/ct0aopd36mqt/wp-thumbnail-cd6bca3e0ea12bce10d34b5c73117202/e7dcb00f209227795370c8effc01051d/aws-eyecatch.png?w=1200&fm=webp",
                 "tags": ["Comunidad", "Perfil", "AWS"]
             },
             {
                 "title": "Documentación Oficial de AWS",
                 "description": "La fuente de verdad para todos los servicios de AWS. Guías de usuario, referencias de API y tutoriales.",
                 "url": "https://docs.aws.amazon.com/",
-                "image": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+                "image": "https://images.ctfassets.net/ct0aopd36mqt/wp-thumbnail-cd6bca3e0ea12bce10d34b5c73117202/e7dcb00f209227795370c8effc01051d/aws-eyecatch.png?w=1200&fm=webp",
                 "tags": ["Documentación", "Oficial"]
             },
             {
                 "title": "AWS Well-Architected Framework",
                 "description": "Las mejores prácticas de AWS para construir arquitecturas seguras, de alto rendimiento, resilientes y eficientes.",
                 "url": "https://aws.amazon.com/architecture/well-architected/",
-                "image": "https://www.aws-icons.com/Architecture-Service-Icons/Arch_AWS-Well-Architected-Tool.svg",
+                "image": "https://www.techmagic.co/blog/content/images/2019/03/Cover-2-Copy-3.png",
                 "tags": ["Buenas Prácticas", "Arquitectura"]
             },
             {
                 "title": "AWS re:Post",
                 "description": "Comunidad de preguntas y respuestas de AWS, gestionada por expertos, para obtener ayuda técnica.",
                 "url": "https://repost.aws/",
-                "image": "https://www.aws-icons.com/Architecture-Service-Icons/Arch_AWS-rePost.svg",
+                "image": "https://i.ytimg.com/vi/_C0NHqtRFdw/maxresdefault.jpg",
                 "tags": ["Comunidad", "Ayuda"]
             }
         ]
