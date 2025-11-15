@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,24 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO Optimizado para Roberto Flores y Playa Vicente -->
-    <title>Eventos de AWS en Playa Vicente | Roberto Flores (Siegfried FS)</title>
-    <meta name="description" content="Calendario de eventos, meetups y workshops del AWS User Group Playa Vicente. Unete a la comunidad de Roberto Flores (Siegfried FS) para aprender de AWS.">
-    <meta name="keywords" content="Roberto Flores, Siegfried FS, AWS, Playa Vicente, Eventos, Meetup, Workshop, Comunidad, Estudio de AWS">
+    <title>Recursos de Estudio y Herramientas AWS | Roberto Flores (Siegfried FS)</title>
+    <meta name="description" content="Recursos de estudio, juegos y herramientas de seguridad y productividad para la comunidad AWS de Playa Vicente, curados por Roberto Flores (Siegfried FS).">
+    <meta name="keywords" content="Roberto Flores, Siegfried FS, AWS, Playa Vicente, Recursos, Juegos, Herramientas, Seguridad, Estudio de AWS">
     <meta name="author" content="Roberto Flores (Siegfried FS)">
-    <link rel="canonical" href="https://tiburoncp.siegfried-fs.com/eventos.html">
+    <link rel="canonical" href="https://tiburoncp.siegfried-fs.com/recursos.html">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Eventos de AWS en Playa Vicente | Roberto Flores">
-    <meta property="og:description" content="Calendario de eventos, meetups y workshops del AWS User Group Playa Vicente.">
-    <meta property="og:url" content="https://tiburoncp.siegfried-fs.com/eventos.html">
+    <meta property="og:title" content="Recursos de Estudio y Herramientas AWS | Roberto Flores">
+    <meta property="og:description" content="Recursos de estudio, juegos y herramientas para la comunidad AWS de Playa Vicente, curados por Roberto Flores.">
+    <meta property="og:url" content="https://tiburoncp.siegfried-fs.com/recursos.html">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Eventos de AWS en Playa Vicente | Roberto Flores">
-    <meta name="twitter:description" content="Calendario de eventos, meetups y workshops del AWS User Group Playa Vicente.">
+    <meta name="twitter:title" content="Recursos de Estudio y Herramientas AWS | Roberto Flores">
+    <meta name="twitter:description" content="Recursos de estudio, juegos y herramientas para la comunidad AWS de Playa Vicente, curados por Roberto Flores.">
 
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css?v=2024">
     <script>
+        // Aplicar tema inmediatamente para evitar delay
         (function() {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
@@ -31,6 +31,14 @@
             }
         })();
     </script>
+    <style>
+        .labs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
     <div id="particles-js"></div>
@@ -59,12 +67,12 @@
     </header>
 
     <main style="margin-top: 100px;">
-        <div id="events-container" class="container">
-            <!-- Los eventos se cargarán aquí dinámicamente por año -->
+        <div id="resources-container" class="container">
+            <!-- Los recursos se cargarán aquí dinámicamente por categoría -->
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="assets/js/p.js"></script>
     <script src="assets/js/app.js"></script>
 </body>
 </html>

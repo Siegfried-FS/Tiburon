@@ -5,7 +5,7 @@ frontend:
       commands:
         - echo "Building secure Tiburon"
   artifacts:
-    baseDirectory: /
+    baseDirectory: public
     files:
       - '**/*'
 customHeaders:
