@@ -20,7 +20,7 @@
                 "title": "AWS Escape Room",
                 "description": "Sala de escape virtual para prepararte para el examen de Cloud Practitioner con puzzles y laboratorios prácticos.",
                 "url": "https://explore.skillbuilder.aws/learn/course/external/view/elearning/17373/aws-escape-room-for-exam-prep-aws-certified-cloud-practitioner-clf-c02",
-                "image": "https://d1.awsstatic.com/training-and-certification/learning_experiences/AWS-Escape-Room-Exam-Prep_card.e2a204d25a334161861093838191054005505345.png",
+                "image": "https://devio2024-media.developers.io/image/upload/f_auto,q_auto,w_1200/v1736145533/user-gen-eyecatch/rffehbmbz5c3tgirnz1m.png",
                 "tags": ["Juego", "AWS", "Examen", "Certificación"]
             }
         ]
@@ -32,14 +32,14 @@
                 "title": "Kahoot!",
                 "description": "Crea, juega y comparte juegos de aprendizaje o trivias en minutos. ¡Ideal para eventos y repasos de estudio!",
                 "url": "https://kahoot.it/",
-                "image": "https://logosarchive.com/wp-content/uploads/2021/11/Kahoot-logo.svg",
+                "image": "https://kahoot.com/files/2019/02/BrandAssets-Logo-CoverImage-570x320.png",
                 "tags": ["Juego", "Trivia", "Comunidad"]
             },
             {
                 "title": "Notion",
                 "description": "El espacio de trabajo conectado donde puedes escribir, planificar, organizar y colaborar. Ideal para tomar notas y gestionar proyectos.",
                 "url": "https://www.notion.so/",
-                "image": "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",
+                "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgPzlV5SMjGwDypt01m3HuEH8t7e6Jvzfvyr5l4m2PjljO5Oi-9BLeQibP1et99Hz7ZZ8&usqp=CAU",
                 "tags": ["Productividad", "Notas", "Organización"]
             }
         ]
@@ -51,56 +51,56 @@
                 "title": "Learn Git Branching",
                 "description": "Una herramienta interactiva y visual para aprender y dominar los comandos de Git, especialmente el manejo de ramas.",
                 "url": "https://learngitbranching.js.org/",
-                "image": "assets/images/resources/learn-git.jpg",
+                "image": "https://i.ytimg.com/vi/V3ouVZNtcuM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBWm4-c0jZ_VDvDmPWwgxJsZZROTA",
                 "tags": ["Git", "Herramienta", "Gratis"]
             },
             {
                 "title": "Docker",
                 "description": "Plataforma de contenedores para construir, desplegar y ejecutar aplicaciones de forma aislada y consistente.",
                 "url": "https://www.docker.com/",
-                "image": "https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png",
+                "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9rMWt1mnt6lG59J-2D-F0Jnike3Lad4tv98l9eJeVd1FmZW5HPlPlZaUwfWkKJqmFNSs&usqp=CAU",
                 "tags": ["Contenedores", "DevOps", "Herramienta"]
             },
             {
                 "title": "Bitwarden",
                 "description": "Gestor de contraseñas de código abierto para almacenar y proteger tus credenciales de forma segura.",
                 "url": "https://bitwarden.com/",
-                "image": "https://github.com/bitwarden/brand/blob/master/icons/icon.png?raw=true",
+                "image": "https://mancomun.gal/wp-content/uploads/2018/09/img-repositorio-TIC-69-bitwarden.png",
                 "tags": ["Seguridad", "Contraseñas", "Gratis"]
             },
             {
                 "title": "VirusTotal",
                 "description": "Servicio online gratuito que analiza archivos y URLs en busca de malware y virus.",
                 "url": "https://www.virustotal.com/",
-                "image": "https://www.svgrepo.com/show/303201/virustotal-logo.svg",
+                "image": "https://www.virustotal.com/getstarted/_astro/video-placeholder.Bhbtzkbe_1p6nqa.webp",
                 "tags": ["Seguridad", "Análisis", "Gratis"]
             },
             {
                 "title": "Have I Been Pwned?",
                 "description": "Comprueba si tu correo electrónico o contraseña ha sido comprometido en alguna filtración de datos.",
                 "url": "https://haveibeenpwned.com/",
-                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Have_I_Been_Pwned_logo.svg/1200px-Have_I_Been_Pwned_logo.svg.png",
+                "image": "https://haveibeenpwned.com/Images/OpenGraphPreview.jpg",
                 "tags": ["Seguridad", "Filtraciones", "Gratis"]
             },
             {
                 "title": "LastPass",
                 "description": "Gestor de contraseñas que simplifica el acceso a tus cuentas y protege tu vida digital.",
                 "url": "https://www.lastpass.com/es",
-                "image": "https://www.lastpass.com/-/media/images/lp-com/lastpass/logos/lastpass-logo-red-600x600.png",
+                "image": "https://es.wizcase.com/wp-content/uploads/2022/04/lastpass-2x.png",
                 "tags": ["Seguridad", "Contraseñas"]
             },
             {
                 "title": "Google Authenticator",
                 "description": "Añade una capa extra de seguridad a tus cuentas con la verificación en dos pasos (2FA).",
                 "url": "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2",
-                "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Authenticator_icon.svg/1200px-Google_Authenticator_icon.svg.png",
+                "image": "https://play-lh.googleusercontent.com/NntMALIH4odanPPYSqUOXsX8zy_giiK2olJiqkcxwFIOOspVrhMi9Miv6LYdRnKIg-3R=w240-h480-rw",
                 "tags": ["Seguridad", "2FA", "Móvil"]
             },
             {
                 "title": "Authy",
                 "description": "Alternativa a Google Authenticator con sincronización en la nube para tus tokens 2FA.",
                 "url": "https://authy.com/",
-                "image": "https://vectorlogo.zone/logos/authy/authy-icon.svg",
+                "image": "https://play-lh.googleusercontent.com/NxyEuJRx4jjR1Q9PXOPGExFQXDKr_pZJ61Cb15eR0aX3UTZKAxWsXvK9Gh4K-NUd5A",
                 "tags": ["Seguridad", "2FA", "Móvil"]
             }
         ]
@@ -119,7 +119,7 @@
                 "title": "AWS Educate",
                 "description": "Programa educativo global de AWS para estudiantes y educadores con créditos gratuitos y laboratorios prácticos.",
                 "url": "https://aws.amazon.com/education/awseducate/",
-                "image": "https://d2j6dbq0eux0l1.cloudfront.net/images/1111207/1329845201.jpg",
+                "image": "https://upload.wikimedia.org/wikipedia/commons/e/e3/AWS_Educate_logo.png",
                 "tags": ["Cursos", "AWS", "Estudiantes", "Gratis"]
             }
         ]
@@ -138,7 +138,7 @@
                 "title": "Documentación Oficial de AWS",
                 "description": "La fuente de verdad para todos los servicios de AWS. Guías de usuario, referencias de API y tutoriales.",
                 "url": "https://docs.aws.amazon.com/",
-                "image": "https://static.wikia.nocookie.net/aws/images/9/92/AWS-Cloud-alt_light-bg.svg/revision/latest",
+                "image": "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
                 "tags": ["Documentación", "Oficial"]
             },
             {

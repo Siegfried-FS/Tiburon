@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('matching-game')) {
         initMatchingGame();
     }
+    if (document.querySelector('.badge-carousel-wrapper')) {
+        initCarousel();
+    }
     initScrollAnimations();
 });
 
@@ -38,7 +41,20 @@ function addEventListeners() {
         });
     }
 
-    const navLinks = document.querySelectorAll('.nav-menu a');
+    // Dropdown functionality for mobile
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (event) => {
+            const parentDropdown = toggle.parentElement;
+            // Only enable click-toggle on mobile view
+            if (window.innerWidth <= 768 && parentDropdown.classList.contains('dropdown')) {
+                event.preventDefault();
+                parentDropdown.classList.toggle('active');
+            }
+        });
+    });
+
+    const navLinks = document.querySelectorAll('.nav-menu a:not(.dropdown-toggle)');
     navLinks.forEach(link => {
         link.addEventListener('click', closeMenu);
     });
@@ -247,7 +263,7 @@ function createServiceCard(service) {
         `<span class="type-tag" data-service="${service.name}" data-type="${type}">${type}</span>`
     ).join('');
 
-    card.innerHTML = `
+    card.innerHTML = "`
         <div class="service-icon">${service.icon}</div>
         <h3>${service.name}</h3>
         <p class="service-description">${service.description}</p>
@@ -257,7 +273,7 @@ function createServiceCard(service) {
             <p>${service.detail}</p>
         </div>
         <div class="type-detail-popup"></div>
-    `;
+    `";
     return card;
 }
 
@@ -404,7 +420,8 @@ async function loadEvents() {
 
 async function loadResources() {
     const container = document.getElementById('resources-container');
-    if (!container) return;
+    const filterContainer = document.getElementById('filter-container');
+    if (!container || !filterContainer) return;
 
     try {
         const response = await fetch('assets/data/resources.json');
@@ -415,29 +432,37 @@ async function loadResources() {
             return;
         }
 
-        let html = '';
+        // --- FILTER LOGIC START ---
+        const allTags = new Set();
         categories.forEach(category => {
-            html += `<section class="content-section"><h2>${category.category}</h2><div class="labs-grid">`;
+            category.items.forEach(resource => {
+                resource.tags.forEach(tag => allTags.add(tag));
+            });
+        });
+
+        let filterHtml = '<button class="filter-btn active" data-tag="all">Todos</button>';
+        allTags.forEach(tag => {
+            filterHtml += `<button class="filter-btn" data-tag="${tag}">${tag}</button>`;
+        });
+        filterContainer.innerHTML = filterHtml;
+        // --- FILTER LOGIC END ---
+
+
+        let resourcesHtml = '';
+        categories.forEach(category => {
+            resourcesHtml += `<section class="content-section resource-category"><h2 class="category-title">${category.category}</h2><div class="labs-grid">`;
             
             category.items.forEach(resource => {
                 const tagsHtml = resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-                
-                let badgesHtml = '';
-                if (resource.badges && resource.badges.length > 0) {
-                    badgesHtml = '<div class="resource-badges-strip">';
-                    resource.badges.forEach(badgeSrc => {
-                        badgesHtml += `<img src="${badgeSrc}" alt="Badge de recurso" class="resource-badge-icon">`;
-                    });
-                    badgesHtml += '</div>';
-                }
+                // Add data-tags attribute to the card
+                const dataTags = resource.tags.join(',');
 
-                html += `
-                    <a href="${resource.url}" target="_blank" class="lab-card active">
+                resourcesHtml += `
+                    <a href="${resource.url}" target="_blank" class="lab-card active" data-tags="${dataTags}">
                         <div class="lab-card-image-container">
-                            <img src="${resource.image}" alt="Imagen de ${resource.title}" class="resource-image">
+                            <img loading="lazy" src="${resource.image}" alt="Imagen de ${resource.title}" class="resource-image">
                         </div>
                         <div class="lab-card-content">
-                            ${badgesHtml}
                             <h3>${resource.title}</h3>
                             <p>${resource.description}</p>
                             <div class="resource-tags">${tagsHtml}</div>
@@ -446,11 +471,43 @@ async function loadResources() {
                 `;
             });
 
-            html += `</div></section>`;
+            resourcesHtml += `</div></section>`;
         });
 
-        container.innerHTML = html;
-        // Re-initialize scroll animations to include the new cards
+        container.innerHTML = resourcesHtml;
+
+        // --- FILTER EVENT LISTENER ---
+        filterContainer.addEventListener('click', (event) => {
+            if (event.target.classList.contains('filter-btn')) {
+                // Handle active button state
+                filterContainer.querySelector('.filter-btn.active').classList.remove('active');
+                event.target.classList.add('active');
+
+                const selectedTag = event.target.dataset.tag;
+                const allCards = document.querySelectorAll('.lab-card');
+                
+                allCards.forEach(card => {
+                    if (selectedTag === 'all' || card.dataset.tags.includes(selectedTag)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Hide empty categories
+                document.querySelectorAll('.resource-category').forEach(categorySection => {
+                    const visibleCards = categorySection.querySelectorAll('.lab-card[style*="display: flex"]');
+                    if (visibleCards.length > 0) {
+                        categorySection.style.display = 'block';
+                    } else {
+                        categorySection.style.display = 'none';
+                    }
+                });
+            }
+        });
+        // --- END FILTER EVENT LISTENER ---
+
+
         initScrollAnimations();
     } catch (error) {
         console.error('Error al cargar los recursos:', error);
@@ -581,4 +638,23 @@ function initMatchingGame() {
 
     updateStats();
     generateQuestion();
+}
+
+function initCarousel() {
+    const wrapper = document.querySelector('.badge-carousel-wrapper');
+    if (!wrapper) return;
+
+    const carousel = wrapper.querySelector('.credly-badges');
+    const prevButton = wrapper.querySelector('.carousel-arrow.prev');
+    const nextButton = wrapper.querySelector('.carousel-arrow.next');
+
+    if (!carousel || !prevButton || !nextButton) return;
+
+    nextButton.addEventListener('click', () => {
+        carousel.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+
+    prevButton.addEventListener('click', () => {
+        carousel.scrollBy({ left: -300, behavior: 'smooth' });
+    });
 }
