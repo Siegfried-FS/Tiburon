@@ -6,7 +6,7 @@
     
     <!-- SEO Optimizado para Roberto Flores y Playa Vicente -->
     <title>Roberto Flores (Siegfried FS) | AWS User Group Playa Vicente</title>
-    <meta name="description" content="Sitio de la comunidad AWS User Group Playa Vicente, un proyecto personal de Roberto Flores (Siegfried FS) para compartir conocimientos de AWS, guías de estudio y recursos de certificación en español.">
+    <meta name="description" content="Únete a la comunidad AWS User Group en Playa Vicente. Un proyecto de Roberto Flores (Siegfried FS) para aprender sobre la nube, certificaciones y tecnología en español.">
     <meta name="keywords" content="Roberto Flores, Siegfried FS, Playa Vicente, AWS, estudio de aws, certificación aws, comunidad aws, user group, veracruz, mexico, serverless, cloud">
     <meta name="author" content="Roberto Flores (Siegfried FS)">
     <meta name="robots" content="index, follow">
@@ -47,6 +47,15 @@
         "name": "Roberto Flores",
         "alternateName": "Siegfried FS"
       },
+      "location": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Playa Vicente",
+          "addressRegion": "Veracruz",
+          "addressCountry": "MX"
+        }
+      },
       "inLanguage": "es",
       "isAccessibleForFree": true,
       "event": {
@@ -85,11 +94,16 @@
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html">🏠 Inicio</a></li>
                 <li><a href="guia.html">📖 Guía de Estudio</a></li>
-                <li><a href="glosario.html">📚 Glosario</a></li>
-                <li><a href="recursos.html">🎲 Recursos</a></li>
-                <li><a href="servicios.html">☁️ Servicios</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle">📚 Recursos <span class="dropdown-arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="servicios.html">☁️ Guía de Servicios</a></li>
+                        <li><a href="glosario.html">📚 Glosario de Términos</a></li>
+                        <li><a href="juegos.html">🎮 Juegos Interactivos</a></li>
+                        <li><a href="recursos.html">🎲 Herramientas y Enlaces</a></li>
+                    </ul>
+                </li>
                 <li><a href="eventos.html">🗓️ Eventos</a></li>
-                <li><a href="juegos.html">🎮 Juegos</a></li>
                 <li><button class="theme-toggle" title="Cambiar tema">🌙</button></li>
             </ul>
         </nav>
@@ -99,7 +113,7 @@
         <!-- Hero Section -->
         <section class="hero">
             <img src="assets/images/profile-photo.jpg" alt="Foto de perfil de Roberto Flores" class="profile-photo">
-            <h1>🌊 AWS User Group Playa Vicente</h1>
+            <h1>🌊 AWS User Group Playa Vicente por Roberto Flores</h1>
             <p class="tagline">Tu comunidad para aprender y compartir sobre AWS en español ☁️<br>
             ¡Únete y crece con nosotros!</p>
 
@@ -113,138 +127,96 @@
         <!-- Certificaciones -->
         <section class="content-section">
             <h2>🏆 Certificaciones del Tiburón</h2>
-            <div class="credly-badges">
-                <!-- Tus badges reales de AWS -->
-                <div class="badge-item">
-                    <img src="https://images.credly.com/images/30816e43-2550-4e1c-be22-3f03c5573bb9/blob" alt="AWS Cloud Quest: Cloud Practitioner">
-                    <p>AWS Cloud Quest: Cloud Practitioner</p>
+            <div class="badge-carousel-wrapper">
+                <button class="carousel-arrow prev" aria-label="Anterior">‹</button>
+                <div class="credly-badges">
+                    <!-- Tus badges reales de AWS -->
+                    <div class="badge-item">
+                        <img loading="lazy" src="https://images.credly.com/images/30816e43-2550-4e1c-be22-3f03c5573bb9/blob" alt="AWS Cloud Quest: Cloud Practitioner">
+                        <p>AWS Cloud Quest: Cloud Practitioner</p>
+                    </div>
+                    <div class="badge-item">
+                        <img loading="lazy" src="https://images.credly.com/images/8f006312-3154-45bf-a845-4a043641e83c/blob" alt="AWS Partner: Technical Accredited">
+                        <p>AWS Partner: Technical Accredited</p>
+                    </div>
+                    <div class="badge-item">
+                        <img loading="lazy" src="https://images.credly.com/images/46ea4542-72a8-46a1-8d68-b72c4ca50820/blob" alt="AWS Partner: Sales Accreditation">
+                        <p>AWS Partner: Sales Accreditation</p>
+                    </div>
+                    <div class="badge-item">
+                        <img loading="lazy" src="https://images.credly.com/images/5749832b-21b7-47f9-9ad4-b2fef13d0454/blob" alt="AWS Partner: Cloud Economics">
+                        <p>AWS Partner: Cloud Economics</p>
+                    </div>
+                    <div class="badge-item">
+                        <img loading="lazy" src="https://images.credly.com/images/fc6fa322-80f4-45a5-9def-91e9bcfde837/blob" alt="AWS Educate Getting Started with Security">
+                        <p>AWS Educate: Security</p>
+                    </div>
+                    <div class="badge-item">
+                        <img loading="lazy" src="https://images.credly.com/images/e51a8579-188d-4363-8ed1-12ad164ef57b/blob" alt="AWS Educate Introduction to Cloud 101">
+                        <p>AWS Educate: Cloud 101</p>
+                    </div>
+                    
+                    <!-- Objetivo: Cloud Practitioner Certification -->
+                    <div class="badge-item target-badge">
+                        <img loading="lazy" src="https://images.credly.com/size/340x340/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png" alt="AWS Cloud Practitioner - Objetivo">
+                        <p>AWS Certified Cloud Practitioner</p>
+                        <span class="target-label">🎯 Objetivo</span>
+                    </div>
                 </div>
-                <div class="badge-item">
-                    <img src="https://images.credly.com/images/8f006312-3154-45bf-a845-4a043641e83c/blob" alt="AWS Partner: Technical Accredited">
-                    <p>AWS Partner: Technical Accredited</p>
-                </div>
-                <div class="badge-item">
-                    <img src="https://images.credly.com/images/46ea4542-72a8-46a1-8d68-b72c4ca50820/blob" alt="AWS Partner: Sales Accreditation">
-                    <p>AWS Partner: Sales Accreditation</p>
-                </div>
-                <div class="badge-item">
-                    <img src="https://images.credly.com/images/5749832b-21b7-47f9-9ad4-b2fef13d0454/blob" alt="AWS Partner: Cloud Economics">
-                    <p>AWS Partner: Cloud Economics</p>
-                </div>
-                <div class="badge-item">
-                    <img src="https://images.credly.com/images/fc6fa322-80f4-45a5-9def-91e9bcfde837/blob" alt="AWS Educate Getting Started with Security">
-                    <p>AWS Educate: Security</p>
-                </div>
-                <div class="badge-item">
-                    <img src="https://images.credly.com/images/e51a8579-188d-4363-8ed1-12ad164ef57b/blob" alt="AWS Educate Introduction to Cloud 101">
-                    <p>AWS Educate: Cloud 101</p>
-                </div>
-                
-                <!-- Objetivo: Cloud Practitioner Certification -->
-                <div class="badge-item target-badge">
-                    <img src="https://images.credly.com/size/340x340/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png" alt="AWS Cloud Practitioner - Objetivo">
-                    <p>AWS Certified Cloud Practitioner</p>
-                    <span class="target-label">🎯 Objetivo</span>
-                </div>
+                <button class="carousel-arrow next" aria-label="Siguiente">›</button>
             </div>
             <div style="text-align: center; margin-top: 20px;">
                 <a href="https://www.credly.com/users/roberto-flores.0f207daf/badges" target="_blank" class="verify-badge">🔗 Ver Perfil Completo en Credly</a>
             </div>
         </section>
 
-        <!-- Navegación Principal -->
-        <section class="content-section">
-            <h2>🌊 Explora Nuestra Comunidad</h2>
-            <div class="navigation-grid">
-                <a href="guia.html" class="nav-card">
-                    <div class="nav-icon">📖</div>
-                    <h3>Guía de Estudio</h3>
-                    <p>Tu punto de partida para aprender AWS, desde cero hasta la certificación.</p>
-                    <span class="nav-arrow">→</span>
-                </a>
 
-                <a href="glosario.html" class="nav-card">
-                    <div class="nav-icon">📚</div>
-                    <h3>Glosario de Términos</h3>
-                    <p>El diccionario esencial de AWS para dominar la nube.</p>
-                    <span class="nav-arrow">→</span>
-                </a>
-
-                <a href="recursos.html" class="nav-card">
-                    <div class="nav-icon">🎲</div>
-                    <h3>Recursos y Juegos</h3>
-                    <p>Aprende con talleres, tutoriales y juegos interactivos como Cloud Quest.</p>
-                    <span class="nav-arrow">→</span>
-                </a>
-
-                <a href="servicios.html" class="nav-card">
-                    <div class="nav-icon">☁️</div>
-                    <h3>Servicios AWS</h3>
-                    <p>Guía interactiva de los servicios clave de Amazon Web Services.</p>
-                    <span class="nav-arrow">→</span>
-                </a>
-
-                <a href="eventos.html" class="nav-card">
-                    <div class="nav-icon">🗓️</div>
-                    <h3>Eventos</h3>
-                    <p>Calendario de reuniones, workshops y webinars de la comunidad.</p>
-                    <span class="nav-arrow">→</span>
-                </a>
-            </div>
-        </section>
 
         <!-- Sobre Nosotros -->
         <section id="about" class="content-section">
-            <h2>🦈 Sobre Nosotros</h2>
-            <div class="about-content">
-                <div class="about-card">
-                    <h3>🎯 Nuestra Misión</h3>
-                    <p>Somos el AWS User Group Playa Vicente, una comunidad de entusiastas de la nube dedicada a aprender y compartir conocimiento sobre Amazon Web Services. Nuestra misión es construir un espacio abierto y accesible para todos los niveles, desde principiantes hasta expertos.</p>
-                </div>
-
-                <div class="about-card">
-                    <h3>🌊 ¿Por Qué "Tiburón"?</h3>
-                    <p>Nos inspiramos en los tiburones: siempre en movimiento, siempre aprendiendo y desarrollando nuevas habilidades (¡como dientes!). Representa nuestra pasión por la evolución constante en el mundo de la tecnología.</p>
-                </div>
-
-                <div class="about-card">
-                    <h3>☕ Apoya a la Comunidad</h3>
-                    <p>Nuestra comunidad es gratuita y abierta.</p>
-<!--  Si el contenido te resulta útil, considera apoyar al grupo para ayudarnos a organizar más eventos, crear mejores recursos y seguir creciendo juntos.                     
-                    <div class="donation-section">
-                        <button class="donation-btn">
-                            🦈 Apoyar al User Group
-                        </button>
-                    </div>
-    -->
-                </div>
-
-                <div class="about-card">
-                    <h3>🏆 Mi Historia con AWS</h3>
-                    <p>¡Hola! Soy Roberto, el organizador de este grupo. Mi pasión por la nube me llevó a ganar la beca <strong>AWS All Builders Welcome Grant</strong>, ¡y este año asistiré al AWS re:Invent en Las Vegas! Este espacio es mi forma de compartir el conocimiento y la oportunidad que he recibido.</p>
-                </div>
+            <h2>🦈 Sobre la Comunidad</h2>
+            <div class="about-narrative">
+                <h3>Nuestra Misión y el Espíritu "Tiburón"</h3>
+                <p>Somos el <strong>AWS User Group Playa Vicente</strong>, una comunidad de entusiastas de la nube dedicada a aprender y compartir conocimiento sobre Amazon Web Services. Nuestra misión es construir un espacio abierto y accesible para todos los niveles, desde principiantes hasta expertos.</p>
+                <p>Nos inspiramos en los tiburones: siempre en movimiento, siempre aprendiendo y desarrollando nuevas habilidades. Representa nuestra pasión por la evolución constante en el mundo de la tecnología.</p>
+                
+                <h3>Mi Historia con AWS</h3>
+                <p>¡Hola! Soy Roberto, el organizador de este grupo. Mi pasión por la nube me llevó a ganar la beca <strong>AWS All Builders Welcome Grant</strong>, lo que me permitirá asistir al AWS re:Invent en Las Vegas. Este espacio es mi forma de compartir el conocimiento y la oportunidad que he recibido con todos ustedes.</p>
+                
+                <h3>Apoya a la Comunidad</h3>
+                <p>Nuestra comunidad es y será siempre gratuita y abierta. Si el contenido te resulta útil y deseas apoyar al grupo, puedes hacerlo a través de los siguientes medios. Tu apoyo nos ayuda a organizar más eventos y crear mejores recursos.</p>
+                <!-- Aquí se podría agregar un botón de donación en el futuro -->
             </div>
+        </section>
+
+        <!-- Comunidades Aliadas (Próximamente) -->
+        <section class="content-section placeholder-section">
+            <h2>🤝 Comunidades Aliadas</h2>
+            <p>Próximamente, aquí encontrarás una lista de otras comunidades y user groups con los que colaboramos.</p>
         </section>
 
         <!-- Contacto -->
         <section class="content-section">
             <h2>Conecta con el Organizador</h2>
             <div class="contact-card">
-                <img src="assets/images/profile-photo.jpg" alt="Roberto Flores, organizador del AWS User Group Playa Vicente" class="contact-profile-photo">
                 <h3>Roberto Flores Segundo</h3>
-                <p>¡Conecta conmigo! Escanea el código QR de la red que prefieras.</p>
+                <p>¡Conecta conmigo! Escanea el código QR o haz clic en el botón.</p>
                 <div class="qr-codes">
                     <figure>
-                        <img src="assets/images/qrcodes/qr-linkedin.png" alt="QR a LinkedIn">
-                        <figcaption><a href="https://www.linkedin.com/in/roberto-flores-b1a012322/" target="_blank">LinkedIn</a></figcaption>
+                        <img loading="lazy" src="assets/images/qrcodes/qr-linkedin.png" alt="QR a LinkedIn">
+                        <figcaption><a href="https://www.linkedin.com/in/roberto-flores-b1a012322/" target="_blank" class="contact-button">Ir a LinkedIn</a></figcaption>
                     </figure>
                     <figure>
-                        <img src="assets/images/qrcodes/qr-github.png" alt="QR a GitHub">
-                        <figcaption><a href="https://github.com/Siegfried-FS" target="_blank">GitHub</a></figcaption>
+                        <img loading="lazy" src="assets/images/qrcodes/qr-github.png" alt="QR a GitHub">
+                        <figcaption><a href="https://github.com/Siegfried-FS" target="_blank" class="contact-button">Proyectos (GitHub)</a></figcaption>
                     </figure>
                     <figure>
-                        <img src="assets/images/qrcodes/qr-instagram.png" alt="QR a Instagram">
-                        <figcaption><a href="https://www.instagram.com/siegfried_fs/" target="_blank">Instagram</a></figcaption>
+                        <img loading="lazy" src="assets/images/qrcodes/qr-instagram.png" alt="QR a Instagram Personal">
+                        <figcaption><a href="https://www.instagram.com/siegfried_fs/" target="_blank" class="contact-button">Seguirme en Instagram</a></figcaption>
+                    </figure>
+                    <figure>
+                        <img loading="lazy" src="assets/images/qrcodes/usergroupplayavigente_qr.png" alt="QR a Instagram del User Group">
+                        <figcaption><a href="https://www.instagram.com/usergroupplayavigente/" target="_blank" class="contact-button">Seguir al User Group</a></figcaption>
                     </figure>
                 </div>
             </div>

@@ -184,6 +184,68 @@ body {
     transform: scale(1.1);
 }
 
+/* Dropdown Menu */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle .dropdown-arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+.dropdown:hover .dropdown-toggle .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bg-secondary);
+    list-style: none;
+    padding: 10px 0;
+    margin-top: 10px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    min-width: 260px;
+    z-index: 1001;
+    border: 1px solid var(--border-color);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, margin-top 0.3s ease;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    margin-top: 0;
+}
+
+.dropdown-menu li {
+    padding: 0;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 20px;
+    white-space: nowrap;
+}
+
+.dropdown-menu a::after {
+    content: none; /* Remove hover underline from dropdown items */
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--bg-card-hover);
+    color: var(--primary-color);
+}
+
 /* Layout principal */
 main {
     position: relative;
@@ -1410,15 +1472,17 @@ html {
 }
 
 .qr-codes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
+    display: grid; /* Change to grid */
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 25px; /* Slightly adjust gap */
+    justify-items: center; /* Center items within the grid cell */
+    align-items: start;
 }
 
 .qr-codes figure {
     margin: 0;
     transition: transform 0.3s ease;
+    text-align: center; /* Ensure figcaption is centered */
 }
 
 .qr-codes figure:hover {
@@ -1426,8 +1490,9 @@ html {
 }
 
 .qr-codes img {
-    max-width: 150px;
-    height: auto;
+    width: 140px;  /* Enforce uniform width */
+    height: 140px; /* Enforce uniform height */
+    object-fit: contain; /* Ensure QR code fits without distortion */
     border-radius: 8px;
     background: white;
     padding: 5px;
@@ -1635,4 +1700,226 @@ html {
     color: var(--text-muted);
 }
 
+/* Adjustments for mobile dropdown */
+@media (max-width: 768px) {
+    .dropdown {
+        width: 100%;
+        text-align: center;
+    }
+    .dropdown-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 0.5rem 1rem;
+    }
+    .dropdown-menu {
+        position: static;
+        display: none;
+        background-color: transparent;
+        box-shadow: none;
+        border-radius: 0;
+        border: none;
+        min-width: auto;
+        padding: 0;
+        margin-top: 10px;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        transition: none;
+    }
+    .dropdown-menu li {
+        border-bottom: 1px solid var(--border-color);
+    }
+    .dropdown-menu li:last-child {
+        border-bottom: none;
+    }
+    .dropdown-menu a {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+    .dropdown.active .dropdown-toggle .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+}
 
+.contact-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    background: transparent; /* Start with transparent background */
+    color: var(--primary-color); /* Text color matches primary */
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: none; /* No initial shadow */
+    border: 1px solid var(--primary-color); /* Outline border */
+}
+
+.contact-button:hover {
+    background: var(--gradient-accent); /* Fill with gradient on hover */
+    color: white; /* Text becomes white on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4); /* Add shadow on hover */
+    border-color: transparent; /* Border disappears on hover */
+}
+
+/* Badge Carousel */
+.badge-carousel-wrapper {
+    overflow-x: auto;
+    padding: 20px 0;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--primary-color) var(--bg-secondary); /* Firefox */
+}
+
+/* Webkit scrollbar styles */
+.badge-carousel-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.badge-carousel-wrapper::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.badge-carousel-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 4px;
+    border: 2px solid var(--bg-secondary);
+}
+
+.credly-badges {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    gap: 30px; /* Increase gap for better spacing */
+    justify-content: flex-start; /* Align items to the start */
+    padding: 0 20px; /* Add some padding to the sides */
+}
+
+.badge-item {
+    flex: 0 0 auto; /* Prevent items from shrinking */
+    width: 140px; /* Fixed width for each badge item */
+}
+
+/* Unified About Section */
+.about-narrative {
+    max-width: 800px; /* Constrain width for better readability */
+    margin: 30px auto 0;
+    text-align: left;
+}
+
+.about-narrative h3 {
+    background: linear-gradient(45deg, var(--primary-color), var(--success-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.about-narrative p {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    line-height: 1.7;
+}
+
+/* Placeholder Section Style */
+.placeholder-section {
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    text-align: center;
+    opacity: 0.7;
+}
+
+.placeholder-section h2 {
+    color: var(--text-muted);
+    animation: none; /* Disable glow animation */
+    background: none;
+    -webkit-text-fill-color: var(--text-muted);
+}
+
+.placeholder-section p {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Filter Buttons */
+#filter-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.filter-btn {
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.filter-btn:hover {
+    background: var(--bg-card-hover);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.filter-btn.active {
+    background: var(--gradient-accent);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+/* Carousel Arrows */
+.badge-carousel-wrapper {
+    position: relative; /* Needed for absolute positioning of arrows */
+}
+
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+    display: none; /* Hidden by default, shown on larger screens */
+}
+
+.carousel-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-arrow.prev {
+    left: -10px;
+}
+
+.carousel-arrow.next {
+    right: -10px;
+}
+
+/* Show arrows on screens wider than mobile */
+@media (min-width: 769px) {
+    .badge-carousel-wrapper:hover .carousel-arrow {
+        display: block;
+    }
+}
