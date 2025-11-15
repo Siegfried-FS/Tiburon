@@ -1850,36 +1850,7 @@ html {
     font-style: italic;
 }
 
-/* Filter Buttons */
-#filter-container {
-    text-align: center;
-    margin-bottom: 30px;
-}
 
-.filter-btn {
-    background: var(--bg-card);
-    color: var(--text-secondary);
-    border: 1px solid var(--border-color);
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.filter-btn:hover {
-    background: var(--bg-card-hover);
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.filter-btn.active {
-    background: var(--gradient-accent);
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-}
 
 /* Carousel Arrows */
 .badge-carousel-wrapper {
