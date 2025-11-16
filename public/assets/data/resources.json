@@ -55,6 +55,27 @@
                 "tags": ["Git", "Herramienta", "Gratis"]
             },
             {
+                "title": "Pro Git Book",
+                "description": "El libro completo de Pro Git, disponible en línea de forma gratuita. Una referencia esencial para dominar Git.",
+                "url": "https://git-scm.com/book/es/v2",
+                "image": "https://git-scm.com/images/progit2.png",
+                "tags": ["Git", "Libro", "Gratis", "Referencia"]
+            },
+            {
+                "title": "GitHub Learning Lab",
+                "description": "Cursos interactivos y prácticos directamente en GitHub para aprender Git, GitHub y desarrollo de software.",
+                "url": "https://lab.github.com/",
+                "image": "https://resources.github.com/assets/images/social/github-logo.png",
+                "tags": ["GitHub", "Git", "Cursos", "Gratis"]
+            },
+            {
+                "title": "freeCodeCamp",
+                "description": "Aprende a programar de forma gratuita con miles de tutoriales, proyectos y certificaciones en desarrollo web.",
+                "url": "https://www.freecodecamp.org/",
+                "image": "https://www.freecodecamp.org/news/content/images/2022/09/fcc_primary_large.jpg",
+                "tags": ["Programación", "Cursos", "Gratis", "Desarrollo Web"]
+            },
+            {
                 "title": "Docker",
                 "description": "Plataforma de contenedores para construir, desplegar y ejecutar aplicaciones de forma aislada y consistente.",
                 "url": "https://www.docker.com/",

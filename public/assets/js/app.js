@@ -2,25 +2,52 @@
 // NÚCLEO: INICIALIZACIÓN Y FUNCIONES PRINCIPALES
 // =============================================================================
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🦈 Proyecto Tiburón iniciado');
-    loadTheme();
-    addEventListeners();
+async function loadHeader() {
+    const headerPlaceholder = document.getElementById('header-placeholder');
+    if (!headerPlaceholder) return; // No hay placeholder, no hacer nada.
 
+    try {
+        const response = await fetch('assets/shared/header.html');
+        if (!response.ok) throw new Error(`Error al cargar header: ${response.status}`);
+        
+        const headerHTML = await response.text();
+        headerPlaceholder.outerHTML = headerHTML;
+        
+        // Una vez que el header está en el DOM, inicializamos su funcionalidad.
+        loadTheme(); 
+        addHeaderEventListeners();
+
+    } catch (error) {
+        console.error('Error al cargar el header:', error);
+        if(headerPlaceholder) headerPlaceholder.innerHTML = '<p style="color:red; text-align:center;">Error al cargar el menú.</p>';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadHeader(); // Carga el header y sus eventos primero
+
+    // Añade listeners para el contenido específico de la página
+    addPageEventListeners(); 
+
+    // Inicializa el resto de componentes de la página
     if (document.getElementById('particles-js')) {
         initParticles();
     }
-    if (document.getElementById('services-container')) {
-        loadAWSServices();
-    }
+
     if (document.getElementById('events-container')) {
         loadEvents();
     }
     if (document.getElementById('resources-container')) {
         loadResources();
     }
-    if (document.getElementById('matching-game')) {
-        initMatchingGame();
+    if (document.getElementById('logic-games-grid')) {
+        loadLogicGames();
+    }
+    if (document.getElementById('workshops-container')) {
+        loadWorkshops();
+    }
+    if (document.getElementById('glossary-container')) { // New
+        loadGlossary();
     }
     if (document.querySelector('.badge-carousel-wrapper')) {
         initCarousel();
@@ -32,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // REGISTRO CENTRAL DE EVENT LISTENERS
 // =============================================================================
 
-function addEventListeners() {
+function addHeaderEventListeners() {
     const hamburger = document.querySelector('.hamburger');
     if (hamburger) {
         hamburger.addEventListener('click', (event) => {
@@ -41,12 +68,10 @@ function addEventListeners() {
         });
     }
 
-    // Dropdown functionality for mobile
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
     dropdownToggles.forEach(toggle => {
         toggle.addEventListener('click', (event) => {
             const parentDropdown = toggle.parentElement;
-            // Only enable click-toggle on mobile view
             if (window.innerWidth <= 768 && parentDropdown.classList.contains('dropdown')) {
                 event.preventDefault();
                 parentDropdown.classList.toggle('active');
@@ -64,16 +89,6 @@ function addEventListeners() {
         themeToggle.addEventListener('click', toggleTheme);
     }
 
-    const terminos = document.querySelectorAll('.termino');
-    terminos.forEach(termino => {
-        termino.addEventListener('click', () => toggleTermino(termino));
-    });
-
-    const donationBtn = document.querySelector('.donation-btn');
-    if (donationBtn) {
-        donationBtn.addEventListener('click', showDonationInfo);
-    }
-
     document.addEventListener('click', (event) => {
         const nav = document.querySelector('.nav');
         const navMenu = document.getElementById('nav-menu');
@@ -81,6 +96,13 @@ function addEventListeners() {
             closeMenu();
         }
     });
+}
+
+function addPageEventListeners() {
+    const donationBtn = document.querySelector('.donation-btn');
+    if (donationBtn) {
+        donationBtn.addEventListener('click', showDonationInfo);
+    }
 }
 
 // =============================================================================
@@ -176,154 +198,174 @@ function initParticles() {
     });
 }
 
+
+
 // =============================================================================
-// PÁGINA DE SERVICIOS (TARJETAS INTERACTIVAS)
+// PÁGINA DE GLOSARIO (TÉRMINOS INTERACTIVOS)
 // =============================================================================
 
-const awsServices = [
-    {
-        name: 'Amazon EC2',
-        icon: '🖥️',
-        description: 'Servidores virtuales escalables en la nube',
-        detail: 'Elastic Compute Cloud proporciona capacidad de cómputo redimensionable. Puedes lanzar instancias en minutos y pagar solo por lo que uses.',
-        types: {
-            'On-Demand': 'Pago por hora/segundo sin compromisos. Ideal para cargas impredecibles.',
-            'Reserved': 'Hasta 75% descuento con compromiso 1-3 años. Mejor para uso constante.',
-            'Spot': 'Hasta 90% descuento, pero AWS puede terminar con 2 min aviso. Para cargas tolerantes a fallos.',
-            'Dedicated': 'Hardware dedicado para cumplimiento regulatorio. Más costoso pero aislado.'
+async function loadGlossary() {
+    const container = document.getElementById('glossary-container');
+    if (!container) return;
+
+    const searchInput = document.getElementById('glossary-search');
+    const alphabetFilterContainer = document.getElementById('alphabet-filter');
+
+    let allTerms = []; // Para almacenar todos los términos para filtrar
+
+    try {
+        const response = await fetch('assets/data/glosario.json');
+        allTerms = await response.json();
+
+        if (allTerms.length === 0) {
+            container.innerHTML = '<p>No hay términos en el glosario en este momento.</p>';
+            return;
         }
-    },
-    {
-        name: 'Amazon S3',
-        icon: '🗄️',
-        description: 'Almacenamiento de objetos infinitamente escalable',
-        detail: 'Simple Storage Service almacena y recupera cualquier cantidad de datos desde cualquier lugar. Durabilidad 99.999999999%.',
-        types: {
-            'Standard': 'Acceso frecuente. $0.023/GB/mes. Disponibilidad 99.99%.',
-            'IA': 'Acceso infrecuente. $0.0125/GB/mes + cargo por acceso.',
-            'Glacier': 'Archivo a largo plazo. $0.004/GB/mes. Recuperación 1-5 min a 12 horas.',
-            'Deep Archive': 'Archivo más barato. $0.00099/GB/mes. Recuperación 12 horas.'
-        }
-    },
-    {
-        name: 'Amazon RDS',
-        icon: '🗃️',
-        description: 'Bases de datos relacionales administradas',
-        detail: 'Relational Database Service facilita configurar, operar y escalar bases de datos relacionales en la nube.',
-        types: {
-            'MySQL': 'Base de datos open source popular. Compatible con aplicaciones web.',
-            'PostgreSQL': 'Base de datos avanzada con características empresariales.',
-            'Oracle': 'Base de datos empresarial con licencias incluidas o BYOL.',
-            'Aurora': 'Compatible MySQL/PostgreSQL. 5x más rápida que MySQL estándar.'
-        }
-    },
-    {
-        name: 'AWS Lambda',
-        icon: '⚡',
-        description: 'Ejecuta código sin gestionar servidores',
-        detail: 'Servicio de computación serverless. Ejecuta código en respuesta a eventos y escala automáticamente.',
-        types: {
-            'Event-driven': 'Se ejecuta automáticamente por eventos (S3, DynamoDB, API Gateway).',
-            'Serverless': 'Sin servidores que gestionar. AWS maneja toda la infraestructura.',
-            'Pay-per-use': 'Solo pagas por tiempo de ejecución. Primer millón requests gratis.',
-            'Auto-scaling': 'Escala de 0 a miles de ejecuciones concurrentes automáticamente.'
-        }
-    },
-    {
-        name: 'Amazon VPC',
-        icon: '🌐',
-        description: 'Red privada virtual aislada',
-        detail: 'Virtual Private Cloud permite crear una red aislada en AWS con control completo sobre el entorno de red.',
-        types: {
-            'Subnets': 'Segmentos de red públicos o privados dentro de la VPC.',
-            'Route Tables': 'Definen hacia dónde se dirige el tráfico de red.',
-            'Internet Gateway': 'Permite acceso a internet desde subnets públicas.',
-            'NAT Gateway': 'Permite acceso saliente a internet desde subnets privadas.'
-        }
-    },
-    {
-        name: 'Amazon CloudFront',
-        icon: '🚀',
-        description: 'Red de entrega de contenido global',
-        detail: 'CDN que entrega contenido con baja latencia desde ubicaciones edge cercanas a los usuarios.',
-        types: {
-            'Edge Locations': 'Más de 400 ubicaciones globalmente para cache de contenido.',
-            'Origin': 'Fuente original del contenido (S3, EC2, Load Balancer).',
-            'Distribution': 'Configuración que define cómo se entrega el contenido.',
-            'Cache Behaviors': 'Reglas que determinan cómo se cachea el contenido.'
-        }
+
+        // Ordenar términos alfabéticamente
+        allTerms.sort((a, b) => a.term.localeCompare(b.term));
+
+        // Renderizar términos iniciales
+        renderTerms(allTerms);
+
+        // Generar Filtro Alfabético
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        alphabetFilterContainer.innerHTML = '<button class="active" data-filter="all">Todos</button>';
+        alphabet.forEach(letter => {
+            const button = document.createElement('button');
+            button.textContent = letter;
+            button.setAttribute('data-filter', letter);
+            alphabetFilterContainer.appendChild(button);
+        });
+
+        // Añadir Event Listeners para Búsqueda y Filtro
+        searchInput.addEventListener('input', () => filterTerms(allTerms, searchInput.value, alphabetFilterContainer.querySelector('.alphabet-filter button.active').dataset.filter));
+        alphabetFilterContainer.addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                alphabetFilterContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                filterTerms(allTerms, searchInput.value, event.target.dataset.filter);
+            }
+        });
+
+    } catch (error) {
+        console.error('Error al cargar el glosario:', error);
+        container.innerHTML = '<p>Error al cargar el glosario. Intenta recargar la página.</p>';
     }
-];
 
-function createServiceCard(service) {
-    const card = document.createElement('div');
-    card.className = 'service-card';
-
-    const typeTags = Object.keys(service.types).map(type =>
-        `<span class="type-tag" data-service="${service.name}" data-type="${type}">${type}</span>`
-    ).join('');
-
-    card.innerHTML = `
-        <div class="service-icon">${service.icon}</div>
-        <h3>${service.name}</h3>
-        <p class="service-description">${service.description}</p>
-        <div class="service-types">${typeTags}</div>
-        <div class="service-detail">
-            <h4>💡 Información Clave</h4>
-            <p>${service.detail}</p>
-        </div>
-        <div class="type-detail-popup"></div>
-    `;
-    return card;
-}
-
-function toggleServiceDetail(card) {
-    card.classList.toggle('expanded');
-}
-
-function showTypeDetail(element, serviceName, typeName) {
-    const service = awsServices.find(s => s.name === serviceName);
-    if (!service) return;
-
-    const card = element.closest('.service-card');
-    const popup = card.querySelector('.type-detail-popup');
-    const typeInfo = service.types[typeName];
-
-    popup.innerHTML = `<h4>${typeName}</h4><p>${typeInfo}</p>`;
-    popup.classList.add('show');
-
-    setTimeout(() => {
-        popup.classList.remove('show');
-    }, 4000);
-}
-
-function loadAWSServices() {
-    const servicesContainer = document.getElementById('services-container');
-    if (servicesContainer) {
-        awsServices.forEach(service => {
-            const serviceCard = createServiceCard(service);
-            servicesContainer.appendChild(serviceCard);
-        });
-        servicesContainer.querySelectorAll('.service-card').forEach(card => {
-            card.addEventListener('click', () => toggleServiceDetail(card));
-        });
-        servicesContainer.querySelectorAll('.type-tag').forEach(tag => {
-            tag.addEventListener('click', (event) => {
-                event.stopPropagation();
-                showTypeDetail(tag, tag.dataset.service, tag.dataset.type);
+    function renderTerms(termsToRender) {
+        let html = '';
+        if (termsToRender.length === 0) {
+            html = '<p style="text-align: center;">No se encontraron términos que coincidan con tu búsqueda.</p>';
+        } else {
+            termsToRender.forEach(term => {
+                html += `
+                    <div class="term-card">
+                        <h3>${term.term}</h3>
+                        <p>${term.definition}</p>
+                        <span class="category-tag">${term.category}</span>
+                    </div>
+                `;
             });
+        }
+        container.innerHTML = html;
+        initScrollAnimations(); // Reinicializar animaciones de scroll para las nuevas tarjetas
+    }
+
+    function filterTerms(terms, searchText, alphaFilter) {
+        const filtered = terms.filter(term => {
+            const matchesSearch = term.term.toLowerCase().includes(searchText.toLowerCase()) ||
+                                  term.definition.toLowerCase().includes(searchText.toLowerCase());
+            const matchesAlpha = alphaFilter === 'all' || term.term.toUpperCase().startsWith(alphaFilter);
+            return matchesSearch && matchesAlpha;
         });
+        renderTerms(filtered);
     }
 }
 
 // =============================================================================
-// PÁGINA DE GLOSARIO (TÉRMINOS EXPANDIBLES)
+// PÁGINA DE GLOSARIO (TÉRMINOS INTERACTIVOS)
 // =============================================================================
 
-function toggleTermino(elemento) {
-    const detail = elemento.querySelector('.termino-detail');
-    if (detail) {
-        detail.classList.toggle('show');
+async function loadGlossary() {
+    const container = document.getElementById('glossary-container');
+    if (!container) return;
+
+    const searchInput = document.getElementById('glossary-search');
+    const alphabetFilterContainer = document.getElementById('alphabet-filter');
+
+    let allTerms = []; // Para almacenar todos los términos para filtrar
+
+    try {
+        const response = await fetch('assets/data/glosario.json');
+        allTerms = await response.json();
+
+        if (allTerms.length === 0) {
+            container.innerHTML = '<p>No hay términos en el glosario en este momento.</p>';
+            return;
+        }
+
+        // Ordenar términos alfabéticamente
+        allTerms.sort((a, b) => a.term.localeCompare(b.term));
+
+        // Renderizar términos iniciales
+        renderTerms(allTerms);
+
+        // Generar Filtro Alfabético
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        alphabetFilterContainer.innerHTML = '<button class="active" data-filter="all">Todos</button>';
+        alphabet.forEach(letter => {
+            const button = document.createElement('button');
+            button.textContent = letter;
+            button.setAttribute('data-filter', letter);
+            alphabetFilterContainer.appendChild(button);
+        });
+
+        // Añadir Event Listeners para Búsqueda y Filtro
+        searchInput.addEventListener('input', () => {
+            const activeFilter = alphabetFilterContainer.querySelector('button.active');
+            filterTerms(allTerms, searchInput.value, activeFilter ? activeFilter.dataset.filter : 'all');
+        });
+        alphabetFilterContainer.addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON') {
+                alphabetFilterContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                filterTerms(allTerms, searchInput.value, event.target.dataset.filter);
+            }
+        });
+
+    } catch (error) {
+        console.error('Error al cargar el glosario:', error);
+        container.innerHTML = '<p>Error al cargar el glosario. Intenta recargar la página.</p>';
+    }
+
+    function renderTerms(termsToRender) {
+        let html = '';
+        if (termsToRender.length === 0) {
+            html = '<p style="text-align: center;">No se encontraron términos que coincidan con tu búsqueda.</p>';
+        } else {
+            termsToRender.forEach(term => {
+                html += `
+                    <div class="term-card">
+                        <h3>${term.term}</h3>
+                        <p>${term.definition}</p>
+                        <span class="category-tag">${term.category}</span>
+                    </div>
+                `;
+            });
+        }
+        container.innerHTML = html;
+        initScrollAnimations(); // Reinicializar animaciones de scroll para las nuevas tarjetas
+    }
+
+    function filterTerms(terms, searchText, alphaFilter) {
+        const filtered = terms.filter(term => {
+            const matchesSearch = term.term.toLowerCase().includes(searchText.toLowerCase()) ||
+                                  term.definition.toLowerCase().includes(searchText.toLowerCase());
+            const matchesAlpha = alphaFilter === 'all' || term.term.toUpperCase().startsWith(alphaFilter);
+            return matchesSearch && matchesAlpha;
+        });
+        renderTerms(filtered);
     }
 }
 
@@ -418,9 +460,41 @@ async function loadEvents() {
     }
 }
 
+function addResourceTabListeners() {
+    const tabContainer = document.getElementById('resources-container');
+    if (!tabContainer) return;
+
+    const tabHeaders = tabContainer.querySelectorAll('.tab-header');
+    const tabContents = tabContainer.querySelectorAll('.tab-content');
+
+    tabHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const targetTab = header.getAttribute('data-category');
+
+            tabHeaders.forEach(h => h.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+
+            header.classList.add('active');
+            const newActiveContent = tabContainer.querySelector(`.tab-content[data-category="${targetTab}"]`);
+            if (newActiveContent) {
+                newActiveContent.classList.add('active');
+            }
+        });
+    });
+}
+
 async function loadResources() {
     const container = document.getElementById('resources-container');
     if (!container) return;
+
+    const headersContainer = document.getElementById('resources-tab-headers');
+    const contentsContainer = document.getElementById('resources-tab-contents');
+
+    if (!headersContainer || !contentsContainer) {
+        // Si no están los contenedores de pestañas, no hacer nada.
+        // Esto evita errores si la página no tiene la nueva estructura.
+        return;
+    }
 
     try {
         const response = await fetch('assets/data/resources.json');
@@ -431,29 +505,35 @@ async function loadResources() {
             return;
         }
 
-        let html = '';
-        categories.forEach(category => {
-            html += `<section class="content-section"><h2>${category.category}</h2><div class="labs-grid">`;
+        categories.forEach((category, index) => {
+            // Crear cabecera de pestaña
+            const header = document.createElement('button');
+            header.className = 'tab-header';
+            header.textContent = category.category;
+            header.setAttribute('data-category', category.category);
+            if (index === 0) {
+                header.classList.add('active');
+            }
+            headersContainer.appendChild(header);
+
+            // Crear contenido de pestaña
+            const content = document.createElement('div');
+            content.className = 'tab-content';
+            content.setAttribute('data-category', category.category);
+            if (index === 0) {
+                content.classList.add('active');
+            }
             
+            let itemsHtml = '<div class="labs-grid">';
             category.items.forEach(resource => {
                 const tagsHtml = resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
                 
-                let badgesHtml = '';
-                if (resource.badges && resource.badges.length > 0) {
-                    badgesHtml = '<div class="resource-badges-strip">';
-                    resource.badges.forEach(badgeSrc => {
-                        badgesHtml += `<img src="${badgeSrc}" alt="Badge de recurso" class="resource-badge-icon">`;
-                    });
-                    badgesHtml += '</div>';
-                }
-
-                html += `
-                    <a href="${resource.url}" target="_blank" class="lab-card active">
-                        <div class="lab-card-image-container">
-                            <img src="${resource.image}" alt="Imagen de ${resource.title}" class="resource-image">
+                itemsHtml += `
+                    <a href="${resource.url}" target="_blank" class="resource-card">
+                        <div class="resource-card-image-container">
+                            <img src="${resource.image}" alt="Imagen de ${resource.title}" class="resource-card-image" loading="lazy">
                         </div>
-                        <div class="lab-card-content">
-                            ${badgesHtml}
+                        <div class="resource-card-content">
                             <h3>${resource.title}</h3>
                             <p>${resource.description}</p>
                             <div class="resource-tags">${tagsHtml}</div>
@@ -461,16 +541,124 @@ async function loadResources() {
                     </a>
                 `;
             });
-
-            html += `</div></section>`;
+            itemsHtml += '</div>';
+            content.innerHTML = itemsHtml;
+            contentsContainer.appendChild(content);
         });
 
-        container.innerHTML = html;
-        // Re-initialize scroll animations to include the new cards
+        // Añadir listeners para las nuevas pestañas
+        addResourceTabListeners();
+        // Reinicializar animaciones de scroll para las nuevas tarjetas
         initScrollAnimations();
+
     } catch (error) {
         console.error('Error al cargar los recursos:', error);
         container.innerHTML = '<p>Error al cargar los recursos. Intenta recargar la página.</p>';
+    }
+}
+
+// =============================================================================
+// PÁGINA DE JUEGOS DE LÓGICA
+// =============================================================================
+
+async function loadLogicGames() {
+    const container = document.getElementById('logic-games-grid');
+    if (!container) {
+        return;
+    }
+
+    try {
+        const response = await fetch('assets/data/logic-games.json');
+
+        if (!response.ok) {
+            container.innerHTML = `<p>Error al cargar los juegos: ${response.status}. Intenta recargar la página.</p>`;
+            return;
+        }
+
+        const games = await response.json();
+
+        if (games.length === 0) {
+            container.innerHTML = '<p>No hay juegos de lógica disponibles en este momento.</p>';
+            return;
+        }
+
+        let html = '';
+        games.forEach(game => {
+            const tagsHtml = game.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            html += `
+                <a href="${game.url}" target="_blank" class="lab-card active">
+                    <div class="lab-card-image-container">
+                        <img src="${game.image}" alt="Imagen de ${game.title}" class="resource-image">
+                    </div>
+                    <div class="lab-card-content">
+                        <h3>${game.title}</h3>
+                        <p>${game.description}</p>
+                        <div class="resource-tags">${tagsHtml}</div>
+                    </div>
+                </a>
+            `;
+        });
+
+        container.innerHTML = html;
+        initScrollAnimations(); // Re-initialize scroll animations for new cards
+    } catch (error) {
+        container.innerHTML = '<p>Error al cargar los juegos. Intenta recargar la página.</p>';
+    }
+}
+
+// =============================================================================
+// PÁGINA DE HISTORIAL DE TALLERES
+// =============================================================================
+
+async function loadWorkshops() {
+    const container = document.getElementById('workshops-container');
+    if (!container) return;
+
+    try {
+        const response = await fetch('assets/data/workshops.json');
+        const workshops = await response.json();
+
+        if (workshops.length === 0) {
+            container.innerHTML = '<p>Aún no hay talleres en el historial. ¡Vuelve pronto!</p>';
+            return;
+        }
+
+        // Sort by date, newest first
+        workshops.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        let html = '';
+        workshops.forEach(workshop => {
+            const tagsHtml = workshop.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            const materialsButton = workshop.materials_link 
+                ? `<a href="${workshop.materials_link}" target="_blank" class="card-button">Ver Materiales</a>`
+                : '';
+
+            // Format date to be more readable
+            const workshopDate = new Date(workshop.date);
+            const formattedDate = workshopDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            html += `
+                <div class="lab-card active">
+                    <div class="lab-card-image-container">
+                        <img src="${workshop.image}" alt="Imagen de ${workshop.title}" class="resource-image" loading="lazy">
+                    </div>
+                    <div class="lab-card-content">
+                        <p class="card-date">${formattedDate}</p>
+                        <h3>${workshop.title}</h3>
+                        <p>${workshop.description}</p>
+                        <div class="resource-tags">${tagsHtml}</div>
+                        ${materialsButton}
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+        initScrollAnimations();
+
+    } catch (error) {
+        console.error('Error al cargar los talleres:', error);
+        container.innerHTML = '<p>Error al cargar el historial de talleres.</p>';
     }
 }
 
@@ -487,7 +675,7 @@ function showDonationInfo() {
 // =============================================================================
 
 function initScrollAnimations() {
-    const animatedElements = document.querySelectorAll('.content-section, .nav-card, .badge-item, .about-card, .contact-card');
+    const animatedElements = document.querySelectorAll('.content-section, .nav-card, .badge-item, .about-card, .contact-card, .lab-card, .event-card'); // Add .lab-card and .event-card
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -505,99 +693,7 @@ function initScrollAnimations() {
     });
 }
 
-// =============================================================================
-// JUEGO DE RELACIONAR SERVICIOS
-// =============================================================================
 
-function initMatchingGame() {
-    const gameContainer = document.getElementById('matching-game');
-    if (!gameContainer) return;
-
-    const questionEl = document.getElementById('game-question').querySelector('p');
-    const optionsContainer = document.getElementById('game-options');
-    const correctScoreEl = document.getElementById('game-score-correct');
-    const incorrectScoreEl = document.getElementById('game-score-incorrect');
-    const accuracyEl = document.getElementById('game-accuracy');
-    const nextButton = document.getElementById('next-question-btn');
-    const feedbackContainer = document.getElementById('feedback-container');
-
-    let correctAnswers = 0;
-    let incorrectAnswers = 0;
-    let currentCorrectAnswer = null;
-    let answered = false;
-
-    function updateStats() {
-        const total = correctAnswers + incorrectAnswers;
-        const accuracy = total === 0 ? 100 : Math.round((correctAnswers / total) * 100);
-        correctScoreEl.textContent = correctAnswers;
-        incorrectScoreEl.textContent = incorrectAnswers;
-        accuracyEl.textContent = `${accuracy}%`;
-    }
-
-    function generateQuestion() {
-        answered = false;
-        optionsContainer.innerHTML = '';
-        feedbackContainer.innerHTML = '';
-        nextButton.style.display = 'none';
-
-        const correctIndex = Math.floor(Math.random() * awsServices.length);
-        currentCorrectAnswer = awsServices[correctIndex];
-
-        const incorrectServices = awsServices
-            .filter(s => s.name !== currentCorrectAnswer.name)
-            .sort(() => 0.5 - Math.random())
-            .slice(0, 3);
-
-        const options = [currentCorrectAnswer, ...incorrectServices].sort(() => 0.5 - Math.random());
-
-        questionEl.textContent = currentCorrectAnswer.description;
-
-        options.forEach(option => {
-            const optionCard = document.createElement('div');
-            optionCard.className = 'option-card';
-            optionCard.dataset.serviceName = option.name;
-            optionCard.innerHTML = `
-                <div class="option-icon">${option.icon}</div>
-                <h4>${option.name}</h4>
-            `;
-            optionCard.addEventListener('click', handleAnswer);
-            optionsContainer.appendChild(optionCard);
-        });
-    }
-
-    function handleAnswer(event) {
-        if (answered) return;
-        answered = true;
-
-        const selectedCard = event.currentTarget;
-        const selectedService = selectedCard.dataset.serviceName;
-
-        if (selectedService === currentCorrectAnswer.name) {
-            correctAnswers++;
-            selectedCard.classList.add('correct');
-            feedbackContainer.innerHTML = `<p style="color: var(--success-color);">¡Correcto! ✅</p>`;
-        } else {
-            incorrectAnswers++;
-            selectedCard.classList.add('incorrect');
-            const correctCard = optionsContainer.querySelector(`[data-service-name="${currentCorrectAnswer.name}"]`);
-            if (correctCard) {
-                correctCard.classList.add('correct');
-            }
-            feedbackContainer.innerHTML = `
-                <p style="color: var(--accent-color);">Incorrecto. La respuesta era <strong>${currentCorrectAnswer.name}</strong>.</p>
-                <p style="font-size: 0.9rem; color: var(--text-muted);">${currentCorrectAnswer.detail}</p>
-            `;
-        }
-
-        updateStats();
-        nextButton.style.display = 'block';
-    }
-
-    nextButton.addEventListener('click', generateQuestion);
-
-    updateStats();
-    generateQuestion();
-}
 
 function initCarousel() {
     const wrapper = document.querySelector('.badge-carousel-wrapper');

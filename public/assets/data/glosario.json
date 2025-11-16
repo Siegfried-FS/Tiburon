@@ -1,0 +1,277 @@
+[
+    {
+        "term": "Amazon Aurora",
+        "definition": "Base de datos relacional compatible con MySQL y PostgreSQL, creada para la nube. Combina el rendimiento y la disponibilidad de las bases de datos comerciales con la sencillez y la rentabilidad de las bases de datos de código abierto.",
+        "category": "Bases de Datos"
+    },
+    {
+        "term": "Amazon CloudFront",
+        "definition": "Servicio de red de entrega de contenido (CDN) rápido que distribuye de forma segura datos, videos, aplicaciones y API a clientes de todo el mundo con baja latencia y altas velocidades de transferencia.",
+        "category": "Redes"
+    },
+    {
+        "term": "Amazon CloudWatch",
+        "definition": "Servicio de monitoreo y observabilidad que proporciona datos y perspectivas procesables para monitorear sus aplicaciones, responder a los cambios de rendimiento y optimizar la utilización de recursos.",
+        "category": "Monitoreo"
+    },
+    {
+        "term": "Amazon DynamoDB",
+        "definition": "Base de datos NoSQL de clave-valor rápida y flexible que ofrece un rendimiento de milisegundos de un solo dígito a cualquier escala.",
+        "category": "Bases de Datos"
+    },
+    {
+        "term": "Amazon EBS (Elastic Block Store)",
+        "definition": "Proporciona volúmenes de almacenamiento en bloque persistentes y de alto rendimiento para usar con instancias de Amazon EC2.",
+        "category": "Almacenamiento"
+    },
+    {
+        "term": "Amazon EC2 (Elastic Compute Cloud)",
+        "definition": "Servicio web que proporciona capacidad informática segura y redimensionable en la nube. Permite lanzar máquinas virtuales (instancias).",
+        "category": "Cómputo"
+    },
+    {
+        "term": "Amazon Glacier",
+        "definition": "Clase de almacenamiento de Amazon S3 segura, duradera y de bajo costo para el archivado de datos y la copia de seguridad a largo plazo.",
+        "category": "Almacenamiento"
+    },
+    {
+        "term": "Amazon RDS (Relational Database Service)",
+        "definition": "Servicio que facilita la configuración, el funcionamiento y el escalado de una base de datos relacional en la nube.",
+        "category": "Bases de Datos"
+    },
+    {
+        "term": "Amazon S3 (Simple Storage Service)",
+        "definition": "Servicio de almacenamiento de objetos que ofrece escalabilidad, disponibilidad de datos, seguridad y rendimiento líderes en la industria.",
+        "category": "Almacenamiento"
+    },
+    {
+        "term": "Amazon SNS (Simple Notification Service)",
+        "definition": "Servicio de mensajería de publicación/suscripción (pub/sub) totalmente administrado para la mensajería de aplicación a aplicación (A2A) y de aplicación a persona (A2P).",
+        "category": "Mensajería"
+    },
+    {
+        "term": "Amazon SQS (Simple Queue Service)",
+        "definition": "Servicio de colas de mensajes completamente administrado que permite desacoplar y escalar microservicios, sistemas distribuidos y aplicaciones sin servidor.",
+        "category": "Mensajería"
+    },
+    {
+        "term": "Amazon VPC (Virtual Private Cloud)",
+        "definition": "Permite aprovisionar una sección aislada lógicamente de la nube de AWS donde puede lanzar recursos de AWS en una red virtual que usted defina.",
+        "category": "Redes"
+    },
+    {
+        "term": "Auto Scaling",
+        "definition": "Servicio que monitorea sus aplicaciones y ajusta automáticamente la capacidad para mantener un rendimiento constante y predecible al menor costo posible.",
+        "category": "Cómputo"
+    },
+    {
+        "term": "AWS Artifact",
+        "definition": "Portal de autoservicio para acceder a los informes de cumplimiento de AWS bajo demanda.",
+        "category": "Seguridad"
+    },
+    {
+        "term": "AWS Billing and Cost Management",
+        "definition": "Herramientas que le permiten pagar sus facturas de AWS, monitorear su uso y presupuesto, y controlar sus costos de AWS.",
+        "category": "Facturación"
+    },
+    {
+        "term": "AWS Budgets",
+        "definition": "Permite establecer presupuestos personalizados para los costos y el uso de AWS y recibir alertas cuando se superan los umbrales definidos.",
+        "category": "Facturación"
+    },
+    {
+        "term": "AWS Cloud Adoption Framework (CAF)",
+        "definition": "Proporciona orientación y mejores prácticas para ayudar a las organizaciones a desarrollar un plan eficiente y efectivo para su viaje de adopción de la nube. Se organiza en 6 perspectivas: Negocio, Personas, Gobernanza, Plataforma, Seguridad y Operaciones.",
+        "category": "Conceptos de Nube"
+    },
+    {
+        "term": "AWS CloudFormation",
+        "definition": "Servicio que le ayuda a modelar y configurar sus recursos de AWS para que pueda dedicar menos tiempo a la administración de esos recursos y más tiempo a centrarse en sus aplicaciones (Infraestructura como Código).",
+        "category": "Administración"
+    },
+    {
+        "term": "AWS CloudTrail",
+        "definition": "Servicio que habilita la gobernanza, el cumplimiento y la auditoría operativa y de riesgos de su cuenta de AWS. Registra toda la actividad de la API.",
+        "category": "Monitoreo"
+    },
+    {
+        "term": "AWS Cost Explorer",
+        "definition": "Herramienta que permite visualizar, comprender y administrar los costos y el uso de AWS a lo largo del tiempo.",
+        "category": "Facturación"
+    },
+    {
+        "term": "AWS IAM (Identity and Access Management)",
+        "definition": "Servicio web que le ayuda a controlar de forma segura el acceso a los recursos de AWS. Permite administrar usuarios, grupos, roles y políticas.",
+        "category": "Seguridad"
+    },
+    {
+        "term": "AWS Inspector",
+        "definition": "Servicio automatizado de evaluación de seguridad que ayuda a mejorar la seguridad y el cumplimiento de las aplicaciones implementadas en AWS.",
+        "category": "Seguridad"
+    },
+    {
+        "term": "AWS Lambda",
+        "definition": "Servicio de cómputo sin servidor que permite ejecutar código como respuesta a eventos sin aprovisionar ni administrar servidores.",
+        "category": "Cómputo"
+    },
+    {
+        "term": "AWS Organizations",
+        "definition": "Ayuda a administrar y gobernar de forma centralizada su entorno a medida que crece y escala sus recursos de AWS. Permite la facturación consolidada.",
+        "category": "Administración"
+    },
+    {
+        "term": "AWS Pricing Calculator",
+        "definition": "Una herramienta web que permite estimar los costos mensuales de los servicios de AWS para una solución o caso de uso específico antes de construirla.",
+        "category": "Facturación"
+    },
+    {
+        "term": "AWS Shield",
+        "definition": "Servicio de protección contra ataques de denegación de servicio distribuido (DDoS) que protege las aplicaciones que se ejecutan en AWS.",
+        "category": "Seguridad"
+    },
+    {
+        "term": "AWS Support Plans",
+        "definition": "Ofrece diferentes niveles de soporte técnico para satisfacer las necesidades de los clientes. Los principales son:\n\n*   **Basic:** Gratuito. Incluye acceso 24/7 al servicio al cliente, documentación y foros. No incluye soporte técnico para casos.\n*   **Developer:** Desde $29/mes. Para pruebas y desarrollo. Incluye soporte técnico por correo electrónico con tiempos de respuesta de hasta 12 horas para casos urgentes.\n*   **Business:** Desde $100/mes. Para cargas de trabajo de producción. Incluye soporte 24/7 por teléfono, chat y correo, con tiempos de respuesta de hasta 1 hora para sistemas de producción caídos.\n*   **Enterprise:** Desde $15,000/mes. Para cargas de trabajo críticas. Ofrece un tiempo de respuesta de <15 minutos para casos críticos y un Technical Account Manager (TAM) dedicado.",
+        "category": "Soporte"
+    },
+    {
+        "term": "AWS Trusted Advisor",
+        "definition": "Servicio que le ayuda a optimizar costos, mejorar el rendimiento, la seguridad y la resiliencia de su entorno de AWS.",
+        "category": "Administración"
+    },
+    {
+        "term": "AWS WAF (Web Application Firewall)",
+        "definition": "Firewall de aplicaciones web que ayuda a proteger sus aplicaciones web o API contra exploits web comunes que pueden afectar la disponibilidad, comprometer la seguridad o consumir recursos excesivos.",
+        "category": "Seguridad"
+    },
+    {
+        "term": "Capa Gratuita de AWS (Free Tier)",
+        "definition": "Ofrece a los clientes la posibilidad de explorar y probar los servicios de AWS de forma gratuita, dentro de ciertos límites, durante 12 meses o de forma indefinida para algunos servicios.",
+        "category": "Facturación"
+    },
+    {
+        "term": "Cifrado en Tránsito vs. en Reposo",
+        "definition": "Dos estados de protección de datos. 'En Tránsito' se refiere a los datos que se mueven entre redes (ej. HTTPS/TLS). 'En Reposo' se refiere a los datos almacenados en un disco o base de datos (ej. cifrado de volúmenes EBS o buckets S3).",
+        "category": "Seguridad"
+    },
+    {
+        "term": "Cloud Computing",
+        "definition": "Entrega bajo demanda de potencia de cómputo, almacenamiento de bases de datos, aplicaciones y otros recursos de TI a través de Internet con precios de pago por uso.",
+        "category": "Conceptos de Nube"
+    },
+    {
+        "term": "Elastic Load Balancing (ELB)",
+        "definition": "Distribuye automáticamente el tráfico de aplicaciones entrante entre múltiples destinos, como instancias de EC2, en una o varias zonas de disponibilidad.",
+        "category": "Redes"
+    },
+    {
+        "term": "Excelencia Operacional (Pilar de WAF)",
+        "definition": "Uno de los 6 pilares del Well-Architected Framework. Se enfoca en la capacidad de ejecutar y monitorear sistemas para entregar valor de negocio y mejorar continuamente los procesos y procedimientos de soporte.",
+        "category": "Well-Architected"
+    },
+    {
+        "term": "Facturación Consolidada",
+        "definition": "Una característica de AWS Organizations que permite recibir una única factura para todas las cuentas de AWS de una organización.",
+        "category": "Facturación"
+    },
+    {
+        "term": "Fiabilidad (Pilar de WAF)",
+        "definition": "Uno de los 6 pilares del Well-Architected Framework. Abarca la capacidad de una carga de trabajo para realizar su función de manera correcta y consistente cuando se espera que lo haga.",
+        "category": "Well-Architected"
+    },
+    {
+        "term": "IaaS (Infraestructura como Servicio)",
+        "definition": "Categoría de servicios en la nube que proporciona recursos informáticos virtualizados (servidores, almacenamiento, redes) a través de Internet.",
+        "category": "Conceptos de Nube"
+    },
+    {
+        "term": "Instancias Reservadas (RI)",
+        "definition": "Un modelo de precios que ofrece un descuento significativo en comparación con los precios bajo demanda, a cambio de un compromiso de uso de 1 o 3 años.",
+        "category": "Facturación"
+    },
+    {
+        "term": "Instancias Spot",
+        "definition": "Permiten solicitar capacidad de cómputo EC2 no utilizada con grandes descuentos. AWS puede reclamar esta capacidad con un aviso de 2 minutos.",
+        "category": "Facturación"
+    },
+    {
+        "term": "Las 6 R's de la Migración",
+        "definition": "Estrategias comunes para migrar aplicaciones a la nube: Rehost (lift-and-shift), Replatform (lift-and-reshape), Repurchase (drop-and-shop), Refactor/Re-architect, Retain (conservar) y Retire (retirar).",
+        "category": "Conceptos de Nube"
+    },
+    {
+        "term": "Modelo de Responsabilidad Compartida",
+        "definition": "Define que AWS es responsable de la 'seguridad DE la nube' (hardware, software, red) y el cliente es responsable de la 'seguridad EN la nube' (datos, configuración, IAM).",
+        "category": "Seguridad"
+    },
+    {
+        "term": "Optimización de Costos (Pilar de WAF)",
+        "definition": "Uno de los 6 pilares del Well-Architected Framework. Se enfoca en evitar costos innecesarios. Es un proceso continuo de refinamiento y mejora a lo largo del ciclo de vida de una carga de trabajo.",
+        "category": "Well-Architected"
+    },
+    {
+        "term": "PaaS (Plataforma como Servicio)",
+        "definition": "Categoría de servicios en la nube que proporciona una plataforma para que los clientes desarrollen y ejecuten aplicaciones sin administrar la infraestructura subyacente.",
+        "category": "Conceptos de Nube"
+    },
+    {
+        "term": "Principio de Privilegio Mínimo",
+        "definition": "Un principio fundamental de seguridad que establece que a una identidad (usuario, rol, servicio) solo se le deben otorgar los permisos mínimos necesarios para realizar sus tareas, y nada más.",
+        "category": "Seguridad"
+    },
+    {
+        "term": "Punto de Presencia (Edge Location)",
+        "definition": "Ubicaciones utilizadas por Amazon CloudFront (CDN) para almacenar en caché copias de su contenido cerca de los usuarios finales para una entrega más rápida.",
+        "category": "Redes"
+    },
+    {
+        "term": "Región de AWS",
+        "definition": "Ubicación geográfica física en el mundo donde AWS agrupa centros de datos. Cada región está aislada de las demás.",
+        "category": "Conceptos de Nube"
+    },
+    {
+        "term": "Rendimiento Eficiente (Pilar de WAF)",
+        "definition": "Uno de los 6 pilares del Well-Architected Framework. Se enfoca en el uso eficiente de los recursos de computación para cumplir con los requisitos y mantener esa eficiencia a medida que la demanda cambia y las tecnologías evolucionan.",
+        "category": "Well-Architected"
+    },
+    {
+        "term": "Rol de IAM",
+        "definition": "Una identidad de IAM que puede crear en su cuenta con permisos específicos. Es similar a un usuario, pero no tiene credenciales a largo plazo y puede ser asumida por entidades de confianza.",
+        "category": "Seguridad"
+    },
+    {
+        "term": "SaaS (Software como Servicio)",
+        "definition": "Categoría de servicios en la nube que proporciona una aplicación de software completa, gestionada por el proveedor, a través de Internet.",
+        "category": "Conceptos de Nube"
+    },
+    {
+        "term": "Savings Plans",
+        "definition": "Un modelo de precios flexible que ofrece ahorros de hasta un 72% en el uso de cómputo de AWS, a cambio de un compromiso de uso constante (medido en $/hora) por un término de 1 o 3 años.",
+        "category": "Facturación"
+    },
+    {
+        "term": "Seguridad (Pilar de WAF)",
+        "definition": "Uno de los 6 pilares del Well-Architected Framework. Se enfoca en proteger la información, los sistemas y los activos, al tiempo que se ofrece valor de negocio a través de la evaluación de riesgos y las estrategias de mitigación.",
+        "category": "Well-Architected"
+    },
+    {
+        "term": "Sostenibilidad (Pilar de WAF)",
+        "definition": "Uno de los 6 pilares del Well-Architected Framework. Se enfoca en minimizar los impactos ambientales de ejecutar cargas de trabajo en la nube.",
+        "category": "Well-Architected"
+    },
+    {
+        "term": "TCO Calculator (Total Cost of Ownership)",
+        "definition": "Una herramienta para comparar el costo de ejecutar sus aplicaciones en un entorno local o de coubicación con AWS. Ayuda a estimar los ahorros al migrar a la nube.",
+        "category": "Facturación"
+    },
+    {
+        "term": "Tolerancia a Fallos",
+        "definition": "La capacidad de un sistema para permanecer en funcionamiento incluso si algunos de sus componentes fallan. Se logra mediante la redundancia.",
+        "category": "Conceptos de Nube"
+    },
+    {
+        "term": "Zona de Disponibilidad (AZ)",
+        "definition": "Uno o más centros de datos discretos con energía, redes y conectividad redundantes dentro de una Región de AWS. Están lo suficientemente lejos como para no verse afectados por el mismo desastre.",
+        "category": "Conceptos de Nube"
+    }
+]

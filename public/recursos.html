@@ -3,27 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Optimizado para Roberto Flores y Playa Vicente -->
-    <title>Recursos de Estudio y Herramientas AWS | Roberto Flores (Siegfried FS)</title>
-    <meta name="description" content="Recursos de estudio, juegos y herramientas de seguridad y productividad para la comunidad AWS de Playa Vicente, curados por Roberto Flores (Siegfried FS).">
-    <meta name="keywords" content="Roberto Flores, Siegfried FS, AWS, Playa Vicente, Recursos, Juegos, Herramientas, Seguridad, Estudio de AWS">
+    <title>Caja de Herramientas | Roberto Flores (Siegfried FS)</title>
+    <meta name="description" content="Una colección curada de herramientas, juegos y enlaces para la comunidad AWS de Playa Vicente, por Roberto Flores (Siegfried FS).">
+    <meta name="keywords" content="Roberto Flores, Siegfried FS, AWS, Playa Vicente, Recursos, Herramientas, Seguridad, Estudio de AWS">
     <meta name="author" content="Roberto Flores (Siegfried FS)">
     <link rel="canonical" href="https://tiburoncp.siegfried-fs.com/recursos.html">
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Recursos de Estudio y Herramientas AWS | Roberto Flores">
-    <meta property="og:description" content="Recursos de estudio, juegos y herramientas para la comunidad AWS de Playa Vicente, curados por Roberto Flores.">
-    <meta property="og:url" content="https://tiburoncp.siegfried-fs.com/recursos.html">
-
-    <!-- Twitter Cards -->
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Recursos de Estudio y Herramientas AWS | Roberto Flores">
-    <meta name="twitter:description" content="Recursos de estudio, juegos y herramientas para la comunidad AWS de Playa Vicente, curados por Roberto Flores.">
-
     <link rel="stylesheet" href="assets/css/styles.css?v=2024">
     <script>
-        // Aplicar tema inmediatamente para evitar delay
         (function() {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
@@ -32,52 +19,130 @@
         })();
     </script>
     <style>
-        .labs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+        /* Estilos para Pestañas */
+        .tabs-container {
+            width: 100%;
             margin-top: 30px;
+        }
+        .tab-headers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 2px solid var(--bg-card-hover);
+            padding-bottom: 10px;
+        }
+        .tab-header {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .tab-header.active {
+            background: var(--bg-card);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        .tab-header.active::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-color);
+        }
+        .tab-content-container {
+            padding-top: 30px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Nuevo Diseño de Tarjetas de Recursos */
+        .resource-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            height: 100%;
+        }
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        .resource-card-image-container {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+        .resource-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid var(--bg-card-hover);
+        }
+        .resource-card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .resource-card-content h3 {
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+        .resource-card-content p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+        .resource-tags {
+            margin-top: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .resource-tags .tag {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: var(--primary-color-translucent);
+            color: var(--primary-color);
         }
     </style>
 </head>
 <body>
     <div id="particles-js"></div>
-
-    <header class="header">
-        <nav class="nav">
-            <div class="nav-brand">
-                <h1>🦈 Tiburón</h1>
-            </div>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html">🏠 Inicio</a></li>
-                <li><a href="guia.html">📖 Guía de Estudio</a></li>
-                <li class="dropdown">
-                    <a href="javascript:void(0);" class="dropdown-toggle">📚 Recursos <span class="dropdown-arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="servicios.html">☁️ Guía de Servicios</a></li>
-                        <li><a href="glosario.html">📚 Glosario de Términos</a></li>
-                        <li><a href="juegos.html">🎮 Juegos Interactivos</a></li>
-                        <li><a href="recursos.html">🎲 Herramientas y Enlaces</a></li>
-                    </ul>
-                </li>
-                <li><a href="eventos.html">🗓️ Eventos</a></li>
-                <li><button class="theme-toggle" title="Cambiar tema">🌙</button></li>
-            </ul>
-        </nav>
-    </header>
+    <div id="header-placeholder"></div>
 
     <main style="margin-top: 100px;">
         <section class="content-section">
-            <h2>🎲 Herramientas y Enlaces Útiles</h2>
-            <p class="tagline" style="text-align: center;">Explora una colección curada de herramientas, juegos y enlaces externos que te ayudarán en tu aprendizaje de AWS y en tu productividad diaria.</p>
+            <h2>🧰 Caja de Herramientas</h2>
+            <p class="tagline" style="text-align: center;">Una colección curada de herramientas, juegos y enlaces que te ayudarán en tu día a día.</p>
         </section>
-        <div id="resources-container" class="container">
-            <!-- Los recursos se cargarán aquí dinámicamente por categoría -->
+        <div class="container">
+            <div id="resources-container" class="tabs-container">
+                <div class="tab-headers" id="resources-tab-headers">
+                    <!-- JavaScript poblará esto -->
+                </div>
+                <div class="tab-content-container" id="resources-tab-contents">
+                    <!-- JavaScript poblará esto -->
+                </div>
+            </div>
         </div>
     </main>
 

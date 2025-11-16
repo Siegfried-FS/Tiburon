@@ -1,0 +1,44 @@
+[
+    {
+        "title": "Sudoku.com",
+        "description": "El clásico juego de lógica Sudoku para ejercitar tu mente con diferentes niveles de dificultad.",
+        "url": "https://sudoku.com/",
+        "image": "https://sudoku.com/img/Sudoku-App-Icon.png",
+        "tags": ["Puzzle", "Clásico", "Gratis"]
+    },
+    {
+        "title": "Chess.com",
+        "description": "Juega ajedrez en línea con millones de jugadores de todo el mundo. Mejora tu estrategia y lógica.",
+        "url": "https://www.chess.com/",
+        "image": "https://images.chesscomfiles.com/uploads/v1/images_users/tiny_player_icons/8904_200.png",
+        "tags": ["Estrategia", "Ajedrez", "Comunidad"]
+    },
+    {
+        "title": "Lichess",
+        "description": "Una plataforma de ajedrez gratis y de código abierto. Sin publicidad, sin trampas, solo ajedrez puro.",
+        "url": "https://lichess.org/",
+        "image": "https://lichess.org/assets/_Lichess-favicon-32.png",
+        "tags": ["Estrategia", "Ajedrez", "Open Source", "Gratis"]
+    },
+    {
+        "title": "Project Euler",
+        "description": "Una serie de desafiantes problemas matemático-computacionales que requieren más que solo habilidades matemáticas para resolver.",
+        "url": "https://projecteuler.net/",
+        "image": "https://projecteuler.net/images/euler_screenshot.png",
+        "tags": ["Programación", "Matemáticas", "Desafío"]
+    },
+    {
+        "title": "Human Resource Machine",
+        "description": "Un juego de puzzle de programación para nerds. Programa a tu pequeño trabajador de oficina para resolver puzzles.",
+        "url": "https://tomorrowcorporation.com/humanresourcemachine",
+        "image": "https://tomorrowcorporation.com/img/hrm-game.png",
+        "tags": ["Programación", "Puzzle", "Juego Educativo"]
+    },
+    {
+        "title": "Logic Grid Puzzles",
+        "description": "Resuelve una variedad de puzzles de rejilla lógica que agudizarán tu pensamiento deductivo.",
+        "url": "https://www.logic-grid-puzzles.com/",
+        "image": "https://www.logic-grid-puzzles.com/images/lgp-logo.png",
+        "tags": ["Puzzle", "Deducción", "Gratis"]
+    }
+]

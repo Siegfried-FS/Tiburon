@@ -9,6 +9,149 @@
     <meta name="author" content="Roberto Flores (Siegfried FS)">
     <link rel="canonical" href="https://tiburoncp.siegfried-fs.com/guia.html">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        /* Mejoras Visuales para la Guía de Estudio */
+        .guide-section h2 {
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color-translucent);
+        }
+        .guide-section h3 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-top: 30px;
+        }
+        .guide-section p {
+            line-height: 1.7;
+        }
+
+        /* Estilo para listas */
+        .styled-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .styled-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+        .styled-list li::before {
+            content: '🔹';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        /* Nueva lista de servicios */
+        .service-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 20px;
+        }
+        .service-list li {
+            background: var(--bg-secondary);
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            border-left: 3px solid var(--primary-color-translucent);
+            transition: border-left-color 0.3s ease;
+        }
+        .service-list li:hover {
+            border-left-color: var(--primary-color);
+        }
+        .service-list a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .service-list p {
+            margin: 5px 0 0 0;
+            padding-left: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Tarjetas para Pilares Well-Architected */
+        .pillar-card {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            border-left: 5px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .pillar-card h4 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pillar-card .icon {
+            font-size: 1.5rem;
+        }
+        /* Colores para cada pilar */
+        .pillar-1 { border-color: #d82a2c; } /* Operacional */
+        .pillar-2 { border-color: #f58536; } /* Seguridad */
+        .pillar-3 { border-color: #ffcb05; } /* Confiabilidad */
+        .pillar-4 { border-color: #00a4e4; } /* Rendimiento */
+        .pillar-5 { border-color: #5fb749; } /* Costos */
+        .pillar-6 { border-color: #8e44ad; } /* Sustentabilidad */
+
+        /* Jerarquía visual para Rutas de Certificación */
+        .cert-path-visual {
+            list-style: none;
+            padding-left: 0;
+        }
+        .cert-path-visual > li {
+            margin-bottom: 15px;
+        }
+        .cert-path-visual strong {
+            font-size: 1.1rem;
+        }
+        .cert-path-visual ul {
+            padding-left: 30px;
+            margin-top: 10px;
+            list-style: none;
+        }
+        .cert-path-visual ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+        }
+        .cert-path-visual ul li::before {
+            content: '↳';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Tarjetas Do's and Don'ts */
+        .dos-donts-card {
+            padding: 25px;
+            border-radius: var(--border-radius);
+        }
+        .dos-donts-card h3 {
+            color: var(--text-primary);
+            margin-top: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dos-donts-card.dos {
+            background: rgba(0, 200, 81, 0.1);
+            border-left: 5px solid var(--success-color);
+        }
+        .dos-donts-card.donts {
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 5px solid var(--accent-color);
+        }
+    </style>
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme');
@@ -21,33 +164,7 @@
 <body>
     <div id="particles-js"></div>
 
-    <header class="header">
-        <nav class="nav">
-            <div class="nav-brand">
-                <h1>🦈 Tiburón</h1>
-            </div>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html">🏠 Inicio</a></li>
-                <li><a href="guia.html">📖 Guía de Estudio</a></li>
-                <li class="dropdown">
-                    <a href="javascript:void(0);" class="dropdown-toggle">📚 Recursos <span class="dropdown-arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="servicios.html">☁️ Guía de Servicios</a></li>
-                        <li><a href="glosario.html">📚 Glosario de Términos</a></li>
-                        <li><a href="juegos.html">🎮 Juegos Interactivos</a></li>
-                        <li><a href="recursos.html">🎲 Herramientas y Enlaces</a></li>
-                    </ul>
-                </li>
-                <li><a href="eventos.html">🗓️ Eventos</a></li>
-                <li><button class="theme-toggle" title="Cambiar tema">🌙</button></li>
-            </ul>
-        </nav>
-    </header>
+    <div id="header-placeholder"></div>
 
     <main style="margin-top: 100px;">
         <div class="container">
@@ -56,11 +173,11 @@
                 <p class="tagline" style="text-align: center;">Una guía completa para comenzar tu journey en Amazon Web Services, diseñada para principiantes y con un enfoque práctico.</p>
             </section>
 
-            <section id="intro" class="content-section">
+            <section id="intro" class="content-section guide-section">
                 <h2>🎯 Introducción</h2>
                 <p>¡Bienvenido al mundo de Amazon Web Services! Esta guía está diseñada para ayudarte a dar tus primeros pasos en la nube de AWS de manera estructurada y efectiva. Ya seas completamente nuevo en la nube o tengas algo de experiencia, encontrarás recursos valiosos para acelerar tu aprendizaje.</p>
                 <h3>Objetivos de esta Guía:</h3>
-                <ul>
+                <ul class="styled-list">
                     <li>Entender qué es AWS y por qué es importante</li>
                     <li>Conocer los servicios fundamentales</li>
                     <li>Aprender los principios de arquitectura en la nube</li>
@@ -69,12 +186,12 @@
                 </ul>
             </section>
 
-            <section id="what-is-aws" class="content-section">
+            <section id="what-is-aws" class="content-section guide-section">
                 <h2>☁️ ¿Qué es AWS?</h2>
                 <h3>📖 Definición</h3>
                 <p>Amazon Web Services (AWS) es la plataforma de servicios en la nube más completa y ampliamente adoptada del mundo. Ofrece más de 200 servicios desde centros de datos ubicados globalmente.</p>
                 <h3>🌟 ¿Por qué AWS?</h3>
-                <ul>
+                <ul class="styled-list">
                     <li><strong>🌍 Alcance Global:</strong> Presencia en múltiples regiones del mundo</li>
                     <li><strong>💰 Modelo de Pago:</strong> Solo pagas por lo que usas</li>
                     <li><strong>🔒 Seguridad:</strong> Estándares de seguridad de nivel empresarial</li>
@@ -82,7 +199,7 @@
                     <li><strong>🚀 Innovación:</strong> Nuevos servicios constantemente</li>
                 </ul>
                 <h3>🏢 Casos de Uso Principales</h3>
-                <ul>
+                <ul class="styled-list">
                     <li>Hosting de aplicaciones web</li>
                     <li>Almacenamiento y respaldo de datos</li>
                     <li>Big Data y Analytics</li>
@@ -92,42 +209,73 @@
                 </ul>
             </section>
 
-            <section id="well-architected" class="content-section">
+            <section id="core-services" class="content-section guide-section">
+                <h2>⚙️ Servicios Fundamentales que Debes Conocer</h2>
+                <p>AWS tiene cientos de servicios, pero para empezar, enfócate en entender estos pilares fundamentales. Conocerlos es clave para la certificación Cloud Practitioner.</p>
+                <ul class="service-list">
+                    <li>
+                        <a href="https://aws.amazon.com/ec2/" target="_blank">Amazon EC2 (Elastic Compute Cloud)</a>
+                        <p>Servidores virtuales en la nube. Es la base para ejecutar aplicaciones.</p>
+                    </li>
+                    <li>
+                        <a href="https://aws.amazon.com/s3/" target="_blank">Amazon S3 (Simple Storage Service)</a>
+                        <p>Almacenamiento de objetos escalable y duradero para guardar cualquier tipo de archivo.</p>
+                    </li>
+                    <li>
+                        <a href="https://aws.amazon.com/rds/" target="_blank">Amazon RDS (Relational Database Service)</a>
+                        <p>Servicio de bases de datos relacionales administradas (como MySQL, PostgreSQL).</p>
+                    </li>
+                    <li>
+                        <a href="https://aws.amazon.com/lambda/" target="_blank">AWS Lambda</a>
+                        <p>Ejecuta código sin pensar en servidores (Serverless). Ideal para tareas automáticas.</p>
+                    </li>
+                    <li>
+                        <a href="https://aws.amazon.com/vpc/" target="_blank">Amazon VPC (Virtual Private Cloud)</a>
+                        <p>Tu propia sección de red privada y aislada en la nube de AWS.</p>
+                    </li>
+                    <li>
+                        <a href="https://aws.amazon.com/iam/" target="_blank">AWS IAM (Identity and Access Management)</a>
+                        <p>Gestiona de forma segura el acceso a los servicios y recursos de AWS.</p>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="well-architected" class="content-section guide-section">
                 <h2>🏛️ Los 6 Pilares del Well-Architected Framework</h2>
                 <p>El AWS Well-Architected Framework proporciona las mejores prácticas para construir sistemas seguros, confiables, eficientes y rentables en la nube.</p>
                 <div class="about-content">
-                    <div class="about-card">
-                        <h3>1. 🎯 Excelencia Operacional</h3>
+                    <div class="pillar-card pillar-1">
+                        <h4><span class="icon">🎯</span>Excelencia Operacional</h4>
                         <p>Capacidad de ejecutar y monitorear sistemas para entregar valor empresarial. Principios: operaciones como código, cambios pequeños, refinar procedimientos, anticipar fallas.</p>
                     </div>
-                    <div class="about-card">
-                        <h3>2. 🔒 Seguridad</h3>
+                    <div class="pillar-card pillar-2">
+                        <h4><span class="icon">🔒</span>Seguridad</h4>
                         <p>Capacidad de proteger información, sistemas y activos. Principios: base sólida de identidad, seguridad en todas las capas, automatizar, proteger datos.</p>
                     </div>
-                    <div class="about-card">
-                        <h3>3. ⚡ Confiabilidad</h3>
+                    <div class="pillar-card pillar-3">
+                        <h4><span class="icon">⚡</span>Confiabilidad</h4>
                         <p>Capacidad de un sistema para recuperarse de fallas. Principios: recuperación automática, probar recuperación, escalar horizontalmente, gestionar cambios en automatización.</p>
                     </div>
-                    <div class="about-card">
-                        <h3>4. 🚀 Eficiencia de Rendimiento</h3>
+                    <div class="pillar-card pillar-4">
+                        <h4><span class="icon">🚀</span>Eficiencia de Rendimiento</h4>
                         <p>Capacidad de usar recursos de computación de manera eficiente. Principios: democratizar tecnologías, globalizar en minutos, usar serverless, experimentar más.</p>
                     </div>
-                    <div class="about-card">
-                        <h3>5. 💰 Optimización de Costos</h3>
+                    <div class="pillar-card pillar-5">
+                        <h4><span class="icon">💰</span>Optimización de Costos</h4>
                         <p>Capacidad de ejecutar sistemas al menor precio. Principios: gestión financiera en la nube, medir eficiencia, analizar gastos.</p>
                     </div>
-                    <div class="about-card">
-                        <h3>6. 🌱 Sustentabilidad</h3>
+                    <div class="pillar-card pillar-6">
+                        <h4><span class="icon">🌱</span>Sustentabilidad</h4>
                         <p>Capacidad de mejorar continuamente los impactos de sustentabilidad. Principios: entender tu impacto, maximizar utilización, usar servicios administrados.</p>
                     </div>
                 </div>
             </section>
 
-            <section id="cert-paths" class="content-section">
+            <section id="cert-paths" class="content-section guide-section">
                 <h2>🎓 Rutas de Certificación</h2>
                 <p>AWS ofrece certificaciones para validar tu conocimiento y habilidades en la nube. Se dividen en niveles: Fundacional, Asociado, Profesional y Especialidad.</p>
                 <h3>Ruta Recomendada para Principiantes:</h3>
-                <ol>
+                <ol class="cert-path-visual">
                     <li><strong>AWS Certified Cloud Practitioner (Fundacional):</strong> El punto de partida ideal. Valida tu comprensión general de la nube de AWS.</li>
                     <li><strong>Nivel Asociado (Elige uno):</strong>
                         <ul>
@@ -143,12 +291,12 @@
                 </div>
             </section>
 
-            <section id="tips" class="content-section">
+            <section id="tips" class="content-section guide-section">
                 <h2>💡 Consejos Finales</h2>
                 <div class="about-content">
-                    <div class="about-card" style="border-left: 5px solid var(--success-color);">
-                        <h3>✅ Qué Hacer (Do's)</h3>
-                        <ul>
+                    <div class="dos-donts-card dos">
+                        <h3><span class="icon">✅</span> Qué Hacer (Do's)</h3>
+                        <ul class="styled-list">
                             <li>Practica con la capa gratuita de AWS.</li>
                             <li>Únete a comunidades de AWS.</li>
                             <li>Mantente actualizado con nuevos servicios.</li>
@@ -156,9 +304,9 @@
                             <li>Usa múltiples recursos de aprendizaje.</li>
                         </ul>
                     </div>
-                    <div class="about-card" style="border-left: 5px solid var(--accent-color);">
-                        <h3>❌ Qué No Hacer (Don'ts)</h3>
-                        <ul>
+                    <div class="dos-donts-card donts">
+                        <h3><span class="icon">❌</span> Qué No Hacer (Don'ts)</h3>
+                        <ul class="styled-list">
                             <li>No te saltes los fundamentos.</li>
                             <li>No estudies solo teoría sin práctica.</li>
                             <li>No ignores la seguridad y mejores prácticas.</li>

@@ -57,6 +57,7 @@ body {
     line-height: 1.6;
     min-height: 100vh;
     transition: all 0.3s ease;
+    padding-top: 80px; /* Añadir padding-top para compensar el header fijo */
 }
 
 /* Particles.js */
@@ -133,7 +134,7 @@ body {
 .nav-menu {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    gap: 1.8rem; /* Ajuste de espacio */
 }
 
 .nav-menu a {
@@ -142,6 +143,7 @@ body {
     font-weight: 500;
     transition: all 0.3s ease;
     position: relative;
+    padding: 5px 0; /* Añadir padding para mejor área de clic */
 }
 
 .nav-menu a:hover {
@@ -151,7 +153,7 @@ body {
 .nav-menu a::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: 0; /* Ajustar posición de la línea */
     left: 0;
     width: 0;
     height: 2px;
@@ -191,13 +193,14 @@ body {
 
 .dropdown-toggle .dropdown-arrow {
     display: inline-block;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, color 0.3s ease; /* Añadir transición de color */
     font-size: 0.8em;
     margin-left: 5px;
 }
 
 .dropdown:hover .dropdown-toggle .dropdown-arrow {
     transform: rotate(180deg);
+    color: var(--primary-color); /* Cambiar color al hacer hover */
 }
 
 .dropdown-menu {
@@ -217,7 +220,7 @@ body {
     border: 1px solid var(--border-color);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, margin-top 0.3s ease;
+    transition: opacity 0.3s ease, margin-top 0.3s ease, box-shadow 0.3s ease; /* Añadir transición de sombra */
 }
 
 .dropdown:hover .dropdown-menu {
@@ -225,6 +228,7 @@ body {
     opacity: 1;
     visibility: visible;
     margin-top: 0;
+    box-shadow: 0 10px 40px rgba(0, 212, 255, 0.3); /* Sombra más pronunciada al abrir */
 }
 
 .dropdown-menu li {
@@ -235,6 +239,7 @@ body {
     display: block;
     padding: 12px 20px;
     white-space: nowrap;
+    color: var(--text-secondary); /* Color de texto para items del dropdown */
 }
 
 .dropdown-menu a::after {
@@ -454,7 +459,10 @@ main {
 }
 
 /* Grid de laboratorios */
-.labs-grid {
+.labs-grid,
+.git-projects-grid, /* Aplicar estilos de grid a los nuevos contenedores */
+.logic-games-grid,
+.success-stories-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 25px;

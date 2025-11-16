@@ -1,0 +1,18 @@
+[
+    {
+        "title": "Taller de Introducción a AWS",
+        "date": "2025-10-15",
+        "description": "En este taller práctico, exploramos los servicios fundamentales de AWS. Los participantes aprendieron a lanzar una instancia EC2, configurar un bucket de S3 y entender la infraestructura global de AWS. Fue una sesión interactiva ideal para principiantes.",
+        "image": "https://images.unsplash.com/photo-1573495627361-d9b87960b12d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "tags": ["AWS", "Principiantes", "EC2", "S3"],
+        "materials_link": "https://github.com/Siegfried-FS/link-a-los-materiales"
+    },
+    {
+        "title": "Workshop: Desplegando tu Primera Web Estática",
+        "date": "2025-09-20",
+        "description": "Taller enfocado en desplegar una página web estática utilizando AWS Amplify. Vimos el proceso desde la conexión con un repositorio de Git hasta la configuración de un dominio personalizado y la entrega de contenido global (CDN).",
+        "image": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "tags": ["AWS Amplify", "Frontend", "Git", "Hosting"],
+        "materials_link": null
+    }
+]
