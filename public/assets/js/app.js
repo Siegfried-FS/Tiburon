@@ -34,6 +34,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         initParticles();
     }
 
+    initBackToTopButton(); // Añadido para el botón de volver arriba
+
     if (document.getElementById('events-container')) {
         loadEvents();
     }
@@ -208,12 +210,17 @@ async function loadGlossary() {
     const container = document.getElementById('glossary-container');
     if (!container) return;
 
+    showSkeletonLoader(container, termCardSkeleton, 3); // Mostrar esqueletos
+
     const searchInput = document.getElementById('glossary-search');
     const alphabetFilterContainer = document.getElementById('alphabet-filter');
 
     let allTerms = []; // Para almacenar todos los términos para filtrar
 
     try {
+        // Simular un pequeño retraso para que el esqueleto sea visible
+        await new Promise(resolve => setTimeout(resolve, 500));
+
         const response = await fetch('assets/data/glosario.json');
         allTerms = await response.json();
 
@@ -283,91 +290,7 @@ async function loadGlossary() {
     }
 }
 
-// =============================================================================
-// PÁGINA DE GLOSARIO (TÉRMINOS INTERACTIVOS)
-// =============================================================================
 
-async function loadGlossary() {
-    const container = document.getElementById('glossary-container');
-    if (!container) return;
-
-    const searchInput = document.getElementById('glossary-search');
-    const alphabetFilterContainer = document.getElementById('alphabet-filter');
-
-    let allTerms = []; // Para almacenar todos los términos para filtrar
-
-    try {
-        const response = await fetch('assets/data/glosario.json');
-        allTerms = await response.json();
-
-        if (allTerms.length === 0) {
-            container.innerHTML = '<p>No hay términos en el glosario en este momento.</p>';
-            return;
-        }
-
-        // Ordenar términos alfabéticamente
-        allTerms.sort((a, b) => a.term.localeCompare(b.term));
-
-        // Renderizar términos iniciales
-        renderTerms(allTerms);
-
-        // Generar Filtro Alfabético
-        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-        alphabetFilterContainer.innerHTML = '<button class="active" data-filter="all">Todos</button>';
-        alphabet.forEach(letter => {
-            const button = document.createElement('button');
-            button.textContent = letter;
-            button.setAttribute('data-filter', letter);
-            alphabetFilterContainer.appendChild(button);
-        });
-
-        // Añadir Event Listeners para Búsqueda y Filtro
-        searchInput.addEventListener('input', () => {
-            const activeFilter = alphabetFilterContainer.querySelector('button.active');
-            filterTerms(allTerms, searchInput.value, activeFilter ? activeFilter.dataset.filter : 'all');
-        });
-        alphabetFilterContainer.addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON') {
-                alphabetFilterContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
-                filterTerms(allTerms, searchInput.value, event.target.dataset.filter);
-            }
-        });
-
-    } catch (error) {
-        console.error('Error al cargar el glosario:', error);
-        container.innerHTML = '<p>Error al cargar el glosario. Intenta recargar la página.</p>';
-    }
-
-    function renderTerms(termsToRender) {
-        let html = '';
-        if (termsToRender.length === 0) {
-            html = '<p style="text-align: center;">No se encontraron términos que coincidan con tu búsqueda.</p>';
-        } else {
-            termsToRender.forEach(term => {
-                html += `
-                    <div class="term-card">
-                        <h3>${term.term}</h3>
-                        <p>${term.definition}</p>
-                        <span class="category-tag">${term.category}</span>
-                    </div>
-                `;
-            });
-        }
-        container.innerHTML = html;
-        initScrollAnimations(); // Reinicializar animaciones de scroll para las nuevas tarjetas
-    }
-
-    function filterTerms(terms, searchText, alphaFilter) {
-        const filtered = terms.filter(term => {
-            const matchesSearch = term.term.toLowerCase().includes(searchText.toLowerCase()) ||
-                                  term.definition.toLowerCase().includes(searchText.toLowerCase());
-            const matchesAlpha = alphaFilter === 'all' || term.term.toUpperCase().startsWith(alphaFilter);
-            return matchesSearch && matchesAlpha;
-        });
-        renderTerms(filtered);
-    }
-}
 
 // =============================================================================
 // CARGA DINÁMICA DE CONTENIDO (EVENTOS Y RECURSOS)
@@ -377,7 +300,13 @@ async function loadEvents() {
     const container = document.getElementById('events-container');
     if (!container) return;
 
+    // Asumiendo que los eventos no tienen un grid directo, mostramos 2 esqueletos.
+    showSkeletonLoader(container, eventCardSkeleton, 2, 'events-grid');
+
     try {
+        // Simular un pequeño retraso para que el esqueleto sea visible
+        await new Promise(resolve => setTimeout(resolve, 500));
+
         const response = await fetch('assets/data/events.json');
         const events = await response.json();
 
@@ -563,11 +492,14 @@ async function loadResources() {
 
 async function loadLogicGames() {
     const container = document.getElementById('logic-games-grid');
-    if (!container) {
-        return;
-    }
+    if (!container) return;
+
+    showSkeletonLoader(container, labCardSkeleton, 6); // Mostrar esqueletos
 
     try {
+        // Simular un pequeño retraso para que el esqueleto sea visible
+        await new Promise(resolve => setTimeout(resolve, 500));
+
         const response = await fetch('assets/data/logic-games.json');
 
         if (!response.ok) {
@@ -614,7 +546,12 @@ async function loadWorkshops() {
     const container = document.getElementById('workshops-container');
     if (!container) return;
 
+    showSkeletonLoader(container, labCardSkeleton, 4); // Mostrar esqueletos
+
     try {
+        // Simular un pequeño retraso para que el esqueleto sea visible
+        await new Promise(resolve => setTimeout(resolve, 500));
+
         const response = await fetch('assets/data/workshops.json');
         const workshops = await response.json();
 
@@ -660,6 +597,119 @@ async function loadWorkshops() {
         console.error('Error al cargar los talleres:', error);
         container.innerHTML = '<p>Error al cargar el historial de talleres.</p>';
     }
+}
+
+// =============================================================================
+// COMPONENTES DE UI
+// =============================================================================
+
+// Plantillas de Esqueleto para Carga
+const termCardSkeleton = `
+<div class="term-card skeleton">
+    <h3></h3>
+    <p class="line-1"></p>
+    <p class="line-2"></p>
+    <span class="category-tag"></span>
+</div>
+`;
+
+const labCardSkeleton = `
+<div class="lab-card skeleton">
+    <div class="lab-card-image-container"></div>
+    <div class="lab-card-content">
+        <p class="card-date"></p>
+        <h3></h3>
+        <p class="line-1"></p>
+        <p class="line-2"></p>
+        <div class="resource-tags">
+            <span class="tag"></span>
+            <span class="tag"></span>
+        </div>
+    </div>
+</div>
+`;
+
+const eventCardSkeleton = `
+<div class="event-card skeleton">
+    <div class="event-date-block">
+        <span class="day"></span>
+        <span class="month"></span>
+    </div>
+    <div class="event-details">
+        <h3 class="event-title"></h3>
+        <p class="event-description line-1"></p>
+        <p class="event-description line-2"></p>
+        <div class="event-tags">
+            <span class="tag"></span>
+            <span class="tag"></span>
+        </div>
+    </div>
+</div>
+`;
+
+
+/**
+ * Muestra un cargador de esqueleto en un contenedor.
+ * @param {HTMLElement} container - El elemento contenedor.
+ * @param {string} skeletonHTML - La cadena HTML para una sola tarjeta de esqueleto.
+ * @param {number} defaultCount - El número de esqueletos a mostrar por defecto.
+ * @param {string} [gridClassName] - El nombre de la clase de la cuadrícula para buscar dentro del contenedor.
+ */
+function showSkeletonLoader(container, skeletonHTML, defaultCount, gridClassName) {
+    if (!container) return;
+
+    let count = defaultCount;
+    let targetContainer = container;
+
+    // Si se proporciona un gridClassName, buscamos ese contenedor específico para los esqueletos.
+    if (gridClassName) {
+        const grid = container.querySelector('.' + gridClassName);
+        if (grid) {
+            targetContainer = grid;
+        } else {
+            // Si no se encuentra la cuadrícula, creamos una estructura temporal para los esqueletos.
+            container.innerHTML = `<section class="content-section"><div class="${gridClassName}"></div></section>`;
+            targetContainer = container.querySelector('.' + gridClassName);
+        }
+    }
+    
+    // Intenta calcular el número de esqueletos basado en las columnas del grid.
+    const gridComputedStyle = window.getComputedStyle(targetContainer);
+    const gridCols = gridComputedStyle.getPropertyValue('grid-template-columns').split(' ').length;
+    
+    if (gridCols > 1) {
+        count = gridCols * 2; // Mostrar 2 filas de esqueletos
+    }
+
+    let skeletons = '';
+    for (let i = 0; i < count; i++) {
+        skeletons += skeletonHTML;
+    }
+    targetContainer.innerHTML = skeletons;
+}
+
+
+function initBackToTopButton() {
+    const backToTopBtn = document.createElement('button');
+    backToTopBtn.id = 'back-to-top-btn';
+    backToTopBtn.className = 'back-to-top-btn';
+    backToTopBtn.innerHTML = '&#8679;'; // Flecha hacia arriba
+    document.body.appendChild(backToTopBtn);
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
 }
 
 // =============================================================================

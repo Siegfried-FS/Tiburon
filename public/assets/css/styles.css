@@ -1902,3 +1902,409 @@ html {
         display: block;
     }
 }
+
+/* ========================================================================== */
+/*   ESTILOS ESPECÍFICOS DE PÁGINAS CONSOLIDADOS                       */
+/* ========================================================================== */
+
+/* --- Estilos de public/guia.html --- */
+.guide-section h2 {
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color-translucent);
+}
+.guide-section h3 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-top: 30px;
+}
+.guide-section p {
+    line-height: 1.7;
+}
+.styled-list {
+    list-style: none;
+    padding-left: 0;
+}
+.styled-list li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 10px;
+    font-size: 1.05rem;
+}
+.styled-list li::before {
+    content: '🔹';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+.service-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 20px;
+}
+.service-list li {
+    background: var(--bg-secondary);
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    border-left: 3px solid var(--primary-color-translucent);
+    transition: border-left-color 0.3s ease;
+}
+.service-list li:hover {
+    border-left-color: var(--primary-color);
+}
+.service-list a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.service-list p {
+    margin: 5px 0 0 0;
+    padding-left: 0;
+    font-size: 0.95rem;
+}
+.pillar-card {
+    background: var(--bg-card);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    border-left: 5px solid;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.pillar-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+.pillar-card h4 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.pillar-card .icon {
+    font-size: 1.5rem;
+}
+.pillar-1 { border-color: #d82a2c; } /* Operacional */
+.pillar-2 { border-color: #f58536; } /* Seguridad */
+.pillar-3 { border-color: #ffcb05; } /* Confiabilidad */
+.pillar-4 { border-color: #00a4e4; } /* Rendimiento */
+.pillar-5 { border-color: #5fb749; } /* Costos */
+.pillar-6 { border-color: #8e44ad; } /* Sustentabilidad */
+.cert-path-visual {
+    list-style: none;
+    padding-left: 0;
+}
+.cert-path-visual > li {
+    margin-bottom: 15px;
+}
+.cert-path-visual strong {
+    font-size: 1.1rem;
+}
+.cert-path-visual ul {
+    padding-left: 30px;
+    margin-top: 10px;
+    list-style: none;
+}
+.cert-path-visual ul li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 8px;
+}
+.cert-path-visual ul li::before {
+    content: '↳';
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.dos-donts-card {
+    padding: 25px;
+    border-radius: var(--border-radius);
+}
+.dos-donts-card h3 {
+    color: var(--text-primary);
+    margin-top: 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.dos-donts-card.dos {
+    background: rgba(0, 200, 81, 0.1);
+    border-left: 5px solid var(--success-color);
+}
+.dos-donts-card.donts {
+    background: rgba(255, 107, 53, 0.1);
+    border-left: 5px solid var(--accent-color);
+}
+
+/* --- Estilos de public/glosario.html --- */
+.glossary-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+    align-items: center;
+    justify-content: center;
+}
+.glossary-controls input[type="text"] {
+    flex-grow: 1;
+    max-width: 400px;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--bg-card-hover);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+.alphabet-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+}
+.alphabet-filter button {
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--bg-card-hover);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: bold;
+}
+.alphabet-filter button:hover:not(.active) {
+    background: var(--bg-card-hover);
+    color: var(--primary-color);
+}
+.alphabet-filter button.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+.glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+.term-card {
+    background: var(--bg-card);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    border-left: 5px solid var(--primary-color-translucent);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-left-color 0.3s ease;
+}
+.term-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-left-color: var(--primary-color);
+}
+.term-card h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+.term-card p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+.term-card .category-tag {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* ========================================================================== */
+/*   BOTÓN VOLVER ARRIBA (BACK TO TOP)                                 */
+/* ========================================================================== */
+
+.back-to-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.back-to-top-btn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top-btn:hover {
+    background: var(--secondary-color);
+    transform: scale(1.1);
+}
+
+/* ========================================================================== */
+/*   SKELETON LOADER                                                          */
+/* ========================================================================== */
+
+@keyframes skeleton-glow {
+    0% {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+    100% {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+[data-theme="light"] @keyframes skeleton-glow {
+    0% {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+    50% {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+    100% {
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+}
+
+.skeleton {
+    animation: skeleton-glow 1.5s ease-in-out infinite;
+    cursor: progress;
+    user-select: none;
+}
+
+.skeleton > * {
+    visibility: hidden;
+}
+
+/* Estilos para los elementos dentro de las tarjetas esqueleto */
+.skeleton h3,
+.skeleton p,
+.skeleton span,
+.skeleton div {
+    background-color: rgba(255, 255, 255, 0.1); /* Color base para el brillo */
+    animation: skeleton-glow 1.5s ease-in-out infinite;
+    color: transparent !important; /* Ocultar cualquier texto accidental */
+    border-radius: 4px;
+}
+
+/* Esqueleto para TermCard (Glosario) */
+.term-card.skeleton h3 {
+    width: 60%;
+    height: 24px;
+    margin-bottom: 15px;
+}
+.term-card.skeleton p {
+    height: 16px;
+    margin-bottom: 8px;
+}
+.term-card.skeleton p.line-1 {
+    width: 90%;
+}
+.term-card.skeleton p.line-2 {
+    width: 75%;
+}
+.term-card.skeleton .category-tag {
+    width: 100px;
+    height: 24px;
+    margin-top: 15px;
+}
+
+/* Esqueleto para LabCard (Talleres, Juegos) */
+.lab-card.skeleton .lab-card-image-container {
+    height: 180px;
+    background-color: rgba(255, 255, 255, 0.1);
+    animation: skeleton-glow 1.5s ease-in-out infinite;
+}
+.lab-card.skeleton .card-date {
+    width: 40%;
+    height: 14px;
+    margin-bottom: 10px;
+}
+.lab-card.skeleton h3 {
+    width: 70%;
+    height: 22px;
+    margin-bottom: 15px;
+}
+.lab-card.skeleton p {
+    height: 16px;
+    margin-bottom: 8px;
+}
+.lab-card.skeleton p.line-1 {
+    width: 95%;
+}
+.lab-card.skeleton p.line-2 {
+    width: 80%;
+}
+.lab-card.skeleton .resource-tags {
+    margin-top: 15px;
+}
+.lab-card.skeleton .tag {
+    width: 70px;
+    height: 24px;
+    display: inline-block;
+}
+
+/* Esqueleto para EventCard */
+.event-card.skeleton .event-date-block {
+    background-color: rgba(255, 255, 255, 0.1);
+    animation: skeleton-glow 1.5s ease-in-out infinite;
+}
+.event-card.skeleton .event-date-block .day,
+.event-card.skeleton .event-date-block .month {
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 50px;
+    height: 30px;
+    margin: 5px 0;
+}
+.event-card.skeleton .event-date-block .month {
+    height: 16px;
+    width: 60px;
+}
+.event-card.skeleton .event-title {
+    width: 75%;
+    height: 22px;
+    margin-bottom: 15px;
+}
+.event-card.skeleton .event-description {
+    height: 16px;
+    margin-bottom: 8px;
+}
+.event-card.skeleton .line-1 {
+    width: 100%;
+}
+.event-card.skeleton .line-2 {
+    width: 85%;
+}
+.event-card.skeleton .event-tags {
+    margin-top: 15px;
+}
+.event-card.skeleton .tag {
+    width: 80px;
+    height: 24px;
+    display: inline-block;
+}

@@ -2,17 +2,19 @@
 
 ¡Bienvenidos a la plataforma oficial del AWS User Group de Playa Vicente! Este es un espacio abierto para aprender, compartir y construir comunidad alrededor de Amazon Web Services en español, liderado por **Roberto Flores (Siegfried FS)**.
 
-El sitio está diseñado para ser un centro de recursos dinámico, fácil de mantener y optimizado para el rendimiento.
+El sitio está diseñado para ser un centro de recursos dinámico, fácil de mantener y optimizado para el rendimiento y la experiencia de usuario.
 
 ## ✨ Características Principales
 
 - **🎨 Tema Claro y Oscuro:** Cambia entre modos para tu comodidad visual.
 - **📱 Diseño Responsivo:** Totalmente funcional en dispositivos móviles, tablets y computadoras de escritorio.
 - **⚙️ Contenido 100% Dinámico:** Todas las secciones principales (Eventos, Talleres, Recursos, Glosario) se cargan desde archivos JSON, facilitando su actualización sin tocar el código HTML.
+- **🚀 Experiencia de Usuario Mejorada:**
+    - **Pantallas de Carga (Skeletons):** Interfaces de carga modernas que mejoran la percepción de velocidad.
+    - **Botón "Volver Arriba":** Navegación fluida en páginas con mucho contenido.
 - **📚 Glosario Interactivo:** Un completo glosario de términos de AWS con búsqueda en tiempo real y filtro alfabético, ideal para estudiar para la certificación Cloud Practitioner.
 - **🗂️ Navegación por Pestañas:** La sección "Caja de Herramientas" utiliza pestañas para organizar los recursos por categoría de forma limpia e interactiva.
-- **🏛️ Historial de la Comunidad:** Una sección de "Historial de Talleres" que sirve como archivo y portafolio de las actividades del grupo.
-- **⚡ Optimizado para el Rendimiento:** Las imágenes utilizan `loading="lazy"` para una carga más rápida de la página.
+- **⚡ Optimizado para el Rendimiento:** Carga diferida de imágenes (`loading="lazy"`) y código modular para una entrega rápida y eficiente.
 - **🔍 SEO Mejorado:** Optimizado para ser encontrado en búsquedas relacionadas con "Roberto Flores" y "Playa Vicente".
 
 ## 🚀 Tecnologías Utilizadas
@@ -40,8 +42,8 @@ tiburon/
 │   ├── eventos.html
 │   ├── logic-games.html
 │   └── assets/
-│       ├── css/          # Archivos de estilo
-│       ├── js/           # Lógica principal (app.js)
+│       ├── css/          # Estilos consolidados en styles.css
+│       ├── js/           # Lógica principal modular en app.js
 │       ├── data/         # ¡AQUÍ SE EDITA EL CONTENIDO! (Archivos JSON)
 │       └── images/       # Imágenes del sitio
 ├── amplify.yml       # Configuración de despliegue para AWS Amplify
