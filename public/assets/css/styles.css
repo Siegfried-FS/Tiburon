@@ -2308,3 +2308,38 @@ html {
     height: 24px;
     display: inline-block;
 }
+
+/* Estilos para el contenedor de filtros de etiquetas */
+.tag-filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.tag-filter-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.tag-filter-btn:hover {
+    background: var(--bg-card-hover);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.tag-filter-btn.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 10px rgba(0, 212, 255, 0.3);
+}

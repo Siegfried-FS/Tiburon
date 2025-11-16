@@ -12,8 +12,10 @@ El sitio está diseñado para ser un centro de recursos dinámico, fácil de man
 - **🚀 Experiencia de Usuario Mejorada:**
     - **Pantallas de Carga (Skeletons):** Interfaces de carga modernas que mejoran la percepción de velocidad.
     - **Botón "Volver Arriba":** Navegación fluida en páginas con mucho contenido.
-- **📚 Glosario Interactivo:** Un completo glosario de términos de AWS con búsqueda en tiempo real y filtro alfabético, ideal para estudiar para la certificación Cloud Practitioner.
-- **🗂️ Navegación por Pestañas:** La sección "Caja de Herramientas" utiliza pestañas para organizar los recursos por categoría de forma limpia e interactiva.
+- **📚 Glosario Interactivo:** Un completo glosario de términos de AWS con búsqueda en tiempo real y filtro alfabético.
+- **🗂️ Navegación y Filtrado Avanzado:**
+    - **Pestañas en Recursos:** Organización de la "Caja de Herramientas" por categorías.
+    - **Filtro por Etiquetas:** Filtra dinámicamente los Recursos, Talleres y Juegos de Lógica por sus `tags` para encontrar contenido específico rápidamente.
 - **⚡ Optimizado para el Rendimiento:** Carga diferida de imágenes (`loading="lazy"`) y código modular para una entrega rápida y eficiente.
 - **🔍 SEO Mejorado:** Optimizado para ser encontrado en búsquedas relacionadas con "Roberto Flores" y "Playa Vicente".
 
@@ -73,86 +75,16 @@ Para que el sitio funcione correctamente (especialmente la carga de contenido de
 
 Para facilitar la actualización, todo el contenido dinámico se gestiona desde archivos `JSON` ubicados en `public/assets/data/`. Simplemente edita el archivo correspondiente y los cambios se reflejarán en el sitio.
 
-### Para Añadir un Término al Glosario:
-
-1.  Abre `public/assets/data/glosario.json`.
-2.  Añade un nuevo objeto al array.
-
-    *Ejemplo:*
-    ```json
-    {
-        "term": "Nombre del Término o Servicio",
-        "definition": "Una explicación clara y concisa del término.",
-        "category": "Categoría (ej. Cómputo, Seguridad, Facturación)"
-    }
-    ```
-
-### Para Añadir un Taller al Historial:
-
-1.  Abre `public/assets/data/workshops.json`.
-2.  Añade un nuevo objeto al array. La fecha (`date`) debe tener el formato `YYYY-MM-DD`.
-
-    *Ejemplo:*
-    ```json
-    {
-        "title": "Mi Nuevo Taller",
-        "date": "2025-12-31",
-        "description": "Una descripción de lo que se vio en el taller.",
-        "image": "https://... (URL a una imagen representativa)",
-        "tags": ["AWS", "Tema Principal"],
-        "materials_link": "https://... (Opcional: enlace a slides o repo)"
-    }
-    ```
-
-### Para Añadir un Nuevo Recurso a la "Caja de Herramientas":
-
-1.  Abre `public/assets/data/resources.json`.
-2.  Busca la categoría correcta (`"category"`) y añade un nuevo objeto al array `items`.
-
-    *Ejemplo:*
-    ```json
-    {
-      "title": "Nueva Herramienta Increíble",
-      "description": "Descripción de para qué sirve esta herramienta.",
-      "url": "https://... (enlace a la herramienta)",
-      "image": "https://... (URL a una imagen o logo)",
-      "tags": ["Productividad", "Gratis"]
-    }
-    ```
-
-### Para Añadir un Nuevo Juego de Lógica:
-
-1.  Abre `public/assets/data/logic-games.json`.
-2.  Añade un nuevo objeto al array.
-
-    *Ejemplo:*
-    ```json
-    {
-        "title": "Nombre del Juego",
-        "description": "Descripción breve del juego de lógica.",
-        "url": "https://... (Enlace para jugar)",
-        "image": "https://... (URL a una imagen)",
-        "tags": ["Lógica", "Resolución de Problemas"]
-    }
-    ```
-
-### Para Añadir un Nuevo Evento:
-
-1.  Abre `public/assets/data/events.json`.
-2.  Añade un nuevo objeto al array.
-
-    *Ejemplo:*
-    ```json
-    {
-      "date": "2026-01-15",
-      "title": "Próximo Meetup de Inicio de Año",
-      "description": "Nuestra primera reunión del año para planificar actividades.",
-      "format": "Presencial",
-      "tags": ["Meetup", "Comunidad"]
-    }
-    ```
+*(Ejemplos de cómo añadir contenido a cada archivo JSON se omiten por brevedad, pero la estructura es autoexplicativa dentro de cada archivo.)*
 
 ---
 ## ☁️ Despliegue
 
 Este proyecto está configurado para un despliegue continuo a través de **AWS Amplify**. El archivo `amplify.yml` contiene la configuración del build. Cualquier `git push` a la rama configurada (ej. `main`) disparará automáticamente un nuevo despliegue del sitio.
+
+---
+## 💡 Mejoras Futuras
+
+- **Sistema de Cuentas de Usuario:** Implementar un sistema de autenticación para que los usuarios puedan tener perfiles y guardar su progreso (por ejemplo, en la Guía de Estudio). Esto permitiría una experiencia personalizada y persistente a través de diferentes dispositivos y navegadores.
+- **Sección de Proyectos de la Comunidad:** Un espacio para que los miembros del User Group puedan mostrar sus propios proyectos.
+- **Blog de Artículos Técnicos:** Una sección para tutoriales o artículos más detallados sobre temas de AWS.

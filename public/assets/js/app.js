@@ -389,74 +389,94 @@ async function loadEvents() {
     }
 }
 
-function addResourceTabListeners() {
-    const tabContainer = document.getElementById('resources-container');
-    if (!tabContainer) return;
-
-    const tabHeaders = tabContainer.querySelectorAll('.tab-header');
-    const tabContents = tabContainer.querySelectorAll('.tab-content');
-
-    tabHeaders.forEach(header => {
-        header.addEventListener('click', () => {
-            const targetTab = header.getAttribute('data-category');
-
-            tabHeaders.forEach(h => h.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-
-            header.classList.add('active');
-            const newActiveContent = tabContainer.querySelector(`.tab-content[data-category="${targetTab}"]`);
-            if (newActiveContent) {
-                newActiveContent.classList.add('active');
-            }
-        });
-    });
-}
-
 async function loadResources() {
     const container = document.getElementById('resources-container');
     if (!container) return;
 
     const headersContainer = document.getElementById('resources-tab-headers');
+    const tagFilterContainer = document.getElementById('resources-tag-filter');
     const contentsContainer = document.getElementById('resources-tab-contents');
 
-    if (!headersContainer || !contentsContainer) {
-        // Si no están los contenedores de pestañas, no hacer nada.
-        // Esto evita errores si la página no tiene la nueva estructura.
-        return;
-    }
+    if (!headersContainer || !contentsContainer || !tagFilterContainer) return;
+
+    let allCategories = [];
+    let activeCategory = '';
+    let activeTag = 'all';
 
     try {
         const response = await fetch('assets/data/resources.json');
-        const categories = await response.json();
+        allCategories = await response.json();
 
-        if (categories.length === 0) {
+        if (allCategories.length === 0) {
             container.innerHTML = '<p>No hay recursos disponibles en este momento.</p>';
             return;
         }
 
-        categories.forEach((category, index) => {
-            // Crear cabecera de pestaña
-            const header = document.createElement('button');
-            header.className = 'tab-header';
-            header.textContent = category.category;
-            header.setAttribute('data-category', category.category);
-            if (index === 0) {
-                header.classList.add('active');
-            }
-            headersContainer.appendChild(header);
+        // Establecer la categoría activa inicial
+        activeCategory = allCategories[0].category;
 
-            // Crear contenido de pestaña
-            const content = document.createElement('div');
-            content.className = 'tab-content';
-            content.setAttribute('data-category', category.category);
-            if (index === 0) {
-                content.classList.add('active');
+        // Renderizar todo por primera vez
+        render();
+
+        // Añadir un único listener de eventos al contenedor principal
+        container.addEventListener('click', (event) => {
+            const tabHeader = event.target.closest('.tab-header');
+            const tagButton = event.target.closest('.tag-filter-btn');
+
+            if (tabHeader) {
+                activeCategory = tabHeader.getAttribute('data-category');
+                // Al cambiar de pestaña, reseteamos el filtro de tags a "Todos"
+                activeTag = 'all'; 
+                render();
+                return; // Salir para no procesar también el click del tag si estuviera anidado
             }
-            
-            let itemsHtml = '<div class="labs-grid">';
-            category.items.forEach(resource => {
+
+            if (tagButton) {
+                activeTag = tagButton.getAttribute('data-tag');
+                render();
+            }
+        });
+
+    } catch (error) {
+        console.error('Error al cargar los recursos:', error);
+        container.innerHTML = '<p>Error al cargar los recursos. Intenta recargar la página.</p>';
+    }
+
+    function render() {
+        // 1. Renderizar las cabeceras de las pestañas
+        headersContainer.innerHTML = allCategories.map(category => `
+            <button class="tab-header ${category.category === activeCategory ? 'active' : ''}" data-category="${category.category}">
+                ${category.category}
+            </button>
+        `).join('');
+
+        // 2. Extraer y renderizar los filtros de etiquetas
+        const allTags = new Set(['all']); // Usar un Set para evitar duplicados
+        allCategories.forEach(category => {
+            category.items.forEach(item => {
+                item.tags.forEach(tag => allTags.add(tag));
+            });
+        });
+
+        tagFilterContainer.innerHTML = Array.from(allTags).sort().map(tag => `
+            <button class="tag-filter-btn ${tag === activeTag ? 'active' : ''}" data-tag="${tag}">
+                ${tag === 'all' ? 'Todos' : tag}
+            </button>
+        `).join('');
+
+        // 3. Filtrar y renderizar el contenido
+        const categoryData = allCategories.find(c => c.category === activeCategory);
+        let filteredItems = categoryData ? categoryData.items : [];
+
+        if (activeTag !== 'all') {
+            filteredItems = filteredItems.filter(item => item.tags.includes(activeTag));
+        }
+
+        let itemsHtml = '';
+        if (filteredItems.length > 0) {
+            itemsHtml = '<div class="labs-grid">';
+            filteredItems.forEach(resource => {
                 const tagsHtml = resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-                
                 itemsHtml += `
                     <a href="${resource.url}" target="_blank" class="resource-card">
                         <div class="resource-card-image-container">
@@ -471,18 +491,15 @@ async function loadResources() {
                 `;
             });
             itemsHtml += '</div>';
-            content.innerHTML = itemsHtml;
-            contentsContainer.appendChild(content);
-        });
+        } else {
+            itemsHtml = '<p style="text-align: center; margin-top: 20px;">No hay recursos que coincidan con el filtro seleccionado.</p>';
+        }
 
-        // Añadir listeners para las nuevas pestañas
-        addResourceTabListeners();
-        // Reinicializar animaciones de scroll para las nuevas tarjetas
+        // Solo hay un div de contenido que se actualiza
+        contentsContainer.innerHTML = `<div class="tab-content active">${itemsHtml}</div>`;
+
+        // Re-inicializar animaciones para las nuevas tarjetas
         initScrollAnimations();
-
-    } catch (error) {
-        console.error('Error al cargar los recursos:', error);
-        container.innerHTML = '<p>Error al cargar los recursos. Intenta recargar la página.</p>';
     }
 }
 
@@ -494,47 +511,80 @@ async function loadLogicGames() {
     const container = document.getElementById('logic-games-grid');
     if (!container) return;
 
-    showSkeletonLoader(container, labCardSkeleton, 6); // Mostrar esqueletos
+    const tagFilterContainer = document.getElementById('logic-games-tag-filter');
+    if (!tagFilterContainer) return;
+
+    showSkeletonLoader(container, labCardSkeleton, 6);
+
+    let allGames = [];
+    let activeTag = 'all';
 
     try {
-        // Simular un pequeño retraso para que el esqueleto sea visible
         await new Promise(resolve => setTimeout(resolve, 500));
-
         const response = await fetch('assets/data/logic-games.json');
+        allGames = await response.json();
 
-        if (!response.ok) {
-            container.innerHTML = `<p>Error al cargar los juegos: ${response.status}. Intenta recargar la página.</p>`;
-            return;
-        }
-
-        const games = await response.json();
-
-        if (games.length === 0) {
+        if (allGames.length === 0) {
             container.innerHTML = '<p>No hay juegos de lógica disponibles en este momento.</p>';
             return;
         }
 
-        let html = '';
-        games.forEach(game => {
-            const tagsHtml = game.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-            html += `
-                <a href="${game.url}" target="_blank" class="lab-card active">
-                    <div class="lab-card-image-container">
-                        <img src="${game.image}" alt="Imagen de ${game.title}" class="resource-image">
-                    </div>
-                    <div class="lab-card-content">
-                        <h3>${game.title}</h3>
-                        <p>${game.description}</p>
-                        <div class="resource-tags">${tagsHtml}</div>
-                    </div>
-                </a>
-            `;
+        render();
+
+        tagFilterContainer.addEventListener('click', (event) => {
+            const tagButton = event.target.closest('.tag-filter-btn');
+            if (tagButton) {
+                activeTag = tagButton.getAttribute('data-tag');
+                render();
+            }
         });
 
-        container.innerHTML = html;
-        initScrollAnimations(); // Re-initialize scroll animations for new cards
     } catch (error) {
+        console.error('Error al cargar los juegos de lógica:', error);
         container.innerHTML = '<p>Error al cargar los juegos. Intenta recargar la página.</p>';
+    }
+
+    function render() {
+        // 1. Extraer y renderizar los filtros de etiquetas
+        const allTags = new Set(['all']);
+        allGames.forEach(item => {
+            item.tags.forEach(tag => allTags.add(tag));
+        });
+
+        tagFilterContainer.innerHTML = Array.from(allTags).sort().map(tag => `
+            <button class="tag-filter-btn ${tag === activeTag ? 'active' : ''}" data-tag="${tag}">
+                ${tag === 'all' ? 'Todos' : tag}
+            </button>
+        `).join('');
+
+        // 2. Filtrar y renderizar el contenido
+        const filteredGames = activeTag === 'all'
+            ? allGames
+            : allGames.filter(item => item.tags.includes(activeTag));
+
+        let html = '';
+        if (filteredGames.length > 0) {
+            filteredGames.forEach(game => {
+                const tagsHtml = game.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                html += `
+                    <a href="${game.url}" target="_blank" class="lab-card active">
+                        <div class="lab-card-image-container">
+                            <img src="${game.image}" alt="Imagen de ${game.title}" class="resource-image">
+                        </div>
+                        <div class="lab-card-content">
+                            <h3>${game.title}</h3>
+                            <p>${game.description}</p>
+                            <div class="resource-tags">${tagsHtml}</div>
+                        </div>
+                    </a>
+                `;
+            });
+        } else {
+            html = '<p style="text-align: center; grid-column: 1 / -1;">No hay juegos que coincidan con el filtro seleccionado.</p>';
+        }
+
+        container.innerHTML = html;
+        initScrollAnimations();
     }
 }
 
@@ -546,56 +596,90 @@ async function loadWorkshops() {
     const container = document.getElementById('workshops-container');
     if (!container) return;
 
-    showSkeletonLoader(container, labCardSkeleton, 4); // Mostrar esqueletos
+    const tagFilterContainer = document.getElementById('workshops-tag-filter');
+    if (!tagFilterContainer) return;
+
+    showSkeletonLoader(container, labCardSkeleton, 4);
+
+    let allWorkshops = [];
+    let activeTag = 'all';
 
     try {
-        // Simular un pequeño retraso para que el esqueleto sea visible
         await new Promise(resolve => setTimeout(resolve, 500));
-
         const response = await fetch('assets/data/workshops.json');
-        const workshops = await response.json();
+        allWorkshops = await response.json();
 
-        if (workshops.length === 0) {
+        if (allWorkshops.length === 0) {
             container.innerHTML = '<p>Aún no hay talleres en el historial. ¡Vuelve pronto!</p>';
             return;
         }
 
         // Sort by date, newest first
-        workshops.sort((a, b) => new Date(b.date) - new Date(a.date));
+        allWorkshops.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        let html = '';
-        workshops.forEach(workshop => {
-            const tagsHtml = workshop.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-            const materialsButton = workshop.materials_link 
-                ? `<a href="${workshop.materials_link}" target="_blank" class="card-button">Ver Materiales</a>`
-                : '';
+        render();
 
-            // Format date to be more readable
-            const workshopDate = new Date(workshop.date);
-            const formattedDate = workshopDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-
-            html += `
-                <div class="lab-card active">
-                    <div class="lab-card-image-container">
-                        <img src="${workshop.image}" alt="Imagen de ${workshop.title}" class="resource-image" loading="lazy">
-                    </div>
-                    <div class="lab-card-content">
-                        <p class="card-date">${formattedDate}</p>
-                        <h3>${workshop.title}</h3>
-                        <p>${workshop.description}</p>
-                        <div class="resource-tags">${tagsHtml}</div>
-                        ${materialsButton}
-                    </div>
-                </div>
-            `;
+        tagFilterContainer.addEventListener('click', (event) => {
+            const tagButton = event.target.closest('.tag-filter-btn');
+            if (tagButton) {
+                activeTag = tagButton.getAttribute('data-tag');
+                render();
+            }
         });
-
-        container.innerHTML = html;
-        initScrollAnimations();
 
     } catch (error) {
         console.error('Error al cargar los talleres:', error);
         container.innerHTML = '<p>Error al cargar el historial de talleres.</p>';
+    }
+
+    function render() {
+        // 1. Extraer y renderizar los filtros de etiquetas
+        const allTags = new Set(['all']);
+        allWorkshops.forEach(item => {
+            item.tags.forEach(tag => allTags.add(tag));
+        });
+
+        tagFilterContainer.innerHTML = Array.from(allTags).sort().map(tag => `
+            <button class="tag-filter-btn ${tag === activeTag ? 'active' : ''}" data-tag="${tag}">
+                ${tag === 'all' ? 'Todos' : tag}
+            </button>
+        `).join('');
+
+        // 2. Filtrar y renderizar el contenido
+        const filteredWorkshops = activeTag === 'all'
+            ? allWorkshops
+            : allWorkshops.filter(item => item.tags.includes(activeTag));
+
+        let html = '';
+        if (filteredWorkshops.length > 0) {
+            filteredWorkshops.forEach(workshop => {
+                const tagsHtml = workshop.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                const materialsButton = workshop.materials_link
+                    ? `<a href="${workshop.materials_link}" target="_blank" class="card-button">Ver Materiales</a>`
+                    : '';
+                const formattedDate = new Date(workshop.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+
+                html += `
+                    <div class="lab-card active">
+                        <div class="lab-card-image-container">
+                            <img src="${workshop.image}" alt="Imagen de ${workshop.title}" class="resource-image" loading="lazy">
+                        </div>
+                        <div class="lab-card-content">
+                            <p class="card-date">${formattedDate}</p>
+                            <h3>${workshop.title}</h3>
+                            <p>${workshop.description}</p>
+                            <div class="resource-tags">${tagsHtml}</div>
+                            ${materialsButton}
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            html = '<p style="text-align: center; grid-column: 1 / -1;">No hay talleres que coincidan con el filtro seleccionado.</p>';
+        }
+
+        container.innerHTML = html;
+        initScrollAnimations();
     }
 }
 

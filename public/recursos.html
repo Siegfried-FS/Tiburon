@@ -18,115 +18,6 @@
             }
         })();
     </script>
-    <style>
-        /* Estilos para Pestañas */
-        .tabs-container {
-            width: 100%;
-            margin-top: 30px;
-        }
-        .tab-headers {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            border-bottom: 2px solid var(--bg-card-hover);
-            padding-bottom: 10px;
-        }
-        .tab-header {
-            padding: 10px 20px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            color: var(--text-secondary);
-            border-radius: 8px 8px 0 0;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-        .tab-header.active {
-            background: var(--bg-card);
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-        .tab-header.active::after {
-            content: '';
-            position: absolute;
-            bottom: -12px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--primary-color);
-        }
-        .tab-content-container {
-            padding-top: 30px;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Nuevo Diseño de Tarjetas de Recursos */
-        .resource-card {
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            text-decoration: none;
-            color: var(--text-primary);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: var(--shadow-sm);
-            height: 100%;
-        }
-        .resource-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-        .resource-card-image-container {
-            width: 100%;
-            height: 180px;
-            overflow: hidden;
-        }
-        .resource-card-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-bottom: 1px solid var(--bg-card-hover);
-        }
-        .resource-card-content {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-        .resource-card-content h3 {
-            margin-top: 0;
-            font-size: 1.2rem;
-        }
-        .resource-card-content p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            flex-grow: 1;
-            margin-bottom: 15px;
-        }
-        .resource-tags {
-            margin-top: auto;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .resource-tags .tag {
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 12px;
-            background: var(--primary-color-translucent);
-            color: var(--primary-color);
-        }
-    </style>
-</head>
-<body>
-    <div id="particles-js"></div>
     <div id="header-placeholder"></div>
 
     <main style="margin-top: 100px;">
@@ -138,6 +29,9 @@
             <div id="resources-container" class="tabs-container">
                 <div class="tab-headers" id="resources-tab-headers">
                     <!-- JavaScript poblará esto -->
+                </div>
+                <div id="resources-tag-filter" class="tag-filter-container">
+                    <!-- JavaScript poblará los filtros de tags aquí -->
                 </div>
                 <div class="tab-content-container" id="resources-tab-contents">
                     <!-- JavaScript poblará esto -->
