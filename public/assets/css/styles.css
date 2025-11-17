@@ -1615,6 +1615,115 @@ html {
     border-color: var(--primary-color);
 }
 
+/* Estilos para eventos pasados */
+.past-event-card {
+    opacity: 0.7;
+    filter: grayscale(0.3);
+}
+
+.past-event-card:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+}
+
+.event-date-block.past-event {
+    background: linear-gradient(135deg, #666, #888);
+}
+
+.event-date-block.upcoming-event {
+    background: linear-gradient(135deg, var(--primary-color), #00d4ff);
+}
+
+/* Estilos para botones de registro */
+.event-actions {
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* Indicadores de estado de eventos */
+.event-badges {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.event-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.event-status.upcoming {
+    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    color: white;
+}
+
+.event-status.past {
+    background: linear-gradient(135deg, #4caf50, #66bb6a);
+    color: white;
+}
+
+/* Indicadores de precio */
+.price-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.price-tag.free {
+    background: linear-gradient(135deg, #2e7d32, #4caf50);
+    color: white;
+}
+
+.price-tag.paid {
+    background: linear-gradient(135deg, #f57c00, #ff9800);
+    color: white;
+}
+
+/* Botón de registro mejorado */
+.event-registration {
+    margin-top: 15px;
+}
+
+.register-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--primary-color), #00d4ff);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+    background: linear-gradient(135deg, #00d4ff, var(--primary-color));
+}
+
+.register-btn .btn-icon {
+    font-size: 1.1rem;
+}
+
+.register-btn .btn-text {
+    white-space: nowrap;
+}
+
 .event-date-block {
     display: flex;
     flex-direction: column;

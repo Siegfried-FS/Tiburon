@@ -1,11 +1,22 @@
 [
     {
-        "date": "2025-12-05",
-        "title": "Workshop: Despliega tu Primer Sitio Web en AWS",
-        "description": "Un taller práctico donde aprenderás a desplegar un sitio web estático utilizando Amazon S3, CloudFront y Route 53. Ideal para principiantes.",
-        "image": "assets/images/events/placeholder-2.jpg",
-        "tags": ["Workshop", "S3", "Principiantes"],
-        "format": "Online"
+        "date": "2025-11-22",
+        "title": "Workshop Práctico de AWS: Fundamentos Cloud y Tu Primer Sitio Web con S3",
+        "description": "Workshop en UGM Campus Playa Vicente. Los participantes aprenderán los fundamentos de la nube y crearán su primer sitio web estático usando Amazon S3, completando el desafío inicial de AWS Cloud Quest.",
+        "image": "https://images.unsplash.com/photo-1573495627361-d9b87960b12d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "tags": ["Workshop", "S3", "Principiantes", "UGM", "Cloud Quest"],
+        "format": "Presencial",
+        "registration_url": "https://luma.com/njx6wlpp",
+        "price": "free"
+    },
+    {
+        "date": "2025-11-13",
+        "title": "Workshop Práctico de AWS: Fundamentos Cloud y Tu Primer Sitio Web con S3",
+        "description": "Primer workshop oficial de la comunidad AWS Playa Vicente en COBAEV 13 PLAYA VICENTE. Los participantes aprendieron los fundamentos de la nube y crearon su primer sitio web estático usando Amazon S3, completando el desafío inicial de AWS Cloud Quest.",
+        "image": "https://images.unsplash.com/photo-1573495627361-d9b87960b12d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "tags": ["Workshop", "S3", "Principiantes", "COBAEV", "Cloud Quest"],
+        "format": "Presencial",
+        "price": "free"
     },
     {
         "date": "2025-12-01",
@@ -13,15 +24,17 @@
         "description": "La conferencia de computación en la nube más grande del mundo, organizada por AWS en Las Vegas. Una semana de anuncios, sesiones técnicas y aprendizaje.",
         "image": "https://d1.awsstatic.com/reinvent/social-share/reinvent-2023-social-share.3692cb9c1585a243355a3d56a04a055775a8b63b.png",
         "tags": ["Internacional", "AWS", "Conferencia"],
-        "format": "Presencial"
+        "format": "Presencial",
+        "price": "paid"
     },
     {
-        "date": "2025-11-15",
+        "year": "Próximamente",
         "title": "Reunión Inaugural - AWS User Group Playa Vicente",
         "description": "¡Nuestra primera reunión! Discutiremos los objetivos del grupo, planificaremos futuros eventos y tendremos una sesión de networking para conocernos.",
         "image": "assets/images/events/placeholder-1.jpg",
         "tags": ["Comunidad", "Networking"],
-        "format": "Presencial"
+        "format": "Presencial",
+        "price": "free"
     },
     {
         "year": "2026",
@@ -29,7 +42,8 @@
         "description": "El evento más grande de la comunidad de AWS en México, organizado por y para la comunidad. Un día lleno de charlas técnicas, talleres y networking.",
         "image": "https://d1.awsstatic.com/events/community-day/community-day-meet-ups.e391a43b73a383ca98d27822d34a098f8b8b8b8b.png",
         "tags": ["Comunidad", "Nacional", "Conferencia"],
-        "format": "Híbrido (Por confirmar)"
+        "format": "Híbrido (Por confirmar)",
+        "price": "free"
     },
     {
         "year": "2026",
@@ -37,6 +51,7 @@
         "description": "El evento oficial de AWS en México. Conoce los últimos servicios, aprende de los expertos de AWS y conecta con otros profesionales de la industria.",
         "image": "https://d1.awsstatic.com/events/summit-2022/logo-lockups/Summit-Social-Default-2022.b639b0b7d8722c71f691731800a007d5c5d10111.png",
         "tags": ["Oficial", "AWS", "Conferencia"],
-        "format": "Híbrido (Por confirmar)"
+        "format": "Híbrido (Por confirmar)",
+        "price": "free"
     }
 ]

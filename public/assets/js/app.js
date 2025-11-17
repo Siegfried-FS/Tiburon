@@ -345,13 +345,43 @@ async function loadEvents() {
                 const tagsHtml = event.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
                 const formatHtml = event.format ? `<span class="tag format-tag">${event.format}</span>` : '';
                 
+                // Indicador de precio
+                const priceHtml = event.price ? 
+                    `<span class="price-tag ${event.price}">${event.price === 'free' ? '🆓 GRATIS' : '💰 DE PAGO'}</span>` : '';
+                
+                // Determinar si el evento es próximo o pasado
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Resetear horas para comparar solo fechas
+                
+                let isPastEvent = false;
+                let isUpcoming = false;
+                let statusIndicator = '';
+                
+                if (event.date) {
+                    const eventDate = new Date(event.date);
+                    eventDate.setHours(0, 0, 0, 0);
+                    isPastEvent = eventDate < today;
+                    isUpcoming = eventDate >= today;
+                    
+                    if (isPastEvent) {
+                        statusIndicator = '<span class="event-status past">✓ REALIZADO</span>';
+                    } else {
+                        statusIndicator = '<span class="event-status upcoming">🔥 PRÓXIMO</span>';
+                    }
+                } else {
+                    // Eventos sin fecha específica (como "Próximamente")
+                    isUpcoming = true;
+                    statusIndicator = '<span class="event-status upcoming">🗓️ PRÓXIMO</span>';
+                }
+                
                 let dateBlockHtml = '';
                 if (event.date) {
                     const date = new Date(event.date);
                     const month = date.toLocaleString('es-ES', { month: 'short' }).toUpperCase().replace('.','');
                     const day = date.getDate();
+                    const statusClass = isPastEvent ? 'past-event' : 'upcoming-event';
                     dateBlockHtml = `
-                        <div class="event-date-block">
+                        <div class="event-date-block ${statusClass}">
                             <span class="day">${day}</span>
                             <span class="month">${month}</span>
                         </div>
@@ -365,13 +395,29 @@ async function loadEvents() {
                     `;
                 }
 
+                // Botón de registro mejorado - solo para eventos próximos con URL
+                const registrationButton = (event.registration_url && isUpcoming) ? 
+                    `<div class="event-registration">
+                        <a href="${event.registration_url}" target="_blank" class="register-btn">
+                            <span class="btn-icon">🎯</span>
+                            <span class="btn-text">Registrarse Ahora</span>
+                        </a>
+                    </div>` : '';
+
+                const cardClass = isPastEvent ? 'event-card past-event-card' : 'event-card';
+
                 html += `
-                    <div class="event-card">
+                    <div class="${cardClass}">
                         ${dateBlockHtml}
                         <div class="event-details">
+                            <div class="event-badges">
+                                ${statusIndicator}
+                                ${priceHtml}
+                            </div>
                             <h3 class="event-title">${event.title}</h3>
                             <p class="event-description">${event.description}</p>
                             <div class="event-tags">${tagsHtml}${formatHtml}</div>
+                            ${registrationButton}
                         </div>
                     </div>
                 `;
