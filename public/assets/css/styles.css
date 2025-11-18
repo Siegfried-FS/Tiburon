@@ -458,7 +458,107 @@ main {
     color: var(--primary-color);
 }
 
-/* Grid de laboratorios */
+/* Botones de categoría mejorados */
+.tab-headers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 30px 0;
+    justify-content: center;
+}
+
+.tab-header {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.tab-header:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.tab-header.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .tab-headers {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 10px;
+    }
+    
+    .tab-header {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+}
+
+/* Estilos para tarjetas de recursos */
+.resource-card-image-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    margin-bottom: 15px;
+}
+
+.resource-card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.lab-module:hover .resource-card-image-container img {
+    transform: scale(1.05);
+}
+
+.lab-module h3 {
+    margin: 0 0 10px 0;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.lab-module p {
+    margin: 0 0 20px 0;
+    color: var(--text-color);
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+.lab-module {
+    display: flex;
+    flex-direction: column;
+}
+
+.cta-button {
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.cta-button:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
 .labs-grid,
 .git-projects-grid, /* Aplicar estilos de grid a los nuevos contenedores */
 .logic-games-grid,

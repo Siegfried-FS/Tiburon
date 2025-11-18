@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (document.getElementById('events-container')) {
         loadEvents();
     }
-    if (document.getElementById('resources-container')) {
+    if (document.getElementById('resources-grid')) {
         loadResources();
     }
     if (document.getElementById('logic-games-grid')) {
@@ -436,18 +436,12 @@ async function loadEvents() {
 }
 
 async function loadResources() {
-    const container = document.getElementById('resources-container');
-    if (!container) return;
-
+    const container = document.getElementById('resources-grid');
     const headersContainer = document.getElementById('resources-tab-headers');
-    const tagFilterContainer = document.getElementById('resources-tag-filter');
-    const contentsContainer = document.getElementById('resources-tab-contents');
-
-    if (!headersContainer || !contentsContainer || !tagFilterContainer) return;
+    if (!container || !headersContainer) return;
 
     let allCategories = [];
-    let activeCategory = '';
-    let activeTag = 'all';
+    let activeCategory = 'all';
 
     try {
         const response = await fetch('assets/data/resources.json');
@@ -458,27 +452,13 @@ async function loadResources() {
             return;
         }
 
-        // Establecer la categoría activa inicial
-        activeCategory = allCategories[0].category;
-
-        // Renderizar todo por primera vez
         render();
 
-        // Añadir un único listener de eventos al contenedor principal
-        container.addEventListener('click', (event) => {
+        // Event listener para filtros
+        headersContainer.addEventListener('click', (event) => {
             const tabHeader = event.target.closest('.tab-header');
-            const tagButton = event.target.closest('.tag-filter-btn');
-
             if (tabHeader) {
                 activeCategory = tabHeader.getAttribute('data-category');
-                // Al cambiar de pestaña, reseteamos el filtro de tags a "Todos"
-                activeTag = 'all'; 
-                render();
-                return; // Salir para no procesar también el click del tag si estuviera anidado
-            }
-
-            if (tagButton) {
-                activeTag = tagButton.getAttribute('data-tag');
                 render();
             }
         });
@@ -489,62 +469,36 @@ async function loadResources() {
     }
 
     function render() {
-        // 1. Renderizar las cabeceras de las pestañas
-        headersContainer.innerHTML = allCategories.map(category => `
-            <button class="tab-header ${category.category === activeCategory ? 'active' : ''}" data-category="${category.category}">
-                ${category.category}
+        // Renderizar filtros
+        const categories = ['all', ...allCategories.map(cat => cat.category)];
+        headersContainer.innerHTML = categories.map(category => `
+            <button class="tab-header ${category === activeCategory ? 'active' : ''}" data-category="${category}">
+                ${category === 'all' ? 'Todos' : category}
             </button>
         `).join('');
 
-        // 2. Extraer y renderizar los filtros de etiquetas
-        const allTags = new Set(['all']); // Usar un Set para evitar duplicados
-        allCategories.forEach(category => {
-            category.items.forEach(item => {
-                item.tags.forEach(tag => allTags.add(tag));
+        // Filtrar y renderizar recursos
+        let itemsToShow = [];
+        if (activeCategory === 'all') {
+            allCategories.forEach(category => {
+                itemsToShow.push(...category.items);
             });
-        });
-
-        tagFilterContainer.innerHTML = Array.from(allTags).sort().map(tag => `
-            <button class="tag-filter-btn ${tag === activeTag ? 'active' : ''}" data-tag="${tag}">
-                ${tag === 'all' ? 'Todos' : tag}
-            </button>
-        `).join('');
-
-        // 3. Filtrar y renderizar el contenido
-        const categoryData = allCategories.find(c => c.category === activeCategory);
-        let filteredItems = categoryData ? categoryData.items : [];
-
-        if (activeTag !== 'all') {
-            filteredItems = filteredItems.filter(item => item.tags.includes(activeTag));
-        }
-
-        let itemsHtml = '';
-        if (filteredItems.length > 0) {
-            itemsHtml = '<div class="labs-grid">';
-            filteredItems.forEach(resource => {
-                const tagsHtml = resource.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-                itemsHtml += `
-                    <a href="${resource.url}" target="_blank" class="resource-card">
-                        <div class="resource-card-image-container">
-                            <img src="${resource.image}" alt="Imagen de ${resource.title}" class="resource-card-image" loading="lazy">
-                        </div>
-                        <div class="resource-card-content">
-                            <h3>${resource.title}</h3>
-                            <p>${resource.description}</p>
-                            <div class="resource-tags">${tagsHtml}</div>
-                        </div>
-                    </a>
-                `;
-            });
-            itemsHtml += '</div>';
         } else {
-            itemsHtml = '<p style="text-align: center; margin-top: 20px;">No hay recursos que coincidan con el filtro seleccionado.</p>';
+            const categoryData = allCategories.find(c => c.category === activeCategory);
+            itemsToShow = categoryData ? categoryData.items : [];
         }
 
-        // Solo hay un div de contenido que se actualiza
-        contentsContainer.innerHTML = `<div class="tab-content active">${itemsHtml}</div>`;
+        container.innerHTML = itemsToShow.map(resource => `
+            <div class="lab-module">
+                <div class="resource-card-image-container">
+                    <img src="${resource.image}" alt="${resource.title}" loading="lazy">
+                </div>
+                <h3>${resource.title}</h3>
+                <p>${resource.description}</p>
+                <a href="${resource.url}" target="_blank" class="cta-button">Ver Recurso</a>
+            </div>
+        `).join('');
 
-        // Re-inicializar animaciones para las nuevas tarjetas
         initScrollAnimations();
     }
 }

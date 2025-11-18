@@ -8,8 +8,10 @@
     <meta name="keywords" content="Roberto Flores, Siegfried FS, AWS, Playa Vicente, Recursos, Herramientas, Seguridad, Estudio de AWS">
     <meta name="author" content="Roberto Flores (Siegfried FS)">
     <link rel="canonical" href="https://tiburoncp.siegfried-fs.com/recursos.html">
-
-    <link rel="stylesheet" href="assets/css/styles.css?v=2024">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦈</text></svg>">
+    
+    <link rel="stylesheet" href="assets/css/styles.css">
     <script>
         (function() {
             const savedTheme = localStorage.getItem('theme');
@@ -18,29 +20,31 @@
             }
         })();
     </script>
+</head>
+<body>
+    <div id="particles-js"></div>
+
     <div id="header-placeholder"></div>
 
-    <main style="margin-top: 100px;">
+    <main>
         <section class="content-section">
             <h2>🧰 Caja de Herramientas</h2>
-            <p class="tagline" style="text-align: center;">Una colección curada de herramientas, juegos y enlaces que te ayudarán en tu día a día.</p>
-        </section>
-        <div class="container">
-            <div id="resources-container" class="tabs-container">
-                <div class="tab-headers" id="resources-tab-headers">
-                    <!-- JavaScript poblará esto -->
-                </div>
-                <div id="resources-tag-filter" class="tag-filter-container">
-                    <!-- JavaScript poblará los filtros de tags aquí -->
-                </div>
-                <div class="tab-content-container" id="resources-tab-contents">
-                    <!-- JavaScript poblará esto -->
-                </div>
+            <p class="tagline">Una colección curada de herramientas, juegos y enlaces que te ayudarán en tu día a día.</p>
+            
+            <!-- Filtros por categoría -->
+            <div class="tab-headers" id="resources-tab-headers">
+                <!-- JavaScript poblará esto -->
             </div>
-        </div>
+            
+            <!-- Grid de recursos -->
+            <div class="labs-grid" id="resources-grid">
+                <p>Cargando recursos...</p>
+            </div>
+        </section>
     </main>
 
     <script src="assets/js/p.js"></script>
+    <script type="text/javascript" src="assets/js/v.js"></script>
     <script src="assets/js/app.js"></script>
 </body>
 </html>
