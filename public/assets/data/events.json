@@ -1,8 +1,7 @@
 [
     {
-        "date": "2025-11-22",
-        "title": "Workshop Práctico de AWS: Fundamentos Cloud y Tu Primer Sitio Web con S3",
-        "description": "Workshop en UGM Campus Playa Vicente. Los participantes aprenderán los fundamentos de la nube y crearán su primer sitio web estático usando Amazon S3, completando el desafío inicial de AWS Cloud Quest.",
+        "title": "Taller Práctico: Lanza tu Primer Sitio Web en la Nube con AWS S3",
+        "description": "Únete a este taller práctico en el campus UGM de Playa Vicente. Descubre los conceptos esenciales de la nube y construye tu primer sitio web estático desde cero utilizando Amazon S3. Una oportunidad ideal para completar el desafío inicial de AWS Cloud Quest.",
         "image": "https://images.unsplash.com/photo-1573495627361-d9b87960b12d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "tags": ["Workshop", "S3", "Principiantes", "UGM", "Cloud Quest"],
         "format": "Presencial",
@@ -11,8 +10,8 @@
     },
     {
         "date": "2025-11-13",
-        "title": "Workshop Práctico de AWS: Fundamentos Cloud y Tu Primer Sitio Web con S3",
-        "description": "Primer workshop oficial de la comunidad AWS Playa Vicente en COBAEV 13 PLAYA VICENTE. Los participantes aprendieron los fundamentos de la nube y crearon su primer sitio web estático usando Amazon S3, completando el desafío inicial de AWS Cloud Quest.",
+        "title": "Iniciación a la Nube: Taller de Fundamentos y Sitios Web con AWS",
+        "description": "El primer taller oficial de la comunidad, realizado en COBAEV 13. Los asistentes exploraron los fundamentos de la nube y crearon un sitio web estático con Amazon S3, cumpliendo con el desafío introductorio de AWS Cloud Quest.",
         "image": "https://images.unsplash.com/photo-1573495627361-d9b87960b12d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "tags": ["Workshop", "S3", "Principiantes", "COBAEV", "Cloud Quest"],
         "format": "Presencial",
@@ -29,8 +28,8 @@
     },
     {
         "year": "Próximamente",
-        "title": "Reunión Inaugural - AWS User Group Playa Vicente",
-        "description": "¡Nuestra primera reunión! Discutiremos los objetivos del grupo, planificaremos futuros eventos y tendremos una sesión de networking para conocernos.",
+        "title": "Sesión Inaugural: ¡Nace AWS User Group Playa Vicente!",
+        "description": "¡La primera reunión de la comunidad! Un espacio para definir juntos los objetivos del grupo, planificar futuros eventos y conectar con otros apasionados por la tecnología en una sesión de networking.",
         "image": "assets/images/events/placeholder-1.jpg",
         "tags": ["Comunidad", "Networking"],
         "format": "Presencial",

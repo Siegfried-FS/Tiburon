@@ -1,7 +1,7 @@
 [
     {
         "term": "Amazon Aurora",
-        "definition": "Base de datos relacional compatible con MySQL y PostgreSQL, creada para la nube. Combina el rendimiento y la disponibilidad de las bases de datos comerciales con la sencillez y la rentabilidad de las bases de datos de código abierto.",
+        "definition": "Una base de datos relacional diseñada para la nube, compatible con MySQL y PostgreSQL. Destaca por combinar el alto rendimiento y la disponibilidad de las bases de datos comerciales con la simplicidad y la rentabilidad de las soluciones de código abierto.",
         "category": "Bases de Datos"
     },
     {
@@ -11,7 +11,7 @@
     },
     {
         "term": "Amazon CloudWatch",
-        "definition": "Servicio de monitoreo y observabilidad que proporciona datos y perspectivas procesables para monitorear sus aplicaciones, responder a los cambios de rendimiento y optimizar la utilización de recursos.",
+        "definition": "Un servicio integral de monitoreo y observabilidad que ofrece datos y perspectivas clave. Permite supervisar aplicaciones, reaccionar ante cambios de rendimiento y optimizar la utilización de recursos de manera eficiente.",
         "category": "Monitoreo"
     },
     {
@@ -26,7 +26,7 @@
     },
     {
         "term": "Amazon EC2 (Elastic Compute Cloud)",
-        "definition": "Servicio web que proporciona capacidad informática segura y redimensionable en la nube. Permite lanzar máquinas virtuales (instancias).",
+        "definition": "Un servicio web que ofrece capacidad informática segura y escalable en la nube. Facilita el lanzamiento de máquinas virtuales, conocidas como instancias, según tus necesidades.",
         "category": "Cómputo"
     },
     {
@@ -101,7 +101,7 @@
     },
     {
         "term": "AWS IAM (Identity and Access Management)",
-        "definition": "Servicio web que le ayuda a controlar de forma segura el acceso a los recursos de AWS. Permite administrar usuarios, grupos, roles y políticas.",
+        "definition": "Un servicio web fundamental para gestionar de forma segura el acceso a los recursos de AWS. Permite administrar usuarios, grupos, roles y políticas, asegurando el control de identidades.",
         "category": "Seguridad"
     },
     {
@@ -201,7 +201,7 @@
     },
     {
         "term": "Modelo de Responsabilidad Compartida",
-        "definition": "Define que AWS es responsable de la 'seguridad DE la nube' (hardware, software, red) y el cliente es responsable de la 'seguridad EN la nube' (datos, configuración, IAM).",
+        "definition": "Un principio clave que establece la división de responsabilidades en seguridad: AWS se encarga de la 'seguridad DE la nube' (infraestructura física y lógica), mientras que el cliente es responsable de la 'seguridad EN la nube' (datos, configuración y gestión de identidades).",
         "category": "Seguridad"
     },
     {

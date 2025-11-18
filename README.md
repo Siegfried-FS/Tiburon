@@ -1,8 +1,27 @@
-# 🦈 Proyecto Tiburón - Sitio Web de la Comunidad AWS Playa Vicente
+# 🦈 Proyecto Tiburón - Sitio Web del AWS User Group Playa Vicente
 
-¡Bienvenidos a la plataforma oficial del AWS User Group de Playa Vicente! Este es un espacio abierto para aprender, compartir y construir comunidad alrededor de Amazon Web Services en español, liderado por **Roberto Flores (Siegfried FS)**.
+Este es el repositorio oficial del sitio web para el **AWS User Group de Playa Vicente**, una comunidad de tecnología en Veracruz, México, liderada por **Roberto Flores (Siegfried FS)**.
 
-El sitio está diseñado para ser un centro de recursos dinámico, fácil de mantener y optimizado para el rendimiento y la experiencia de usuario.
+El objetivo de este proyecto es crear una plataforma digital que no solo sirva como un centro de información, sino que también inspire y conecte a los entusiastas de la nube en la región.
+
+**Ver el sitio en vivo:** [tiburoncp.siegfried-fs.com](https://tiburoncp.siegfried-fs.com/)
+
+---
+
+## ✍️ Filosofía y Narrativa del Sitio
+
+Este no es solo un sitio web informativo; es el punto de encuentro digital de nuestra comunidad. La comunicación y el tono del sitio deben reflejar nuestros valores y objetivos.
+
+**Principios Clave de la Narrativa:**
+
+1.  **Tono Profesional y Accesible:** Nos comunicamos con un lenguaje claro y fluido, similar al de un "copywriter". Evitamos la jerga excesiva para ser acogedores con los recién llegados, pero mantenemos la precisión técnica para ser valiosos para los expertos.
+2.  **Enfoque en Beneficios:** En lugar de solo listar características, explicamos *por qué* son importantes. Por ejemplo, en lugar de decir "Tenemos un glosario", decimos "Aprende el lenguaje de la nube con nuestro glosario interactivo, diseñado para aclarar los conceptos clave".
+3.  **Narrativa Coherente y Atractiva:** Cada página cuenta una parte de nuestra historia. El sitio debe guiar al visitante a través de un viaje, desde descubrir qué es AWS hasta unirse activamente a nuestra comunidad y participar en eventos.
+4.  **Honestidad y Potencial:** Reflejamos con honestidad el nivel de habilidad actual y celebramos el proceso de aprendizaje. Destacamos el potencial, la capacidad de aprender rápidamente y el deseo de asumir desafíos para crecer profesionalmente.
+
+El objetivo final es que cada visitante sienta que ha encontrado un lugar para **aprender, colaborar y crecer** en el ecosistema de la nube.
+
+---
 
 ## ✨ Características Principales
 
@@ -14,15 +33,14 @@ El sitio está diseñado para ser un centro de recursos dinámico, fácil de man
     - **Botón "Volver Arriba":** Navegación fluida en páginas con mucho contenido.
 - **📚 Glosario Interactivo:** Un completo glosario de términos de AWS con búsqueda en tiempo real y filtro alfabético.
 - **🗂️ Navegación y Filtrado Avanzado:**
-    - **Pestañas en Recursos:** Organización de la "Caja de Herramientas" por categorías.
     - **Filtro por Etiquetas:** Filtra dinámicamente los Recursos, Talleres y Juegos de Lógica por sus `tags` para encontrar contenido específico rápidamente.
 - **📅 Gestión de Eventos Inteligente:**
-    - **Integración con Luma.com:** Registro de eventos a través de plataforma externa profesional.
     - **Indicadores Visuales:** Distingue claramente eventos próximos vs realizados.
     - **Indicadores de Precio:** Identifica eventos gratuitos vs de pago.
-    - **Botones de Registro:** Enlaces directos a registro para eventos próximos.
 - **⚡ Optimizado para el Rendimiento:** Carga diferida de imágenes (`loading="lazy"`) y código modular para una entrega rápida y eficiente.
 - **🔍 SEO Mejorado:** Optimizado para ser encontrado en búsquedas relacionadas con "Roberto Flores" y "Playa Vicente".
+
+---
 
 ## 🚀 Tecnologías Utilizadas
 
@@ -30,7 +48,6 @@ El sitio está diseñado para ser un centro de recursos dinámico, fácil de man
 - **CSS3** (con variables para temas y diseño responsivo)
 - **JavaScript (Vanilla)** para la interactividad y carga de contenido dinámico.
 - **Particles.js** para los efectos de fondo.
-- **Luma.com** para gestión profesional de eventos y registro.
 - **Alojado en AWS Amplify** para un despliegue continuo y escalable.
 
 ---
@@ -42,20 +59,20 @@ Todos los archivos públicos (HTML, assets, etc.) están centralizados en el dir
 ```
 tiburon/
 ├── public/
-│   ├── index.html
+│   ├── index.html        # Página principal
 │   ├── guia.html
 │   ├── glosario.html
 │   ├── recursos.html
-│   ├── talleres.html          # En desarrollo - Galería de fotos y materiales
-│   ├── eventos.html           # Gestión completa de eventos con Luma
+│   ├── talleres.html
+│   ├── eventos.html
 │   ├── logic-games.html
 │   └── assets/
 │       ├── css/          # Estilos consolidados en styles.css
 │       ├── js/           # Lógica principal modular en app.js
 │       ├── data/         # ¡AQUÍ SE EDITA EL CONTENIDO! (Archivos JSON)
-│       └── images/       # Imágenes del sitio
-├── amplify.yml       # Configuración de despliegue para AWS Amplify
-├── README.md         # Este archivo
+│       └── images/       # Imágenes, iconos y códigos QR
+├── amplify.yml           # Configuración de despliegue para AWS Amplify
+├── README.md             # Este archivo
 └── ... (otros archivos de configuración)
 ```
 
@@ -81,70 +98,15 @@ Para que el sitio funcione correctamente (especialmente la carga de contenido de
 
 Para facilitar la actualización, todo el contenido dinámico se gestiona desde archivos `JSON` ubicados en `public/assets/data/`. Simplemente edita el archivo correspondiente y los cambios se reflejarán en el sitio.
 
-### 📅 Gestión de Eventos (`events.json`)
-
-Los eventos soportan los siguientes campos:
-- `date`: Fecha del evento (YYYY-MM-DD) o `year` para eventos sin fecha específica
-- `title`: Título del evento
-- `description`: Descripción detallada
-- `image`: URL de la imagen del evento
-- `tags`: Array de etiquetas para filtrado
-- `format`: Modalidad (Presencial, Online, Híbrido)
-- `price`: "free" o "paid" para indicar si es gratuito o de pago
-- `registration_url`: URL de registro en Luma.com (opcional)
-
-### 🎬 Sección de Talleres
-
-Actualmente en desarrollo para incluir:
-- 📸 Galería de fotos de cada evento
-- 📚 Recursos y materiales compartidos
-- 💾 Código y ejemplos del workshop
-- 🎯 Resultados y proyectos de los participantes
-
----
-
-## 🌐 Integración con Luma.com
-
-El sitio está integrado con Luma.com para la gestión profesional de eventos:
-
-- **Registro Individual:** Los usuarios se registran directamente en Luma
-- **Gestión Manual:** Los eventos se publican manualmente en el subgrupo de Telegram
-- **Flujo:** Sitio Web → Luma (registro) → Telegram (notificaciones manuales)
-
-**Ventajas de Luma:**
-- Plan gratuito hasta 100 asistentes por evento
-- Páginas de evento personalizables
-- Recordatorios automáticos por email
-- Integración con calendarios
-- Analytics básicos
+- **Eventos:** `events.json`
+- **Glosario:** `glosario.json`
+- **Proyectos:** `git-projects.json`
+- **Recursos:** `resources.json`
+- **Juegos de Lógica:** `logic-games.json`
+- **Talleres:** `workshops.json`
 
 ---
 
 ## ☁️ Despliegue
 
-Este proyecto está configurado para un despliegue continuo a través de **AWS Amplify**. El archivo `amplify.yml` contiene la configuración del build. Cualquier `git push` a la rama configurada (ej. `main`) disparará automáticamente un nuevo despliegue del sitio.
-
----
-
-## 📈 Historial de Eventos Realizados
-
-- **13 de Noviembre 2025:** Primer workshop oficial en COBAEV 13 PLAYA VICENTE - "Fundamentos Cloud y Tu Primer Sitio Web con S3"
-- **22 de Noviembre 2025:** Workshop en UGM Campus Playa Vicente (próximo)
-
----
-
-## 💡 Mejoras Futuras
-
-- **Sistema de Cuentas de Usuario:** Implementar un sistema de autenticación para que los usuarios puedan tener perfiles y guardar su progreso (por ejemplo, en la Guía de Estudio). Esto permitiría una experiencia personalizada y persistente a través de diferentes dispositivos y navegadores.
-- **Galería de Talleres Completa:** Implementar la sección de talleres con fotos, materiales y recursos de cada evento realizado.
-- **Automatización con Telegram:** Bot para envío automático de recordatorios al subgrupo de eventos.
-- **Sección de Proyectos de la Comunidad:** Un espacio para que los miembros del User Group puedan mostrar sus propios proyectos.
-- **Blog de Artículos Técnicos:** Una sección para tutoriales o artículos más detallados sobre temas de AWS.
-
----
-
-## 🤝 Comunidad
-
-- **Telegram:** Comunidad principal + subgrupo específico para eventos
-- **Eventos:** Gestión a través de Luma.com
-- **Ubicación:** Playa Vicente, Veracruz, México
+Este proyecto está configurado para un despliegue continuo a través de **AWS Amplify**. El archivo `amplify.yml` contiene la configuración del build. Cualquier `git push` a la rama `main` disparará automáticamente un nuevo despliegue del sitio.

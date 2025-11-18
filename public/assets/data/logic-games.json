@@ -1,42 +1,42 @@
 [
     {
         "title": "Sudoku.com",
-        "description": "El clásico juego de lógica Sudoku para ejercitar tu mente con diferentes niveles de dificultad.",
+        "description": "El atemporal desafío del Sudoku, perfecto para agilizar tu mente. Disfruta de una experiencia clásica con múltiples niveles de dificultad que pondrán a prueba tu ingenio.",
         "url": "https://sudoku.com/",
         "image": "https://sudoku.com/img/Sudoku-App-Icon.png",
         "tags": ["Puzzle", "Clásico", "Gratis"]
     },
     {
         "title": "Chess.com",
-        "description": "Juega ajedrez en línea con millones de jugadores de todo el mundo. Mejora tu estrategia y lógica.",
+        "description": "Conéctate con millones de entusiastas del ajedrez a nivel global. Una plataforma ideal para perfeccionar tu estrategia, afinar tu lógica y competir en línea.",
         "url": "https://www.chess.com/",
         "image": "https://images.chesscomfiles.com/uploads/v1/images_users/tiny_player_icons/8904_200.png",
         "tags": ["Estrategia", "Ajedrez", "Comunidad"]
     },
     {
         "title": "Lichess",
-        "description": "Una plataforma de ajedrez gratis y de código abierto. Sin publicidad, sin trampas, solo ajedrez puro.",
+        "description": "Descubre Lichess, la plataforma de ajedrez gratuita y de código abierto. Disfruta de una experiencia pura, sin distracciones ni publicidad, donde solo importa tu juego.",
         "url": "https://lichess.org/",
         "image": "https://lichess.org/assets/_Lichess-favicon-32.png",
         "tags": ["Estrategia", "Ajedrez", "Open Source", "Gratis"]
     },
     {
         "title": "Project Euler",
-        "description": "Una serie de desafiantes problemas matemático-computacionales que requieren más que solo habilidades matemáticas para resolver.",
+        "description": "Sumérgete en una serie de desafiantes problemas matemático-computacionales. Estos retos van más allá de las habilidades matemáticas básicas, exigiendo ingenio y pensamiento algorítmico.",
         "url": "https://projecteuler.net/",
         "image": "https://projecteuler.net/images/euler_screenshot.png",
         "tags": ["Programación", "Matemáticas", "Desafío"]
     },
     {
         "title": "Human Resource Machine",
-        "description": "Un juego de puzzle de programación para nerds. Programa a tu pequeño trabajador de oficina para resolver puzzles.",
+        "description": "Un ingenioso juego de puzles que te introduce a la programación. Dirige a tu pequeño trabajador de oficina mediante comandos para superar desafíos lógicos y optimizar procesos.",
         "url": "https://tomorrowcorporation.com/humanresourcemachine",
         "image": "https://tomorrowcorporation.com/img/hrm-game.png",
         "tags": ["Programación", "Puzzle", "Juego Educativo"]
     },
     {
         "title": "Logic Grid Puzzles",
-        "description": "Resuelve una variedad de puzzles de rejilla lógica que agudizarán tu pensamiento deductivo.",
+        "description": "Pon a prueba tu pensamiento deductivo con una amplia variedad de puzles de rejilla lógica. Cada desafío está diseñado para agudizar tu capacidad de análisis y resolución.",
         "url": "https://www.logic-grid-puzzles.com/",
         "image": "https://www.logic-grid-puzzles.com/images/lgp-logo.png",
         "tags": ["Puzzle", "Deducción", "Gratis"]
