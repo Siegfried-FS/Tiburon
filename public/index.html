@@ -4,24 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Content Security Policy para protección contra XSS -->
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self';
-        script-src 'self' 'unsafe-inline' https://sdk.amazonaws.com https://unpkg.com https://cdnjs.cloudflare.com;
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-        font-src 'self' https://fonts.gstatic.com;
-        img-src 'self' data: https:;
-        connect-src 'self' https://*.amazonaws.com https://*.amazoncognito.com https://auth.tiburoncp.siegfried-fs.com;
-        frame-ancestors 'none';
-        base-uri 'self';
-        form-action 'self';
-    ">
-    
-    <!-- Protección adicional contra clickjacking -->
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    
     <!-- SEO Optimizado para Roberto Flores y Playa Vicente -->
     <title>Roberto Flores (Siegfried FS) | AWS User Group Playa Vicente</title>
     <meta name="description" content="Comunidad AWS User Group en Playa Vicente, Veracruz. Un proyecto de Roberto Flores (Siegfried FS) para aprender sobre la nube, certificaciones AWS y tecnología en español. ¡Únete y crece con nosotros!">
@@ -229,10 +211,7 @@
     </main>
 
     <!-- Scripts -->
-    <!-- Protecciones de seguridad (debe ir primero) -->
-    <script src="assets/js/security-protection.js"></script>
-    <script src="assets/js/integrity-monitor.js"></script>
-    <!-- Mensaje educativo de seguridad -->
+    <!-- Mensaje amigable de seguridad -->
     <script src="assets/js/console-security.js"></script>
     
     <!-- AWS SDK y Cognito -->
