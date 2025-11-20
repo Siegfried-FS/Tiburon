@@ -206,7 +206,13 @@ class AuthUI {
                         <div class="form-group">
                             <label for="registerPassword">Contraseña:</label>
                             <input type="password" id="registerPassword" required>
-                            <small>Mínimo 8 caracteres, una mayúscula, una minúscula y un número</small>
+                            <div class="password-strength" id="passwordStrength">
+                                <div class="strength-bar">
+                                    <div class="strength-fill" id="strengthFill"></div>
+                                </div>
+                                <span class="strength-text" id="strengthText">Ingresa una contraseña</span>
+                            </div>
+                            <small>Mínimo 12 caracteres, incluir: mayúscula, minúscula, número y símbolo especial (!@#$%^&*)</small>
                         </div>
                         
                         <div class="form-group checkbox-group">
@@ -304,18 +310,11 @@ class AuthUI {
             registerForm.setAttribute('data-bound', 'true');
         }
         
-        // Botones de Google OAuth
-        const googleSignIn = document.getElementById('googleSignIn');
-        const googleSignInLogin = document.getElementById('googleSignInLogin');
-        
-        if (googleSignIn && !googleSignIn.hasAttribute('data-bound')) {
-            googleSignIn.addEventListener('click', () => this.handleGoogleAuth());
-            googleSignIn.setAttribute('data-bound', 'true');
-        }
-        
-        if (googleSignInLogin && !googleSignInLogin.hasAttribute('data-bound')) {
-            googleSignInLogin.addEventListener('click', () => this.handleGoogleAuth());
-            googleSignInLogin.setAttribute('data-bound', 'true');
+        // Password strength indicator
+        const passwordInput = document.getElementById('registerPassword');
+        if (passwordInput && !passwordInput.hasAttribute('data-bound')) {
+            passwordInput.addEventListener('input', (e) => this.updatePasswordStrength(e.target.value));
+            passwordInput.setAttribute('data-bound', 'true');
         }
     }
 
@@ -546,7 +545,96 @@ class AuthUI {
             'InvalidParameterException': 'Parámetros inválidos'
         };
         
+    // Obtener mensaje de error amigable
+    getErrorMessage(error) {
+        const errorMessages = {
+            'UserNotFoundException': 'Usuario no encontrado',
+            'NotAuthorizedException': 'Email o contraseña incorrectos',
+            'UserNotConfirmedException': 'Debes confirmar tu email antes de iniciar sesión',
+            'UsernameExistsException': 'Ya existe una cuenta con este email',
+            'InvalidPasswordException': 'La contraseña no cumple con los requisitos de seguridad',
+            'InvalidParameterException': 'Parámetros inválidos'
+        };
+        
         return errorMessages[error.code] || error.message || 'Ha ocurrido un error';
+    }
+
+    // Actualizar indicador de fortaleza de contraseña
+    updatePasswordStrength(password) {
+        const strengthFill = document.getElementById('strengthFill');
+        const strengthText = document.getElementById('strengthText');
+        
+        if (!strengthFill || !strengthText) return;
+        
+        let score = 0;
+        let feedback = [];
+        
+        // Criterios de evaluación
+        if (password.length >= 12) score += 20;
+        else feedback.push('Mínimo 12 caracteres');
+        
+        if (/[A-Z]/.test(password)) score += 20;
+        else feedback.push('Una mayúscula');
+        
+        if (/[a-z]/.test(password)) score += 20;
+        else feedback.push('Una minúscula');
+        
+        if (/\d/.test(password)) score += 20;
+        else feedback.push('Un número');
+        
+        if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password)) score += 20;
+        else feedback.push('Un símbolo especial');
+        
+        // Penalizaciones
+        if (/123456|password|qwerty|admin|letmein/i.test(password)) {
+            score -= 30;
+            feedback.push('Evita patrones comunes');
+        }
+        
+        if (/^(.)\1+$/.test(password)) {
+            score -= 40;
+            feedback.push('No uses caracteres repetidos');
+        }
+        
+        // Actualizar UI
+        score = Math.max(0, Math.min(100, score));
+        strengthFill.style.width = score + '%';
+        
+        if (score < 40) {
+            strengthFill.className = 'strength-fill weak';
+            strengthText.textContent = 'Débil: ' + feedback.slice(0, 2).join(', ');
+        } else if (score < 80) {
+            strengthFill.className = 'strength-fill medium';
+            strengthText.textContent = 'Media: ' + (feedback.length > 0 ? feedback.slice(0, 1).join(', ') : 'Mejorando');
+        } else {
+            strengthFill.className = 'strength-fill strong';
+            strengthText.textContent = feedback.length === 0 ? '¡Contraseña segura!' : 'Fuerte: ' + feedback[0];
+        }
+    }
+
+    // Generar contraseña segura
+    generateSecurePassword() {
+        const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        const numbers = '0123456789';
+        const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+        
+        let password = '';
+        
+        // Asegurar al menos uno de cada tipo
+        password += uppercase[Math.floor(Math.random() * uppercase.length)];
+        password += lowercase[Math.floor(Math.random() * lowercase.length)];
+        password += numbers[Math.floor(Math.random() * numbers.length)];
+        password += symbols[Math.floor(Math.random() * symbols.length)];
+        
+        // Completar con caracteres aleatorios
+        const allChars = uppercase + lowercase + numbers + symbols;
+        for (let i = password.length; i < 16; i++) {
+            password += allChars[Math.floor(Math.random() * allChars.length)];
+        }
+        
+        // Mezclar caracteres
+        return password.split('').sort(() => Math.random() - 0.5).join('');
     }
 }
 

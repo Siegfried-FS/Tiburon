@@ -45,16 +45,33 @@ class AuthManager {
         return new Promise((resolve, reject) => {
             // Validar entrada
             if (!this.validateEmail(email)) {
-                reject(new Error('Email inválido'));
+                reject(new Error('Email inválido o demasiado largo'));
                 return;
             }
             
             if (!this.validatePassword(password)) {
-                reject(new Error('Contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número'));
+                reject(new Error('Contraseña debe tener mínimo 12 caracteres, incluir mayúscula, minúscula, número y símbolo especial. No usar patrones comunes.'));
                 return;
             }
 
-            const attributeList = [
+            // Validar y sanitizar todos los inputs
+            const sanitizedName = this.sanitizeInput(name);
+            if (!this.validateInput(name) || sanitizedName !== name) {
+                reject(new Error('Nombre contiene caracteres no permitidos'));
+                return;
+            }
+
+            // Validar y sanitizar campos adicionales
+            if (additionalData.city && (!this.validateInput(additionalData.city) || 
+                this.sanitizeInput(additionalData.city) !== additionalData.city)) {
+                reject(new Error('Ciudad contiene caracteres no permitidos'));
+                return;
+            }
+
+            if (additionalData.age && (additionalData.age < 13 || additionalData.age > 120)) {
+                reject(new Error('Edad debe estar entre 13 y 120 años'));
+                return;
+            }
                 new AmazonCognitoIdentity.CognitoUserAttribute({
                     Name: 'email',
                     Value: email
@@ -223,23 +240,109 @@ class AuthManager {
         });
     }
 
-    // Validaciones de seguridad
+    // Validaciones de seguridad mejoradas
     validateEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
+        return emailRegex.test(email) && email.length <= 254;
     }
 
     validatePassword(password) {
-        // Al menos 8 caracteres, una mayúscula, una minúscula, un número
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
-        return passwordRegex.test(password);
+        // Validación robusta: mínimo 12 caracteres, mayúscula, minúscula, número, símbolo
+        const minLength = 12;
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumbers = /\d/.test(password);
+        const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]/.test(password);
+        
+        // Verificar que no contenga patrones comunes inseguros
+        const commonPatterns = [
+            /123456/, /password/, /qwerty/, /admin/, /letmein/,
+            /welcome/, /monkey/, /dragon/, /master/, /shadow/
+        ];
+        
+        const hasCommonPattern = commonPatterns.some(pattern => 
+            pattern.test(password.toLowerCase())
+        );
+        
+        // Verificar que no sea solo caracteres repetidos
+        const isRepeated = /^(.)\1+$/.test(password);
+        
+        return password.length >= minLength && 
+               hasUpperCase && 
+               hasLowerCase && 
+               hasNumbers && 
+               hasSpecialChar && 
+               !hasCommonPattern && 
+               !isRepeated;
     }
 
-    // Sanitizar entrada del usuario
+    // Sanitizar entrada del usuario (prevenir XSS e inyecciones)
     sanitizeInput(input) {
-        return input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-                   .replace(/[<>]/g, '')
-                   .trim();
+        if (typeof input !== 'string') return '';
+        
+        return input
+            // Remover scripts maliciosos
+            .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+            // Remover eventos JavaScript
+            .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+            // Remover tags HTML peligrosos
+            .replace(/<(iframe|object|embed|form|input|meta|link)[^>]*>/gi, '')
+            // Escapar caracteres especiales HTML
+            .replace(/[<>'"&]/g, function(match) {
+                const escapeMap = {
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#x27;',
+                    '&': '&amp;'
+                };
+                return escapeMap[match];
+            })
+            // Limitar longitud
+            .substring(0, 255)
+            .trim();
+    }
+
+    // Validar entrada contra inyección SQL (aunque Cognito no usa SQL)
+    validateInput(input) {
+        if (typeof input !== 'string') return false;
+        
+        // Patrones sospechosos
+        const suspiciousPatterns = [
+            /(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\b)/i,
+            /(script|javascript|vbscript|onload|onerror|onclick)/i,
+            /[<>{}]/,
+            /\$\{.*\}/,  // Template literals
+            /eval\s*\(/i,
+            /function\s*\(/i
+        ];
+        
+        return !suspiciousPatterns.some(pattern => pattern.test(input));
+    }
+
+    // Generar contraseña segura sugerida
+    generateSecurePassword(length = 16) {
+        const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        const numbers = '0123456789';
+        const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+        
+        let password = '';
+        
+        // Asegurar al menos uno de cada tipo
+        password += uppercase[Math.floor(Math.random() * uppercase.length)];
+        password += lowercase[Math.floor(Math.random() * lowercase.length)];
+        password += numbers[Math.floor(Math.random() * numbers.length)];
+        password += symbols[Math.floor(Math.random() * symbols.length)];
+        
+        // Completar con caracteres aleatorios
+        const allChars = uppercase + lowercase + numbers + symbols;
+        for (let i = password.length; i < length; i++) {
+            password += allChars[Math.floor(Math.random() * allChars.length)];
+        }
+        
+        // Mezclar caracteres
+        return password.split('').sort(() => Math.random() - 0.5).join('');
     }
 
     // Verificar si el usuario está autenticado
