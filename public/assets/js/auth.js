@@ -72,6 +72,8 @@ class AuthManager {
                 reject(new Error('Edad debe estar entre 13 y 120 años'));
                 return;
             }
+
+            const attributeList = [
                 new AmazonCognitoIdentity.CognitoUserAttribute({
                     Name: 'email',
                     Value: email

@@ -541,17 +541,6 @@ class AuthUI {
             'NotAuthorizedException': 'Email o contraseña incorrectos',
             'UserNotConfirmedException': 'Debes confirmar tu email antes de iniciar sesión',
             'UsernameExistsException': 'Ya existe una cuenta con este email',
-            'InvalidPasswordException': 'La contraseña no cumple con los requisitos',
-            'InvalidParameterException': 'Parámetros inválidos'
-        };
-        
-    // Obtener mensaje de error amigable
-    getErrorMessage(error) {
-        const errorMessages = {
-            'UserNotFoundException': 'Usuario no encontrado',
-            'NotAuthorizedException': 'Email o contraseña incorrectos',
-            'UserNotConfirmedException': 'Debes confirmar tu email antes de iniciar sesión',
-            'UsernameExistsException': 'Ya existe una cuenta con este email',
             'InvalidPasswordException': 'La contraseña no cumple con los requisitos de seguridad',
             'InvalidParameterException': 'Parámetros inválidos'
         };
