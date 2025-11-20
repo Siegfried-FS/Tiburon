@@ -1,23 +1,69 @@
 /* Estilos para Sistema de Autenticación */
 
-/* Integración con header */
-.auth-nav-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.auth-nav-item .auth-buttons {
+/* Botones de auth en el header */
+.auth-buttons {
     display: flex;
     gap: 0.5rem;
     align-items: center;
 }
 
-.auth-nav-item .btn-primary,
-.auth-nav-item .btn-secondary {
+.auth-btn {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
     border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.login-btn {
+    background: var(--primary-color);
+    color: white;
+}
+
+.login-btn:hover {
+    background: var(--primary-hover);
+}
+
+.register-btn {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.register-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.logout-btn {
+    background: #e74c3c;
+    color: white;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+}
+
+.user-name {
+    color: var(--text-color);
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .auth-buttons {
+        flex-direction: column;
+        gap: 0.25rem;
+        width: 100%;
+    }
+    
+    .auth-btn {
+        width: 100%;
+        padding: 0.75rem;
+    }
 }
 
 /* Botones OAuth */
