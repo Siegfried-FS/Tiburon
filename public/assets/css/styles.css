@@ -77,7 +77,7 @@ body {
     width: 100%;
     background: var(--bg-secondary);
     backdrop-filter: blur(10px);
-    z-index: 1000;
+    z-index: 9999; /* Aumentar z-index para asegurar que esté siempre encima */
     padding: 0 20px;
     border-bottom: 1px solid var(--border-color);
     box-shadow: var(--shadow);
@@ -2717,5 +2717,475 @@ html {
     
     .legal-document h2 {
         font-size: 1.3rem;
+    }
+}
+
+/* Estilos para autenticación */
+.auth-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.auth-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+}
+
+.auth-btn:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.auth-btn.login-btn {
+    background: linear-gradient(135deg, #4285f4 0%, #34a853 50%, #fbbc05 75%, #ea4335 100%);
+    color: white;
+    border: none;
+}
+
+.auth-btn.login-btn:hover {
+    background: linear-gradient(135deg, #3367d6 0%, #2d8f47 50%, #f9ab00 75%, #d33b2c 100%);
+}
+
+.auth-btn.logout-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+}
+
+.auth-btn.logout-btn:hover {
+    background: #e55a2b;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.google-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Responsive para autenticación */
+@media (max-width: 768px) {
+    .auth-container {
+        gap: 0.5rem;
+    }
+    
+    .auth-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .user-name {
+        max-width: 100px;
+    }
+}
+/* =============================================================================
+   ESTILOS DE AUTENTICACIÓN
+============================================================================= */
+
+/* Botones de autenticación en el header */
+.auth-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.auth-buttons button {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--gradient-accent);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-2px);
+}
+
+/* Menú de usuario */
+.user-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+.user-menu:hover .user-dropdown {
+    display: block;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    min-width: 180px;
+    z-index: 1000;
+    margin-top: 0.5rem;
+}
+
+.user-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.user-dropdown button:hover {
+    background: var(--bg-card-hover);
+}
+
+.user-dropdown button:first-child {
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.user-dropdown button:last-child {
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+/* Modales de autenticación */
+.auth-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    width: 90%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.close-modal:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+/* Botones OAuth */
+.oauth-buttons {
+    padding: 1.5rem;
+    padding-bottom: 0;
+}
+
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: white;
+    color: #333;
+    border: 1px solid #dadce0;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-google:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Divisor */
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.divider span {
+    padding: 0 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Formularios */
+.auth-form {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+}
+
+.auth-form .btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.auth-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s ease;
+}
+
+.auth-links a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* Mensajes de error y éxito */
+.error-message {
+    background: rgba(255, 107, 53, 0.1);
+    color: var(--accent-color);
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    margin: 1rem 1.5rem;
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    font-size: 0.85rem;
+}
+
+.success-notification {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: var(--success-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 3000;
+    font-size: 0.9rem;
+    animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Botón de eliminar cuenta */
+.btn-danger {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+    background: #e55a2b;
+    transform: translateY(-1px);
+}
+
+/* Responsive para autenticación */
+@media (max-width: 768px) {
+    .auth-nav-item {
+        width: 100%;
+        justify-content: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .auth-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .user-menu {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .user-dropdown {
+        left: 0;
+        right: 0;
+        width: 100%;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .oauth-buttons,
+    .auth-form {
+        padding: 1rem;
+    }
+    
+    .divider {
+        margin: 1rem;
     }
 }

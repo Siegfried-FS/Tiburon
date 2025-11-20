@@ -4,7 +4,9 @@
 
 async function loadHeader() {
     const headerPlaceholder = document.getElementById('header-placeholder');
-    if (!headerPlaceholder) return; // No hay placeholder, no hacer nada.
+    if (!headerPlaceholder) {
+        return; // No hay placeholder, no hacer nada.
+    }
 
     try {
         const response = await fetch('assets/shared/header.html');
@@ -13,22 +15,19 @@ async function loadHeader() {
         const headerHTML = await response.text();
         headerPlaceholder.outerHTML = headerHTML;
         
-        // Una vez que el header está en el DOM, inicializamos su funcionalidad.
+        // Una vez que el header y scripts esenciales están en el DOM, inicializamos su funcionalidad.
         loadTheme(); 
         addHeaderEventListeners();
         
-        // Inicializar sistema de autenticación si está disponible
-        if (typeof AuthManager !== 'undefined') {
-            AuthManager.init();
-        }
-
     } catch (error) {
-        console.error('Error al cargar el header:', error);
+        console.error('loadHeader: Error al cargar el header:', error);
         if(headerPlaceholder) headerPlaceholder.innerHTML = '<p style="color:red; text-align:center;">Error al cargar el menú.</p>';
     }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+// Esperar a que los scripts de autenticación se carguen completamente
+document.addEventListener('authScriptsLoaded', async () => {
+    console.log('app.js: Evento authScriptsLoaded recibido. Iniciando carga del header y funcionalidades de la página.');
     await loadHeader(); // Carga el header y sus eventos primero
 
     // Añade listeners para el contenido específico de la página
@@ -67,6 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // =============================================================================
 
 function addHeaderEventListeners() {
+    console.log('app.js: addHeaderEventListeners llamado.');
     const hamburger = document.querySelector('.hamburger');
     if (hamburger) {
         hamburger.addEventListener('click', (event) => {
@@ -103,6 +103,15 @@ function addHeaderEventListeners() {
             closeMenu();
         }
     });
+
+    // Asegurarse de que AuthManager configure sus event listeners DESPUÉS de que el header esté en el DOM
+    console.log('app.js: addHeaderEventListeners: Verificando window.authManager:', window.authManager);
+    if (window.authManager && typeof window.authManager.setupEventListeners === 'function') {
+        console.log('app.js: Preparando para llamar a window.authManager.setupEventListeners().');
+        window.authManager.setupEventListeners();
+    } else {
+        console.log('app.js: addHeaderEventListeners: window.authManager o setupEventListeners NO disponibles.');
+    }
 }
 
 function addPageEventListeners() {

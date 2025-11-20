@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Autenticación Tiburón</title>
+    <link rel="stylesheet" href="public/assets/css/styles.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    
+    <main style="padding: 2rem; max-width: 800px; margin: 0 auto;">
+        <h1>🧪 Prueba de Autenticación</h1>
+        <p>Esta página es para probar que el sistema de autenticación funciona correctamente en todas las páginas del sitio.</p>
+        
+        <div style="background: var(--bg-card); padding: 1.5rem; border-radius: var(--border-radius); margin: 2rem 0;">
+            <h3>Estado de la Autenticación:</h3>
+            <div id="auth-status">Cargando...</div>
+        </div>
+        
+        <div style="background: var(--bg-card); padding: 1.5rem; border-radius: var(--border-radius);">
+            <h3>Información del Usuario:</h3>
+            <div id="user-details">No hay usuario autenticado</div>
+        </div>
+    </main>
+
+    <script src="public/assets/js/p.js"></script>
+    <script src="public/assets/js/app.js"></script>
+    
+    <script>
+        // Script para mostrar el estado de autenticación
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const authStatus = document.getElementById('auth-status');
+                const userDetails = document.getElementById('user-details');
+                
+                if (window.AuthManager) {
+                    authStatus.innerHTML = '✅ Sistema de autenticación cargado correctamente';
+                    
+                    // Verificar si hay usuario autenticado
+                    window.AuthManager.checkCurrentSession().then(isAuth => {
+                        if (isAuth) {
+                            const user = window.AuthManager.getCurrentUser();
+                            userDetails.innerHTML = `
+                                <strong>Usuario autenticado:</strong><br>
+                                Email: ${user.email || 'N/A'}<br>
+                                Nombre: ${user.name || 'N/A'}<br>
+                                Apodo: ${user['custom:nickname'] || 'N/A'}
+                            `;
+                        } else {
+                            userDetails.innerHTML = 'No hay usuario autenticado';
+                        }
+                    });
+                } else {
+                    authStatus.innerHTML = '❌ Error: Sistema de autenticación no disponible';
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

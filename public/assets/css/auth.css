@@ -7,306 +7,102 @@
     align-items: center;
 }
 
-.auth-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-weight: 500;
+/* Nuevo: Contenedor para la información del usuario autenticado */
+.user-info-display {
+    display: flex; /* Asegurar que es un contenedor flex */
+    align-items: center; /* Centrar verticalmente los ítems dentro del contenedor */
+    gap: 0.75rem;
+    position: relative;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    min-height: 44px; /* Asegurar una altura mínima consistente */
 }
 
-.login-btn {
-    background: var(--primary-color);
-    color: white;
+.user-info-display:hover {
+    background: var(--bg-card-hover);
 }
 
-.login-btn:hover {
-    background: var(--primary-hover);
-}
-
-.register-btn {
-    background: transparent;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-}
-
-.register-btn:hover {
-    background: var(--primary-color);
-    color: white;
-}
-
-.logout-btn {
-    background: #e74c3c;
-    color: white;
-}
-
-.logout-btn:hover {
-    background: #c0392b;
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
 }
 
 .user-name {
-    color: var(--text-color);
+    color: var(--text-primary);
     font-weight: bold;
-    margin-right: 0.5rem;
+    line-height: normal; /* Asegurar que la altura de línea no cause desalineación */
+    margin-right: 0.25rem;
 }
 
-/* Responsive para móviles */
-@media (max-width: 768px) {
-    .auth-buttons {
-        flex-direction: column;
-        gap: 0.25rem;
-        width: 100%;
-    }
-    
-    .auth-btn {
-        width: 100%;
-        padding: 0.75rem;
-    }
-}
-
-/* Botones OAuth */
-.oauth-buttons {
-    margin-bottom: 1rem;
-}
-
-.btn-google {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 2px solid #dadce0;
-    border-radius: 8px;
-    background: white;
-    color: #3c4043;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-}
-
-.btn-google:hover {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border-color: #dadce0;
-}
-
-.btn-google svg {
-    flex-shrink: 0;
-}
-
-/* Divisor */
-.divider {
+/* Menú desplegable del usuario */
+.user-dropdown-menu {
     position: relative;
-    text-align: center;
-    margin: 1.5rem 0;
 }
 
-.divider::before {
-    content: '';
+.user-dropdown-content {
+    display: none; /* Oculto por defecto, visible con JS (clase .show) */
     position: absolute;
-    top: 50%;
-    left: 0;
+    top: calc(100% + 5px); /* Debajo del toggle */
     right: 0;
-    height: 1px;
-    background: var(--border-color);
-}
-
-.divider span {
-    background: var(--bg-color);
-    padding: 0 1rem;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-}
-
-/* Formularios mejorados */
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
-
-.form-group select {
-    padding: 0.75rem;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
     background: var(--bg-secondary);
-    color: var(--text-color);
-    font-size: 1rem;
-    transition: all 0.2s ease;
-}
-
-.form-group select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-}
-
-/* Checkbox personalizado */
-.checkbox-group {
-    margin: 1rem 0;
-}
-
-.checkbox-label {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    cursor: pointer;
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-.checkbox-label input[type="checkbox"] {
-    display: none;
-}
-
-.checkmark {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--border-color);
-    border-radius: 4px;
-    background: var(--bg-secondary);
-    position: relative;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.checkbox-label input[type="checkbox"]:checked + .checkmark {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.checkbox-label input[type="checkbox"]:checked + .checkmark::after {
-    content: '✓';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-/* Modal más grande para formulario extendido */
-.modal-content {
-    background: var(--bg-color);
-    border-radius: 12px;
-    padding: 2rem;
-    width: 90%;
-    max-width: 500px; /* Aumentado para acomodar más campos */
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border-color);
-    animation: modalSlideIn 0.3s ease-out;
-}
-
-/* Modales */
-.auth-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
-}
-
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.modal-header h2 {
-    margin: 0;
-    color: var(--text-color);
-    font-size: 1.5rem;
-}
-
-.close-modal {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--text-secondary);
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-}
-
-.close-modal:hover {
-    background: var(--hover-bg);
-    color: var(--text-color);
-}
-
-/* Formularios */
-.auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.form-group label {
-    font-weight: 600;
-    color: var(--text-color);
-    font-size: 0.9rem;
-}
-
-.form-group input {
-    padding: 0.75rem;
-    border: 2px solid var(--border-color);
     border-radius: 8px;
-    background: var(--bg-secondary);
-    color: var(--text-color);
-    font-size: 1rem;
-    transition: all 0.2s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    min-width: 180px;
+    z-index: 100;
+    flex-direction: column; /* Para apilar los botones */
+    padding: 0.5rem; /* Padding uniforme */
+    gap: 0.25rem; /* Espacio entre botones del dropdown */
 }
 
-.form-group input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+.user-dropdown-content.show {
+    display: flex; /* Muestra el menú cuando tiene la clase 'show' */
 }
 
-.form-group small {
+.btn-dropdown {
+    /* Inherit general button styles and then override for dropdown specific needs */
+    width: 100%;
+    background: none; /* No background by default */
+    border: none; /* No border by default */
+    color: var(--text-secondary); /* Default text color */
+    text-align: left; /* Align text to the left */
+    padding: 0.75rem 1rem; /* Consistent padding */
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    font-size: 1rem; /* Consistente con otros botones */
+    font-weight: 600; /* Consistente con botones principales */
+    line-height: 1.5; /* Ajustado para mejor alineación vertical */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    font-family: inherit;
+    border-radius: 0; /* Remove border-radius for dropdown items unless specific */
+}
+
+.btn-dropdown:hover {
+    background: var(--bg-card-hover);
+    color: var(--primary-color);
+}
+
+/* Specific styling for btn-tertiary within dropdown */
+.btn-dropdown.btn-tertiary {
+    border: none; /* Remove border if it was added */
+    background: none;
     color: var(--text-secondary);
-    font-size: 0.8rem;
 }
 
-/* Botones */
-.btn-primary, .btn-secondary {
+.btn-dropdown.btn-tertiary:hover {
+    background: var(--bg-card-hover);
+    color: var(--primary-color);
+}
+
+/* Estilos de botones existentes */
+.btn-primary, .btn-secondary, .btn-danger, .btn-tertiary {
     padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 8px;
@@ -319,6 +115,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    font-family: inherit; /* Asegurar consistencia */
 }
 
 .btn-primary {
@@ -327,330 +124,122 @@
 }
 
 .btn-primary:hover:not(:disabled) {
-    background: var(--primary-hover);
+    background: var(--secondary-color);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
 }
 
 .btn-secondary {
     background: transparent;
-    color: var(--text-color);
+    color: var(--text-primary);
     border: 2px solid var(--border-color);
 }
 
 .btn-secondary:hover:not(:disabled) {
-    background: var(--hover-bg);
+    background: var(--bg-card-hover);
     border-color: var(--primary-color);
 }
 
-.btn-primary:disabled, .btn-secondary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* Enlaces de autenticación */
-.auth-links {
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.auth-links a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.2s ease;
-}
-
-.auth-links a:hover {
-    color: var(--primary-hover);
-    text-decoration: underline;
-}
-
-/* Botones de navegación */
-.auth-buttons {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-/* Menú de usuario */
-.user-menu {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-#userName {
-    color: var(--text-color);
-    font-weight: 600;
-    padding: 0.5rem;
-}
-
-.user-dropdown {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    min-width: 150px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.2s ease;
-    z-index: 100;
-}
-
-.user-menu:hover .user-dropdown {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.user-dropdown button {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: none;
-    background: none;
-    color: var(--text-color);
-    text-align: left;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    font-size: 0.9rem;
-}
-
-.user-dropdown button:hover {
-    background: var(--hover-bg);
-}
-
-.user-dropdown button:first-child {
-    border-radius: 8px 8px 0 0;
-}
-
-.user-dropdown button:last-child {
-    border-radius: 0 0 8px 8px;
-}
-
-/* Mensajes de error y éxito */
-.error-message {
-    background: #fee;
-    color: #c33;
-    padding: 0.75rem;
-    border-radius: 6px;
-    border: 1px solid #fcc;
-    font-size: 0.9rem;
-    margin-top: 1rem;
-}
-
-.success-message {
-    background: #efe;
-    color: #363;
-    padding: 0.75rem;
-    border-radius: 6px;
-    border: 1px solid #cfc;
-    font-size: 0.9rem;
-    margin-top: 1rem;
-}
-
-/* Notificación de éxito flotante */
-.success-notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #4CAF50;
+.btn-danger {
+    background: #e74c3c;
     color: white;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 1001;
-    animation: slideInRight 0.3s ease-out;
 }
 
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateX(100%);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+.btn-danger:hover:not(:disabled) {
+    background: #c0392b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
 }
 
-/* Responsive */
+/* Responsive para móviles */
 @media (max-width: 768px) {
-    .modal-content {
-        margin: 1rem;
-        padding: 1.5rem;
-        max-width: none;
-    }
-    
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-    
     .auth-buttons {
         flex-direction: column;
         gap: 0.25rem;
+        width: 100%;
     }
     
-    .auth-buttons button {
-        font-size: 0.9rem;
-        padding: 0.5rem 1rem;
+    .auth-buttons .btn-secondary {
+        width: 100%;
+        padding: 0.75rem;
     }
-    
-    .auth-nav-item {
+
+    .user-info-display {
+        width: 100%;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+        margin-top: 0.5rem;
         flex-direction: column;
-        align-items: stretch;
+    }
+
+    .user-dropdown-menu {
+        width: 100%;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    .user-dropdown-toggle {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        padding: 0.75rem;
+        font-size: 1rem;
+        color: var(--text-primary);
+        background: var(--bg-secondary);
+    }
+
+    .user-dropdown-content {
+        position: static; /* Cambiar a estático en móvil para que fluya con el contenido */
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        background: none;
+        padding: 0;
+    }
+
+    .user-dropdown-content.show {
+        margin-top: 0.5rem;
+    }
+
+    .btn-dropdown {
+        padding: 0.75rem;
+        text-align: center;
+        border-radius: 8px;
+        margin-bottom: 0.25rem; /* Espacio entre botones en móvil */
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        justify-content: center; /* Centrar contenido del botón */
+    }
+
+    .btn-dropdown:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .btn-dropdown.btn-danger {
+        background: #e74c3c;
+        color: white;
+    }
+    .btn-dropdown.btn-danger:hover {
+        background: #c0392b;
+        color: white;
+    }
+    .btn-dropdown.btn-tertiary {
+        background: transparent;
+        color: var(--text-secondary);
+        border: 1px solid var(--border-color);
+    }
+    .btn-dropdown.btn-tertiary:hover {
+        background: var(--bg-card-hover);
+        color: var(--primary-color);
     }
 }
 
-/* Indicador de fortaleza de contraseña */
-.password-strength {
-    margin-top: 0.5rem;
-}
-
-.strength-bar {
-    width: 100%;
-    height: 4px;
-    background: var(--border-color);
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 0.25rem;
-}
-
-.strength-fill {
-    height: 100%;
-    width: 0%;
-    transition: all 0.3s ease;
-    border-radius: 2px;
-}
-
-.strength-fill.weak {
-    background: #ff4757;
-}
-
-.strength-fill.medium {
-    background: #ffa502;
-}
-
-.strength-fill.strong {
-    background: #2ed573;
-}
-
-.strength-text {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    display: block;
-}
-
-/* Botón generador de contraseña */
-.password-generator {
-    margin-top: 0.5rem;
-}
-
-.btn-generate {
-    background: none;
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-generate:hover {
-    background: var(--primary-color);
-    color: white;
-}
-
-/* Tema oscuro */
-[data-theme="dark"] .auth-modal {
-    background: rgba(0, 0, 0, 0.8);
-}
-
-[data-theme="dark"] .btn-google {
-    background: #2d2d2d;
-    border-color: #444;
-    color: #e8eaed;
-}
-
-[data-theme="dark"] .btn-google:hover {
-    background: #3c3c3c;
-}
-
-[data-theme="dark"] .form-group input,
-[data-theme="dark"] .form-group select {
-    background: var(--bg-color);
-    border-color: #444;
-}
-
-[data-theme="dark"] .form-group input:focus,
-[data-theme="dark"] .form-group select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-}
-
-[data-theme="dark"] .checkmark {
-    background: var(--bg-color);
-    border-color: #444;
-}
-
-[data-theme="dark"] .strength-bar {
-    background: #444;
-}
-
-[data-theme="dark"] .error-message {
-    background: #2d1b1b;
-    color: #ff6b6b;
-    border-color: #4a2c2c;
-}
-
-[data-theme="dark"] .success-message {
-    background: #1b2d1b;
-    color: #51cf66;
-    border-color: #2c4a2c;
-}
-
-[data-theme="dark"] .btn-google {
-    background: #2d2d2d;
-    border-color: #444;
-    color: #e8eaed;
-}
-
-[data-theme="dark"] .btn-google:hover {
-    background: #3c3c3c;
-}
-
-[data-theme="dark"] .form-group input,
-[data-theme="dark"] .form-group select {
-    background: var(--bg-color);
-    border-color: #444;
-}
-
-[data-theme="dark"] .form-group input:focus,
-[data-theme="dark"] .form-group select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-}
-
-[data-theme="dark"] .checkmark {
-    background: var(--bg-color);
-    border-color: #444;
-}
-
-[data-theme="dark"] .error-message {
-    background: #2d1b1b;
-    color: #ff6b6b;
-    border-color: #4a2c2c;
-}
-
-[data-theme="dark"] .success-message {
-    background: #1b2d1b;
-    color: #51cf66;
-    border-color: #2c4a2c;
+/* Otros estilos de auth existentes (formularios, modales, etc.) */
+.login-btn, .register-btn, .logout-btn, .edit-btn {
+    /* Mantenerlos si se utilizan en otros lugares, pero en el header ahora usamos btn-secondary/primary/etc */
+    /* Elimino estilos duplicados o en desuso para el header */
 }

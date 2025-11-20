@@ -33,8 +33,21 @@
                     </ul>
                 </li>
                 <li><button class="theme-toggle" title="Cambiar tema">🌙</button></li>
-                <!-- Los botones de auth se agregan dinámicamente aquí -->
-                <li id="auth-container"></li>
+                <li class="auth-nav-item">
+                    <div id="authButtons" class="auth-buttons">
+                        <button id="loginBtn" class="btn-secondary">Iniciar Sesión</button>
+                    </div>
+                    <div id="userInfo" class="user-info-display" style="display: none;">
+                        <img id="userAvatar" src="/assets/images/profile-photo.jpg" alt="Avatar de usuario" class="user-avatar">
+                        <span id="userName" class="user-name"></span>
+                        <div class="user-dropdown-menu">
+                            <div class="user-dropdown-content">
+                                <button id="editProfileBtn" class="btn-dropdown">Editar Perfil</button>
+                                <button id="logoutBtn" class="btn-dropdown btn-tertiary">Cerrar Sesión</button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </nav>
     </header>
