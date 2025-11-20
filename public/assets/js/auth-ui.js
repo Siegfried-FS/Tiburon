@@ -469,9 +469,12 @@ class AuthUI {
             const cognitoDomain = `https://auth.tiburoncp.siegfried-fs.com`;
             console.log('Cognito Domain:', cognitoDomain);
             
+            const redirectUri = window.location.origin;
+            console.log('Redirect URI:', redirectUri);
+            
             const params = new URLSearchParams({
                 identity_provider: 'Google',
-                redirect_uri: window.location.origin,
+                redirect_uri: redirectUri,
                 response_type: 'code',
                 client_id: config.clientId,
                 scope: 'email openid profile'
