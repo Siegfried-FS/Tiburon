@@ -2646,3 +2646,76 @@ html {
 .text-highlight-secondary { color: var(--secondary-color); font-weight: 600; }
 .text-highlight-accent { color: var(--accent-color); font-weight: 600; }
 .text-highlight-success { color: var(--success-color); font-weight: 600; }
+/* Páginas legales */
+.legal-document {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.legal-document h1 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+}
+
+.legal-document .last-updated {
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.legal-document section {
+    margin-bottom: 2rem;
+}
+
+.legal-document h2 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1rem;
+}
+
+.legal-document p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.legal-document ul {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.legal-document li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.legal-document strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Responsive para páginas legales */
+@media (max-width: 768px) {
+    .legal-document {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .legal-document h1 {
+        font-size: 2rem;
+    }
+    
+    .legal-document h2 {
+        font-size: 1.3rem;
+    }
+}
