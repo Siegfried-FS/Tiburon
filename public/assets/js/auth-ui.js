@@ -471,7 +471,7 @@ class AuthUI {
             
             const params = new URLSearchParams({
                 identity_provider: 'Google',
-                redirect_uri: `${cognitoDomain}/oauth2/idpresponse`,
+                redirect_uri: window.location.origin,
                 response_type: 'code',
                 client_id: config.clientId,
                 scope: 'email openid profile'
@@ -675,4 +675,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Error initializing auth system:', error);
         }
     }, 500); // Esperar medio segundo para que se cargue el header
+    
+    // Manejar callback de OAuth cuando el usuario regresa
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    
+    if (code) {
+        console.log('Código de autorización recibido:', code);
+        // Limpiar la URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Mostrar mensaje de éxito
+        console.log('Login exitoso - código OAuth recibido');
+        alert('¡Login exitoso! Bienvenido al AWS User Group.');
+    }
 });
