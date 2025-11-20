@@ -16,6 +16,11 @@ async function loadHeader() {
         // Una vez que el header está en el DOM, inicializamos su funcionalidad.
         loadTheme(); 
         addHeaderEventListeners();
+        
+        // Inicializar sistema de autenticación si está disponible
+        if (typeof AuthManager !== 'undefined') {
+            AuthManager.init();
+        }
 
     } catch (error) {
         console.error('Error al cargar el header:', error);
