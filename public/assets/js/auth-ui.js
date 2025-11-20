@@ -9,8 +9,11 @@ class AuthUI {
     init() {
         this.createAuthModals();
         this.addAuthButtonsToHeader();
-        this.bindEvents();
-        this.updateUIBasedOnAuth();
+        // Llamar bindEvents después de crear modales para asegurar que los botones existan
+        setTimeout(() => {
+            this.bindEvents();
+            this.updateUIBasedOnAuth();
+        }, 100);
     }
 
     // Agregar botones de auth al header existente
@@ -274,6 +277,26 @@ class AuthUI {
             showLogin.setAttribute('data-bound', 'true');
         }
 
+        // Botones de Google OAuth (buscar en ambos modales)
+        const googleSignIn = document.getElementById('googleSignIn');
+        const googleSignInLogin = document.getElementById('googleSignInLogin');
+        
+        if (googleSignIn && !googleSignIn.hasAttribute('data-bound')) {
+            googleSignIn.addEventListener('click', () => {
+                console.log('Google Sign In clicked');
+                this.handleGoogleAuth();
+            });
+            googleSignIn.setAttribute('data-bound', 'true');
+        }
+        
+        if (googleSignInLogin && !googleSignInLogin.hasAttribute('data-bound')) {
+            googleSignInLogin.addEventListener('click', () => {
+                console.log('Google Sign In Login clicked');
+                this.handleGoogleAuth();
+            });
+            googleSignInLogin.setAttribute('data-bound', 'true');
+        }
+
         // Cerrar modales
         document.querySelectorAll('.close-modal').forEach(btn => {
             if (!btn.hasAttribute('data-bound')) {
@@ -437,9 +460,13 @@ class AuthUI {
 
     // Manejar autenticación con Google
     async handleGoogleAuth() {
+        console.log('handleGoogleAuth called');
         try {
             const config = window.AWSConfig.getConfig();
+            console.log('AWS Config:', config);
+            
             const cognitoDomain = `https://tiburon-user-pool.auth.${config.region}.amazoncognito.com`;
+            console.log('Cognito Domain:', cognitoDomain);
             
             const params = new URLSearchParams({
                 identity_provider: 'Google',
@@ -450,10 +477,12 @@ class AuthUI {
             });
             
             const authUrl = `${cognitoDomain}/oauth2/authorize?${params.toString()}`;
+            console.log('Auth URL:', authUrl);
+            
             window.location.href = authUrl;
         } catch (error) {
             console.error('Error with Google auth:', error);
-            this.showError('loginError', 'Error al conectar con Google');
+            this.showError('loginError', 'Error al conectar con Google: ' + error.message);
         }
     }
 
