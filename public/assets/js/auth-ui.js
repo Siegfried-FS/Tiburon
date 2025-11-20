@@ -465,7 +465,6 @@ class AuthUI {
             const config = window.AWSConfig.getConfig();
             console.log('AWS Config:', config);
             
-            // Usar dominio personalizado
             const cognitoDomain = `https://auth.tiburoncp.siegfried-fs.com`;
             console.log('Cognito Domain:', cognitoDomain);
             
