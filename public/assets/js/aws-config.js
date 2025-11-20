@@ -5,21 +5,20 @@ class AWSConfig {
         this.isInitialized = false;
     }
 
-    // Cargar configuración desde variables de entorno o archivo de configuración
+    // Cargar configuración desde archivo JSON
     async initialize() {
         try {
-            // En producción, estas variables vendrán de las variables de entorno de Amplify
-            // En desarrollo, las cargaremos de un archivo de configuración
-            const response = await fetch('/assets/data/aws-config.json');
+            // Cargar desde archivo de configuración
+            const response = await fetch('./assets/data/aws-config.json');
             if (response.ok) {
                 this.config = await response.json();
             } else {
-                // Fallback a configuración por defecto (solo IDs públicos, no secretos)
+                // Configuración hardcodeada como fallback (solo IDs públicos)
                 this.config = {
                     region: 'us-east-1',
-                    userPoolId: process.env.COGNITO_USER_POOL_ID || '',
-                    clientId: process.env.COGNITO_CLIENT_ID || '',
-                    identityPoolId: process.env.COGNITO_IDENTITY_POOL_ID || ''
+                    userPoolId: 'us-east-1_Cg5yUjR6L',
+                    clientId: '1gsjecdf86pgdgvvis7l30hha1',
+                    identityPoolId: 'us-east-1:a6680bc2-cd1a-47d8-b8cc-71c19f600abd'
                 };
             }
             
@@ -27,7 +26,15 @@ class AWSConfig {
             return this.config;
         } catch (error) {
             console.error('Error loading AWS configuration:', error);
-            throw new Error('Failed to initialize AWS configuration');
+            // Usar configuración hardcodeada como fallback
+            this.config = {
+                region: 'us-east-1',
+                userPoolId: 'us-east-1_Cg5yUjR6L',
+                clientId: '1gsjecdf86pgdgvvis7l30hha1',
+                identityPoolId: 'us-east-1:a6680bc2-cd1a-47d8-b8cc-71c19f600abd'
+            };
+            this.isInitialized = true;
+            return this.config;
         }
     }
 

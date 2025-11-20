@@ -8,8 +8,51 @@ class AuthUI {
     // Inicializar componentes de UI
     init() {
         this.createAuthModals();
+        this.addAuthButtonsToHeader();
         this.bindEvents();
         this.updateUIBasedOnAuth();
+    }
+
+    // Agregar botones de auth al header existente
+    addAuthButtonsToHeader() {
+        // Esperar a que el header se cargue
+        const checkHeader = () => {
+            const navMenu = document.getElementById('nav-menu');
+            if (navMenu && !document.getElementById('authButtons')) {
+                // Crear elemento de navegación para auth
+                const authNavItem = document.createElement('li');
+                authNavItem.className = 'auth-nav-item';
+                authNavItem.innerHTML = `
+                    <div id="authButtons" class="auth-buttons">
+                        <button id="loginBtn" class="btn-secondary">Iniciar Sesión</button>
+                        <button id="registerBtn" class="btn-primary">Registrarse</button>
+                    </div>
+                    <div id="userMenu" class="user-menu" style="display: none;">
+                        <span id="userName">Usuario</span>
+                        <div class="user-dropdown">
+                            <button id="dashboardBtn">Dashboard</button>
+                            <button id="logoutBtn">Cerrar Sesión</button>
+                        </div>
+                    </div>
+                `;
+                
+                // Agregar antes del botón de tema
+                const themeButton = navMenu.querySelector('.theme-toggle');
+                if (themeButton && themeButton.parentElement) {
+                    navMenu.insertBefore(authNavItem, themeButton.parentElement);
+                } else {
+                    navMenu.appendChild(authNavItem);
+                }
+                
+                // Rebind events después de agregar elementos
+                this.bindEvents();
+            } else if (!navMenu) {
+                // Si el header no se ha cargado, intentar de nuevo
+                setTimeout(checkHeader, 100);
+            }
+        };
+        
+        checkHeader();
     }
 
     // Crear modales de login y registro
@@ -74,21 +117,6 @@ class AuthUI {
                     <div id="registerSuccess" class="success-message" style="display: none;"></div>
                 </div>
             </div>
-
-            <!-- Botones de autenticación en la navegación -->
-            <div id="authButtons" class="auth-buttons">
-                <button id="loginBtn" class="btn-secondary">Iniciar Sesión</button>
-                <button id="registerBtn" class="btn-primary">Registrarse</button>
-            </div>
-
-            <!-- Menú de usuario autenticado -->
-            <div id="userMenu" class="user-menu" style="display: none;">
-                <span id="userName">Usuario</span>
-                <div class="user-dropdown">
-                    <button id="dashboardBtn">Dashboard</button>
-                    <button id="logoutBtn">Cerrar Sesión</button>
-                </div>
-            </div>
         `;
 
         // Agregar al DOM
@@ -98,42 +126,81 @@ class AuthUI {
     // Vincular eventos
     bindEvents() {
         // Botones principales
-        document.getElementById('loginBtn')?.addEventListener('click', () => this.showModal('loginModal'));
-        document.getElementById('registerBtn')?.addEventListener('click', () => this.showModal('registerModal'));
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        
+        if (loginBtn && !loginBtn.hasAttribute('data-bound')) {
+            loginBtn.addEventListener('click', () => this.showModal('loginModal'));
+            loginBtn.setAttribute('data-bound', 'true');
+        }
+        
+        if (registerBtn && !registerBtn.hasAttribute('data-bound')) {
+            registerBtn.addEventListener('click', () => this.showModal('registerModal'));
+            registerBtn.setAttribute('data-bound', 'true');
+        }
         
         // Enlaces entre modales
-        document.getElementById('showRegister')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.switchModal('loginModal', 'registerModal');
-        });
+        const showRegister = document.getElementById('showRegister');
+        const showLogin = document.getElementById('showLogin');
         
-        document.getElementById('showLogin')?.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.switchModal('registerModal', 'loginModal');
-        });
+        if (showRegister && !showRegister.hasAttribute('data-bound')) {
+            showRegister.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.switchModal('loginModal', 'registerModal');
+            });
+            showRegister.setAttribute('data-bound', 'true');
+        }
+        
+        if (showLogin && !showLogin.hasAttribute('data-bound')) {
+            showLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.switchModal('registerModal', 'loginModal');
+            });
+            showLogin.setAttribute('data-bound', 'true');
+        }
 
         // Cerrar modales
         document.querySelectorAll('.close-modal').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                this.closeModal(e.target.dataset.modal);
-            });
+            if (!btn.hasAttribute('data-bound')) {
+                btn.addEventListener('click', (e) => {
+                    this.closeModal(e.target.dataset.modal);
+                });
+                btn.setAttribute('data-bound', 'true');
+            }
         });
 
         // Cerrar modal al hacer clic fuera
         document.querySelectorAll('.auth-modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    this.closeModal(modal.id);
-                }
-            });
+            if (!modal.hasAttribute('data-bound')) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        this.closeModal(modal.id);
+                    }
+                });
+                modal.setAttribute('data-bound', 'true');
+            }
         });
 
         // Formularios
-        document.getElementById('loginForm')?.addEventListener('submit', (e) => this.handleLogin(e));
-        document.getElementById('registerForm')?.addEventListener('submit', (e) => this.handleRegister(e));
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        
+        if (loginForm && !loginForm.hasAttribute('data-bound')) {
+            loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+            loginForm.setAttribute('data-bound', 'true');
+        }
+        
+        if (registerForm && !registerForm.hasAttribute('data-bound')) {
+            registerForm.addEventListener('submit', (e) => this.handleRegister(e));
+            registerForm.setAttribute('data-bound', 'true');
+        }
         
         // Logout
-        document.getElementById('logoutBtn')?.addEventListener('click', () => this.handleLogout());
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn && !logoutBtn.hasAttribute('data-bound')) {
+            logoutBtn.addEventListener('click', () => this.handleLogout());
+            logoutBtn.setAttribute('data-bound', 'true');
+        }
     }
 
     // Mostrar modal
@@ -242,8 +309,8 @@ class AuthUI {
         const userMenu = document.getElementById('userMenu');
         
         if (isAuthenticated) {
-            authButtons.style.display = 'none';
-            userMenu.style.display = 'block';
+            if (authButtons) authButtons.style.display = 'none';
+            if (userMenu) userMenu.style.display = 'block';
             
             // Actualizar nombre de usuario
             try {
@@ -256,8 +323,8 @@ class AuthUI {
                 console.error('Error getting user info:', error);
             }
         } else {
-            authButtons.style.display = 'block';
-            userMenu.style.display = 'none';
+            if (authButtons) authButtons.style.display = 'flex';
+            if (userMenu) userMenu.style.display = 'none';
         }
     }
 
@@ -328,17 +395,20 @@ class AuthUI {
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        // Inicializar AuthManager
-        await window.AuthManager.initialize();
-        
-        // Inicializar UI
-        const authUI = new AuthUI();
-        authUI.init();
-        
-        // Hacer disponible globalmente
-        window.AuthUI = authUI;
-    } catch (error) {
-        console.error('Error initializing auth system:', error);
-    }
+    // Esperar a que se cargue el header
+    setTimeout(async () => {
+        try {
+            // Inicializar AuthManager
+            await window.AuthManager.initialize();
+            
+            // Inicializar UI
+            const authUI = new AuthUI();
+            authUI.init();
+            
+            // Hacer disponible globalmente
+            window.AuthUI = authUI;
+        } catch (error) {
+            console.error('Error initializing auth system:', error);
+        }
+    }, 500); // Esperar medio segundo para que se cargue el header
 });
