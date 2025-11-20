@@ -470,7 +470,7 @@ class AuthUI {
             
             const params = new URLSearchParams({
                 identity_provider: 'Google',
-                redirect_uri: window.location.origin,
+                redirect_uri: `${cognitoDomain}/oauth2/idpresponse`,
                 response_type: 'code',
                 client_id: config.clientId,
                 scope: 'email openid profile'
