@@ -9,7 +9,13 @@ async function loadHeader() {
     }
 
     try {
-        const response = await fetch('assets/shared/header.html');
+        // Cargar el nuevo CSS del header dinámicamente
+        const headerCssLink = document.createElement('link');
+        headerCssLink.rel = 'stylesheet';
+        headerCssLink.href = 'assets/css/header.css';
+        document.head.appendChild(headerCssLink);
+
+        const response = await fetch('assets/shared/header.html'); // Cargar la nueva versión del header
         if (!response.ok) throw new Error(`Error al cargar header: ${response.status}`);
         
         const headerHTML = await response.text();

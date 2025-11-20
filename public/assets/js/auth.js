@@ -14,13 +14,11 @@ const cognitoConfig = {
 
 class AuthManager {
     constructor() {
-        console.log('AuthManager: Constructor iniciado. Creando instancia de AuthManager.');
         this.currentUser = null;
         this.init();
     }
 
     init() {
-        console.log('AuthManager: init() llamado.');
         // Verificar si hay un usuario autenticado al cargar la página
         this.checkAuthState();
     }
@@ -76,6 +74,7 @@ class AuthManager {
             sessionStorage.setItem('accessToken', tokens.access_token);
             sessionStorage.setItem('idToken', tokens.id_token);
             sessionStorage.setItem('refreshToken', tokens.refresh_token);
+            sessionStorage.setItem('justLoggedIn', 'true'); // Flag para el mensaje de bienvenida
             
             // Obtener información del usuario
             await this.getUserInfo(tokens.access_token);
@@ -145,7 +144,8 @@ class AuthManager {
     }
 
     signOut() {
-        // Limpiar localStorage
+        console.log('AuthManager: signOut() llamado. Iniciando proceso de cierre de sesión.');
+        // Limpiar sessionStorage
         sessionStorage.removeItem('accessToken');
         sessionStorage.removeItem('idToken');
         sessionStorage.removeItem('refreshToken');
@@ -175,6 +175,12 @@ class AuthManager {
             
             this.setupUserMenuListeners(); // Configurar listeners para los elementos del menú de usuario
 
+            // Mostrar mensaje de bienvenida si acaba de iniciar sesión
+            if (sessionStorage.getItem('justLoggedIn') === 'true') {
+                alert(`¡Bienvenido, ${this.currentUser.name || this.currentUser.email} al AWS User Group Playa Vicente!`);
+                sessionStorage.removeItem('justLoggedIn');
+            }
+
         } else {
             // Usuario no autenticado
             if (authButtons) authButtons.style.display = 'flex'; // Usar 'flex' para mostrar correctamente el layout
@@ -194,16 +200,20 @@ class AuthManager {
     }
 
     setupUserMenuListeners() {
+        console.log('AuthManager: setupUserMenuListeners -- INICIO DE MÉTODO --');
         const userInfoContainer = document.getElementById('userInfo'); // Nuevo elemento para el listener
-        const userDropdownContent = document.querySelector('.user-dropdown-content');
+        const userDropdownContent = document.querySelector('.user-dropdown-menu');
         const editProfileBtn = document.getElementById('editProfileBtn');
         const logoutBtn = document.getElementById('logoutBtn');
 
         if (userInfoContainer) {
+            console.log('AuthManager: userInfoContainer encontrado. Añadiendo listener.');
             userInfoContainer.addEventListener('click', (event) => {
+                console.log('AuthManager: Clic en userInfoContainer detectado.');
                 event.stopPropagation(); // Previene que el clic cierre el menú inmediatamente
                 if (userDropdownContent) {
                     userDropdownContent.classList.toggle('show');
+                    console.log('AuthManager: userDropdownContent visibility toggled.');
                 }
             });
         }
@@ -212,14 +222,13 @@ class AuthManager {
             editProfileBtn.addEventListener('click', () => this.editUserProfile());
         }
         
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => this.signOut());
-        }
+
 
         // Cierra el menú desplegable si se hace clic fuera
         window.addEventListener('click', (event) => {
             if (userDropdownContent && userInfoContainer && !userInfoContainer.contains(event.target) && userDropdownContent.classList.contains('show')) {
                 userDropdownContent.classList.remove('show');
+                console.log('AuthManager: Clic fuera, ocultando userDropdownContent.');
             }
         });
     }

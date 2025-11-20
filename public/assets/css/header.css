@@ -1,0 +1,459 @@
+/* -- Base y Variables -- */
+:root {
+    --header-bg: var(--bg-secondary);
+    --header-border: 1px solid var(--border-color);
+    --header-shadow: var(--shadow);
+    --nav-link-color: var(--text-secondary);
+    --nav-link-hover-color: var(--primary-color);
+    --nav-brand-color: var(--text-primary);
+    --dropdown-bg: var(--bg-secondary);
+    --dropdown-border: 1px solid var(--border-color);
+    --dropdown-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --button-padding: 0.75rem 1.5rem;
+    --button-border-radius: 8px;
+    --button-font-size: 1rem;
+    --button-font-weight: 600;
+    --hamburger-color: var(--text-primary);
+}
+
+/* -- Estilos Generales del Header -- */
+.header {
+    background: var(--header-bg);
+    padding: 1rem 20px;
+    border-bottom: var(--header-border);
+    box-shadow: var(--header-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    box-sizing: border-box; /* Asegura que el padding no aumente el ancho total */
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.nav-brand h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--nav-brand-color);
+    margin: 0;
+}
+
+.nav-brand h1 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* -- Menú de Navegación Principal -- */
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li {
+    position: relative; /* Necesario para los dropdowns */
+}
+
+.nav-menu a {
+    color: var(--nav-link-color);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    display: flex; /* Para alinear íconos si los hubiera */
+    align-items: center;
+    gap: 0.5em;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+    color: var(--nav-link-hover-color);
+}
+
+/* -- Dropdowns Generales -- */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%; /* Posiciona debajo del toggle */
+    left: 0;
+    background: var(--dropdown-bg);
+    border: var(--dropdown-border);
+    border-radius: var(--button-border-radius);
+    box-shadow: var(--dropdown-shadow);
+    min-width: 180px;
+    z-index: 1000;
+    flex-direction: column;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem; /* Pequeño espacio entre el toggle y el menú */
+}
+
+.dropdown-menu li {
+    width: 100%;
+}
+
+.dropdown-menu a {
+    padding: 0.75rem 1rem;
+    width: 100%;
+    display: block; /* Asegura que el padding se aplique a todo el ancho del ítem */
+    box-sizing: border-box;
+    white-space: nowrap; /* Evita que el texto se rompa */
+}
+
+.dropdown.active .dropdown-menu {
+    display: flex; /* Mostrar cuando el padre tiene la clase 'active' */
+}
+
+.dropdown-arrow {
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.dropdown.active .dropdown-arrow {
+    transform: rotate(180deg); /* Gira la flecha cuando el dropdown está activo */
+}
+
+/* -- Botón de Cambio de Tema -- */
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--hamburger-color);
+    padding: 6px 12px;
+    border-radius: var(--button-border-radius);
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background: var(--bg-card-hover);
+}
+
+/* -- Sección de Autenticación (Login/User Info) -- */
+.auth-nav-item {
+    position: relative;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.user-info-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--button-border-radius);
+    transition: background 0.2s ease;
+    position: relative;
+    z-index: 10001;
+}
+
+.user-info-display:hover {
+    background: var(--bg-card-hover);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+.user-name {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.user-dropdown-menu { /* Contenedor del menú desplegable del usuario */
+    position: absolute;
+    top: 100%;
+    right: 0; /* Alineado a la derecha del user-info-display */
+    background: var(--dropdown-bg);
+    border: var(--dropdown-border);
+    border-radius: var(--button-border-radius);
+    box-shadow: var(--dropdown-shadow);
+    min-width: 180px;
+    z-index: 10000;
+    flex-direction: column;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    display: none; /* Controlado por JS con la clase .show */
+}
+
+.user-dropdown-menu.show {
+    display: flex;
+}
+
+.btn-dropdown {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    font-size: var(--button-font-size);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Asegura alineación a la izquierda */
+    gap: 0.5rem;
+    font-family: inherit;
+    border-radius: 0; /* Para evitar radios extra dentro del menú */
+}
+
+.btn-dropdown:hover {
+    background: var(--bg-card-hover);
+    color: var(--primary-color);
+}
+
+/* -- Estilos Base de Botones (para botones de Login/Logout si no son dropdown) -- */
+.btn-secondary, .btn-primary, .btn-tertiary {
+    padding: var(--button-padding);
+    border: none;
+    border-radius: var(--button-border-radius);
+    font-size: var(--button-font-size);
+    font-weight: var(--button-font-weight);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color);
+}
+
+.btn-secondary {
+    background: var(--bg-card-hover);
+    color: var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Este ya no debería ser necesario con los cambios en btn-dropdown, pero se mantiene como fallback */
+.btn-tertiary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-tertiary:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* -- Menú Hamburguesa para Móviles -- */
+.hamburger {
+    display: none; /* Oculto por defecto en escritorio */
+    flex-direction: column;
+    justify-content: space-around; /* Distribuye las barras uniformemente */
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 101;
+    background: transparent; /* Asegura que el clic no sea bloqueado */
+    border: none;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: var(--hamburger-color);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: 1px; /* Para la rotación */
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0; /* Esconde la barra central */
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* -- Transición del Menú de Navegación -- */
+.nav-menu {
+    transition: transform 0.3s ease-in-out; /* Usa transform para mejor rendimiento */
+}
+
+/* -- Media Queries para Responsividad -- */
+@media (max-width: 768px) {
+    .nav-menu {
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%; /* Oculto a la derecha */
+        width: 70%;
+        max-width: 300px; /* Limita el ancho en pantallas pequeñas */
+        height: 100%;
+        background: var(--bg-primary);
+        padding: 80px 20px 20px; /* Padding superior para el header fijo */
+        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+        z-index: 100;
+        align-items: flex-start;
+        gap: 1rem; /* Espaciado entre ítems del menú */
+        overflow-y: auto; /* Permite scroll si el contenido es largo */
+    }
+
+    .nav-menu.active {
+        right: 0; /* Se muestra al deslizarse desde la derecha */
+    }
+
+    .hamburger {
+        display: flex; /* Muestra el icono de hamburguesa */
+    }
+
+    .nav-menu li {
+        width: 100%; /* Asegura que los ítems ocupen todo el ancho */
+    }
+
+    .nav-menu a {
+        padding: 0.75rem 1rem; /* Más padding para facilitar el clic en móviles */
+        width: 100%;
+        border-radius: var(--button-border-radius); /* Un poco de radio en los ítems */
+    }
+
+    .nav-menu a:hover {
+        background: var(--bg-card-hover);
+    }
+
+    /* Ajustes para Dropdowns en móvil */
+    .dropdown .dropdown-menu {
+        position: static; /* No flotar en móvil */
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0 1rem; /* Indentar los sub-ítems */
+        margin-top: 0.5rem;
+    }
+
+    .dropdown.active .dropdown-menu {
+        display: flex;
+    }
+
+    .dropdown-menu a {
+        padding: 0.5rem 1.5rem; /* Más indentación para sub-ítems */
+    }
+
+    /* Auth section en móvil */
+    .auth-nav-item {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 1rem; /* Espacio superior */
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .auth-buttons {
+        width: 100%;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .auth-buttons .btn-secondary {
+        width: 100%;
+    }
+
+    .user-info-display {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 0.75rem 1rem;
+        background: var(--bg-card-hover); /* Fondo para destacar */
+        box-sizing: border-box;
+    }
+
+    .user-dropdown-menu {
+        position: static; /* No flotar */
+        width: 100%;
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin-top: 0.5rem;
+    }
+
+    .user-dropdown-menu .btn-dropdown {
+        padding: 0.5rem 1.5rem; /* Indentar botones del menú de usuario */
+        background: none;
+    }
+    
+    .user-dropdown-menu .btn-dropdown:hover {
+        background: var(--bg-card-hover);
+    }
+
+    .theme-toggle {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: flex-start;
+        padding: 0.75rem 1rem;
+        background: var(--bg-card-hover);
+        border-radius: var(--button-border-radius);
+    }
+}
+
+/* -- Overlay para el Menú Móvil -- */
+/* Se puede añadir un overlay semitransparente con JavaScript o un pseudo-elemento si es necesario */
+/* Por ejemplo, en el JS:
+   document.body.classList.toggle('no-scroll');
+   <div class="menu-overlay"></div>
+*/
+/* .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    display: none;
+}
+.nav-menu.active + .menu-overlay {
+    display: block;
+}
+*/
