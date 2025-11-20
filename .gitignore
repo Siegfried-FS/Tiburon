@@ -3,9 +3,9 @@
 .env.local
 .env.production
 
-# AWS credentials
+# AWS credentials (pero permitir aws-config.json que solo tiene IDs públicos)
 .aws/
-aws-config.json
+aws-credentials.json
 
 # Node modules (si usamos npm en el futuro)
 node_modules/
