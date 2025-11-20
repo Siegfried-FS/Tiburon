@@ -37,7 +37,7 @@ class AuthManager {
     }
 
     // Registrar nuevo usuario
-    async register(email, password, name, city = '') {
+    async register(email, password, name, additionalData = {}) {
         if (!this.isInitialized) {
             throw new Error('Auth not initialized');
         }
@@ -65,10 +65,53 @@ class AuthManager {
                 })
             ];
 
-            if (city) {
+            // Agregar campos adicionales como custom attributes
+            if (additionalData.age) {
+                attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({
+                    Name: 'custom:age',
+                    Value: additionalData.age.toString()
+                }));
+            }
+
+            if (additionalData.city) {
                 attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({
                     Name: 'custom:city',
-                    Value: this.sanitizeInput(city)
+                    Value: this.sanitizeInput(additionalData.city)
+                }));
+            }
+
+            if (additionalData.country) {
+                attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({
+                    Name: 'custom:country',
+                    Value: additionalData.country
+                }));
+            }
+
+            if (additionalData.education) {
+                attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({
+                    Name: 'custom:education',
+                    Value: additionalData.education
+                }));
+            }
+
+            if (additionalData.profession) {
+                attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({
+                    Name: 'custom:profession',
+                    Value: additionalData.profession
+                }));
+            }
+
+            if (additionalData.experience) {
+                attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({
+                    Name: 'custom:experience',
+                    Value: additionalData.experience
+                }));
+            }
+
+            if (additionalData.newsletter !== undefined) {
+                attributeList.push(new AmazonCognitoIdentity.CognitoUserAttribute({
+                    Name: 'custom:newsletter',
+                    Value: additionalData.newsletter.toString()
                 }));
             }
 

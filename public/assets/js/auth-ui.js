@@ -65,6 +65,24 @@ class AuthUI {
                         <h2>Iniciar Sesión</h2>
                         <button class="close-modal" data-modal="loginModal">&times;</button>
                     </div>
+                    
+                    <!-- Botones de OAuth -->
+                    <div class="oauth-buttons">
+                        <button type="button" id="googleSignInLogin" class="btn-google">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Continuar con Google
+                        </button>
+                    </div>
+                    
+                    <div class="divider">
+                        <span>o</span>
+                    </div>
+                    
                     <form id="loginForm" class="auth-form">
                         <div class="form-group">
                             <label for="loginEmail">Email:</label>
@@ -90,24 +108,115 @@ class AuthUI {
                         <h2>Crear Cuenta</h2>
                         <button class="close-modal" data-modal="registerModal">&times;</button>
                     </div>
+                    
+                    <!-- Botones de OAuth -->
+                    <div class="oauth-buttons">
+                        <button type="button" id="googleSignIn" class="btn-google">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Continuar con Google
+                        </button>
+                    </div>
+                    
+                    <div class="divider">
+                        <span>o</span>
+                    </div>
+                    
                     <form id="registerForm" class="auth-form">
-                        <div class="form-group">
-                            <label for="registerName">Nombre:</label>
-                            <input type="text" id="registerName" required>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="registerName">Nombre completo:</label>
+                                <input type="text" id="registerName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="registerAge">Edad:</label>
+                                <input type="number" id="registerAge" min="13" max="100">
+                            </div>
                         </div>
+                        
                         <div class="form-group">
                             <label for="registerEmail">Email:</label>
                             <input type="email" id="registerEmail" required>
                         </div>
-                        <div class="form-group">
-                            <label for="registerCity">Ciudad (opcional):</label>
-                            <input type="text" id="registerCity" placeholder="Ej: Playa Vicente, Veracruz">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="registerCity">Ciudad:</label>
+                                <input type="text" id="registerCity" placeholder="Ej: Playa Vicente, Veracruz">
+                            </div>
+                            <div class="form-group">
+                                <label for="registerCountry">País:</label>
+                                <select id="registerCountry">
+                                    <option value="">Seleccionar...</option>
+                                    <option value="MX">México</option>
+                                    <option value="US">Estados Unidos</option>
+                                    <option value="ES">España</option>
+                                    <option value="AR">Argentina</option>
+                                    <option value="CO">Colombia</option>
+                                    <option value="other">Otro</option>
+                                </select>
+                            </div>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="registerEducation">Nivel de estudios:</label>
+                            <select id="registerEducation">
+                                <option value="">Seleccionar...</option>
+                                <option value="high_school">Preparatoria/Bachillerato</option>
+                                <option value="technical">Técnico/Tecnólogo</option>
+                                <option value="bachelor">Licenciatura/Ingeniería</option>
+                                <option value="master">Maestría</option>
+                                <option value="phd">Doctorado</option>
+                                <option value="other">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerProfession">Profesión/Área:</label>
+                            <select id="registerProfession">
+                                <option value="">Seleccionar...</option>
+                                <option value="developer">Desarrollador/Programador</option>
+                                <option value="sysadmin">Administrador de Sistemas</option>
+                                <option value="devops">DevOps/SRE</option>
+                                <option value="data">Ciencia de Datos/Analytics</option>
+                                <option value="security">Ciberseguridad</option>
+                                <option value="student">Estudiante</option>
+                                <option value="manager">Gerente/Manager IT</option>
+                                <option value="consultant">Consultor</option>
+                                <option value="other">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerExperience">Experiencia con AWS:</label>
+                            <select id="registerExperience">
+                                <option value="">Seleccionar...</option>
+                                <option value="none">Sin experiencia</option>
+                                <option value="beginner">Principiante (< 1 año)</option>
+                                <option value="intermediate">Intermedio (1-3 años)</option>
+                                <option value="advanced">Avanzado (3+ años)</option>
+                                <option value="expert">Experto/Arquitecto</option>
+                            </select>
+                        </div>
+                        
                         <div class="form-group">
                             <label for="registerPassword">Contraseña:</label>
                             <input type="password" id="registerPassword" required>
                             <small>Mínimo 8 caracteres, una mayúscula, una minúscula y un número</small>
                         </div>
+                        
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="registerNewsletter" checked>
+                                <span class="checkmark"></span>
+                                Quiero recibir notificaciones de eventos y contenido nuevo
+                            </label>
+                        </div>
+                        
                         <button type="submit" class="btn-primary">Crear Cuenta</button>
                         <div class="auth-links">
                             <a href="#" id="showLogin">¿Ya tienes cuenta? Inicia sesión</a>
@@ -195,11 +304,18 @@ class AuthUI {
             registerForm.setAttribute('data-bound', 'true');
         }
         
-        // Logout
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn && !logoutBtn.hasAttribute('data-bound')) {
-            logoutBtn.addEventListener('click', () => this.handleLogout());
-            logoutBtn.setAttribute('data-bound', 'true');
+        // Botones de Google OAuth
+        const googleSignIn = document.getElementById('googleSignIn');
+        const googleSignInLogin = document.getElementById('googleSignInLogin');
+        
+        if (googleSignIn && !googleSignIn.hasAttribute('data-bound')) {
+            googleSignIn.addEventListener('click', () => this.handleGoogleAuth());
+            googleSignIn.setAttribute('data-bound', 'true');
+        }
+        
+        if (googleSignInLogin && !googleSignInLogin.hasAttribute('data-bound')) {
+            googleSignInLogin.addEventListener('click', () => this.handleGoogleAuth());
+            googleSignInLogin.setAttribute('data-bound', 'true');
         }
     }
 
@@ -268,14 +384,33 @@ class AuthUI {
         
         const name = document.getElementById('registerName').value.trim();
         const email = document.getElementById('registerEmail').value.trim();
+        const age = document.getElementById('registerAge').value;
         const city = document.getElementById('registerCity').value.trim();
+        const country = document.getElementById('registerCountry').value;
+        const education = document.getElementById('registerEducation').value;
+        const profession = document.getElementById('registerProfession').value;
+        const experience = document.getElementById('registerExperience').value;
+        const newsletter = document.getElementById('registerNewsletter').checked;
         const password = document.getElementById('registerPassword').value;
         
         this.showLoading('registerForm');
         this.clearErrors();
 
         try {
-            const result = await window.AuthManager.register(email, password, name, city);
+            const result = await window.AuthManager.register(
+                email, 
+                password, 
+                name, 
+                {
+                    age,
+                    city,
+                    country,
+                    education,
+                    profession,
+                    experience,
+                    newsletter
+                }
+            );
             
             if (result.userConfirmed) {
                 this.showSuccess('¡Cuenta creada exitosamente! Ya puedes iniciar sesión.');
@@ -298,6 +433,28 @@ class AuthUI {
             this.showSuccess('Sesión cerrada correctamente');
         } catch (error) {
             console.error('Error during logout:', error);
+        }
+    }
+
+    // Manejar autenticación con Google
+    async handleGoogleAuth() {
+        try {
+            const config = window.AWSConfig.getConfig();
+            const cognitoDomain = `https://tiburon-user-pool.auth.${config.region}.amazoncognito.com`;
+            
+            const params = new URLSearchParams({
+                identity_provider: 'Google',
+                redirect_uri: window.location.origin,
+                response_type: 'code',
+                client_id: config.clientId,
+                scope: 'email openid profile'
+            });
+            
+            const authUrl = `${cognitoDomain}/oauth2/authorize?${params.toString()}`;
+            window.location.href = authUrl;
+        } catch (error) {
+            console.error('Error with Google auth:', error);
+            this.showError('loginError', 'Error al conectar con Google');
         }
     }
 

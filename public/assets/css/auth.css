@@ -20,6 +20,143 @@
     border-radius: 6px;
 }
 
+/* Botones OAuth */
+.oauth-buttons {
+    margin-bottom: 1rem;
+}
+
+.btn-google {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #dadce0;
+    border-radius: 8px;
+    background: white;
+    color: #3c4043;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.btn-google:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-color: #dadce0;
+}
+
+.btn-google svg {
+    flex-shrink: 0;
+}
+
+/* Divisor */
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.divider span {
+    background: var(--bg-color);
+    padding: 0 1rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Formularios mejorados */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group select {
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Checkbox personalizado */
+.checkbox-group {
+    margin: 1rem 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.checkbox-label input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-secondary);
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Modal más grande para formulario extendido */
+.modal-content {
+    background: var(--bg-color);
+    border-radius: 12px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px; /* Aumentado para acomodar más campos */
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
 /* Modales */
 .auth-modal {
     position: fixed;
@@ -33,17 +170,6 @@
     align-items: center;
     z-index: 1000;
     backdrop-filter: blur(5px);
-}
-
-.modal-content {
-    background: var(--bg-color);
-    border-radius: 12px;
-    padding: 2rem;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border-color);
-    animation: modalSlideIn 0.3s ease-out;
 }
 
 @keyframes modalSlideIn {
@@ -313,6 +439,11 @@
     .modal-content {
         margin: 1rem;
         padding: 1.5rem;
+        max-width: none;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
     }
     
     .auth-buttons {
@@ -336,14 +467,31 @@
     background: rgba(0, 0, 0, 0.8);
 }
 
-[data-theme="dark"] .form-group input {
+[data-theme="dark"] .btn-google {
+    background: #2d2d2d;
+    border-color: #444;
+    color: #e8eaed;
+}
+
+[data-theme="dark"] .btn-google:hover {
+    background: #3c3c3c;
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select {
     background: var(--bg-color);
     border-color: #444;
 }
 
-[data-theme="dark"] .form-group input:focus {
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+[data-theme="dark"] .checkmark {
+    background: var(--bg-color);
+    border-color: #444;
 }
 
 [data-theme="dark"] .error-message {
