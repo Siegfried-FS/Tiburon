@@ -21,6 +21,11 @@ async function loadHeader() {
         const headerHTML = await response.text();
         headerPlaceholder.outerHTML = headerHTML;
         
+        // Crear y añadir el overlay del menú móvil
+        const menuOverlay = document.createElement('div');
+        menuOverlay.classList.add('menu-overlay');
+        document.body.appendChild(menuOverlay);
+        
         // Una vez que el header y scripts esenciales están en el DOM, inicializamos su funcionalidad.
         loadTheme(); 
         addHeaderEventListeners();
@@ -74,6 +79,8 @@ document.addEventListener('authScriptsLoaded', async () => {
 function addHeaderEventListeners() {
     console.log('app.js: addHeaderEventListeners llamado.');
     const hamburger = document.querySelector('.hamburger');
+    const menuOverlay = document.querySelector('.menu-overlay'); // Obtener el overlay
+
     if (hamburger) {
         hamburger.addEventListener('click', (event) => {
             event.stopPropagation();
@@ -105,10 +112,15 @@ function addHeaderEventListeners() {
     document.addEventListener('click', (event) => {
         const nav = document.querySelector('.nav');
         const navMenu = document.getElementById('nav-menu');
+        // También cerrar el menú si se hace clic en el overlay
         if (nav && navMenu && !nav.contains(event.target) && navMenu.classList.contains('active')) {
             closeMenu();
         }
     });
+
+    if (menuOverlay) { // Cerrar menú al hacer clic en el overlay
+        menuOverlay.addEventListener('click', closeMenu);
+    }
 
     // Asegurarse de que AuthManager configure sus event listeners DESPUÉS de que el header esté en el DOM
     console.log('app.js: addHeaderEventListeners: Verificando window.authManager:', window.authManager);
@@ -134,18 +146,30 @@ function addPageEventListeners() {
 function toggleMenu() {
     const navMenu = document.getElementById('nav-menu');
     const hamburger = document.querySelector('.hamburger');
+    const menuOverlay = document.querySelector('.menu-overlay'); // Obtener el overlay
+
     if (navMenu && hamburger) {
         navMenu.classList.toggle('active');
         hamburger.classList.toggle('active');
+        if (menuOverlay) {
+            menuOverlay.classList.toggle('active'); // Alternar la clase 'active' del overlay
+        }
+        document.body.classList.toggle('no-scroll'); // Prevenir scroll en el body
     }
 }
 
 function closeMenu() {
     const navMenu = document.getElementById('nav-menu');
     const hamburger = document.querySelector('.hamburger');
+    const menuOverlay = document.querySelector('.menu-overlay'); // Obtener el overlay
+
     if (navMenu && hamburger) {
         navMenu.classList.remove('active');
         hamburger.classList.remove('active');
+        if (menuOverlay) {
+            menuOverlay.classList.remove('active'); // Quitar la clase 'active' del overlay
+        }
+        document.body.classList.remove('no-scroll'); // Permitir scroll en el body
     }
 }
 
