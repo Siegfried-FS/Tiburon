@@ -1,8 +1,7 @@
-// Mensaje de seguridad fluido y claro
+// Mensaje de seguridad simple y legible
 (function() {
     'use strict';
     
-    // Mensaje completo en una sola llamada para evitar fragmentación
     console.log(`%c🛑 ¡DETENTE!
 
 %cEsta función del navegador está pensada para desarrolladores. Si alguien te indicó que copiaras y pegaras algo aquí para "hackear" algo o acceder a cuentas, se trata de una estafa.
@@ -19,15 +18,15 @@
 
 %c💬 Únete a nuestro Telegram: https://t.me/+NWYivRxl7fQ4MzNh`,
 
-    // Estilos para cada sección
+    // Estilos simples sin backgrounds problemáticos
     'color: #E74C3C; font-size: 32px; font-weight: bold;',
-    'color: #FFFFFF; font-size: 16px; line-height: 1.5; background: #34495E; padding: 8px; border-radius: 4px;',
-    'color: #FFFFFF; font-size: 16px; font-weight: bold; background: #E74C3C; padding: 8px; border-radius: 4px;',
-    'color: #FFFFFF; font-size: 20px; font-weight: bold; background: #3498DB; padding: 6px; border-radius: 4px;',
-    'color: #2C3E50; font-size: 15px; line-height: 1.4; font-weight: bold;',
-    'color: #E67E22; font-size: 15px; font-weight: bold;',
-    'color: #27AE60; font-size: 14px; line-height: 1.3; font-weight: bold;',
-    'color: #FFFFFF; font-size: 14px; font-weight: bold; background: #9B59B6; padding: 4px; border-radius: 3px;'
+    'color: #2C3E50; font-size: 16px; font-weight: bold; line-height: 1.5;',
+    'color: #E74C3C; font-size: 16px; font-weight: bold;',
+    'color: #3498DB; font-size: 20px; font-weight: bold;',
+    'color: #2C3E50; font-size: 15px; font-weight: bold; line-height: 1.4;',
+    'color: #F39C12; font-size: 15px; font-weight: bold;',
+    'color: #27AE60; font-size: 14px; font-weight: bold;',
+    'color: #9B59B6; font-size: 14px; font-weight: bold;'
     );
     
 })();
