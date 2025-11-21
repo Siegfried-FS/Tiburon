@@ -78,7 +78,7 @@ async function handleProfileUpdate(event) {
         profileMessage.className = 'profile-message error';
     } finally {
         saveProfileButton.disabled = false;
-        saveButton.textContent = 'Guardar Cambios';
+        saveProfileButton.textContent = 'Guardar Cambios';
         profileMessage.style.display = 'block';
 
         setTimeout(() => {
