@@ -92,13 +92,13 @@ function addHeaderEventListeners() {
         });
     }
 
-    const dropdowns = document.querySelectorAll('.dropdown');
-    dropdowns.forEach(dropdown => {
-        dropdown.addEventListener('click', (event) => {
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (event) => {
             if (window.innerWidth <= 768) {
-                // Prevenir que el enlace 'a' navegue si se hace clic en el
+                const parentDropdown = toggle.parentElement;
                 event.preventDefault();
-                dropdown.classList.toggle('active');
+                parentDropdown.classList.toggle('active');
             }
         });
     });
