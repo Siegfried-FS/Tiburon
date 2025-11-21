@@ -17,7 +17,7 @@ customHeaders:
       
       # Content Security Policy (actualizado para AWS Cognito)
       - key: 'Content-Security-Policy'
-        value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://sdk.amazonaws.com https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; object-src 'self'; frame-src 'self'; connect-src 'self' https: https://*.amazonaws.com https://*.amazoncognito.com https://auth.tiburoncp.siegfried-fs.com; frame-ancestors 'self'"
+        value: "script-src 'self' https://cdn.jsdelivr.net https://sdk.amazonaws.com https://unpkg.com; object-src 'none'; base-uri 'self';"
       
       # X-Frame-Options (SAMEORIGIN permite PDFs)
       - key: 'X-Frame-Options'
