@@ -1,0 +1,157 @@
+/*
+    Estilos para la página de perfil de usuario.
+    Revisado para integrarse mejor con styles.css y usar sus variables.
+*/
+
+.profile-container {
+    max-width: 800px; /* Ancho más consistente con otras secciones */
+    margin: 2rem auto;
+    padding: 30px; /* Padding consistente con .content-section */
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem; /* Espaciado reducido entre grupos */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.6rem;
+    font-weight: 600; /* Un poco más de peso */
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Estilo unificado para todos los inputs y textareas */
+.form-group input[type="text"],
+.form-group input[type="url"],
+.form-group input[type="email"],
+.form-group textarea {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px; /* Radio de borde más sutil */
+    background-color: var(--bg-secondary); /* Fondo más oscuro para contraste */
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="url"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.25); /* Sombra de foco con el color primario */
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-group input[disabled] {
+    background-color: rgba(0, 0, 0, 0.2); /* Fondo más oscuro para deshabilitado */
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Sección de la foto de perfil rediseñada y alineada */
+.profile-picture-section {
+    display: flex;
+    align-items: center; /* Centra verticalmente los items */
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+}
+
+.profile-picture-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+}
+
+#profile-picture-preview {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
+    display: block; /* Asegura que no tenga espacio extra debajo */
+}
+
+.profile-picture-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem; /* Añade un pequeño espacio entre el label y el botón */
+}
+
+
+.profile-picture-info label {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+}
+
+/* Mensajes de feedback (éxito/error) */
+.profile-message {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    display: none;
+}
+
+.profile-message.success {
+    background-color: rgba(0, 255, 136, 0.15);
+    color: #00ff88;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    display: block;
+}
+
+.profile-message.error {
+    background-color: rgba(255, 107, 53, 0.15);
+    color: #ff6b35;
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    display: block;
+}
+
+
+/* Media Query para pantallas pequeñas */
+@media (max-width: 600px) {
+    .profile-container {
+        padding: 20px;
+    }
+    .profile-picture-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    .profile-picture-info {
+        align-items: center;
+    }
+    .form-actions {
+        justify-content: center;
+    }
+}

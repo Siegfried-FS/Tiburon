@@ -38,7 +38,6 @@ async function loadHeader() {
 
 // Esperar a que los scripts de autenticación se carguen completamente
 document.addEventListener('authScriptsLoaded', async () => {
-    console.log('app.js: Evento authScriptsLoaded recibido. Iniciando carga del header y funcionalidades de la página.');
     await loadHeader(); // Carga el header y sus eventos primero
 
     // Añade listeners para el contenido específico de la página
@@ -77,7 +76,6 @@ document.addEventListener('authScriptsLoaded', async () => {
 // =============================================================================
 
 function addHeaderEventListeners() {
-    console.log('app.js: addHeaderEventListeners llamado.');
     const hamburger = document.querySelector('.hamburger');
     const menuOverlay = document.querySelector('.menu-overlay'); // Obtener el overlay
 
@@ -123,12 +121,8 @@ function addHeaderEventListeners() {
     }
 
     // Asegurarse de que AuthManager configure sus event listeners DESPUÉS de que el header esté en el DOM
-    console.log('app.js: addHeaderEventListeners: Verificando window.authManager:', window.authManager);
     if (window.authManager && typeof window.authManager.setupEventListeners === 'function') {
-        console.log('app.js: Preparando para llamar a window.authManager.setupEventListeners().');
         window.authManager.setupEventListeners();
-    } else {
-        console.log('app.js: addHeaderEventListeners: window.authManager o setupEventListeners NO disponibles.');
     }
 }
 

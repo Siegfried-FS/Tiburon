@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil | AWS User Group Playa Vicente</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦈</text></svg>">
+    
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/perfil.css">
+    
+    <script>
+        // Aplicar tema inmediatamente para evitar delay
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="content-section">
+            <h2>Editar Perfil</h2>
+            <div class="profile-container">
+                <form id="profile-form" class="profile-form">
+                    <div class="form-group profile-picture-section">
+                        <label>Foto de Perfil</label>
+                        <div class="profile-picture-wrapper">
+                            <img src="https://via.placeholder.com/150" alt="Foto de perfil actual" id="profile-picture-preview" referrerpolicy="no-referrer">
+                            <input type="file" id="profile-picture-input" accept="image/*" style="display: none;">
+                            <button type="button" id="change-picture-button" class="btn-secondary" disabled title="Funcionalidad próximamente">Cambiar Foto</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-given-name">Nombre</label>
+                        <input type="text" id="profile-given-name" name="given_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-family-name">Apellidos</label>
+                        <input type="text" id="profile-family-name" name="family_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-nickname">Apodo</label>
+                        <input type="text" id="profile-nickname" name="nickname">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-website">Sitio Web</label>
+                        <input type="url" id="profile-website" name="website" placeholder="https://ejemplo.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-profile">Biografía</label>
+                        <textarea id="profile-profile" name="profile" rows="4" placeholder="Una breve descripción sobre ti..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profile-email">Email</label>
+                        <input type="email" id="profile-email" name="email" disabled>
+                        <small>El email no se puede cambiar.</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" id="save-profile-button" class="btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+                <div id="profile-message" class="profile-message" style="display: none;"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/script-loader.js"></script>
+    <script src="assets/js/p.js"></script>
+    <script type="text/javascript" src="assets/js/v.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/perfil.js"></script>
+</body>
+</html>

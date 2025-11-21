@@ -8,23 +8,11 @@ El objetivo de este proyecto es crear una plataforma digital que no solo sirva c
 
 ---
 
-## ✍️ Filosofía y Narrativa del Sitio
-
-Este no es solo un sitio web informativo; es el punto de encuentro digital de nuestra comunidad. La comunicación y el tono del sitio deben reflejar nuestros valores y objetivos.
-
-**Principios Clave de la Narrativa:**
-
-1.  **Tono Profesional y Accesible:** Nos comunicamos con un lenguaje claro y fluido, similar al de un "copywriter". Evitamos la jerga excesiva para ser acogedores con los recién llegados, pero mantenemos la precisión técnica para ser valiosos para los expertos.
-2.  **Enfoque en Beneficios:** En lugar de solo listar características, explicamos *por qué* son importantes. Por ejemplo, en lugar de decir "Tenemos un glosario", decimos "Aprende el lenguaje de la nube con nuestro glosario interactivo, diseñado para aclarar los conceptos clave".
-3.  **Narrativa Coherente y Atractiva:** Cada página cuenta una parte de nuestra historia. El sitio debe guiar al visitante a través de un viaje, desde descubrir qué es AWS hasta unirse activamente a nuestra comunidad y participar en eventos.
-4.  **Honestidad y Potencial:** Reflejamos con honestidad el nivel de habilidad actual y celebramos el proceso de aprendizaje. Destacamos el potencial, la capacidad de aprender rápidamente y el deseo de asumir desafíos para crecer profesionalmente.
-
-El objetivo final es que cada visitante sienta que ha encontrado un lugar para **aprender, colaborar y crecer** en el ecosistema de la nube.
-
----
-
 ## ✨ Características Principales
 
+- **👤 Sistema de Usuarios Completo:**
+    - Autenticación segura a través de **AWS Cognito** con proveedores federados (Google).
+    - Edición de perfiles de usuario para personalizar la experiencia.
 - **🎨 Tema Claro y Oscuro:** Cambia entre modos para tu comodidad visual.
 - **📱 Diseño Responsivo:** Totalmente funcional en dispositivos móviles, tablets y computadoras de escritorio.
 - **⚙️ Contenido 100% Dinámico:** Todas las secciones principales (Eventos, Talleres, Recursos, Glosario) se cargan desde archivos JSON, facilitando su actualización sin tocar el código HTML.
@@ -33,11 +21,11 @@ El objetivo final es que cada visitante sienta que ha encontrado un lugar para *
     - **Botón "Volver Arriba":** Navegación fluida en páginas con mucho contenido.
 - **📚 Glosario Interactivo:** Un completo glosario de términos de AWS con búsqueda en tiempo real y filtro alfabético.
 - **🗂️ Navegación y Filtrado Avanzado:**
-    - **Filtro por Etiquetas:** Filtra dinámicamente los Recursos, Talleres y Juegos de Lógica por sus `tags` para encontrar contenido específico rápidamente.
+    - **Filtro por Etiquetas:** Filtra dinámicamente los Recursos, Talleres y Juegos de Lógica por sus `tags`.
 - **📅 Gestión de Eventos Inteligente:**
     - **Indicadores Visuales:** Distingue claramente eventos próximos vs realizados.
     - **Indicadores de Precio:** Identifica eventos gratuitos vs de pago.
-- **⚡ Optimizado para el Rendimiento:** Carga diferida de imágenes (`loading="lazy"`) y código modular para una entrega rápida y eficiente.
+- **⚡ Optimizado para el Rendimiento:** Carga diferida de imágenes (`loading="lazy"`) y código modular para una entrega rápida.
 - **🔍 SEO Mejorado:** Optimizado para ser encontrado en búsquedas relacionadas con "Roberto Flores" y "Playa Vicente".
 
 ---
@@ -47,50 +35,52 @@ El objetivo final es que cada visitante sienta que ha encontrado un lugar para *
 - **HTML5**
 - **CSS3** (con variables para temas y diseño responsivo)
 - **JavaScript (Vanilla)** para la interactividad y carga de contenido dinámico.
+- **AWS Cognito** para la autenticación y gestión de usuarios.
 - **Particles.js** para los efectos de fondo.
 - **Alojado en AWS Amplify** para un despliegue continuo y escalable.
 
 ---
 
-## 🏗️ Estructura del Proyecto
+## 🔧 Configuración del Entorno de Desarrollo Local
 
-Todos los archivos públicos (HTML, assets, etc.) están centralizados en el directorio `public`. El contenido editable se encuentra en la carpeta `public/assets/data/`.
+Para probar el sitio en tu máquina local, especialmente las funciones de inicio de sesión, sigue estos pasos.
 
-```
-tiburon/
-├── public/
-│   ├── index.html        # Página principal
-│   ├── guia.html
-│   ├── glosario.html
-│   ├── recursos.html
-│   ├── talleres.html
-│   ├── eventos.html
-│   ├── logic-games.html
-│   └── assets/
-│       ├── css/          # Estilos consolidados en styles.css
-│       ├── js/           # Lógica principal modular en app.js
-│       ├── data/         # ¡AQUÍ SE EDITA EL CONTENIDO! (Archivos JSON)
-│       └── images/       # Imágenes, iconos y códigos QR
-├── amplify.yml           # Configuración de despliegue para AWS Amplify
-├── README.md             # Este archivo
-└── ... (otros archivos de configuración)
-```
+### Prerrequisitos
+- Tener **Python 3** instalado para ejecutar el servidor local.
+- Tener acceso a la **Consola de AWS** para configurar Cognito.
 
----
+### Paso 1: Configuración de AWS Cognito (¡Crítico!)
 
-## 🔧 Cómo Probar en Local
+Para que el inicio de sesión funcione en tu entorno local, debes autorizar a tu servidor a comunicarse con Cognito.
 
-Para que el sitio funcione correctamente (especialmente la carga de contenido desde los archivos JSON), necesitas ejecutarlo a través de un servidor web local.
-
-1.  Abre una terminal y **navega a la carpeta `public`**:
-    ```bash
-    cd public
+1.  Ve a tu User Pool en **AWS Cognito**.
+2.  Navega a la pestaña **"App integration"** (Integración de aplicaciones).
+3.  Selecciona tu cliente de aplicación (`tiburon-web-client`).
+4.  Busca la sección **"Hosted UI"** (o "Páginas de inicio de sesión") y haz clic en **"Edit"**.
+5.  En el campo **"Allowed callback URLs"** (URL de devolución de llamada permitidas), añade la siguiente URL:
     ```
-2.  Ejecuta un servidor web simple con Python:
-    ```bash
-    python3 -m http.server
+    http://localhost:8000
     ```
-3.  Abre tu navegador y visita la dirección: `http://localhost:8000`
+6.  Guarda los cambios. Sin este paso, obtendrás un error de `redirect_mismatch` al intentar iniciar sesión.
+
+### Paso 2: Iniciar el Servidor Local
+
+El siguiente comando unificado limpia el puerto 8000, navega a la carpeta `public` y levanta el servidor local de la manera correcta para que sea reconocido por Cognito.
+
+Copia y pega el bloque completo en tu terminal, desde la raíz del proyecto (`Tiburon/`):
+
+```bash
+# Limpia el puerto 8000 por si está en uso
+kill -9 $(lsof -t -i:8000) 2>/dev/null || true
+
+# Navega al directorio public y levanta el servidor en localhost
+cd public && python3 -m http.server 8000 --bind localhost
+```
+
+### Paso 3: Acceder a la Aplicación
+
+Una vez que el servidor esté corriendo, abre tu navegador y escribe **manualmente** en la barra de direcciones:
+`http://localhost:8000`
 
 ---
 
@@ -100,7 +90,6 @@ Para facilitar la actualización, todo el contenido dinámico se gestiona desde 
 
 - **Eventos:** `events.json`
 - **Glosario:** `glosario.json`
-- **Proyectos:** `git-projects.json`
 - **Recursos:** `resources.json`
 - **Juegos de Lógica:** `logic-games.json`
 - **Talleres:** `workshops.json`

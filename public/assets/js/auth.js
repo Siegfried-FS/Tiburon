@@ -5,7 +5,7 @@ const cognitoConfig = {
     userPoolWebClientId: '1gsjecdf86pgdgvvis7l30hha1',
     oauth: {
         domain: 'auth.tiburoncp.siegfried-fs.com',
-        scope: ['email', 'openid', 'profile'],
+        scope: ['email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
         redirectSignIn: window.location.origin,
         redirectSignOut: window.location.origin,
         responseType: 'code'
@@ -24,20 +24,15 @@ class AuthManager {
     }
 
     setupEventListeners() {
-        console.log('AuthManager: setupEventListeners -- INICIO DE MÉTODO --');
         // Botón de login
         const loginBtn = document.getElementById('loginBtn');
-        console.log('AuthManager: loginBtn existe?', loginBtn);
         if (loginBtn) {
-            console.log('AuthManager: loginBtn encontrado. Añadiendo listener.');
             loginBtn.addEventListener('click', () => this.signInWithGoogle());
         }
 
         // Botón de logout
         const logoutBtn = document.getElementById('logoutBtn');
-        console.log('AuthManager: logoutBtn existe?', logoutBtn);
         if (logoutBtn) {
-            console.log('AuthManager: logoutBtn encontrado. Añadiendo listener.');
             logoutBtn.addEventListener('click', () => this.signOut());
         }
     }
@@ -57,6 +52,8 @@ class AuthManager {
                 const accessToken = sessionStorage.getItem('accessToken');
                 if (accessToken) {
                     await this.validateToken(accessToken);
+                } else {
+                    this.updateUI(false);
                 }
             }
         } catch (error) {
@@ -110,23 +107,38 @@ class AuthManager {
         try {
             await this.getUserInfo(accessToken);
         } catch (error) {
+            console.error('validateToken: La validación del token falló. Error:', error);
             // Token inválido, limpiar localStorage
             this.signOut();
         }
     }
 
     async getUserInfo(accessToken) {
-        const response = await fetch(`https://${cognitoConfig.oauth.domain}/oauth2/userInfo`, {
+        // Usamos la API GetUser de Cognito para obtener todos los atributos.
+        const response = await fetch(`https://cognito-idp.${cognitoConfig.region}.amazonaws.com/`, {
+            method: 'POST',
             headers: {
-                'Authorization': `Bearer ${accessToken}`
-            }
+                'Content-Type': 'application/x-amz-json-1.1',
+                'X-Amz-Target': 'AWSCognitoIdentityProviderService.GetUser'
+            },
+            body: JSON.stringify({
+                AccessToken: accessToken
+            })
         });
 
         if (!response.ok) {
-            throw new Error('Failed to get user info');
+            throw new Error('Failed to get user info from GetUser API');
         }
 
-        const userInfo = await response.json();
+        const data = await response.json();
+        
+        // La respuesta de GetUser es un array de atributos. Lo transformamos a un objeto.
+        // El atributo 'sub' viene incluido en este array, por lo que no se necesita más lógica.
+        const userInfo = data.UserAttributes.reduce((acc, attr) => {
+            acc[attr.Name] = attr.Value;
+            return acc;
+        }, {});
+
         this.currentUser = userInfo;
         this.updateUI(true);
     }
@@ -144,7 +156,6 @@ class AuthManager {
     }
 
     signOut() {
-        console.log('AuthManager: signOut() llamado. Iniciando proceso de cierre de sesión.');
         // Limpiar sessionStorage
         sessionStorage.removeItem('accessToken');
         sessionStorage.removeItem('idToken');
@@ -189,6 +200,9 @@ class AuthManager {
             if (userAvatar) userAvatar.src = '/assets/images/profile-photo.jpg'; // Resetear a la imagen por defecto
             if (userName) userName.textContent = ''; // Limpiar nombre de usuario
         }
+        
+        // Notificar al resto de la aplicación que el estado de autenticación está resuelto
+        document.dispatchEvent(new CustomEvent('authStateReady', { detail: { isAuthenticated } }));
     }
 
     getCurrentUser() {
@@ -200,47 +214,92 @@ class AuthManager {
     }
 
     setupUserMenuListeners() {
-        console.log('AuthManager: setupUserMenuListeners -- INICIO DE MÉTODO --');
-        const userInfoContainer = document.getElementById('userInfo'); // Nuevo elemento para el listener
+        const userInfoContainer = document.getElementById('userInfo');
         const userDropdownContent = document.querySelector('.user-dropdown-menu');
-        const editProfileBtn = document.getElementById('editProfileBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
+        let menuTimeout;
 
-        if (userInfoContainer) {
-            console.log('AuthManager: userInfoContainer encontrado. Añadiendo listener.');
-            userInfoContainer.addEventListener('click', (event) => {
-                console.log('AuthManager: Clic en userInfoContainer detectado.');
-                event.stopPropagation(); // Previene que el clic cierre el menú inmediatamente
-                if (userDropdownContent) {
-                    userDropdownContent.classList.toggle('show');
-                    console.log('AuthManager: userDropdownContent visibility toggled.');
-                }
-            });
-        }
+        if (!userInfoContainer || !userDropdownContent) return;
 
-        if (editProfileBtn) {
-            editProfileBtn.addEventListener('click', () => this.editUserProfile());
-        }
-        
+        const openMenu = () => {
+            clearTimeout(menuTimeout);
+            userDropdownContent.classList.add('show');
+        };
 
-
-        // Cierra el menú desplegable si se hace clic fuera
-        window.addEventListener('click', (event) => {
-            if (userDropdownContent && userInfoContainer && !userInfoContainer.contains(event.target) && userDropdownContent.classList.contains('show')) {
+        const closeMenu = () => {
+            menuTimeout = setTimeout(() => {
                 userDropdownContent.classList.remove('show');
-                console.log('AuthManager: Clic fuera, ocultando userDropdownContent.');
+            }, 300); // Un pequeño delay para que el usuario pueda mover el ratón
+        };
+
+        userInfoContainer.addEventListener('mouseenter', openMenu);
+        userDropdownContent.addEventListener('mouseenter', openMenu);
+
+        userInfoContainer.addEventListener('mouseleave', closeMenu);
+        userDropdownContent.addEventListener('mouseleave', closeMenu);
+
+        // Cierre forzado si se hace clic en cualquier otro lugar
+        window.addEventListener('click', (event) => {
+            if (!userInfoContainer.contains(event.target)) {
+                userDropdownContent.classList.remove('show');
             }
+        });
+
+        // Abrir también con un clic en el avatar, para consistencia
+        userInfoContainer.addEventListener('click', (event) => {
+            event.stopPropagation();
+            userDropdownContent.classList.toggle('show');
         });
     }
 
+    async updateUserAttributes(attributesToUpdate) {
+        const accessToken = sessionStorage.getItem('accessToken');
+        if (!accessToken) {
+            throw new Error('No estás autenticado.');
+        }
+
+        const userAttributes = Object.entries(attributesToUpdate).map(([key, value]) => ({
+            Name: key,
+            Value: value
+        }));
+
+        try {
+            const response = await fetch(`https://cognito-idp.${cognitoConfig.region}.amazonaws.com/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-amz-json-1.1',
+                    'X-Amz-Target': 'AWSCognitoIdentityProviderService.UpdateUserAttributes'
+                },
+                body: JSON.stringify({
+                    AccessToken: accessToken,
+                    UserAttributes: userAttributes
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error al actualizar atributos en Cognito:', errorData);
+                throw new Error(errorData.message || 'No se pudieron actualizar los atributos.');
+            }
+            
+            // Atributos actualizados con éxito, ahora actualizamos la data local
+            for (const attr of userAttributes) {
+                this.currentUser[attr.Name] = attr.Value;
+            }
+            
+            // Forzar una actualización de la UI si es necesario (ej. el nombre en el header)
+            this.updateUI(true);
+
+            return { success: true };
+
+        } catch (error) {
+            console.error('Error en la llamada a updateUserAttributes:', error);
+            throw error;
+        }
+    }
+
     editUserProfile() {
-        console.log('--- Editar Perfil de Usuario ---');
-        console.log('Para implementar esta funcionalidad, necesitarías:');
-        console.log('1. Crear una UI (página o modal) para editar los atributos de usuario.');
-        console.log('2. Si quieres atributos personalizados (e.g., "Student/Professional", "Cloud Experience", "City"), primero debes definirlos en tu User Pool de Cognito en la consola AWS.');
-        console.log('3. Usar el AWS SDK para JavaScript para llamar a la API de Cognito para actualizar los atributos (e.g., `CognitoUser.updateAttributes`).');
-        console.log('4. Para la foto de perfil, esto generalmente implica subir la imagen a un bucket S3 y luego guardar la URL de S3 como un atributo de Cognito.');
-        alert('Funcionalidad "Editar Perfil" en desarrollo. Consulta la consola para más detalles.');
+        // Esta función ahora simplemente redirige a la página de perfil.
+        window.location.href = '/perfil.html';
     }
 
     deleteAccount() {
