@@ -1,51 +1,57 @@
-<!-- Header con menú hamburguesa -->
-    <header class="header">
-        <nav class="nav">
-            <div class="nav-brand">
-                <h1><a href="index.html">🦈 Tiburón</a></h1>
+<div id="top-bar">
+    <div class="top-bar-content">
+        <div class="theme-toggle-container">
+            <button class="theme-toggle" title="Cambiar tema">🌙</button>
+        </div>
+        <div class="auth-container">
+            <div id="authButtons" class="auth-buttons">
+                <button id="loginBtn" class="btn-secondary">Iniciar Sesión</button>
             </div>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div id="userInfo" class="user-info-display" style="display: none;">
+                <img id="userAvatar" src="/assets/images/profile-photo.jpg" alt="Avatar de usuario" class="user-avatar" referrerpolicy="no-referrer">
+                <span id="userName" class="user-name"></span>
+                <div class="user-dropdown-menu">
+                    <a href="perfil.html" id="editProfileBtn" class="btn-dropdown">Editar Perfil</a>
+                    <button id="logoutBtn" class="btn-dropdown">Cerrar Sesión</button>
+                </div>
             </div>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="index.html">Inicio</a></li>
-                <li class="dropdown">
-                    <a href="javascript:void(0);" class="dropdown-toggle">Aprende <span class="dropdown-arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="guia.html">Guía de Estudio</a></li>
-                        <li><a href="glosario.html">Glosario de Términos</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="javascript:void(0);" class="dropdown-toggle">Recursos <span class="dropdown-arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="recursos.html">Caja de Herramientas</a></li>
-                        <li><a href="logic-games.html">Juegos de Lógica</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="javascript:void(0);" class="dropdown-toggle">Comunidad <span class="dropdown-arrow">▼</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="eventos.html">Eventos</a></li>
-                        <li><a href="talleres.html">Historial de Talleres</a></li>
-                    </ul>
-                </li>
-                <li class="auth-nav-item">
-                    <div id="authButtons" class="auth-buttons">
-                        <button id="loginBtn" class="btn-secondary">Iniciar Sesión</button>
-                    </div>
-                    <div id="userInfo" class="user-info-display" style="display: none;">
-                        <img id="userAvatar" src="/assets/images/profile-photo.jpg" alt="Avatar de usuario" class="user-avatar" referrerpolicy="no-referrer">
-                        <span id="userName" class="user-name"></span>
-                        <div class="user-dropdown-menu">
-                            <a href="perfil.html" id="editProfileBtn" class="btn-dropdown">Editar Perfil</a>
-                            <button id="logoutBtn" class="btn-dropdown">Cerrar Sesión</button>
-                        </div>
-                    </div>
-                </li>
-                <li><button class="theme-toggle btn-secondary" title="Cambiar tema">🌙</button></li>
-            </ul>
-        </nav>
-    </header>
+        </div>
+    </div>
+</div>
+
+<header class="header">
+    <nav class="nav">
+        <div class="nav-brand">
+            <h1><a href="index.html">🦈 Tiburón</a></h1>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-menu" id="nav-menu">
+            <li><a href="index.html">Inicio</a></li>
+            <li class="dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle">Aprende <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="guia.html">Guía de Estudio</a></li>
+                    <li><a href="glosario.html">Glosario de Términos</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle">Recursos <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="recursos.html">Caja de Herramientas</a></li>
+                    <li><a href="logic-games.html">Juegos de Lógica</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle">Comunidad <span class="dropdown-arrow">▼</span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="eventos.html">Eventos</a></li>
+                    <li><a href="talleres.html">Historial de Talleres</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>

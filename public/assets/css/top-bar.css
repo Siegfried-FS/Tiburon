@@ -1,0 +1,170 @@
+/* public/assets/css/top-bar.css */
+
+:root {
+    --top-bar-bg: #000;
+    --top-bar-border: 1px solid var(--border-color);
+    --top-bar-height: 40px;
+}
+
+[data-theme="light"] {
+    --top-bar-bg: #f8f9fa;
+}
+
+#top-bar {
+    background-color: var(--top-bar-bg);
+    height: var(--top-bar-height);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    border-bottom: var(--top-bar-border);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 var(--spacing-xl);
+    box-sizing: border-box;
+}
+
+.top-bar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+#top-bar .theme-toggle {
+    font-size: 1.1rem;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#top-bar .theme-toggle:hover {
+    color: var(--primary-color);
+}
+
+#top-bar .auth-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+#top-bar .auth-buttons .btn-secondary {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+#top-bar .user-info-display {
+    gap: var(--spacing-sm);
+}
+
+#top-bar .user-avatar {
+    width: 28px;
+    height: 28px;
+}
+
+#top-bar .user-name {
+    font-size: 0.9rem;
+}
+
+#top-bar .user-dropdown-menu {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    top: 120%;
+    right: 0;
+    left: auto;
+    background-color: rgba(var(--bg-secondary-rgb), 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    min-width: 200px;
+    z-index: 10001;
+    overflow: hidden;
+    padding: var(--spacing-sm) 0;
+    animation: fadeIn 0.2s ease-out;
+}
+
+#top-bar .user-dropdown-menu.show {
+    display: block; /* Mostrar con JS */
+}
+
+#top-bar .user-dropdown-menu a,
+#top-bar .user-dropdown-menu button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#top-bar .user-dropdown-menu a:hover,
+#top-bar .user-dropdown-menu button:hover {
+    background-color: var(--bg-card-hover);
+    color: var(--primary-color);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Override styles from auth.css */
+#top-bar .auth-buttons,
+#top-bar .user-info-display {
+    flex-direction: row;
+    width: auto;
+    margin-top: 0;
+    padding: 0;
+}
+
+#top-bar .auth-buttons .btn-secondary {
+    width: auto;
+    padding: 0.25rem 0.75rem; /* Ensure padding is small */
+}
+
+
+/* Ajuste para que el header principal no se solape con la top-bar */
+.header {
+    top: var(--top-bar-height);
+}
+
+/* Ajuste para el padding del body */
+body {
+    padding-top: calc(80px + var(--top-bar-height)); /* 80px es la altura del .header */
+}
+
+/* Override auth.css on mobile */
+@media (max-width: 768px) {
+    #top-bar {
+        padding: 0 var(--spacing-md);
+    }
+
+    #top-bar .auth-buttons,
+    #top-bar .user-info-display {
+        flex-direction: row;
+        width: auto;
+        margin-top: 0;
+        padding: 0;
+    }
+
+    #top-bar .auth-buttons .btn-secondary {
+        width: auto;
+        padding: 0.25rem 0.75rem;
+    }
+
+    #top-bar .user-info-display {
+        gap: var(--spacing-sm);
+    }
+}

@@ -1,3 +1,5 @@
+/* public/assets/css/header.css */
+
 /* -- Base y Variables -- */
 :root {
     --header-bg: var(--bg-secondary);
@@ -9,13 +11,7 @@
     --dropdown-bg: var(--bg-secondary);
     --dropdown-border: 1px solid var(--border-color);
     --dropdown-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    --button-padding: 0.75rem 1.5rem;
-    --button-border-radius: 8px;
-    --button-font-size: 1rem;
-    --button-font-weight: 600;
     --hamburger-color: var(--text-primary);
-    /* Nuevo: Variables para espaciado más consistente */
-    --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
     --spacing-lg: 1.5rem;
@@ -24,18 +20,21 @@
 
 /* -- Estilos Generales del Header -- */
 .header {
-    background: var(--header-bg);
-    padding: var(--spacing-md) var(--spacing-xl); /* Usar variables de espaciado */
+    background: rgba(var(--bg-secondary-rgb), 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: var(--spacing-md) var(--spacing-xl);
     border-bottom: var(--header-border);
     box-shadow: var(--header-shadow);
     display: flex;
     justify-content: center;
     align-items: center;
     position: fixed;
-    top: 0;
+    top: var(--top-bar-height, 40px); /* Default value if top-bar fails */
     width: 100%;
-    z-index: 9999;
+    z-index: 999;
     box-sizing: border-box;
+    height: 80px;
 }
 
 .nav {
@@ -63,14 +62,17 @@
     text-shadow: 0 0 8px var(--primary-color);
 }
 
-/* -- Menú de Navegación Principal -- */
+/* -- Menú de Navegación Principal (Desktop) -- */
+.nav-menu, .dropdown-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 .nav-menu {
     display: flex;
-    list-style: none;
-    gap: var(--spacing-lg); /* Espaciado entre ítems principales */
+    gap: var(--spacing-lg);
     align-items: center;
-    margin: 0;
-    padding: 0;
 }
 
 .nav-menu li {
@@ -81,11 +83,11 @@
     color: var(--nav-link-color);
     text-decoration: none;
     font-weight: 500;
-    padding: var(--spacing-sm) 0; /* Padding vertical para ítems principales */
-    transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    padding: var(--spacing-sm) 0;
+    transition: color 0.3s ease;
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm); /* Espacio para iconos si se añaden */
+    gap: var(--spacing-sm);
     position: relative;
 }
 
@@ -93,14 +95,14 @@
     content: '';
     position: absolute;
     left: 0;
-    bottom: 0;
+    bottom: -5px;
     width: 0;
     height: 2px;
     background-color: var(--primary-color);
     transition: width 0.3s ease;
 }
 
-.nav-menu a:hover::after {
+.nav-menu a:hover::after, .nav-menu a.active::after {
     width: 100%;
 }
 
@@ -109,29 +111,32 @@
     color: var(--nav-link-hover-color);
 }
 
-/* -- Dropdowns Generales -- */
+/* -- Dropdowns (Desktop) -- */
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: calc(100% + var(--spacing-sm)); /* Posiciona debajo del toggle con un pequeño espacio */
-    left: 0;
+    top: 100%; /* Eliminar el espacio problemático */
+    left: 50%;
+    transform: translateX(-50%);
     background: var(--dropdown-bg);
     border: var(--dropdown-border);
-    border-radius: var(--button-border-radius);
+    border-radius: 8px;
     box-shadow: var(--dropdown-shadow);
-    min-width: 180px;
+    min-width: 200px;
     z-index: 1000;
     flex-direction: column;
-    padding: var(--spacing-sm) 0; /* Padding vertical dentro del dropdown */
+    padding-top: var(--spacing-sm); /* Añadir padding para crear espacio interno */
     opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    visibility: hidden;
+    transform: translateY(10px) translateX(-50%);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
 }
 
-.dropdown.active .dropdown-menu {
+.dropdown:hover .dropdown-menu {
     display: flex;
     opacity: 1;
-    transform: translateY(0);
+    visibility: visible;
+    transform: translateY(0) translateX(-50%);
 }
 
 .dropdown-menu li {
@@ -139,201 +144,31 @@
 }
 
 .dropdown-menu a {
-    padding: var(--spacing-sm) var(--spacing-md); /* Padding para ítems del dropdown */
+    padding: var(--spacing-sm) var(--spacing-md);
     width: 100%;
     display: block;
     box-sizing: border-box;
     white-space: nowrap;
-    &::after {
-        content: none;
-    }
 }
 
 .dropdown-menu a:hover {
     background-color: var(--bg-card-hover);
-    color: var(--primary-color);
 }
 
+.dropdown-menu a::after {
+    display: none;
+}
 
 .dropdown-arrow {
     margin-left: var(--spacing-sm);
     transition: transform 0.3s ease;
 }
 
-.dropdown.active .dropdown-arrow {
+.dropdown:hover .dropdown-arrow {
     transform: rotate(180deg);
 }
 
-/* -- Botón de Cambio de Tema -- */
-/* Ahora el theme-toggle es un btn-dropdown dentro del user-dropdown-menu */
-.btn-dropdown.theme-toggle {
-    justify-content: flex-start;
-    padding: var(--spacing-sm) var(--spacing-md);
-    margin: 0;
-    font-size: var(--button-font-size);
-    gap: var(--spacing-sm);
-    color: var(--text-secondary);
-    /* Solución para el hover: asegurar que no haya transformaciones o outlines inesperados */
-    transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.btn-dropdown.theme-toggle:hover {
-    background: var(--bg-card-hover);
-    color: var(--primary-color);
-    transform: none; /* Eliminar cualquier posible transformación */
-    box-shadow: none; /* Eliminar cualquier sombra inesperada */
-}
-
-.btn-dropdown.theme-toggle:focus {
-    outline: none; /* Eliminar el "recuadro" en el foco */
-    box-shadow: none; /* Asegurarse de que no haya sombra tampoco en el foco */
-}
-
-/* -- Sección de Autenticación (Login/User Info) -- */
-.auth-nav-item {
-    position: relative;
-    margin-left: var(--spacing-lg); /* Espaciado con el resto del menú */
-    display: flex;
-    align-items: center;
-}
-
-.auth-buttons {
-    display: flex;
-    gap: var(--spacing-sm);
-    align-items: center;
-}
-
-.user-info-display {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    cursor: pointer;
-    padding: var(--spacing-sm);
-    border-radius: var(--button-border-radius);
-    transition: background 0.2s ease, box-shadow 0.2s ease;
-    position: relative;
-    z-index: 10001;
-}
-
-.user-info-display:hover {
-    background: var(--bg-card-hover);
-    box-shadow: 0 0 5px var(--primary-color);
-}
-
-.user-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid var(--border-color);
-}
-
-.user-name {
-    color: var(--text-primary);
-    font-weight: 600;
-}
-
-.user-dropdown-menu {
-    display: none; /* Oculto por defecto */
-    position: absolute;
-    top: 110%; /* Posicionarlo justo debajo del avatar */
-    right: 0;
-    background-color: var(--background-color-light);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    width: 180px;
-    z-index: 1001;
-    overflow: hidden; /* Para asegurar que los bordes redondeados afecten a los hijos */
-}
-
-.user-dropdown-menu.show {
-    display: block; /* Mostrar con JS */
-}
-
-/* Estilo unificado para los elementos del menú */
-.user-dropdown-menu a,
-.user-dropdown-menu button {
-    display: block;
-    width: 100%;
-    padding: 12px 16px;
-    text-align: left;
-    font-family: inherit; /* Heredar la fuente del header */
-    font-size: 0.95rem;
-    color: var(--text-color);
-    
-    /* Resetear estilos de botón por defecto */
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin: 0;
-}
-
-.user-dropdown-menu a:hover,
-.user-dropdown-menu button:hover {
-    background-color: var(--primary-color-light);
-    color: var(--primary-color);
-}
-
-
-.btn-dropdown:hover {
-    background: var(--bg-card-hover);
-    color: var(--primary-color);
-}
-
-/* -- Estilos Base de Botones (para botones de Login/Logout si no son dropdown) -- */
-.btn-secondary, .btn-primary, .btn-tertiary {
-    padding: var(--button-padding);
-    border: none;
-    border-radius: var(--button-border-radius);
-    font-size: var(--button-font-size);
-    font-weight: var(--button-font-weight);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-sm);
-    font-family: inherit;
-    white-space: nowrap;
-}
-
-.btn-primary {
-    background: var(--primary-color);
-    color: white;
-}
-
-.btn-primary:hover {
-    background: var(--secondary-color);
-}
-
-.btn-secondary {
-    background: var(--bg-card-hover);
-    color: var(--primary-color);
-    border-radius: 50px;
-    padding: 0.6rem 1.2rem; /* Ajuste para el estilo de "píldora" */
-}
-
-.btn-secondary:hover {
-    background: var(--primary-color);
-    color: white;
-    box-shadow: 0 0 8px var(--primary-color);
-}
-
-.btn-tertiary {
-    background: transparent;
-    color: var(--text-secondary);
-    border: 1px solid var(--border-color);
-}
-
-.btn-tertiary:hover {
-    background: var(--bg-card-hover);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-/* -- Menú Hamburguesa para Móviles -- */
+/* -- Menú Hamburguesa (Móvil) -- */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -341,10 +176,11 @@
     width: 30px;
     height: 25px;
     cursor: pointer;
-    padding: var(--spacing-sm);
-    z-index: 101;
+    padding: 0;
+    z-index: 10002; /* Muy alto para estar sobre todo */
     background: transparent;
     border: none;
+    position: relative;
 }
 
 .hamburger span {
@@ -353,12 +189,15 @@
     height: 3px;
     background: var(--hamburger-color);
     border-radius: 2px;
-    transition: all 0.3s ease;
-    transform-origin: 1px;
+    transition: all 0.3s ease-in-out;
+}
+
+.hamburger.active span {
+    background: #ffffff; /* Blanco para ser visible sobre el overlay oscuro */
 }
 
 .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+    transform: translateY(8px) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -366,146 +205,123 @@
 }
 
 .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
+    transform: translateY(-8px) rotate(-45deg);
 }
 
-/* -- Transición del Menú de Navegación -- */
-.nav-menu {
-    transition: transform 0.3s ease-in-out;
-}
 
 /* -- Media Queries para Responsividad -- */
 @media (max-width: 768px) {
-    .nav-menu {
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 70%;
-        max-width: 300px;
-        height: 100%;
-        background: var(--bg-primary);
-        padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md); /* Ajuste de padding */
-        box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-        z-index: 100;
-        align-items: flex-start;
-        gap: var(--spacing-sm); /* Espaciado entre ítems del menú móvil */
-        overflow-y: auto;
-    }
-
-    .nav-menu.active {
-        right: 0;
-    }
-
     .hamburger {
         display: flex;
     }
 
+    .nav-menu {
+        display: none; /* Ocultar el menú de escritorio */
+    }
+
+    .nav-menu.active {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        z-index: 10001;
+        gap: var(--spacing-lg);
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
     .nav-menu li {
-        width: 100%;
+        width: auto;
+        text-align: center;
+        opacity: 0;
+        animation: slideInUp 0.5s forwards;
+    }
+    
+    /* Animación escalonada para los items del menú */
+    .nav-menu.active li:nth-child(1) { animation-delay: 0.1s; }
+    .nav-menu.active li:nth-child(2) { animation-delay: 0.2s; }
+    .nav-menu.active li:nth-child(3) { animation-delay: 0.3s; }
+    .nav-menu.active li:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes slideInUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 
     .nav-menu a {
-        padding: var(--spacing-sm) var(--spacing-md);
-        width: 100%;
-        border-radius: var(--button-border-radius);
+        font-size: 1.5rem; /* Letra más grande */
+        color: #ffffff;
+        padding: var(--spacing-md);
+    }
+    
+    .nav-menu a::after {
+        display: block;
+        bottom: -2px;
     }
 
-    .nav-menu a:hover {
-        background: var(--bg-card-hover);
+    /* Dropdowns en móvil */
+    .dropdown .dropdown-toggle {
+        cursor: pointer;
     }
-
-    /* Ajustes para Dropdowns en móvil */
-    .dropdown .dropdown-menu {
+    
+    .dropdown-menu {
+        display: block;
         position: static;
-        background: none;
-        border: none;
-        box-shadow: none;
-        padding: 0 var(--spacing-md); /* Indentar los sub-ítems */
-        margin-top: var(--spacing-xs);
-    }
-
-    .dropdown.active .dropdown-menu {
-        display: flex;
-    }
-
-    .dropdown-menu a {
-        padding: var(--spacing-sm) var(--spacing-lg); /* Más indentación para sub-ítems */
-    }
-
-    /* Auth section en móvil */
-    .auth-nav-item {
-        width: 100%;
-        margin-left: 0;
-        margin-top: var(--spacing-md); /* Espacio superior */
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--spacing-sm);
-    }
-
-    .auth-buttons {
-        width: 100%;
-        flex-direction: column;
-        gap: var(--spacing-sm);
-    }
-
-    .auth-buttons .btn-secondary {
-        width: 100%;
-    }
-
-    .user-info-display {
-        width: 100%;
-        justify-content: flex-start;
-        padding: var(--spacing-sm) var(--spacing-md);
-        background: var(--bg-card-hover);
-        box-sizing: border-box;
-    }
-
-    .user-dropdown-menu {
-        position: static;
-        width: 100%;
-        background: none;
+        background: transparent;
         border: none;
         box-shadow: none;
         padding: 0;
-        margin-top: var(--spacing-xs);
-    }
-
-    .user-dropdown-menu .btn-dropdown {
-        padding: var(--spacing-sm) var(--spacing-lg);
-        background: none;
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin-top 0.4s ease-in-out;
     }
     
-    .user-dropdown-menu .btn-dropdown:hover {
-        background: var(--bg-card-hover);
+    .dropdown.active .dropdown-menu {
+        margin-top: var(--spacing-sm);
+        max-height: 200px; /* Adjust as needed */
+        opacity: 1;
     }
 
-    /* Theme toggle dentro del user dropdown en móvil */
-    .user-dropdown-menu .btn-dropdown.theme-toggle {
-        justify-content: flex-start;
-        padding: var(--spacing-sm) var(--spacing-lg);
-        background: none;
+    .dropdown-menu li {
+        border: none;
+        width: 100%;
     }
-    .user-dropdown-menu .btn-dropdown.theme-toggle:hover {
-        background: var(--bg-card-hover);
+
+    .dropdown-menu a {
+        font-size: 1rem;
+        color: var(--text-muted);
+        padding: var(--spacing-sm) var(--spacing-md);
+        display: block; /* Ocupa todo el ancho */
+        text-align: center; /* Centra el texto dentro del enlace */
+        background-color: rgba(0,0,0,0.2);
+        border-radius: 8px;
+        margin-bottom: var(--spacing-sm);
     }
-}
 
-/* -- Overlay para el Menú Móvil (requiere JS para toggle) -- */
-.menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 99;
-    display: none;
-    transition: opacity 0.3s ease;
-    opacity: 0;
-}
-
-.menu-overlay.active {
-    display: block;
-    opacity: 1;
+    .dropdown-menu a:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--primary-color);
+    }
 }

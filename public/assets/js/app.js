@@ -15,6 +15,12 @@ async function loadHeader() {
         headerCssLink.href = 'assets/css/header.css';
         document.head.appendChild(headerCssLink);
 
+        // Cargar el CSS de la top-bar
+        const topBarCssLink = document.createElement('link');
+        topBarCssLink.rel = 'stylesheet';
+        topBarCssLink.href = 'assets/css/top-bar.css';
+        document.head.appendChild(topBarCssLink);
+
         const response = await fetch('assets/shared/header.html'); // Cargar la nueva versión del header
         if (!response.ok) throw new Error(`Error al cargar header: ${response.status}`);
         
@@ -86,13 +92,13 @@ function addHeaderEventListeners() {
         });
     }
 
-    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-    dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', (event) => {
-            const parentDropdown = toggle.parentElement;
-            if (window.innerWidth <= 768 && parentDropdown.classList.contains('dropdown')) {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('click', (event) => {
+            if (window.innerWidth <= 768) {
+                // Prevenir que el enlace 'a' navegue si se hace clic en el
                 event.preventDefault();
-                parentDropdown.classList.toggle('active');
+                dropdown.classList.toggle('active');
             }
         });
     });
