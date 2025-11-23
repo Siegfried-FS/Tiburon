@@ -104,20 +104,22 @@ function generateHtmlResponse(post) {
             <meta name="twitter:description" content="${description}">
             <meta name="twitter:image" content="${imageUrl}">
 
-            <!-- Redirect for actual users (not bots) -->
-            <meta http-equiv="refresh" content="3; url=${redirectUrl}">
+            <!-- Manual redirect link for users -->
             <script type="text/javascript">
-                // Only redirect if it's not a bot
-                if (!/bot|crawler|spider|crawling/i.test(navigator.userAgent)) {
+                // Only redirect if it's not a bot and after a delay
+                if (!/bot|crawler|spider|crawling|facebook|twitter|linkedin/i.test(navigator.userAgent)) {
                     setTimeout(function() {
                         window.location.href = "${redirectUrl}";
-                    }, 100);
+                    }, 2000);
                 }
             </script>
         </head>
         <body>
-            <p>Redirigiendo a la publicación...</p>
-            <p>Si no eres redirigido, <a href="${redirectUrl}">haz clic aquí</a>.</p>
+            <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                <h1>${title}</h1>
+                <p>Redirigiendo al post...</p>
+                <p><a href="${redirectUrl}" style="color: #0066cc; text-decoration: none; font-weight: bold;">👆 Haz clic aquí si no eres redirigido automáticamente</a></p>
+            </div>
         </body>
         </html>
     `;
