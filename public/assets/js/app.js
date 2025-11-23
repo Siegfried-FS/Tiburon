@@ -786,7 +786,7 @@ async function loadFeed() {
                             <span class="like-count">${post.likes}</span>
                         </button>
                         <div class="share-options">
-                            <button class="action-btn share-btn" onclick="openShareModal('${shareUrl}', ${JSON.stringify(post.title)})">📤 Compartir</button>
+                            <button class="action-btn share-btn" data-share-url="${shareUrl}" data-share-title="${post.title}">📤 Compartir</button>
                         </div>
                     </div>
                 </div>
@@ -843,6 +843,16 @@ function addFeedEventListeners() {
                 likeIcon.textContent = '❤️';
                 likeCount.textContent = currentLikes + 1;
             }
+        });
+    });
+
+    // Add share button event listeners
+    const shareButtons = document.querySelectorAll('.share-btn');
+    shareButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const shareUrl = button.dataset.shareUrl;
+            const shareTitle = button.dataset.shareTitle;
+            openShareModal(shareUrl, shareTitle);
         });
     });
 }
