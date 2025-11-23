@@ -786,12 +786,7 @@ async function loadFeed() {
                             <span class="like-count">${post.likes}</span>
                         </button>
                         <div class="share-options">
-                            <button class="action-btn share-btn">📤 Compartir</button>
-                            <div class="share-options-menu">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}" target="_blank" class="share-btn-social facebook">📘 Facebook</a>
-                                <a href="https://wa.me/?text=${encodeURIComponent(post.title + ' ' + shareUrl)}" target="_blank" class="share-btn-social whatsapp">💬 WhatsApp</a>
-                                <button onclick="navigator.clipboard.writeText('${shareUrl}'); this.textContent='✅ Copiado!'; setTimeout(() => this.textContent='🔗 Copiar', 2000)" class="share-btn-social copy">🔗 Copiar</button>
-                            </div>
+                            <button class="action-btn share-btn" onclick="openShareModal('${shareUrl}', '${post.title.replace(/'/g, "\\'")}')">📤 Compartir</button>
                         </div>
                     </div>
                 </div>
@@ -1034,3 +1029,49 @@ function initCarousel() {
         carousel.scrollBy({ left: -300, behavior: 'smooth' });
     });
 }
+// Share Modal Functions
+function openShareModal(url, title) {
+    const modal = document.getElementById('shareModal');
+    
+    // Update share links
+    document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    document.getElementById('shareTwitter').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+    document.getElementById('shareLinkedIn').href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+    document.getElementById('shareWhatsApp').href = `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`;
+    document.getElementById('shareTelegram').href = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+    document.getElementById('shareGmail').href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(title + '\n\n' + url)}`;
+    
+    // Copy button
+    document.getElementById('shareCopy').onclick = function() {
+        navigator.clipboard.writeText(url).then(() => {
+            this.innerHTML = '<div class="share-icon">✅</div><span>¡Copiado!</span>';
+            setTimeout(() => {
+                this.innerHTML = '<div class="share-icon">🔗</div><span>Copiar enlace</span>';
+            }, 2000);
+        });
+    };
+    
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeShareModal() {
+    const modal = document.getElementById('shareModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('shareModal');
+    if (event.target === modal) {
+        closeShareModal();
+    }
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeShareModal();
+    }
+});
