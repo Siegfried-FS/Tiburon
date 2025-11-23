@@ -21,13 +21,6 @@ exports.handler = async (event) => {
 
     // Get postId from the query string
     const postId = event.queryStringParameters?.postId;
-    
-    // Check if it's a bot (Facebook, LinkedIn, Twitter, etc.)
-    const userAgent = event.headers?.['user-agent'] || event.headers?.['User-Agent'] || '';
-    const isBot = /bot|crawler|spider|crawling|facebook|twitter|linkedin|whatsapp/i.test(userAgent);
-    
-    console.log('User Agent:', userAgent);
-    console.log('Is Bot:', isBot);
 
     if (!postId) {
         console.log('No postId provided, returning fallback HTML.');
@@ -49,22 +42,7 @@ exports.handler = async (event) => {
 
         if (post) {
             console.log(`Post found for id: ${postId}`);
-            
-            // If it's a bot, return HTML with meta tags
-            if (isBot) {
-                return generateHtmlResponse(post);
-            } else {
-                // If it's a real user, redirect immediately (no intermediate page)
-                const redirectUrl = `${SITE_URL}/feed.html#post-${post.id}`;
-                return {
-                    statusCode: 301,
-                    headers: {
-                        'Location': redirectUrl,
-                        'Cache-Control': 'no-cache'
-                    },
-                    body: ''
-                };
-            }
+            return generateHtmlResponse(post);
         } else {
             console.warn(`Post not found for id: ${postId}. Returning fallback.`);
             return generateHtmlResponse(null);
@@ -137,6 +115,12 @@ function generateHtmlResponse(post) {
             </script>
         </head>
         <body>
+            <script>
+                // Instant redirect for users (not bots)
+                if (!/bot|crawler|spider|crawling|facebook|twitter|linkedin|whatsapp/i.test(navigator.userAgent)) {
+                    window.location.href = "${redirectUrl}";
+                }
+            </script>
             <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
                 <h1>${title}</h1>
                 <p>Cargando contenido...</p>
