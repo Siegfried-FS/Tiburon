@@ -801,6 +801,23 @@ async function loadFeed() {
         container.innerHTML = html;
         addFeedEventListeners();
         initScrollAnimations();
+        
+        // Check if there's a hash in the URL to scroll to specific post
+        if (window.location.hash) {
+            const targetId = window.location.hash.substring(1); // Remove #
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                setTimeout(() => {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetElement.style.border = '2px solid #0066cc';
+                    targetElement.style.borderRadius = '8px';
+                    setTimeout(() => {
+                        targetElement.style.border = '';
+                        targetElement.style.borderRadius = '';
+                    }, 3000);
+                }, 500);
+            }
+        }
 
     } catch (error) {
         console.error('Error al cargar el feed:', error);

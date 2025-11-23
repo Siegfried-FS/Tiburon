@@ -115,10 +115,31 @@ function generateHtmlResponse(post) {
             </script>
         </head>
         <body>
-            <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
-                <h1>${title}</h1>
-                <p>Redirigiendo al post...</p>
-                <p><a href="${redirectUrl}" style="color: #0066cc; text-decoration: none; font-weight: bold;">👆 Haz clic aquí si no eres redirigido automáticamente</a></p>
+            <div style="text-align: center; padding: 20px; font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 20px;">
+                    <h1 style="margin: 0 0 10px 0; font-size: 24px;">${title}</h1>
+                    <p style="margin: 0; opacity: 0.9;">Redirigiendo al post...</p>
+                </div>
+                
+                <!-- Monetization Content -->
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #28a745;">
+                    <h3 style="color: #28a745; margin-top: 0;">🚀 ¿Quieres aprender AWS?</h3>
+                    <p style="margin: 10px 0; color: #666;">Únete a nuestra comunidad y obtén acceso a:</p>
+                    <ul style="text-align: left; color: #666; margin: 10px 0;">
+                        <li>📚 Recursos gratuitos de AWS</li>
+                        <li>🎯 Talleres prácticos</li>
+                        <li>💬 Comunidad activa en Telegram</li>
+                        <li>🏆 Certificaciones y reconocimientos</li>
+                    </ul>
+                    <a href="https://tiburoncp.siegfried-fs.com" style="display: inline-block; background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 10px;">¡Únete Gratis!</a>
+                </div>
+                
+                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border: 1px solid #ffeaa7;">
+                    <p style="margin: 0; color: #856404;">
+                        <strong>💡 Tip:</strong> Si no eres redirigido automáticamente, 
+                        <a href="${redirectUrl}" style="color: #0066cc; text-decoration: none; font-weight: bold;">haz clic aquí</a>
+                    </p>
+                </div>
             </div>
         </body>
         </html>
