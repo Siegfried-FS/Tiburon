@@ -87,9 +87,10 @@ function generateHtmlResponse(post) {
             
             <!-- Canonical URL to override API Gateway URL -->
             <link rel="canonical" href="${redirectUrl}" />
+            <meta name="url" content="${redirectUrl}" />
+            <meta name="identifier-URL" content="${redirectUrl}" />
 
             <!-- Open Graph (Facebook, LinkedIn) -->
-            <meta property="fb:app_id" content="your-app-id" />
             <meta property="og:title" content="${title}" />
             <meta property="og:description" content="${description}" />
             <meta property="og:image" content="${imageUrl}" />
@@ -104,10 +105,13 @@ function generateHtmlResponse(post) {
             <meta name="twitter:image" content="${imageUrl}">
 
             <!-- Redirect for actual users (not bots) -->
+            <meta http-equiv="refresh" content="3; url=${redirectUrl}">
             <script type="text/javascript">
                 // Only redirect if it's not a bot
                 if (!/bot|crawler|spider|crawling/i.test(navigator.userAgent)) {
-                    window.location.href = "${redirectUrl}";
+                    setTimeout(function() {
+                        window.location.href = "${redirectUrl}";
+                    }, 100);
                 }
             </script>
         </head>
