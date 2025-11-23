@@ -84,8 +84,12 @@ function generateHtmlResponse(post) {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>${title}</title>
+            
+            <!-- Canonical URL to override API Gateway URL -->
+            <link rel="canonical" href="${redirectUrl}" />
 
             <!-- Open Graph (Facebook, LinkedIn) -->
+            <meta property="fb:app_id" content="your-app-id" />
             <meta property="og:title" content="${title}" />
             <meta property="og:description" content="${description}" />
             <meta property="og:image" content="${imageUrl}" />
