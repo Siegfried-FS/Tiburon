@@ -5,7 +5,7 @@ const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 
 // --- CONFIGURATION ---
 // Replace with your S3 bucket name and the key (path) to your feed.json file.
-const S3_BUCKET_NAME = 'tiburon-community-data-1763931777'; // Por ejemplo: 'tiburon-community-data'
+const S3_BUCKET_NAME = 'tiburon-community-data-1763934850'; // Por ejemplo: 'tiburon-community-data'
 const S3_FEED_KEY = 'data/feed.json';        // Por ejemplo: 'production/feed.json'
 
 // Información genérica de respaldo
@@ -91,10 +91,12 @@ function generateHtmlResponse(post) {
             <meta name="twitter:description" content="${description}">
             <meta name="twitter:image" content="${imageUrl}">
 
-            <!-- Redirect for actual users -->
-            <meta http-equiv="refresh" content="0; url=${redirectUrl}">
+            <!-- Redirect for actual users (not bots) -->
             <script type="text/javascript">
-                window.location.href = "${redirectUrl}";
+                // Only redirect if it's not a bot
+                if (!/bot|crawler|spider|crawling/i.test(navigator.userAgent)) {
+                    window.location.href = "${redirectUrl}";
+                }
             </script>
         </head>
         <body>
