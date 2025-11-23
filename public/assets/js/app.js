@@ -764,7 +764,7 @@ async function loadFeed() {
             const isLiked = localStorage.getItem(`like_${post.id}`) === 'true';
 
             // ¡CAMBIO IMPORTANTE! La URL para compartir ahora apunta a tu API Gateway.
-            const shareUrl = `https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/share?postId=${post.id}`;
+            const shareUrl = `https://share.tiburoncp.siegfried-fs.com/share?postId=${post.id}`;
 
             html += `
                 <div class="feed-post" id="post-${post.id}">
