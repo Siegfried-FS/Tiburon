@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Tiburón</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <style>
+        main {
+            padding-top: 100px;
+        }
+        .admin-panel {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 40px;
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+        .admin-panel h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            background: var(--gradient-accent);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <main id="admin-main-content" style="display: none;">
+        <div class="admin-panel">
+            <h1>📝 Publicar en el Feed</h1>
+            <form id="feed-post-form">
+                <div class="form-group">
+                    <label for="post-title">Título</label>
+                    <input type="text" id="post-title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="post-content">Contenido</label>
+                    <textarea id="post-content" name="content" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="post-image-url">URL de la Imagen (Opcional)</label>
+                    <input type="url" id="post-image-url" name="imageUrl">
+                </div>
+                <button type="submit" class="submit-btn">Publicar Noticia</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="assets/js/script-loader.js"></script>
+    <script>
+        document.addEventListener('authScriptsLoaded', () => {
+            // Cargar el header es importante para el authManager
+            loadHeaderAndCheckAdmin();
+        });
+
+        async function loadHeaderAndCheckAdmin() {
+            // Re-usamos la lógica de app.js para cargar el header
+            const headerPlaceholder = document.getElementById('header-placeholder');
+            try {
+                const response = await fetch('assets/shared/header.html');
+                if (!response.ok) throw new Error('Failed to load header');
+                headerPlaceholder.outerHTML = await response.text();
+            } catch (error) {
+                console.error("Error loading header", error);
+                headerPlaceholder.innerHTML = '<p style="color:red;text-align:center;">Error al cargar menú.</p>';
+            }
+
+            // Esperar a que el estado de autenticación esté listo
+            document.addEventListener('authStateReady', (e) => {
+                const { isAuthenticated } = e.detail;
+                if (!isAuthenticated || !window.authManager.isAdministrator()) {
+                    alert('Acceso denegado. Debes ser administrador para ver esta página.');
+                    window.location.href = 'index.html';
+                } else {
+                    // Mostrar contenido si es admin
+                    document.getElementById('admin-main-content').style.display = 'block';
+                    // Aquí iría la lógica para manejar el formulario
+                    setupAdminForm();
+                }
+            });
+        }
+        
+        function setupAdminForm() {
+            const form = document.getElementById('feed-post-form');
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                // --- Lógica de publicación ---
+                alert('Funcionalidad de publicación en desarrollo.\nEsto requerirá una función AWS Lambda para manejar la escritura del archivo feed.json de forma segura.');
+                
+                const formData = new FormData(form);
+                const post = {
+                    title: formData.get('title'),
+                    content: formData.get('content'),
+                    imageUrl: formData.get('imageUrl')
+                };
+                console.log('Datos a enviar a Lambda:', post);
+            });
+        }
+    </script>
+</body>
+</html>

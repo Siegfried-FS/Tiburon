@@ -74,6 +74,9 @@ document.addEventListener('authScriptsLoaded', async () => {
     if (document.querySelector('.badge-carousel-wrapper')) {
         initCarousel();
     }
+    if (document.getElementById('feed-container')) {
+        loadFeed();
+    }
     initScrollAnimations();
 });
 
@@ -728,8 +731,131 @@ async function loadWorkshops() {
 }
 
 // =============================================================================
+// FEED DE LA COMUNIDAD
+// =============================================================================
+
+async function loadFeed() {
+    const container = document.getElementById('feed-container');
+    if (!container) return;
+
+    showSkeletonLoader(container, feedPostSkeleton, 2);
+
+    try {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // ¡CAMBIO IMPORTANTE! Ahora el feed se lee desde S3 para que la Lambda pueda modificarlo.
+        // Reemplaza esta URL por la URL pública de tu feed.json en S3
+        const feedUrl = 'https://tiburon-community-data-1763931777.s3.amazonaws.com/data/feed.json';
+        const response = await fetch(feedUrl, { cache: 'no-store' }); // Usar no-store para obtener siempre la última versión
+
+        const posts = await response.json();
+
+        if (!posts || posts.length === 0) {
+            container.innerHTML = '<p style="text-align: center;">Aún no hay nada en el feed. ¡Vuelve pronto!</p>';
+            return;
+        }
+
+        // Ordenar posts por fecha, más nuevos primero
+        posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        let html = '';
+        posts.forEach(post => {
+            const postDate = new Date(post.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+            const isLiked = localStorage.getItem(`like_${post.id}`) === 'true';
+
+            // ¡CAMBIO IMPORTANTE! La URL para compartir ahora apunta a tu API Gateway.
+            const shareUrl = `https://8x3c0bghcb.execute-api.us-east-1.amazonaws.com/share?postId=${post.id}`;
+
+            html += `
+                <div class="feed-post" id="post-${post.id}">
+                    <div class="feed-post-header">
+                        <img src="${post.author.avatar}" alt="Avatar de ${post.author.name}">
+                        <div class="author-info">
+                            <div class="author-name">${post.author.name}</div>
+                            <div class="post-date">${postDate}</div>
+                        </div>
+                    </div>
+                    ${post.imageUrl ? `<img src="${post.imageUrl}" alt="" class="feed-post-image">` : ''}
+                    <div class="feed-post-content">
+                        <h3>${post.title}</h3>
+                        <p>${post.content.replace(/\n/g, '<br>')}</p>
+                    </div>
+                    <div class="feed-post-actions">
+                        <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}">
+                            <span class="like-icon">${isLiked ? '❤️' : '🤍'}</span>
+                            <span class="like-count">${post.likes}</span>
+                        </button>
+                        <div class="share-options">
+                            <button class="action-btn share-btn">🔗 Compartir</button>
+                            <div class="share-options-menu">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}" target="_blank" class="action-btn">Facebook</a>
+                                <a href="https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(post.title)}&summary=${encodeURIComponent(post.content.substring(0, 100))}" target="_blank" class="action-btn">LinkedIn</a>
+                                <a href="https://www.instagram.com" target="_blank" class="action-btn">Instagram</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+        addFeedEventListeners();
+        initScrollAnimations();
+
+    } catch (error) {
+        console.error('Error al cargar el feed:', error);
+        container.innerHTML = '<p>Error al cargar el feed. Intenta recargar la página.</p>';
+    }
+}
+
+function addFeedEventListeners() {
+    const likeButtons = document.querySelectorAll('.like-btn');
+    likeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const postId = button.dataset.postId;
+            const postElement = document.getElementById(`post-${postId}`);
+            const likeIcon = button.querySelector('.like-icon');
+            const likeCount = button.querySelector('.like-count');
+            
+            let isLiked = localStorage.getItem(`like_${postId}`) === 'true';
+            let currentLikes = parseInt(likeCount.textContent);
+
+            if (isLiked) {
+                localStorage.removeItem(`like_${postId}`);
+                button.classList.remove('liked');
+                likeIcon.textContent = '🤍';
+                likeCount.textContent = currentLikes - 1;
+            } else {
+                localStorage.setItem(`like_${postId}`, 'true');
+                button.classList.add('liked');
+                likeIcon.textContent = '❤️';
+                likeCount.textContent = currentLikes + 1;
+            }
+        });
+    });
+}
+
+// =============================================================================
 // COMPONENTES DE UI
 // =============================================================================
+
+const feedPostSkeleton = `
+<div class="feed-post skeleton">
+    <div class="feed-post-header">
+        <div class="avatar"></div>
+        <div class="author-info">
+            <div class="line-1"></div>
+            <div class="line-2"></div>
+        </div>
+    </div>
+    <div class="feed-post-image-skeleton"></div>
+    <div class="feed-post-content">
+        <div class="line-1"></div>
+        <div class="line-2"></div>
+        <div class="line-1"></div>
+    </div>
+</div>
+`;
 
 // Plantillas de Esqueleto para Carga
 const termCardSkeleton = `

@@ -1998,6 +1998,118 @@ html {
 /*   BOTÓN VOLVER ARRIBA (BACK TO TOP)                                 */
 /* ========================================================================== */
 
+/* ========================================================================== */
+/*   FEED DE LA COMUNIDAD                                                    */
+/* ========================================================================== */
+
+.feed-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.feed-post {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+}
+
+.feed-post-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.feed-post-header img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.feed-post-header .author-info .author-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.feed-post-header .author-info .post-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.feed-post-image {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+}
+
+.feed-post-content {
+    padding: 20px;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.feed-post-actions {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.action-btn:hover {
+    background: var(--bg-card-hover);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.action-btn.liked {
+    background: rgba(29, 155, 240, 0.1);
+    color: #1da1f2;
+    border-color: #1da1f2;
+}
+
+.share-options {
+    position: relative;
+}
+
+.share-options-menu {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 10px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    box-shadow: var(--shadow);
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 10;
+}
+
+.share-options:hover .share-options-menu {
+    display: flex;
+}
+
 .back-to-top-btn {
     position: fixed;
     bottom: 20px;

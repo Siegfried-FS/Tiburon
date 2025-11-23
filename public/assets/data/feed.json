@@ -1,0 +1,50 @@
+[
+    {
+        "id": "post004",
+        "title": "Domina tus Gastos en AWS: Evita Sorpresas en tu Factura",
+        "content": "Una de las mayores preocupaciones al usar la nube son los costos inesperados. ¡No te preocupes! AWS te da el control total con herramientas muy útiles.\n\n**Alertas de Uso del Free Tier:** AWS te notifica automáticamente por correo electrónico cuando tu uso se acerca al 85% de los límites de la capa gratuita. Para activarlas, solo tienes que ir a 'Preferencias de facturación' en tu consola y marcar la casilla 'Recibir alertas de uso del nivel gratuito de AWS'.\n\n**AWS Budgets para un Control Máximo:** Para un seguimiento más detallado, puedes crear presupuestos con AWS Budgets. Configura un presupuesto (incluso de $0) y recibe alertas cuando te acerques a ese límite. Así, siempre estarás al tanto de tu consumo y podrás actuar antes de que se generen cargos. ¡Es la mejor forma de aprender y experimentar sin miedo!",
+        "date": "2025-11-23T12:00:00Z",
+        "author": {
+            "name": "Roberto Flores (Admin)",
+            "avatar": "assets/images/profile-photo.jpg"
+        },
+        "imageUrl": "assets/images/resources/skill-builder.jpg",
+        "likes": 25
+    },
+    {
+        "id": "post003",
+        "title": "El Futuro es Ahora: Conoce los Nuevos Servicios de AWS para 2025",
+        "content": "AWS no para de innovar y este 2025 ha traído lanzamientos increíbles, con un gran foco en Inteligencia Artificial.\n\n**Amazon Transform:** Un nuevo y revolucionario servicio que usa IA para acelerar la migración y modernización de aplicaciones. ¡Moderniza aplicaciones .NET a Linux 4 veces más rápido!\n\n**Chip Cuántico Ocelot:** AWS da un salto cuántico con su nuevo chip que reduce drásticamente los recursos necesarios para la corrección de errores, acercándonos más a la computación cuántica práctica.\n\n**Expansión Global:** La nube de AWS llega a más lugares con nuevas regiones en México y Tailandia, además de planes de expansión en Europa y Asia. ¡Menos latencia para todos!\n\nEstos son solo algunos ejemplos. El futuro se construye sobre AWS, ¡y nuestra comunidad está en primera fila para aprender a usarlo!",
+        "date": "2025-11-22T18:30:00Z",
+        "author": {
+            "name": "Roberto Flores (Admin)",
+            "avatar": "assets/images/profile-photo.jpg"
+        },
+        "imageUrl": "assets/images/resources/cloud-quest-game.jpg",
+        "likes": 42
+    },
+    {
+        "id": "post002",
+        "title": "¡Capacitación Gratuita! AWS Lanza Nuevos Cursos para Cloud y IA",
+        "content": "¿Quieres certificar tus habilidades en la nube? ¡AWS te ayuda a lograrlo GRATIS! Han lanzado una serie de cursos y recursos de alta calidad para prepararte.\n\n**AWS Cloud Quest: Cloud Practitioner:** Aprende los fundamentos de la nube de una forma divertida e interactiva con este curso gamificado. ¡Ideal para principiantes!\n\n**Ruta de Aprendizaje de IA y Machine Learning:** Si te interesa la inteligencia artificial, AWS ha publicado un plan de estudio completo con laboratorios prácticos en Amazon SageMaker.\n\n**Más de 220 cursos de IA en Skill Builder:** El portal de AWS Skill Builder ahora ofrece cientos de cursos gratuitos, desde conceptos básicos hasta IA generativa avanzada.\n\nNo hay excusas para no aprender. Aprovecha estos recursos y lleva tu carrera al siguiente nivel. Encuéntralos en el portal de AWS Training and Certification.",
+        "date": "2025-11-21T15:00:00Z",
+        "author": {
+            "name": "Roberto Flores (Admin)",
+            "avatar": "assets/images/profile-photo.jpg"
+        },
+        "imageUrl": "assets/images/resources/aws-knowledge-amazon-q-developer-fundamentals-train.png",
+        "likes": 58
+    },
+    {
+        "id": "post001",
+        "title": "¡Noticia! AWS Te Da $100 Dólares para Empezar (¡y $100 más!)",
+        "content": "¡Excelentes noticias para todos los que empiezan en el mundo de AWS! A partir de ahora, las nuevas cuentas de AWS recibirán **$100 en créditos** para usar en una gran variedad de servicios.\n\nPero eso no es todo. Puedes obtener **$100 dólares adicionales** al completar tareas específicas como lanzar tu primera instancia EC2, experimentar con IA en Amazon Bedrock o configurar una base de datos en RDS.\n\nEsta es una oportunidad increíble para explorar, aprender y construir tus primeros proyectos en la nube sin preocuparte por los costos iniciales. ¡Aprovecha estos créditos para impulsar tu aprendizaje!",
+        "date": "2025-11-20T11:00:00Z",
+        "author": {
+            "name": "Roberto Flores (Admin)",
+            "avatar": "assets/images/profile-photo.jpg"
+        },
+        "imageUrl": "assets/images/resources/cloudquestpaga.jpeg",
+        "likes": 37
+    }
+]

@@ -1,0 +1,12 @@
+{
+  "name": "tiburon-og-renderer",
+  "version": "1.0.0",
+  "description": "Lambda function for rendering Open Graph meta tags for social media sharing",
+  "main": "og-renderer-lambda.js",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

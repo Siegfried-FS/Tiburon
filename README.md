@@ -2,7 +2,7 @@
 
 Este es el repositorio oficial del sitio web para el **AWS User Group de Playa Vicente**, una comunidad de tecnología en Veracruz, México, liderada por **Roberto Flores (Siegfried FS)**.
 
-El objetivo de este proyecto es crear una plataforma digital que no solo sirva como un centro de información, sino que también inspire y conecte a los entusiastas de la nube en la región.
+El objetivo de este proyecto es crear una plataforma digital que no solo sirva como un centro de información, sino que también inspire y conecte a los entusiastas de la nube en la región, implementando soluciones nativas de la nube para su funcionamiento.
 
 **Ver el sitio en vivo:** [tiburoncp.siegfried-fs.com](https://tiburoncp.siegfried-fs.com/)
 
@@ -10,92 +10,93 @@ El objetivo de este proyecto es crear una plataforma digital que no solo sirva c
 
 ## ✨ Características Principales
 
-- **👤 Sistema de Usuarios Completo:**
+- **👤 Sistema de Usuarios y Gamificación:**
     - Autenticación segura a través de **AWS Cognito** con proveedores federados (Google).
-    - Edición de perfiles de usuario para personalizar la experiencia.
+    - Roles de usuario gamificados (`Explorador`, `Navegante`, `Corsario`, `Capitán`, `Admin`) basados en grupos de Cognito.
+    - Página de `niveles.html` que describe cada rol.
+- **📢 Feed de Noticias Dinámico:**
+    - Sección de noticias (`feed.html`) que se carga desde un `feed.json` alojado en S3.
+    - **Vistas Previas para Redes Sociales:** Solución avanzada con **AWS Lambda** y **API Gateway** para generar dinámicamente metaetiquetas Open Graph, asegurando que cada post tenga una vista previa correcta en Facebook, LinkedIn, etc.
 - **🎨 Tema Claro y Oscuro:** Cambia entre modos para tu comodidad visual.
-- **📱 Diseño Responsivo:** Totalmente funcional en dispositivos móviles, tablets y computadoras de escritorio.
-- **⚙️ Contenido 100% Dinámico:** Todas las secciones principales (Eventos, Talleres, Recursos, Glosario) se cargan desde archivos JSON, facilitando su actualización sin tocar el código HTML.
+- **📱 Diseño Responsivo:** Totalmente funcional en todos los dispositivos.
+- **⚙️ Contenido 100% Dinámico:** Todas las secciones principales se cargan desde archivos JSON.
 - **🚀 Experiencia de Usuario Mejorada:**
     - **Pantallas de Carga (Skeletons):** Interfaces de carga modernas que mejoran la percepción de velocidad.
-    - **Botón "Volver Arriba":** Navegación fluida en páginas con mucho contenido.
-- **📚 Glosario Interactivo:** Un completo glosario de términos de AWS con búsqueda en tiempo real y filtro alfabético.
-- **🗂️ Navegación y Filtrado Avanzado:**
-    - **Filtro por Etiquetas:** Filtra dinámicamente los Recursos, Talleres y Juegos de Lógica por sus `tags`.
-- **📅 Gestión de Eventos Inteligente:**
-    - **Indicadores Visuales:** Distingue claramente eventos próximos vs realizados.
-    - **Indicadores de Precio:** Identifica eventos gratuitos vs de pago.
-- **⚡ Optimizado para el Rendimiento:** Carga diferida de imágenes (`loading="lazy"`) y código modular para una entrega rápida.
-- **🔍 SEO Mejorado:** Optimizado para ser encontrado en búsquedas relacionadas con "Roberto Flores" y "Playa Vicente".
+    - **Botón "Volver Arriba":** Navegación fluida.
+- **📚 Glosario Interactivo:** Completo glosario de términos de AWS con búsqueda y filtro en tiempo real.
+- **🗂️ Navegación y Filtrado Avanzado:** Filtra dinámicamente los Recursos, Talleres y Juegos por etiquetas.
 
 ---
 
 ## 🚀 Tecnologías Utilizadas
 
-- **HTML5**
-- **CSS3** (con variables para temas y diseño responsivo)
-- **JavaScript (Vanilla)** para la interactividad y carga de contenido dinámico.
-- **AWS Cognito** para la autenticación y gestión de usuarios.
-- **Particles.js** para los efectos de fondo.
-- **Alojado en AWS Amplify** para un despliegue continuo y escalable.
+Este proyecto utiliza una combinación de tecnologías frontend estándar y un backend serverless nativo de AWS.
+
+### Frontend
+- **HTML5 y CSS3:** Estructura semántica y diseño moderno con variables para temas.
+- **JavaScript (Vanilla, ES6+):** Utilizado para toda la interactividad, manipulación del DOM y lógica del lado del cliente. No se usan frameworks como React o Angular para mantener el proyecto ligero y con cero dependencias.
+- **Particles.js:** Para el efecto de fondo animado.
+
+### Backend (Serverless en AWS)
+- **AWS Cognito:**
+    - **Función:** Provee el sistema completo de autenticación y gestión de usuarios (registro, inicio de sesión).
+    - **Implementación:** Se utiliza el flujo de "Authorization Code Grant" con un proveedor federado (Google). Los roles de usuario (`Admin`, `Capitán`, etc.) se gestionan a través de **Grupos de Cognito**.
+- **AWS S3 (Simple Storage Service):**
+    - **Función:** Almacena el archivo `feed.json`.
+    - **Implementación:** Se utiliza un bucket de S3 estándar. Se configuró para tener **acceso de lectura público** en el archivo `feed.json` mediante una ACL (Access Control List). Esto permite que el sitio web (JavaScript) pueda obtener el archivo para mostrar el feed, mientras que la escritura se controla de forma segura a través de una función Lambda. Esta arquitectura desacopla los datos del código y es extremadamente costo-eficiente.
+- **AWS Lambda:**
+    - **Función:** Provee la lógica de backend sin necesidad de un servidor.
+    - **Implementación:** Tenemos una función (`og-renderer-lambda`) escrita en Node.js que genera dinámicamente las metaetiquetas Open Graph para las vistas previas en redes sociales.
+- **AWS API Gateway:**
+    - **Función:** Actúa como la puerta de enlace HTTP para nuestra función Lambda.
+    - **Implementación:** Se configuró una API HTTP con una ruta `GET /share` que se integra con la función `og-renderer-lambda`. Esto crea una URL pública que podemos usar para los enlaces de "Compartir".
+
+### Hosting
+- **AWS Amplify:** Se utiliza para el despliegue y alojamiento del sitio web. Provee un flujo de CI/CD (Integración y Entrega Continuas) que despliega automáticamente los cambios cuando se hace `git push` a la rama principal.
 
 ---
 
-## 🔧 Configuración del Entorno de Desarrollo Local
+## 💸 Uso de la Capa Gratuita de AWS (Free Tier)
 
-Para probar el sitio en tu máquina local, especialmente las funciones de inicio de sesión, sigue estos pasos.
+Este proyecto está diseñado para operar, en su mayor parte, dentro de la generosa capa gratuita de AWS, lo que lo hace muy económico de mantener.
 
-### Prerrequisitos
-- Tener **Python 3** instalado para ejecutar el servidor local.
-- Tener acceso a la **Consola de AWS** para configurar Cognito.
+- **AWS Cognito:** Los primeros **50,000 usuarios activos mensuales (MAUs)** son gratuitos.
+- **AWS Lambda:** El primer **1 millón de invocaciones por mes** es gratuito. Nuestra función se invoca solo cuando alguien comparte un post, por lo que es muy poco probable superar este límite.
+- **AWS API Gateway:** El primer **1 millón de llamadas a la API HTTP por mes** es gratuito.
+- **AWS S3:** Los primeros **5 GB de almacenamiento estándar** son gratuitos, junto con 20,000 peticiones `GET`. Nuestro `feed.json` ocupa solo unos pocos KB.
+- **AWS Amplify:** Ofrece una capa gratuita que incluye **1,000 minutos de build y 5 GB de almacenamiento** al mes, suficiente para este proyecto.
 
-### Paso 1: Configuración de AWS Cognito (¡Crítico!)
+**Conclusión:** Mientras la comunidad tenga menos de 50,000 usuarios activos y el tráfico de compartidos sea razonable, el costo de mantener este proyecto en AWS debería ser de **cero o unos pocos centavos al mes**.
 
-Para que el inicio de sesión funcione en tu entorno local, debes autorizar a tu servidor a comunicarse con Cognito.
+---
 
-1.  Ve a tu User Pool en **AWS Cognito**.
-2.  Navega a la pestaña **"App integration"** (Integración de aplicaciones).
-3.  Selecciona tu cliente de aplicación (`tiburon-web-client`).
-4.  Busca la sección **"Hosted UI"** (o "Páginas de inicio de sesión") y haz clic en **"Edit"**.
-5.  En el campo **"Allowed callback URLs"** (URL de devolución de llamada permitidas), añade la siguiente URL:
-    ```
-    http://localhost:8000
-    ```
-6.  Guarda los cambios. Sin este paso, obtendrás un error de `redirect_mismatch` al intentar iniciar sesión.
+## 📂 Estructura del Proyecto
 
-### Paso 2: Iniciar el Servidor Local
+El proyecto está organizado de la siguiente manera para separar el contenido, la lógica y los estilos.
 
-El siguiente comando unificado limpia el puerto 8000, navega a la carpeta `public` y levanta el servidor local de la manera correcta para que sea reconocido por Cognito.
-
-Copia y pega el bloque completo en tu terminal, desde la raíz del proyecto (`Tiburon/`):
-
-```bash
-# Limpia el puerto 8000 por si está en uso
-kill -9 $(lsof -t -i:8000) 2>/dev/null || true
-
-# Navega al directorio public y levanta el servidor en localhost
-cd public && python3 -m http.server 8000 --bind localhost
+```
+.
+├── public/                  # Directorio raíz del sitio web, lo que se despliega.
+│   ├── assets/              # Todos los recursos estáticos.
+│   │   ├── css/             # Hojas de estilo (styles.css, auth.css, etc.).
+│   │   ├── data/            # Archivos JSON con el contenido dinámico.
+│   │   ├── images/          # Imágenes, logos, QRs.
+│   │   └── js/              # Scripts de JavaScript (app.js, auth.js, etc.).
+│   ├── shared/            # Fragmentos de HTML reutilizables (ej. header.html).
+│   ├── *.html             # Todas las páginas principales del sitio.
+│   └── ...
+├── INSTRUCCIONES_LAMBDA_SSR.md # Guía completa para configurar la Lambda.
+├── SETUP_MANUAL.md          # Guía de configuración manual de la infraestructura.
+├── SOCIAL_SHARING_README.md # Documentación del sistema para compartir.
+├── *.sh                     # Scripts de automatización (despliegue, pruebas, etc.).
+├── amplify.yml              # Configuración de build para AWS Amplify.
+├── og-renderer-lambda.js    # Código fuente de la función Lambda.
+└── README.md                # Este archivo.
 ```
 
-### Paso 3: Acceder a la Aplicación
-
-Una vez que el servidor esté corriendo, abre tu navegador y escribe **manualmente** en la barra de direcciones:
-`http://localhost:8000`
-
 ---
 
-## 🔄 Cómo Actualizar el Contenido
+## 🔧 Configuración y Despliegue
 
-Para facilitar la actualización, todo el contenido dinámico se gestiona desde archivos `JSON` ubicados en `public/assets/data/`. Simplemente edita el archivo correspondiente y los cambios se reflejarán en el sitio.
-
-- **Eventos:** `events.json`
-- **Glosario:** `glosario.json`
-- **Recursos:** `resources.json`
-- **Juegos de Lógica:** `logic-games.json`
-- **Talleres:** `workshops.json`
-
----
-
-## ☁️ Despliegue
-
-Este proyecto está configurado para un despliegue continuo a través de **AWS Amplify**. El archivo `amplify.yml` contiene la configuración del build. Cualquier `git push` a la rama `main` disparará automáticamente un nuevo despliegue del sitio.
+- Para la configuración del entorno local y el despliegue, por favor, consulta la sección correspondiente en `SOCIAL_SHARING_README.md` o sigue las instrucciones en `SETUP_MANUAL.md`.
+- El despliegue a producción se realiza automáticamente al hacer `git push` a la rama `main` a través de AWS Amplify.

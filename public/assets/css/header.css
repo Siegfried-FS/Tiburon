@@ -168,6 +168,33 @@
     transform: rotate(180deg);
 }
 
+/* -- Insignia de Administrador -- */
+.admin-badge {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 3px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, var(--accent-color), #ff8a5c);
+    border-radius: 12px;
+    line-height: 1;
+    user-select: none;
+}
+
+.user-role {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 3px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, var(--primary-color), #00aaff);
+    border-radius: 12px;
+    line-height: 1;
+    user-select: none;
+}
+
 /* -- Menú Hamburguesa (Móvil) -- */
 .hamburger {
     display: none;

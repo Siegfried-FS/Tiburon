@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niveles de la Comunidad - AWS User Group Playa Vicente</title>
+    <meta name="description" content="Descubre los roles y niveles dentro de nuestra comunidad. ¡Desde Explorador hasta Capitán, cada contribución cuenta!">
+    
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <style>
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .role-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            border-top: 5px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        .role-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+        .role-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        .role-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        /* Colores por nivel */
+        .role-card.level-1 { border-color: #7f8c8d; } /* Plata */
+        .role-card.level-2 { border-color: #00d4ff; } /* Azul primario */
+        .role-card.level-3 { border-color: #f1c40f; } /* Amarillo */
+        .role-card.level-4 { border-color: #e74c3c; } /* Rojo */
+        .role-card.level-5 { border-color: #9b59b6; } /* Morado */
+
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="content-section">
+            <h1>⚓ Rangos de la Tripulación</h1>
+            <p class="tagline" style="text-align: center; margin-bottom: 40px;">En nuestra flota, cada miembro tiene un rol. Tu participación y contribución te ayudan a subir de rango. ¡Descubre lo que significa cada nivel!</p>
+            
+            <div class="roles-grid">
+                <!-- Nivel 1: Explorador -->
+                <div class="role-card level-1">
+                    <div class="role-icon">🧭</div>
+                    <h3>Explorador</h3>
+                    <p>¡Bienvenido a bordo! Eres un nuevo miembro de la tripulación, listo para zarpar y descubrir los vastos océanos de la nube de AWS. Tu viaje apenas comienza.</p>
+                </div>
+
+                <!-- Nivel 2: Navegante -->
+                <div class="role-card level-2">
+                    <div class="role-icon">🗺️</div>
+                    <h3>Navegante</h3>
+                    <p>Ya conoces las cartas de navegación. Has participado en nuestros eventos o talleres y empiezas a trazar tu propia ruta en el mapa de AWS. ¡Sigue así!</p>
+                </div>
+
+                <!-- Nivel 3: Corsario -->
+                <div class="role-card level-3">
+                    <div class="role-icon">⚔️</div>
+                    <h3>Corsario</h3>
+                    <p>Un miembro audaz y experimentado. No solo dominas tus herramientas, sino que también compartes el botín de tu conocimiento y ayudas a otros a navegar en aguas turbulentas.</p>
+                </div>
+
+                <!-- Nivel 4: Capitán -->
+                <div class="role-card level-4">
+                    <div class="role-icon">👑</div>
+                    <h3>Capitán</h3>
+                    <p>Estás al timón. Eres un líder respetado en la comunidad, un mentor que guía a nuevas generaciones de navegantes y un ponente que comparte sus grandes hazañas. Tu palabra es ley.</p>
+                </div>
+
+                <!-- Rol Especial: Admin -->
+                <div class="role-card level-5">
+                    <div class="role-icon">⚜️</div>
+                    <h3>Almirante (Admin)</h3>
+                    <p>El Comandante de la Flota. Tienes las llaves del reino y la responsabilidad de guiar el destino de nuestra comunidad. Tu visión nos lleva a nuevos horizontes.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/script-loader.js"></script>
+    <script src="assets/js/p.js"></script>
+    <script type="text/javascript" src="assets/js/v.js"></script>
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

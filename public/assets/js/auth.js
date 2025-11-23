@@ -133,14 +133,55 @@ class AuthManager {
         const data = await response.json();
         
         // La respuesta de GetUser es un array de atributos. Lo transformamos a un objeto.
-        // El atributo 'sub' viene incluido en este array, por lo que no se necesita más lógica.
         const userInfo = data.UserAttributes.reduce((acc, attr) => {
             acc[attr.Name] = attr.Value;
             return acc;
         }, {});
 
+        // Decodificar el idToken para obtener los grupos/roles
+        const idToken = sessionStorage.getItem('idToken');
+        if (idToken) {
+            const decodedToken = this.parseJwt(idToken);
+            userInfo.groups = decodedToken['cognito:groups'] || [];
+        } else {
+            userInfo.groups = [];
+        }
+
         this.currentUser = userInfo;
         this.updateUI(true);
+    }
+
+    getUserRole() {
+        if (!this.currentUser || !this.currentUser.groups) {
+            return null;
+        }
+        // Define la jerarquía de roles, de mayor a menor importancia
+        const roleHierarchy = ['Capitán', 'Corsario', 'Navegante', 'Explorador'];
+        for (const role of roleHierarchy) {
+            if (this.currentUser.groups.includes(role)) {
+                return role;
+            }
+        }
+        return 'Explorador'; // Rol por defecto si no tiene otro asignado
+    }
+
+    isAdministrator() {
+        return this.currentUser && this.currentUser.groups && this.currentUser.groups.includes('Admins');
+    }
+
+    parseJwt(token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(jsonPayload);
+        } catch (e) {
+            console.error("Error decoding JWT", e);
+            return {};
+        }
     }
 
     signInWithGoogle() {
@@ -184,6 +225,24 @@ class AuthManager {
             if (userAvatar) userAvatar.src = this.currentUser.picture || '/assets/images/profile-photo.jpg';
             if (userName) userName.textContent = this.currentUser.name || this.currentUser.email;
             
+            // Mostrar insignia de admin si corresponde
+            const adminBadge = document.getElementById('admin-badge');
+            const userRoleBadge = document.getElementById('user-role');
+
+            if (this.isAdministrator()) {
+                if(adminBadge) adminBadge.style.display = 'inline-block';
+                if(userRoleBadge) userRoleBadge.style.display = 'none';
+            } else {
+                if(adminBadge) adminBadge.style.display = 'none';
+                const userRole = this.getUserRole();
+                if (userRole && userRoleBadge) {
+                    userRoleBadge.textContent = userRole;
+                    userRoleBadge.style.display = 'inline-block';
+                } else if (userRoleBadge) {
+                    userRoleBadge.style.display = 'none';
+                }
+            }
+
             this.setupUserMenuListeners(); // Configurar listeners para los elementos del menú de usuario
 
             // Mostrar mensaje de bienvenida si acaba de iniciar sesión
