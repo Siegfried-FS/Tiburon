@@ -1,12 +1,14 @@
 {
-  "name": "tiburon-og-renderer",
+  "name": "tiburon-performance-tests",
   "version": "1.0.0",
-  "description": "Lambda function for rendering Open Graph meta tags for social media sharing",
-  "main": "og-renderer-lambda.js",
-  "dependencies": {
-    "@aws-sdk/client-s3": "^3.0.0"
+  "description": "Performance testing suite for AWS User Group site",
+  "scripts": {
+    "test:performance": "node test-performance.js",
+    "test:lighthouse": "lighthouse http://localhost:8000/feed.html --output=json --output-path=./lighthouse-report.json",
+    "serve": "cd public && python3 -m http.server 8000"
   },
-  "engines": {
-    "node": ">=20.0.0"
+  "devDependencies": {
+    "puppeteer": "^21.0.0",
+    "lighthouse": "^11.0.0"
   }
 }
