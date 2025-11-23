@@ -100,3 +100,5 @@ El proyecto está organizado de la siguiente manera para separar el contenido, l
 
 - Para la configuración del entorno local y el despliegue, por favor, consulta la sección correspondiente en `SOCIAL_SHARING_README.md` o sigue las instrucciones en `SETUP_MANUAL.md`.
 - El despliegue a producción se realiza automáticamente al hacer `git push` a la rama `main` a través de AWS Amplify.
+
+
