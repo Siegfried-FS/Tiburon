@@ -1,0 +1,10 @@
+{
+  "name": "admin-verify-lambda",
+  "version": "1.0.0",
+  "description": "Lambda function to verify admin access tokens",
+  "main": "admin-verify-lambda.js",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.0",
+    "jwks-rsa": "^3.0.0"
+  }
+}

@@ -20,58 +20,86 @@ class AdminPanel {
         // Load initial data
         await this.loadDashboardData();
         
+        // Setup periodic token verification (every 5 minutes)
+        this.setupTokenVerification();
+        
         // Hide loading screen
         this.hideLoadingScreen();
     }
 
+    setupTokenVerification() {
+        // Verificar token cada 5 minutos
+        setInterval(async () => {
+            try {
+                const session = await Auth.currentSession();
+                if (!session.isValid()) {
+                    console.log('Sesión expirada, redirigiendo a login');
+                    window.location.href = '/auth.html?redirect=admin&reason=expired';
+                }
+            } catch (error) {
+                console.log('Error verificando sesión, redirigiendo a login');
+                window.location.href = '/auth.html?redirect=admin&reason=error';
+            }
+        }, 5 * 60 * 1000); // 5 minutos
+    }
+
     async checkAuth() {
         try {
-            // TEMPORAL: Verificación simple hasta implementar Cognito completo
-            const currentUser = getCurrentUser();
-            
-            // Si no hay usuario logueado, redirigir a login
-            if (!currentUser) {
-                console.log('No hay usuario logueado, redirigiendo a auth');
-                window.location.href = '/auth.html?redirect=admin';
-                return;
+            // Verificar token JWT válido de Cognito
+            const session = await Auth.currentSession();
+            if (!session.isValid()) {
+                throw new Error('Sesión inválida');
             }
 
-            // TEMPORAL: Verificar si es admin por email o nombre
-            const adminEmails = [
-                'roberto.flores@siegfried-fs.com',
-                'admin@tiburoncp.com',
-                'siegfried.fs@gmail.com'
-            ];
+            // Obtener usuario actual con grupos
+            const user = await Auth.currentAuthenticatedUser();
+            const groups = user.signInUserSession.accessToken.payload['cognito:groups'] || [];
             
-            const isAdmin = adminEmails.includes(currentUser.email) || 
-                           currentUser.name?.toLowerCase().includes('roberto') ||
-                           currentUser.email?.toLowerCase().includes('siegfried');
-            
-            if (!isAdmin) {
-                console.log('Usuario no es admin, acceso denegado');
+            // Verificar que el usuario tenga grupo Admin
+            if (!groups.includes('Admin')) {
+                console.log('Usuario sin permisos de admin');
                 window.location.href = '/admin-denied.html';
                 return;
             }
 
-            // Usuario es admin válido
+            // Verificar token con el servidor (doble verificación)
+            const tokenValid = await this.verifyTokenWithServer(session.getAccessToken().getJwtToken());
+            if (!tokenValid) {
+                throw new Error('Token no válido en servidor');
+            }
+
+            // Usuario autenticado y autorizado
             this.currentUser = {
-                name: currentUser.name || currentUser.email,
+                name: user.attributes.name || user.attributes.email,
                 role: 'Admin',
-                email: currentUser.email
+                email: user.attributes.email,
+                groups: groups
             };
             
             document.getElementById('adminUserName').textContent = this.currentUser.name;
             
         } catch (error) {
-            console.error('Error en verificación de auth:', error);
-            // Si hay error, permitir acceso temporal para desarrollo
-            console.log('Error de auth, permitiendo acceso temporal');
-            this.currentUser = {
-                name: 'Admin (Temporal)',
-                role: 'Admin',
-                email: 'admin@temp.com'
-            };
-            document.getElementById('adminUserName').textContent = this.currentUser.name;
+            console.error('Error de autenticación:', error);
+            // Redirigir a login con parámetro de admin
+            window.location.href = '/auth.html?redirect=admin&reason=unauthorized';
+        }
+    }
+
+    async verifyTokenWithServer(token) {
+        try {
+            const response = await fetch('/api/verify-admin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ action: 'verify' })
+            });
+            
+            return response.ok;
+        } catch (error) {
+            console.error('Error verificando token con servidor:', error);
+            return false;
         }
     }
 
@@ -282,11 +310,13 @@ class AdminPanel {
         document.getElementById('welcomeMessage').value = '¡Bienvenido a la comunidad AWS User Group Playa Vicente!';
     }
 
-    // Action methods
+    // Action methods with token verification
     async approvePost(postId) {
+        if (!await this.verifyCurrentToken()) return;
+        
         try {
             // TODO: API call to approve post
-            console.log('Approving post:', postId);
+            console.log('Aprobando post:', postId);
             this.showSuccess('Post aprobado exitosamente');
             this.loadPosts();
         } catch (error) {
@@ -295,9 +325,11 @@ class AdminPanel {
     }
 
     async rejectPost(postId) {
+        if (!await this.verifyCurrentToken()) return;
+        
         try {
             // TODO: API call to reject post
-            console.log('Rejecting post:', postId);
+            console.log('Rechazando post:', postId);
             this.showSuccess('Post rechazado');
             this.loadPosts();
         } catch (error) {
@@ -306,12 +338,35 @@ class AdminPanel {
     }
 
     async changeUserRole(userId, newRole) {
+        if (!await this.verifyCurrentToken()) return;
+        
         try {
             // TODO: API call to change user role
-            console.log('Changing user role:', userId, newRole);
+            console.log('Cambiando rol de usuario:', userId, newRole);
             this.showSuccess(`Rol actualizado a ${newRole}`);
         } catch (error) {
             this.showError('Error actualizando rol');
+        }
+    }
+
+    async verifyCurrentToken() {
+        try {
+            const session = await Auth.currentSession();
+            if (!session.isValid()) {
+                throw new Error('Sesión inválida');
+            }
+            
+            const tokenValid = await this.verifyTokenWithServer(session.getAccessToken().getJwtToken());
+            if (!tokenValid) {
+                throw new Error('Token no válido');
+            }
+            
+            return true;
+        } catch (error) {
+            console.error('Token verification failed:', error);
+            alert('❌ Sesión expirada. Redirigiendo al login...');
+            window.location.href = '/auth.html?redirect=admin&reason=expired';
+            return false;
         }
     }
 
