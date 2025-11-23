@@ -1054,9 +1054,9 @@ function openShareModal(url, title) {
     // Copy button
     document.getElementById('shareCopy').onclick = function() {
         navigator.clipboard.writeText(url).then(() => {
-            this.innerHTML = '<div class="share-icon">✅</div><span>¡Copiado!</span>';
+            this.innerHTML = '<div class="share-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>';
             setTimeout(() => {
-                this.innerHTML = '<div class="share-icon">🔗</div><span>Copiar enlace</span>';
+                this.innerHTML = '<div class="share-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg></div>';
             }, 2000);
         });
     };
