@@ -775,7 +775,7 @@ async function loadFeed() {
                             <div class="post-date">${postDate}</div>
                         </div>
                     </div>
-                    ${post.imageUrl ? `<img src="${post.imageUrl}" alt="" class="feed-post-image">` : ''}
+                    ${post.imageUrl ? `<img data-src="${post.imageUrl}" alt="" class="feed-post-image" loading="lazy">` : ''}
                     <div class="feed-post-content">
                         <h3>${post.title}</h3>
                         <p>${post.content.replace(/\n/g, '<br>')}</p>
@@ -796,6 +796,11 @@ async function loadFeed() {
         container.innerHTML = html;
         addFeedEventListeners();
         initScrollAnimations();
+        
+        // Activate lazy loading for images
+        if (window.lazyLoader) {
+            window.lazyLoader.observeAll();
+        }
         
         // Check if there's a hash in the URL to scroll to specific post
         if (window.location.hash) {
