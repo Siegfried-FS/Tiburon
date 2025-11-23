@@ -3,140 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Tiburón</title>
+    <title>Panel de Administración | AWS User Group Playa Vicente</title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/auth.css">
-    <style>
-        main {
-            padding-top: 100px;
-        }
-        .admin-panel {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 40px;
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
-        .admin-panel h1 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border-radius: var(--border-radius);
-            border: 1px solid var(--border-color);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-        .submit-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: var(--border-radius);
-            background: var(--gradient-accent);
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
-    <div id="header-placeholder"></div>
-
-    <main id="admin-main-content" style="display: none;">
-        <div class="admin-panel">
-            <h1>📝 Publicar en el Feed</h1>
-            <form id="feed-post-form">
-                <div class="form-group">
-                    <label for="post-title">Título</label>
-                    <input type="text" id="post-title" name="title" required>
-                </div>
-                <div class="form-group">
-                    <label for="post-content">Contenido</label>
-                    <textarea id="post-content" name="content" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="post-image-url">URL de la Imagen (Opcional)</label>
-                    <input type="url" id="post-image-url" name="imageUrl">
-                </div>
-                <button type="submit" class="submit-btn">Publicar Noticia</button>
-            </form>
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="shark-loader">🦈</div>
+            <p>Cargando Panel de Administración...</p>
         </div>
-    </main>
+    </div>
 
-    <script src="assets/js/script-loader.js"></script>
-    <script>
-        document.addEventListener('authScriptsLoaded', () => {
-            // Cargar el header es importante para el authManager
-            loadHeaderAndCheckAdmin();
-        });
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="admin-header-content">
+                <div class="admin-logo">
+                    <h1>🦈 Panel Admin</h1>
+                    <span class="admin-subtitle">AWS User Group Playa Vicente</span>
+                </div>
+                <div class="admin-user">
+                    <span id="adminUserName">Cargando...</span>
+                    <button id="logoutBtn" class="btn-logout">Cerrar Sesión</button>
+                </div>
+            </div>
+        </header>
 
-        async function loadHeaderAndCheckAdmin() {
-            // Re-usamos la lógica de app.js para cargar el header
-            const headerPlaceholder = document.getElementById('header-placeholder');
-            try {
-                const response = await fetch('assets/shared/header.html');
-                if (!response.ok) throw new Error('Failed to load header');
-                headerPlaceholder.outerHTML = await response.text();
-            } catch (error) {
-                console.error("Error loading header", error);
-                headerPlaceholder.innerHTML = '<p style="color:red;text-align:center;">Error al cargar menú.</p>';
-            }
+        <!-- Navigation -->
+        <nav class="admin-nav">
+            <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
+            <button class="nav-btn" data-section="posts">📝 Posts</button>
+            <button class="nav-btn" data-section="users">👥 Usuarios</button>
+            <button class="nav-btn" data-section="settings">⚙️ Configuración</button>
+        </nav>
 
-            // Esperar a que el estado de autenticación esté listo
-            document.addEventListener('authStateReady', (e) => {
-                const { isAuthenticated } = e.detail;
-                if (!isAuthenticated || !window.authManager.isAdministrator()) {
-                    alert('Acceso denegado. Debes ser administrador para ver esta página.');
-                    window.location.href = 'index.html';
-                } else {
-                    // Mostrar contenido si es admin
-                    document.getElementById('admin-main-content').style.display = 'block';
-                    // Aquí iría la lógica para manejar el formulario
-                    setupAdminForm();
-                }
-            });
-        }
-        
-        function setupAdminForm() {
-            const form = document.getElementById('feed-post-form');
-            form.addEventListener('submit', (event) => {
-                event.preventDefault();
-                // --- Lógica de publicación ---
-                alert('Funcionalidad de publicación en desarrollo.\nEsto requerirá una función AWS Lambda para manejar la escritura del archivo feed.json de forma segura.');
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="admin-section active">
+                <h2>📊 Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info">
+                            <h3 id="totalUsers">-</h3>
+                            <p>Total Usuarios</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-info">
+                            <h3 id="totalPosts">-</h3>
+                            <p>Posts Publicados</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-info">
+                            <h3 id="pendingPosts">-</h3>
+                            <p>Posts Pendientes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">❤️</div>
+                        <div class="stat-info">
+                            <h3 id="totalLikes">-</h3>
+                            <p>Total Likes</p>
+                        </div>
+                    </div>
+                </div>
                 
-                const formData = new FormData(form);
-                const post = {
-                    title: formData.get('title'),
-                    content: formData.get('content'),
-                    imageUrl: formData.get('imageUrl')
-                };
-                console.log('Datos a enviar a Lambda:', post);
-            });
-        }
-    </script>
+                <div class="recent-activity">
+                    <h3>📈 Actividad Reciente</h3>
+                    <div id="recentActivity" class="activity-list">
+                        <div class="activity-item skeleton"></div>
+                        <div class="activity-item skeleton"></div>
+                        <div class="activity-item skeleton"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Posts Section -->
+            <section id="posts" class="admin-section">
+                <h2>📝 Gestión de Posts</h2>
+                <div class="section-actions">
+                    <button id="createPostBtn" class="btn-primary">➕ Crear Post</button>
+                    <button id="refreshPostsBtn" class="btn-secondary">🔄 Actualizar</button>
+                </div>
+                <div id="postsContainer" class="posts-container">
+                    <div class="post-skeleton"></div>
+                    <div class="post-skeleton"></div>
+                </div>
+            </section>
+
+            <!-- Users Section -->
+            <section id="users" class="admin-section">
+                <h2>👥 Gestión de Usuarios</h2>
+                <div class="section-actions">
+                    <input type="text" id="userSearch" placeholder="🔍 Buscar usuario..." class="search-input">
+                    <button id="refreshUsersBtn" class="btn-secondary">🔄 Actualizar</button>
+                </div>
+                <div id="usersContainer" class="users-container">
+                    <div class="user-skeleton"></div>
+                    <div class="user-skeleton"></div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="admin-section">
+                <h2>⚙️ Configuración</h2>
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h3>🎨 Apariencia</h3>
+                        <div class="setting-item">
+                            <label>Tema por defecto:</label>
+                            <select id="defaultTheme">
+                                <option value="light">Claro</option>
+                                <option value="dark">Oscuro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <h3>📢 Mensajes</h3>
+                        <div class="setting-item">
+                            <label>Mensaje de bienvenida:</label>
+                            <textarea id="welcomeMessage" rows="3" placeholder="Mensaje para nuevos usuarios..."></textarea>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <h3>🔧 Sistema</h3>
+                        <div class="setting-item">
+                            <button id="clearCacheBtn" class="btn-warning">🗑️ Limpiar Cache</button>
+                            <button id="exportDataBtn" class="btn-secondary">📥 Exportar Datos</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-actions">
+                    <button id="saveSettingsBtn" class="btn-primary">💾 Guardar Cambios</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/admin.js"></script>
 </body>
 </html>
