@@ -68,6 +68,9 @@ function generateHtmlResponse(post) {
     
     // CORRECCIÓN: Apuntar a feed.html para evitar que el servidor devuelva index.html
     const redirectUrl = `${SITE_URL}/feed.html#post-${post ? post.id : ''}`;
+    
+    // URL canónica para Open Graph (sin el hash para mejor presentación)
+    const canonicalUrl = `${SITE_URL}/feed.html`;
 
     const html = `
         <!DOCTYPE html>
@@ -81,7 +84,7 @@ function generateHtmlResponse(post) {
             <meta property="og:title" content="${title}" />
             <meta property="og:description" content="${description}" />
             <meta property="og:image" content="${imageUrl}" />
-            <meta property="og:url" content="${redirectUrl}" />
+            <meta property="og:url" content="${canonicalUrl}" />
             <meta property="og:type" content="article" />
             <meta property="og:site_name" content="AWS User Group Playa Vicente" />
             
