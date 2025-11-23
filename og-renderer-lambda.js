@@ -21,6 +21,7 @@ exports.handler = async (event) => {
 
     // Get postId from the query string
     const postId = event.queryStringParameters?.postId;
+    const version = event.queryStringParameters?.v || '';
 
     if (!postId) {
         console.log('No postId provided, returning fallback HTML.');
@@ -42,16 +43,16 @@ exports.handler = async (event) => {
 
         if (post) {
             console.log(`Post found for id: ${postId}`);
-            return generateHtmlResponse(post);
+            return generateHtmlResponse(post, version);
         } else {
             console.warn(`Post not found for id: ${postId}. Returning fallback.`);
-            return generateHtmlResponse(null);
+            return generateHtmlResponse(null, version);
         }
 
     } catch (error) {
         console.error('Error fetching or processing feed.json from S3:', error);
         // Return fallback page on any error
-        return generateHtmlResponse(null);
+        return generateHtmlResponse(null, version);
     }
 };
 
