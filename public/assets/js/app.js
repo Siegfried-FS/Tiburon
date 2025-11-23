@@ -745,7 +745,7 @@ async function loadFeed() {
         
         // ¡CAMBIO IMPORTANTE! Ahora el feed se lee desde S3 para que la Lambda pueda modificarlo.
         // Reemplaza esta URL por la URL pública de tu feed.json en S3
-        const feedUrl = 'https://tiburon-community-data-1763931777.s3.amazonaws.com/data/feed.json';
+        const feedUrl = 'https://tiburon-community-data-1763934850.s3.amazonaws.com/data/feed.json';
         const response = await fetch(feedUrl, { cache: 'no-store' }); // Usar no-store para obtener siempre la última versión
 
         const posts = await response.json();
@@ -764,7 +764,7 @@ async function loadFeed() {
             const isLiked = localStorage.getItem(`like_${post.id}`) === 'true';
 
             // ¡CAMBIO IMPORTANTE! La URL para compartir ahora apunta a tu API Gateway.
-            const shareUrl = `https://8x3c0bghcb.execute-api.us-east-1.amazonaws.com/share?postId=${post.id}`;
+            const shareUrl = `https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/share?postId=${post.id}`;
 
             html += `
                 <div class="feed-post" id="post-${post.id}">
