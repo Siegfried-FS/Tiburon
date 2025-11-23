@@ -115,29 +115,55 @@ function generateHtmlResponse(post) {
             </script>
         </head>
         <body>
-            <div style="text-align: center; padding: 20px; font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 20px;">
-                    <h1 style="margin: 0 0 10px 0; font-size: 24px;">${title}</h1>
-                    <p style="margin: 0; opacity: 0.9;">Redirigiendo al post...</p>
+            <style>
+                @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+                .container { animation: fadeIn 0.6s ease-out; }
+                .header { animation: pulse 2s infinite; }
+                .cta-button { transition: all 0.3s ease; }
+                .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3); }
+            </style>
+            <div class="container" style="text-align: center; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; justify-content: center;">
+                <div class="header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                    <h1 style="margin: 0 0 15px 0; font-size: 28px; font-weight: 700;">${title}</h1>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px;">
+                        <div style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: pulse 1.5s infinite;"></div>
+                        <p style="margin: 0; opacity: 0.9; font-size: 16px;">Redirigiendo al post...</p>
+                        <div style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: pulse 1.5s infinite 0.5s;"></div>
+                    </div>
                 </div>
                 
                 <!-- Monetization Content -->
-                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #28a745;">
-                    <h3 style="color: #28a745; margin-top: 0;">🚀 ¿Quieres aprender AWS?</h3>
-                    <p style="margin: 10px 0; color: #666;">Únete a nuestra comunidad y obtén acceso a:</p>
-                    <ul style="text-align: left; color: #666; margin: 10px 0;">
-                        <li>📚 Recursos gratuitos de AWS</li>
-                        <li>🎯 Talleres prácticos</li>
-                        <li>💬 Comunidad activa en Telegram</li>
-                        <li>🏆 Certificaciones y reconocimientos</li>
-                    </ul>
-                    <a href="https://tiburoncp.siegfried-fs.com" style="display: inline-block; background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin-top: 10px;">¡Únete Gratis!</a>
+                <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 30px; border-radius: 15px; margin-bottom: 25px; border-left: 5px solid #28a745; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #28a745; margin-top: 0; font-size: 22px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        🚀 ¿Quieres aprender AWS?
+                    </h3>
+                    <p style="margin: 15px 0; color: #495057; font-size: 16px;">Únete a nuestra comunidad y obtén acceso a:</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="font-size: 24px; margin-bottom: 8px;">📚</div>
+                            <div style="color: #495057; font-size: 14px;">Recursos gratuitos de AWS</div>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
+                            <div style="color: #495057; font-size: 14px;">Talleres prácticos</div>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="font-size: 24px; margin-bottom: 8px;">💬</div>
+                            <div style="color: #495057; font-size: 14px;">Comunidad activa</div>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="font-size: 24px; margin-bottom: 8px;">🏆</div>
+                            <div style="color: #495057; font-size: 14px;">Certificaciones</div>
+                        </div>
+                    </div>
+                    <a href="https://tiburoncp.siegfried-fs.com" class="cta-button" style="display: inline-block; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; font-weight: bold; margin-top: 20px; font-size: 16px; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);">¡Únete Gratis! 🎉</a>
                 </div>
                 
-                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border: 1px solid #ffeaa7;">
-                    <p style="margin: 0; color: #856404;">
+                <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); padding: 20px; border-radius: 12px; border: 1px solid #ffeaa7; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
+                    <p style="margin: 0; color: #856404; font-size: 15px;">
                         <strong>💡 Tip:</strong> Si no eres redirigido automáticamente, 
-                        <a href="${redirectUrl}" style="color: #0066cc; text-decoration: none; font-weight: bold;">haz clic aquí</a>
+                        <a href="${redirectUrl}" style="color: #0066cc; text-decoration: none; font-weight: bold; border-bottom: 2px solid #0066cc;">haz clic aquí</a>
                     </p>
                 </div>
             </div>
