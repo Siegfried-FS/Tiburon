@@ -786,7 +786,7 @@ async function loadFeed() {
                             <span class="like-count">${post.likes}</span>
                         </button>
                         <div class="share-options">
-                            <button class="action-btn share-btn" onclick="openShareModal('${shareUrl}', '${post.title.replace(/'/g, "\\'")}')">📤 Compartir</button>
+                            <button class="action-btn share-btn" onclick="openShareModal('${shareUrl}', ${JSON.stringify(post.title)})">📤 Compartir</button>
                         </div>
                     </div>
                 </div>
