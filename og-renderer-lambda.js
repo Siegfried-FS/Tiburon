@@ -64,7 +64,12 @@ exports.handler = async (event) => {
 function generateHtmlResponse(post) {
     const title = post ? post.title : FALLBACK_TITLE;
     const description = post ? post.content.substring(0, 155) + '...' : FALLBACK_DESCRIPTION;
-    const imageUrl = post ? post.imageUrl : FALLBACK_IMAGE;
+    
+    // Convert relative image URLs to absolute URLs
+    let imageUrl = post ? post.imageUrl : FALLBACK_IMAGE;
+    if (imageUrl && !imageUrl.startsWith('http')) {
+        imageUrl = `${SITE_URL}/${imageUrl}`;
+    }
     
     // CORRECCIÓN: Apuntar a feed.html para evitar que el servidor devuelva index.html
     const redirectUrl = `${SITE_URL}/feed.html#post-${post ? post.id : ''}`;
@@ -84,7 +89,7 @@ function generateHtmlResponse(post) {
             <meta property="og:title" content="${title}" />
             <meta property="og:description" content="${description}" />
             <meta property="og:image" content="${imageUrl}" />
-            <meta property="og:url" content="${canonicalUrl}" />
+            <meta property="og:url" content="${redirectUrl}" />
             <meta property="og:type" content="article" />
             <meta property="og:site_name" content="AWS User Group Playa Vicente" />
             
