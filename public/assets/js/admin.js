@@ -25,19 +25,37 @@ class AdminPanel {
 
     async checkAuth() {
         try {
-            // TODO: Implement proper auth check with Cognito
-            // For now, simulate admin user
+            // Check if user is logged in
+            const currentUser = getCurrentUser();
+            if (!currentUser) {
+                console.log('No user logged in, redirecting to auth');
+                window.location.href = '/auth.html?redirect=admin';
+                return;
+            }
+
+            // Check if user has admin role
+            const userGroups = await getUserGroups();
+            const isAdmin = userGroups.includes('Admin');
+            
+            if (!isAdmin) {
+                console.log('User is not admin, access denied');
+                window.location.href = '/admin-denied.html';
+                return;
+            }
+
+            // User is authenticated admin
             this.currentUser = {
-                name: 'Roberto Flores',
+                name: currentUser.name || currentUser.email,
                 role: 'Admin',
-                email: 'admin@tiburoncp.com'
+                email: currentUser.email
             };
             
             document.getElementById('adminUserName').textContent = this.currentUser.name;
+            
         } catch (error) {
             console.error('Auth check failed:', error);
-            // Redirect to login
-            window.location.href = '/auth.html';
+            alert('❌ Error de autenticación. Redirigiendo al login...');
+            window.location.href = '/auth.html?redirect=admin';
         }
     }
 

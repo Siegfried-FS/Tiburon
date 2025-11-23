@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Denegado | AWS User Group Playa Vicente</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        .denied-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .denied-icon {
+            font-size: 120px;
+            margin-bottom: 20px;
+            animation: shake 0.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes shake {
+            0% { transform: translateX(-5px); }
+            100% { transform: translateX(5px); }
+        }
+        
+        .denied-title {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+        }
+        
+        .denied-message {
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        
+        .denied-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="denied-container">
+        <div class="denied-icon">🚫</div>
+        <h1 class="denied-title">Acceso Denegado</h1>
+        <p class="denied-message">
+            Lo sentimos, pero no tienes permisos de administrador para acceder a este panel. 
+            Solo los administradores autorizados pueden gestionar el contenido y usuarios de la comunidad.
+        </p>
+        <div class="denied-actions">
+            <a href="/" class="btn btn-primary">🏠 Ir al Inicio</a>
+            <a href="/feed.html" class="btn btn-secondary">📢 Ver Feed</a>
+            <button onclick="history.back()" class="btn btn-secondary">⬅️ Volver</button>
+        </div>
+    </div>
+    
+    <script>
+        // Auto redirect after 10 seconds
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 10000);
+    </script>
+</body>
+</html>

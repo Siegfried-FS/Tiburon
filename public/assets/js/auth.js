@@ -376,3 +376,30 @@ class AuthManager {
 
 // Crear e inicializar el gestor de autenticación
 window.authManager = new AuthManager();
+
+// Show admin navigation if user is admin
+async function updateAdminNavigation() {
+    try {
+        const currentUser = getCurrentUser();
+        if (!currentUser) return;
+
+        const userGroups = await getUserGroups();
+        const isAdmin = userGroups.includes('Admin');
+        
+        // Show/hide admin link in navigation
+        const adminNavItems = document.querySelectorAll('#adminNavItem, .admin-nav-item');
+        adminNavItems.forEach(item => {
+            if (item) {
+                item.style.display = isAdmin ? 'block' : 'none';
+            }
+        });
+        
+    } catch (error) {
+        console.error('Error updating admin navigation:', error);
+    }
+}
+
+// Call this after page loads
+document.addEventListener('DOMContentLoaded', () => {
+    updateAdminNavigation();
+});
