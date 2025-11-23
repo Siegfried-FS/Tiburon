@@ -3027,23 +3027,22 @@ html {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.85);
 }
 
 .share-modal-content {
     background-color: var(--bg-color);
-    margin: 10% auto;
+    margin: 15% auto;
     padding: 0;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    width: 85%;
+    max-width: 350px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     animation: modalSlideIn 0.3s ease-out;
 }
 
 @keyframes modalSlideIn {
-    from { transform: translateY(-50px); opacity: 0; }
+    from { transform: translateY(-30px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
 
@@ -3051,25 +3050,25 @@ html {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 25px;
+    padding: 15px 20px;
     border-bottom: 1px solid var(--border-color);
 }
 
 .share-modal-header h3 {
     margin: 0;
     color: var(--text-color);
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .close-modal {
     background: none;
     border: none;
-    font-size: 28px;
+    font-size: 24px;
     cursor: pointer;
     color: var(--text-color);
     padding: 0;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3082,21 +3081,21 @@ html {
 }
 
 .share-modal-body {
-    padding: 25px;
+    padding: 15px;
 }
 
 .share-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
 }
 
 .share-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 15px;
-    border-radius: 12px;
+    padding: 12px 8px;
+    border-radius: 10px;
     text-decoration: none;
     color: var(--text-color);
     background: var(--bg-color);
@@ -3106,8 +3105,8 @@ html {
 }
 
 .share-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .share-item.facebook:hover {
@@ -3153,31 +3152,49 @@ html {
 }
 
 .share-icon {
-    font-size: 32px;
-    margin-bottom: 8px;
+    font-size: 24px;
+    margin-bottom: 4px;
 }
 
 .share-item span {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
     .share-modal-content {
-        margin: 20% auto;
-        width: 95%;
+        margin: 25% auto;
+        width: 90%;
+        max-width: 320px;
+    }
+    
+    .share-modal-header {
+        padding: 12px 15px;
+    }
+    
+    .share-modal-header h3 {
+        font-size: 16px;
+    }
+    
+    .share-modal-body {
+        padding: 12px;
     }
     
     .share-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
+        gap: 6px;
     }
     
     .share-item {
-        padding: 15px 10px;
+        padding: 10px 6px;
     }
     
     .share-icon {
-        font-size: 28px;
+        font-size: 20px;
+        margin-bottom: 3px;
+    }
+    
+    .share-item span {
+        font-size: 11px;
     }
 }
