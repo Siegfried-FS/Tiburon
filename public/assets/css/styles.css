@@ -3006,41 +3006,30 @@ html {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 16px;
-    margin: 4px 0;
+    padding: 12px 16px;
+    margin: 6px 0;
     border: none;
     border-radius: 8px;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 14px;
     transition: all 0.3s ease;
     cursor: pointer;
-    background: var(--bg-color);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
+    background: #ffffff;
+    color: #333333;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .share-btn-social:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .share-btn-social.facebook:hover {
     background: #1877f2;
     color: white;
     border-color: #1877f2;
-}
-
-.share-btn-social.twitter:hover {
-    background: #1da1f2;
-    color: white;
-    border-color: #1da1f2;
-}
-
-.share-btn-social.linkedin:hover {
-    background: #0077b5;
-    color: white;
-    border-color: #0077b5;
 }
 
 .share-btn-social.whatsapp:hover {
@@ -3060,13 +3049,13 @@ html {
     position: absolute;
     top: 100%;
     right: 0;
-    background: var(--bg-color);
-    border: 1px solid var(--border-color);
+    background: #ffffff;
+    border: 2px solid #e0e0e0;
     border-radius: 12px;
-    padding: 8px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    padding: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    min-width: 180px;
+    min-width: 160px;
 }
 
 .share-options:hover .share-options-menu {
@@ -3077,13 +3066,14 @@ html {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    padding: 10px 16px;
+    padding: 12px 18px;
     border-radius: 8px;
-    font-weight: 500;
+    font-weight: 600;
     transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
 }
 
 .action-btn.share-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }

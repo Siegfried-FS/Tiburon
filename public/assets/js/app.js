@@ -789,10 +789,8 @@ async function loadFeed() {
                             <button class="action-btn share-btn">📤 Compartir</button>
                             <div class="share-options-menu">
                                 <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}" target="_blank" class="share-btn-social facebook">📘 Facebook</a>
-                                <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title)}" target="_blank" class="share-btn-social twitter">🐦 Twitter</a>
-                                <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}" target="_blank" class="share-btn-social linkedin">💼 LinkedIn</a>
                                 <a href="https://wa.me/?text=${encodeURIComponent(post.title + ' ' + shareUrl)}" target="_blank" class="share-btn-social whatsapp">💬 WhatsApp</a>
-                                <button onclick="navigator.clipboard.writeText('${shareUrl}'); this.textContent='✅ Copiado!'; setTimeout(() => this.textContent='🔗 Copiar enlace', 2000)" class="share-btn-social copy">🔗 Copiar enlace</button>
+                                <button onclick="navigator.clipboard.writeText('${shareUrl}'); this.textContent='✅ Copiado!'; setTimeout(() => this.textContent='🔗 Copiar', 2000)" class="share-btn-social copy">🔗 Copiar</button>
                             </div>
                         </div>
                     </div>

@@ -21,6 +21,13 @@ exports.handler = async (event) => {
 
     // Get postId from the query string
     const postId = event.queryStringParameters?.postId;
+    
+    // Check if it's a bot (Facebook, LinkedIn, Twitter, etc.)
+    const userAgent = event.headers?.['user-agent'] || event.headers?.['User-Agent'] || '';
+    const isBot = /bot|crawler|spider|crawling|facebook|twitter|linkedin|whatsapp/i.test(userAgent);
+    
+    console.log('User Agent:', userAgent);
+    console.log('Is Bot:', isBot);
 
     if (!postId) {
         console.log('No postId provided, returning fallback HTML.');
@@ -42,7 +49,22 @@ exports.handler = async (event) => {
 
         if (post) {
             console.log(`Post found for id: ${postId}`);
-            return generateHtmlResponse(post);
+            
+            // If it's a bot, return HTML with meta tags
+            if (isBot) {
+                return generateHtmlResponse(post);
+            } else {
+                // If it's a real user, redirect immediately (no intermediate page)
+                const redirectUrl = `${SITE_URL}/feed.html#post-${post.id}`;
+                return {
+                    statusCode: 301,
+                    headers: {
+                        'Location': redirectUrl,
+                        'Cache-Control': 'no-cache'
+                    },
+                    body: ''
+                };
+            }
         } else {
             console.warn(`Post not found for id: ${postId}. Returning fallback.`);
             return generateHtmlResponse(null);
@@ -115,57 +137,10 @@ function generateHtmlResponse(post) {
             </script>
         </head>
         <body>
-            <style>
-                @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-                @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-                .container { animation: fadeIn 0.6s ease-out; }
-                .header { animation: pulse 2s infinite; }
-                .cta-button { transition: all 0.3s ease; }
-                .cta-button:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3); }
-            </style>
-            <div class="container" style="text-align: center; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; justify-content: center;">
-                <div class="header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 30px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                    <h1 style="margin: 0 0 15px 0; font-size: 28px; font-weight: 700;">${title}</h1>
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 20px;">
-                        <div style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: pulse 1.5s infinite;"></div>
-                        <p style="margin: 0; opacity: 0.9; font-size: 16px;">Redirigiendo al post...</p>
-                        <div style="width: 8px; height: 8px; background: white; border-radius: 50%; animation: pulse 1.5s infinite 0.5s;"></div>
-                    </div>
-                </div>
-                
-                <!-- Monetization Content -->
-                <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 30px; border-radius: 15px; margin-bottom: 25px; border-left: 5px solid #28a745; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    <h3 style="color: #28a745; margin-top: 0; font-size: 22px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                        🚀 ¿Quieres aprender AWS?
-                    </h3>
-                    <p style="margin: 15px 0; color: #495057; font-size: 16px;">Únete a nuestra comunidad y obtén acceso a:</p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
-                        <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <div style="font-size: 24px; margin-bottom: 8px;">📚</div>
-                            <div style="color: #495057; font-size: 14px;">Recursos gratuitos de AWS</div>
-                        </div>
-                        <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
-                            <div style="color: #495057; font-size: 14px;">Talleres prácticos</div>
-                        </div>
-                        <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <div style="font-size: 24px; margin-bottom: 8px;">💬</div>
-                            <div style="color: #495057; font-size: 14px;">Comunidad activa</div>
-                        </div>
-                        <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <div style="font-size: 24px; margin-bottom: 8px;">🏆</div>
-                            <div style="color: #495057; font-size: 14px;">Certificaciones</div>
-                        </div>
-                    </div>
-                    <a href="https://tiburoncp.siegfried-fs.com" class="cta-button" style="display: inline-block; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; font-weight: bold; margin-top: 20px; font-size: 16px; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);">¡Únete Gratis! 🎉</a>
-                </div>
-                
-                <div style="background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); padding: 20px; border-radius: 12px; border: 1px solid #ffeaa7; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
-                    <p style="margin: 0; color: #856404; font-size: 15px;">
-                        <strong>💡 Tip:</strong> Si no eres redirigido automáticamente, 
-                        <a href="${redirectUrl}" style="color: #0066cc; text-decoration: none; font-weight: bold; border-bottom: 2px solid #0066cc;">haz clic aquí</a>
-                    </p>
-                </div>
+            <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                <h1>${title}</h1>
+                <p>Cargando contenido...</p>
+                <p><a href="${redirectUrl}" style="color: #0066cc; text-decoration: none; font-weight: bold;">Ver post completo</a></p>
             </div>
         </body>
         </html>
