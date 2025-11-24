@@ -5,9 +5,25 @@ class Admin {
     constructor() {
         this.data = { posts: [], events: [], games: [], resources: [], users: [] };
         this.currentSection = 'dashboard';
+        this.verifyAccess();
+    }
+
+    verifyAccess() {
+        // Verificación adicional usando el AuthManager existente
+        if (window.authManager && !window.authManager.isAdministrator()) {
+            window.location.replace('/admin-denied.html');
+            return false;
+        }
+        
+        // Mostrar el body una vez verificado
+        document.body.style.display = 'block';
+        return true;
     }
 
     async init() {
+        // Verificación periódica cada 30 segundos
+        setInterval(() => this.verifyAccess(), 30000);
+        
         await this.loadData();
         this.setupNavigation();
         this.showSection('dashboard');
