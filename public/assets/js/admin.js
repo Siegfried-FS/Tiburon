@@ -346,7 +346,49 @@ class AdminPanel {
         const container = document.getElementById('postsList');
         if (!container) return;
 
-        container.innerHTML = content.map(item => `
+        // Agrupar contenido por tipo
+        const groupedContent = {
+            post: content.filter(item => item.type === 'post'),
+            event: content.filter(item => item.type === 'event'),
+            game: content.filter(item => item.type === 'game'),
+            resource: content.filter(item => item.type === 'resource'),
+            workshop: content.filter(item => item.type === 'workshop')
+        };
+
+        let html = '';
+
+        // Renderizar cada tipo por separado
+        Object.entries(groupedContent).forEach(([type, items]) => {
+            if (items.length > 0) {
+                const typeLabels = {
+                    post: '📝 Posts',
+                    event: '📅 Eventos',
+                    game: '🎮 Juegos',
+                    resource: '📚 Recursos',
+                    workshop: '🛠️ Talleres'
+                };
+
+                html += `<div class="content-section">`;
+                html += `<h3 class="content-section-title">${typeLabels[type]} (${items.length})</h3>`;
+                html += `<div class="content-grid">`;
+                
+                items.forEach(item => {
+                    html += this.renderContentCard(item);
+                });
+                
+                html += `</div></div>`;
+            }
+        });
+
+        if (html === '') {
+            html = '<p class="no-content">No hay contenido para mostrar.</p>';
+        }
+
+        container.innerHTML = html;
+    }
+
+    renderContentCard(item) {
+        return `
             <div class="post-card">
                 <div class="post-header">
                     <h3>${item.title}</h3>
@@ -355,13 +397,16 @@ class AdminPanel {
                 <div class="post-content">
                     <p>${(item.description || item.content || '').substring(0, 150)}...</p>
                     ${item.image ? `<img src="${item.image}" alt="${item.title}" class="content-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZjNmNGY2Ii8+CjxwYXRoIGQ9Ik0yMCAyNkM5IDI2IDkgMTQgMjAgMTRTMzEgMjYgMjAgMjZaIiBmaWxsPSIjOWNhM2FmIi8+CjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjMiIGZpbGw9IiM5Y2EzYWYiLz4KPC9zdmc+'; this.onerror=null;">` : ''}
+                    ${item.status ? `<span class="content-status status-${item.status}">${item.status}</span>` : ''}
+                    ${item.date ? `<p class="content-date">📅 ${new Date(item.date).toLocaleDateString('es-ES')}</p>` : ''}
+                    ${item.location ? `<p class="content-location">📍 ${item.location}</p>` : ''}
                 </div>
                 <div class="post-actions">
                     <button class="btn-edit" onclick="adminPanel.editContent('${item.type}', '${item.id}')">Editar</button>
                     <button class="btn-delete" onclick="adminPanel.deleteContent('${item.type}', '${item.id}')">Eliminar</button>
                 </div>
             </div>
-        `).join('');
+        `;
     }
 
     showContentModal(type, itemId = null) {
