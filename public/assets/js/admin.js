@@ -167,7 +167,7 @@ class AdminPanel {
 
     async loadGamesData() {
         try {
-            const response = await fetch('/assets/data/games.json');
+            const response = await fetch('/assets/data/logic-games.json');
             const data = await response.json();
             this.games = data.games || [];
         } catch (error) {
@@ -198,10 +198,7 @@ class AdminPanel {
         }
     }
 
-    renderAllContent() {
-        const contentList = document.getElementById('postsList');
-        if (!contentList) return;
-        
+    filterContent(filter) {
         const allContent = [
             ...this.posts.map(item => ({...item, type: 'post'})),
             ...this.games.map(item => ({...item, type: 'game'})),
@@ -209,12 +206,25 @@ class AdminPanel {
             ...this.workshops.map(item => ({...item, type: 'workshop'}))
         ];
 
-        if (allContent.length === 0) {
+        let filteredContent = allContent;
+        
+        if (filter !== 'all') {
+            filteredContent = allContent.filter(item => item.type === filter);
+        }
+
+        this.renderFilteredContent(filteredContent);
+    }
+
+    renderFilteredContent(content) {
+        const contentList = document.getElementById('postsList');
+        if (!contentList) return;
+
+        if (content.length === 0) {
             contentList.innerHTML = '<p>No hay contenido disponible</p>';
             return;
         }
 
-        contentList.innerHTML = allContent.map(item => `
+        contentList.innerHTML = content.map(item => `
             <div class="content-item" data-id="${item.id}" data-type="${item.type}">
                 <div class="content-header">
                     <h3>${item.title}</h3>
@@ -237,6 +247,17 @@ class AdminPanel {
                 </div>
             </div>
         `).join('');
+    }
+
+    renderAllContent() {
+        const allContent = [
+            ...this.posts.map(item => ({...item, type: 'post'})),
+            ...this.games.map(item => ({...item, type: 'game'})),
+            ...this.resources.map(item => ({...item, type: 'resource'})),
+            ...this.workshops.map(item => ({...item, type: 'workshop'}))
+        ];
+
+        this.renderFilteredContent(allContent);
     }
 
     showContentModal(type, item = null) {
