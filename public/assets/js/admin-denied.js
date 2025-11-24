@@ -15,7 +15,7 @@ console.log('%c📧 Contacto: roberto.flores@siegfried-fs.com', 'color: #a29bfe;
 console.log('%c📱 Comunidad: https://t.me/+NWYivRxl7fQ4MzNh', 'color: #a29bfe; font-size: 14px;');
 console.log('%cTu curiosidad + nuestra guía = Tu futuro en ciberseguridad', 'color: #00b894; font-size: 14px;');
 
-// Redirect silencioso después de 3 segundos
+// Redirect después de 15 segundos - tiempo suficiente para leer
 setTimeout(() => {
     window.location.href = '/';
-}, 3000);
+}, 15000);
