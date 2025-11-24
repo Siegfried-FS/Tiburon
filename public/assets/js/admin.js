@@ -67,9 +67,43 @@ class TiburonAdmin {
                 const data = await response.json();
                 this.data.posts = data.posts || data || [];
             } catch (e) {
-                this.data.posts = [];
+                // Si no hay posts, crear algunos de ejemplo
+                this.data.posts = [
+                    {
+                        id: 'post-1',
+                        title: '🚀 Bienvenidos al AWS User Group Playa Vicente',
+                        content: 'Estamos emocionados de lanzar nuestra comunidad de tecnología en la nube. Únete a nosotros para aprender, compartir y crecer juntos en el mundo de AWS.',
+                        date: new Date().toISOString(),
+                        author: {
+                            name: 'Roberto Flores',
+                            avatar: '/assets/images/avatar-default.png'
+                        },
+                        imageUrl: '/assets/images/aws-community.jpg'
+                    },
+                    {
+                        id: 'post-2',
+                        title: '📚 Recursos de Aprendizaje AWS',
+                        content: 'Hemos compilado una lista de recursos esenciales para comenzar tu viaje en AWS. Desde certificaciones hasta laboratorios prácticos.',
+                        date: new Date(Date.now() - 86400000).toISOString(), // Ayer
+                        author: {
+                            name: 'Roberto Flores',
+                            avatar: '/assets/images/avatar-default.png'
+                        }
+                    }
+                ];
             }
         }
+        
+        // Asegurar que todos los posts tengan los campos necesarios
+        this.data.posts = this.data.posts.map(post => ({
+            ...post,
+            id: post.id || `post-${Date.now()}-${Math.random()}`,
+            author: post.author || {
+                name: 'AWS User Group',
+                avatar: '/assets/images/avatar-default.png'
+            },
+            date: post.date || new Date().toISOString()
+        }));
     }
 
     async loadEvents() {
@@ -626,26 +660,63 @@ class TiburonAdmin {
         if (type === 'event') {
             const eventIndex = this.data.events.findIndex(e => e.id === id || e.title === id);
             if (eventIndex >= 0) {
-                // Actualizar evento existente
                 this.data.events[eventIndex] = {
                     ...this.data.events[eventIndex],
                     ...formData,
                     id: id || this.data.events[eventIndex].id
                 };
             } else {
-                // Crear nuevo evento
                 this.data.events.push({
                     ...formData,
                     id: id || `event-${Date.now()}`
                 });
             }
-            
-            // Guardar en S3
             this.saveEventsToS3();
+        } else if (type === 'post') {
+            const postIndex = this.data.posts.findIndex(p => p.id === id || p.title === id);
+            const postData = {
+                ...formData,
+                id: id || `post-${Date.now()}`,
+                date: new Date().toISOString(),
+                author: {
+                    name: this.currentUser.name,
+                    avatar: '/assets/images/avatar-default.png'
+                }
+            };
+            
+            if (postIndex >= 0) {
+                this.data.posts[postIndex] = { ...this.data.posts[postIndex], ...postData };
+            } else {
+                this.data.posts.unshift(postData); // Agregar al inicio
+            }
+            this.savePostsToS3();
         }
         
         this.showToast('Contenido guardado exitosamente', 'success');
         this.showSection('content');
+    }
+
+    async savePostsToS3() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/save-content`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fileName: 'feed.json',
+                    content: { posts: this.data.posts }
+                })
+            });
+            
+            if (response.ok) {
+                console.log('✅ Posts guardados en S3');
+            } else {
+                console.error('❌ Error guardando posts en S3:', await response.text());
+            }
+        } catch (error) {
+            console.error('❌ Error de red guardando posts:', error);
+        }
     }
 
     async saveEventsToS3() {
