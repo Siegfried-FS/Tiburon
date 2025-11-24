@@ -1,51 +1,26 @@
 // =============================================================================
-// ADMIN PANEL - CORE FUNCTIONALITY
+// ADMIN PANEL - CORE FUNCTIONALITY WITH REAL BACKEND
 // =============================================================================
+
+const API_BASE_URL = 'https://fklo6233x5.execute-api.us-east-1.amazonaws.com';
 
 class AdminPanel {
     constructor() {
         this.currentUser = null;
         this.currentSection = 'dashboard';
-        this.switching = false;
+        this.posts = [];
         this.init();
     }
 
     async init() {
-        // Check authentication
         await this.checkAuth();
-        
-        // Initialize UI
-        this.initializeUI();
-        
-        // Load initial data
-        await this.loadDashboardData();
-        
-        // Setup periodic token verification (every 5 minutes)
-        this.setupTokenVerification();
-        
-        // Hide loading screen
-        this.hideLoadingScreen();
-    }
-
-    setupTokenVerification() {
-        // Verificar token cada 5 minutos
-        setInterval(async () => {
-            try {
-                const session = await Auth.currentSession();
-                if (!session.isValid()) {
-                    console.log('Sesión expirada, redirigiendo a login');
-                    window.location.href = '/auth.html?redirect=admin&reason=expired';
-                }
-            } catch (error) {
-                console.log('Error verificando sesión, redirigiendo a login');
-                window.location.href = '/auth.html?redirect=admin&reason=error';
-            }
-        }, 5 * 60 * 1000); // 5 minutos
+        this.setupNavigation();
+        this.setupEventListeners();
+        await this.loadDashboard();
     }
 
     async checkAuth() {
         try {
-            // Verificar si hay tokens en sessionStorage
             const accessToken = sessionStorage.getItem('accessToken');
             const idToken = sessionStorage.getItem('idToken');
             
@@ -55,18 +30,15 @@ class AdminPanel {
                 return;
             }
 
-            // Decodificar el token para obtener información del usuario
             const tokenPayload = JSON.parse(atob(idToken.split('.')[1]));
             const groups = tokenPayload['cognito:groups'] || [];
             
-            // Verificar que el usuario tenga grupo Admins
             if (!groups.includes('Admins')) {
                 console.log('Usuario sin permisos de admin');
                 window.location.href = '/admin-denied.html';
                 return;
             }
 
-            // Usuario es admin válido
             this.currentUser = {
                 name: tokenPayload.name || tokenPayload.email,
                 role: 'Admin',
@@ -78,112 +50,62 @@ class AdminPanel {
             
         } catch (error) {
             console.error('Error de autenticación:', error);
-            // Limpiar tokens inválidos
-            sessionStorage.removeItem('accessToken');
-            sessionStorage.removeItem('idToken');
-            sessionStorage.removeItem('refreshToken');
+            sessionStorage.clear();
             window.location.href = '/auth.html?redirect=admin&reason=error';
         }
     }
 
-    async verifyTokenWithServer(token) {
-        try {
-            const response = await fetch('https://vu7i71hm28.execute-api.us-east-1.amazonaws.com/verify-admin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({ action: 'verify' })
-            });
-            
-            return response.ok;
-        } catch (error) {
-            console.error('Error verificando token con servidor:', error);
-            return false;
-        }
-    }
-
-    initializeUI() {
-        // Navigation buttons
-        document.querySelectorAll('.nav-btn').forEach(btn => {
+    setupNavigation() {
+        const navButtons = document.querySelectorAll('.nav-btn');
+        navButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const section = e.target.dataset.section;
                 this.switchSection(section);
             });
         });
+    }
 
-        // Logout button
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            this.logout();
+    setupEventListeners() {
+        // Add Post Button
+        document.getElementById('addPostBtn')?.addEventListener('click', () => {
+            this.showPostModal();
         });
 
-        // Dashboard refresh
-        document.getElementById('refreshPostsBtn')?.addEventListener('click', () => {
-            this.loadPosts();
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                this.filterPosts(e.target.dataset.filter);
+            });
         });
 
-        document.getElementById('refreshUsersBtn')?.addEventListener('click', () => {
-            this.loadUsers();
+        // Search
+        document.getElementById('userSearch')?.addEventListener('input', (e) => {
+            this.searchUsers(e.target.value);
         });
 
         // Settings
-        document.getElementById('saveSettingsBtn')?.addEventListener('click', () => {
+        document.getElementById('saveSettings')?.addEventListener('click', () => {
             this.saveSettings();
         });
-
-        document.getElementById('clearCacheBtn')?.addEventListener('click', () => {
-            this.clearCache();
-        });
     }
 
-    switchSection(sectionName) {
-        // Evitar cambios muy rápidos
-        if (this.switching) return;
-        this.switching = true;
-
+    async switchSection(section) {
         // Update navigation
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        document.querySelector(`[data-section="${sectionName}"]`).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`[data-section="${section}"]`).classList.add('active');
 
-        // Fade out current section
-        const currentSection = document.querySelector('.admin-section.active');
-        if (currentSection) {
-            currentSection.style.opacity = '0';
-            currentSection.style.transform = 'translateY(-20px)';
-        }
+        // Update content
+        document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(section).classList.add('active');
 
-        // Wait for fade out, then switch
-        setTimeout(() => {
-            // Hide all sections
-            document.querySelectorAll('.admin-section').forEach(section => {
-                section.classList.remove('active');
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(20px)';
-            });
+        this.currentSection = section;
 
-            // Show new section
-            const newSection = document.getElementById(sectionName);
-            newSection.classList.add('active');
-            
-            // Trigger animation
-            setTimeout(() => {
-                newSection.style.opacity = '1';
-                newSection.style.transform = 'translateY(0)';
-                this.switching = false;
-            }, 50);
-
-            this.currentSection = sectionName;
-            this.loadSectionData(sectionName);
-        }, 200);
-    }
-
-    async loadSectionData(section) {
+        // Load section data
         switch(section) {
             case 'dashboard':
-                await this.loadDashboardData();
+                await this.loadDashboard();
                 break;
             case 'posts':
                 await this.loadPosts();
@@ -192,311 +114,440 @@ class AdminPanel {
                 await this.loadUsers();
                 break;
             case 'settings':
-                await this.loadSettings();
+                this.loadSettings();
                 break;
         }
     }
 
-    async loadDashboardData() {
+    async loadDashboard() {
         try {
-            // TODO: Replace with real API calls
-            // Simulate loading data
-            await this.delay(1000);
+            const response = await fetch(`${API_BASE_URL}/posts/stats`);
+            const stats = await response.json();
 
-            // Update stats
-            document.getElementById('totalUsers').textContent = '234';
-            document.getElementById('totalPosts').textContent = '45';
-            document.getElementById('pendingPosts').textContent = '3';
-            document.getElementById('totalLikes').textContent = '1,247';
+            document.getElementById('totalUsers').textContent = stats.totalUsers || '2';
+            document.getElementById('totalPosts').textContent = stats.totalPosts || '0';
+            document.getElementById('pendingPosts').textContent = stats.pendingPosts || '0';
+            document.getElementById('monthlyGrowth').textContent = stats.monthlyGrowth || '+0';
 
-            // Update recent activity
-            const activities = [
-                '👤 Nuevo usuario registrado: Juan Pérez',
-                '📝 Post aprobado: "Introducción a Lambda"',
-                '❤️ Post con 50+ likes: "AWS CloudFormation Tips"',
-                '🎯 Usuario promovido a Navegante: María García'
-            ];
-
-            const activityContainer = document.getElementById('recentActivity');
-            activityContainer.innerHTML = activities.map(activity => 
-                `<div class="activity-item">${activity}</div>`
-            ).join('');
-
+            // Load recent activity
+            await this.loadRecentActivity();
         } catch (error) {
             console.error('Error loading dashboard:', error);
-            this.showError('Error cargando dashboard');
         }
     }
 
-    async loadPosts() {
+    async loadRecentActivity() {
         try {
-            const container = document.getElementById('postsContainer');
-            container.innerHTML = '<div class="post-skeleton"></div>'.repeat(3);
-
-            // TODO: Load real posts from API
-            await this.delay(800);
-
-            const posts = [
-                { id: 1, title: 'Introducción a AWS Lambda', status: 'pending', author: 'Juan Pérez' },
-                { id: 2, title: 'Tips de CloudFormation', status: 'approved', author: 'María García' },
-                { id: 3, title: 'Guía de S3 Buckets', status: 'pending', author: 'Carlos López' }
-            ];
-
-            container.innerHTML = posts.map(post => `
-                <div class="post-item">
-                    <div class="post-info">
-                        <h4>${post.title}</h4>
-                        <p>Por: ${post.author}</p>
-                        <span class="status ${post.status}">${post.status === 'pending' ? 'Pendiente' : 'Aprobado'}</span>
+            const response = await fetch(`${API_BASE_URL}/posts?limit=5`);
+            const data = await response.json();
+            
+            const activityList = document.getElementById('recentActivity');
+            if (data.posts && data.posts.length > 0) {
+                activityList.innerHTML = data.posts.map(post => `
+                    <div class="activity-item">
+                        <span class="activity-icon">${post.status === 'published' ? '✅' : '⏳'}</span>
+                        <div class="activity-content">
+                            <strong>${post.title}</strong>
+                            <small>${new Date(post.createdAt).toLocaleDateString()}</small>
+                        </div>
                     </div>
-                    <div class="post-actions">
-                        ${post.status === 'pending' ? 
-                            `<button class="btn-primary" onclick="adminPanel.approvePost(${post.id})">✅ Aprobar</button>
-                             <button class="btn-warning" onclick="adminPanel.rejectPost(${post.id})">❌ Rechazar</button>` :
-                            `<button class="btn-secondary" onclick="adminPanel.editPost(${post.id})">✏️ Editar</button>`
-                        }
-                    </div>
-                </div>
-            `).join('');
+                `).join('');
+            } else {
+                activityList.innerHTML = '<p>No hay actividad reciente</p>';
+            }
+        } catch (error) {
+            console.error('Error loading recent activity:', error);
+            document.getElementById('recentActivity').innerHTML = '<p>Error cargando actividad</p>';
+        }
+    }
 
+    async loadPosts(filter = 'all') {
+        try {
+            const url = filter === 'all' ? `${API_BASE_URL}/posts` : `${API_BASE_URL}/posts?status=${filter}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            this.posts = data.posts || [];
+            this.renderPosts(this.posts);
         } catch (error) {
             console.error('Error loading posts:', error);
+            document.getElementById('postsList').innerHTML = '<p>Error cargando posts</p>';
         }
     }
 
-    async loadUsers() {
-        try {
-            const container = document.getElementById('usersContainer');
-            container.innerHTML = '<div class="user-skeleton"></div>'.repeat(5);
+    renderPosts(posts) {
+        const postsList = document.getElementById('postsList');
+        
+        if (posts.length === 0) {
+            postsList.innerHTML = '<p>No hay posts disponibles</p>';
+            return;
+        }
 
-            // TODO: Load real users from API
-            await this.delay(800);
-
-            const users = [
-                { id: 1, name: 'Juan Pérez', email: 'juan@email.com', role: 'Explorador', status: 'active' },
-                { id: 2, name: 'María García', email: 'maria@email.com', role: 'Navegante', status: 'active' },
-                { id: 3, name: 'Carlos López', email: 'carlos@email.com', role: 'Corsario', status: 'active' },
-                { id: 4, name: 'Ana Martínez', email: 'ana@email.com', role: 'Explorador', status: 'inactive' }
-            ];
-
-            container.innerHTML = users.map(user => `
-                <div class="user-item">
-                    <div class="user-info">
-                        <h4>${user.name}</h4>
-                        <p>${user.email}</p>
-                        <span class="role ${user.role.toLowerCase()}">${user.role}</span>
-                    </div>
-                    <div class="user-actions">
-                        <select onchange="adminPanel.changeUserRole(${user.id}, this.value)">
-                            <option value="Explorador" ${user.role === 'Explorador' ? 'selected' : ''}>Explorador</option>
-                            <option value="Navegante" ${user.role === 'Navegante' ? 'selected' : ''}>Navegante</option>
-                            <option value="Corsario" ${user.role === 'Corsario' ? 'selected' : ''}>Corsario</option>
-                            <option value="Capitán" ${user.role === 'Capitán' ? 'selected' : ''}>Capitán</option>
-                        </select>
-                        <button class="btn-warning" onclick="adminPanel.toggleUserStatus(${user.id})">
-                            ${user.status === 'active' ? '🚫 Suspender' : '✅ Activar'}
-                        </button>
+        postsList.innerHTML = posts.map(post => `
+            <div class="post-item" data-id="${post.id}">
+                <div class="post-header">
+                    <h3>${post.title}</h3>
+                    <span class="post-status status-${post.status}">${post.status}</span>
+                </div>
+                <div class="post-content">
+                    <p>${post.content.substring(0, 150)}...</p>
+                    <div class="post-meta">
+                        <span>Por: ${post.author}</span>
+                        <span>${new Date(post.createdAt).toLocaleDateString()}</span>
                     </div>
                 </div>
-            `).join('');
+                <div class="post-actions">
+                    <button class="btn-primary" onclick="adminPanel.editPost('${post.id}')">✏️ Editar</button>
+                    ${post.status === 'pending' ? 
+                        `<button class="btn-primary" onclick="adminPanel.approvePost('${post.id}')">✅ Aprobar</button>` : 
+                        ''
+                    }
+                    <button class="btn-warning" onclick="adminPanel.deletePost('${post.id}')">🗑️ Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
 
+    filterPosts(filter) {
+        this.loadPosts(filter);
+    }
+
+    showPostModal(post = null) {
+        const isEdit = post !== null;
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>${isEdit ? 'Editar Post' : 'Nuevo Post'}</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <form id="postForm">
+                    <div class="form-group">
+                        <label>Título:</label>
+                        <input type="text" id="postTitle" value="${post?.title || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contenido:</label>
+                        <textarea id="postContent" rows="6" required>${post?.content || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado:</label>
+                        <select id="postStatus">
+                            <option value="pending" ${post?.status === 'pending' ? 'selected' : ''}>Pendiente</option>
+                            <option value="published" ${post?.status === 'published' ? 'selected' : ''}>Publicado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría:</label>
+                        <select id="postCategory">
+                            <option value="general" ${post?.category === 'general' ? 'selected' : ''}>General</option>
+                            <option value="aws" ${post?.category === 'aws' ? 'selected' : ''}>AWS</option>
+                            <option value="security" ${post?.category === 'security' ? 'selected' : ''}>Seguridad</option>
+                            <option value="development" ${post?.category === 'development' ? 'selected' : ''}>Desarrollo</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
+                        <button type="submit" class="btn-primary">${isEdit ? 'Actualizar' : 'Crear'}</button>
+                    </div>
+                </form>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Event listeners
+        modal.querySelector('.modal-close').onclick = () => modal.remove();
+        modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+
+        modal.querySelector('#postForm').onsubmit = async (e) => {
+            e.preventDefault();
+            await this.savePost(post?.id, modal);
+        };
+    }
+
+    async savePost(postId, modal) {
+        const formData = {
+            title: document.getElementById('postTitle').value,
+            content: document.getElementById('postContent').value,
+            status: document.getElementById('postStatus').value,
+            category: document.getElementById('postCategory').value,
+            author: this.currentUser.name
+        };
+
+        try {
+            const url = postId ? `${API_BASE_URL}/posts/${postId}` : `${API_BASE_URL}/posts`;
+            const method = postId ? 'PUT' : 'POST';
+
+            const response = await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                modal.remove();
+                await this.loadPosts();
+                await this.loadDashboard();
+                this.showToast(postId ? 'Post actualizado' : 'Post creado', 'success');
+            } else {
+                throw new Error('Error al guardar post');
+            }
         } catch (error) {
-            console.error('Error loading users:', error);
+            console.error('Error saving post:', error);
+            this.showToast('Error al guardar post', 'error');
         }
     }
 
-    async loadSettings() {
-        // TODO: Load settings from API
-        document.getElementById('defaultTheme').value = 'light';
-        document.getElementById('welcomeMessage').value = '¡Bienvenido a la comunidad AWS User Group Playa Vicente!';
+    async editPost(postId) {
+        const post = this.posts.find(p => p.id === postId);
+        if (post) {
+            this.showPostModal(post);
+        }
     }
 
-    // Action methods with token verification
     async approvePost(postId) {
-        if (!await this.verifyCurrentToken()) return;
-        
         try {
-            // TODO: API call to approve post
-            console.log('Aprobando post:', postId);
-            this.showSuccess('Post aprobado exitosamente');
-            this.loadPosts();
-        } catch (error) {
-            this.showError('Error aprobando post');
-        }
-    }
+            const response = await fetch(`${API_BASE_URL}/posts/${postId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'published' })
+            });
 
-    async rejectPost(postId) {
-        if (!await this.verifyCurrentToken()) return;
-        
-        try {
-            // TODO: API call to reject post
-            console.log('Rechazando post:', postId);
-            this.showSuccess('Post rechazado');
-            this.loadPosts();
-        } catch (error) {
-            this.showError('Error rechazando post');
-        }
-    }
-
-    async changeUserRole(userId, newRole) {
-        if (!await this.verifyCurrentToken()) return;
-        
-        try {
-            // TODO: API call to change user role
-            console.log('Cambiando rol de usuario:', userId, newRole);
-            this.showSuccess(`Rol actualizado a ${newRole}`);
-        } catch (error) {
-            this.showError('Error actualizando rol');
-        }
-    }
-
-    async verifyCurrentToken() {
-        try {
-            const accessToken = sessionStorage.getItem('accessToken');
-            if (!accessToken) {
-                throw new Error('No hay token');
+            if (response.ok) {
+                await this.loadPosts();
+                await this.loadDashboard();
+                this.showToast('Post aprobado', 'success');
             }
-            
-            // Verificar que el token no haya expirado
-            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
-            const now = Math.floor(Date.now() / 1000);
-            
-            if (tokenPayload.exp < now) {
-                throw new Error('Token expirado');
-            }
-            
-            return true;
         } catch (error) {
-            console.error('Token verification failed:', error);
-            alert('❌ Sesión expirada. Redirigiendo al login...');
-            sessionStorage.clear();
-            window.location.href = '/auth.html?redirect=admin&reason=expired';
-            return false;
+            console.error('Error approving post:', error);
+            this.showToast('Error al aprobar post', 'error');
         }
     }
 
-    async saveSettings() {
+    async deletePost(postId) {
+        if (!confirm('¿Estás seguro de eliminar este post?')) return;
+
         try {
-            const settings = {
-                defaultTheme: document.getElementById('defaultTheme').value,
-                welcomeMessage: document.getElementById('welcomeMessage').value
-            };
-            
-            // TODO: API call to save settings
-            console.log('Saving settings:', settings);
-            this.showSuccess('Configuración guardada');
-        } catch (error) {
-            this.showError('Error guardando configuración');
-        }
-    }
+            const response = await fetch(`${API_BASE_URL}/posts/${postId}`, {
+                method: 'DELETE'
+            });
 
-    clearCache() {
-        if (confirm('¿Estás seguro de limpiar el cache?')) {
-            // Clear service worker cache
-            if ('caches' in window) {
-                caches.keys().then(names => {
-                    names.forEach(name => caches.delete(name));
-                });
+            if (response.ok) {
+                await this.loadPosts();
+                await this.loadDashboard();
+                this.showToast('Post eliminado', 'success');
             }
-            this.showSuccess('Cache limpiado');
+        } catch (error) {
+            console.error('Error deleting post:', error);
+            this.showToast('Error al eliminar post', 'error');
         }
     }
 
-    logout() {
-        if (confirm('¿Estás seguro de cerrar sesión?')) {
-            // TODO: Implement proper logout
-            window.location.href = '/';
-        }
+    loadUsers() {
+        // Placeholder - implementar cuando tengamos tabla de usuarios
+        document.getElementById('usersList').innerHTML = `
+            <div class="user-item">
+                <div class="user-info">
+                    <strong>Roberto Flores</strong>
+                    <span>roberto.ciberseguridad@gmail.com</span>
+                    <span class="user-role">Admin</span>
+                </div>
+                <div class="user-actions">
+                    <span class="status-active">Activo</span>
+                </div>
+            </div>
+        `;
     }
 
-    // Utility methods
-    hideLoadingScreen() {
-        document.getElementById('loadingScreen').style.display = 'none';
-        document.getElementById('adminPanel').style.display = 'block';
+    loadSettings() {
+        // Cargar configuraciones actuales
+        document.getElementById('defaultTheme').value = localStorage.getItem('theme') || 'light';
+        document.getElementById('emailNotifications').checked = true;
+        document.getElementById('requireApproval').checked = true;
     }
 
-    delay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
+    saveSettings() {
+        const theme = document.getElementById('defaultTheme').value;
+        localStorage.setItem('theme', theme);
+        this.showToast('Configuración guardada', 'success');
     }
 
-    showSuccess(message) {
-        // TODO: Implement toast notifications
-        alert('✅ ' + message);
-    }
-
-    showError(message) {
-        // TODO: Implement toast notifications
-        alert('❌ ' + message);
+    showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+        
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
     }
 }
 
-// Initialize admin panel when DOM is loaded
+// Initialize admin panel
 document.addEventListener('DOMContentLoaded', () => {
     window.adminPanel = new AdminPanel();
 });
 
-// Add CSS for post and user items
+// Add CSS for modal and toast
 const adminStyles = document.createElement('style');
 adminStyles.textContent = `
-    .post-item, .user-item {
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+    
+    .modal-content {
+        background: var(--bg-card);
+        border-radius: 12px;
+        padding: 2rem;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .modal-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px;
-        background: var(--bg-color);
+        margin-bottom: 1.5rem;
+    }
+    
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-color);
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+        font-weight: 500;
+    }
+    
+    .form-group input, .form-group textarea, .form-group select {
+        width: 100%;
+        padding: 0.75rem;
         border: 1px solid var(--border-color);
         border-radius: 8px;
-        margin-bottom: 10px;
-    }
-    
-    .post-info h4, .user-info h4 {
-        margin: 0 0 5px 0;
+        background: var(--bg-color);
         color: var(--text-color);
+        font-family: inherit;
     }
     
-    .post-info p, .user-info p {
-        margin: 0;
-        color: var(--text-color);
-        opacity: 0.7;
-        font-size: 14px;
+    .modal-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
     }
     
-    .status, .role {
-        display: inline-block;
-        padding: 2px 8px;
+    .post-status {
+        padding: 0.25rem 0.75rem;
         border-radius: 12px;
-        font-size: 12px;
+        font-size: 0.8rem;
         font-weight: 500;
-        margin-top: 5px;
     }
     
-    .status.pending {
-        background: #fff3cd;
-        color: #856404;
-    }
-    
-    .status.approved {
+    .status-published {
         background: #d4edda;
         color: #155724;
     }
     
-    .post-actions, .user-actions {
-        display: flex;
-        gap: 10px;
-        align-items: center;
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
     }
     
-    @media (max-width: 768px) {
-        .post-item, .user-item {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        
-        .post-actions, .user-actions {
-            width: 100%;
-            justify-content: flex-end;
-        }
+    .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .post-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .activity-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+    
+    .activity-icon {
+        font-size: 1.2rem;
+    }
+    
+    .activity-content strong {
+        display: block;
+        color: var(--text-color);
+    }
+    
+    .activity-content small {
+        color: var(--text-color);
+        opacity: 0.7;
+    }
+    
+    .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        color: white;
+        font-weight: 500;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        z-index: 1001;
+    }
+    
+    .toast.show {
+        transform: translateX(0);
+    }
+    
+    .toast-success {
+        background: #28a745;
+    }
+    
+    .toast-error {
+        background: #dc3545;
+    }
+    
+    .toast-info {
+        background: #17a2b8;
     }
 `;
 document.head.appendChild(adminStyles);
