@@ -1,11 +1,8 @@
 // DEFENSA DE TIERRA QUEMADA Y DEPURACIÓN
 (function() {
     'use strict';
-    // Pausa la ejecución si las herramientas de desarrollador están abiertas
-    debugger;
-    
     try {
-        const token = localStorage.getItem('cognitoAccessToken');
+        const token = sessionStorage.getItem('accessToken'); // CORREGIDO: sessionStorage y 'accessToken'
         const userGroups = localStorage.getItem('userGroups');
 
         console.log('--- Verificación de Acceso Admin ---');
