@@ -97,10 +97,27 @@
                 <!-- Users Section -->
                 <div id="users" class="admin-section">
                     <div class="section-header">
-                        <h2>Gestión de Usuarios</h2>
-                        <div class="search-box">
-                            <input type="text" id="userSearch" placeholder="Buscar usuarios...">
+                        <h2>👥 Gestión de Usuarios</h2>
+                        <div class="users-stats">
+                            <div class="stat-card">
+                                <h3 id="totalUsers">0</h3>
+                                <p>Total Usuarios</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="activeUsers">0</h3>
+                                <p>Activos</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 id="inactiveUsers">0</h3>
+                                <p>Inactivos</p>
+                            </div>
                         </div>
+                    </div>
+                    <div class="users-filters">
+                        <button class="filter-btn active" data-filter="all">Todos</button>
+                        <button class="filter-btn" data-filter="active">Activos</button>
+                        <button class="filter-btn" data-filter="inactive">Inactivos</button>
+                        <button class="filter-btn" data-filter="admin">Admins</button>
                     </div>
                     <div id="usersList" class="users-list">
                         <!-- Se carga dinámicamente -->

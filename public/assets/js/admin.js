@@ -115,7 +115,9 @@ class AdminPanel {
             case 'dashboard':
                 await this.loadDashboard();
                 break;
-            case 'posts':
+            case 'users':
+                await this.loadUsersData();
+                break;
                 await this.loadAllContent();
                 break;
             case 'games':
@@ -683,7 +685,87 @@ class AdminPanel {
         }
     }
 
-    showToast(message, type = 'info') {
+    async loadUsersData() {
+        // Datos simulados de usuarios para demostración
+        const mockUsers = [
+            { id: 1, name: 'Roberto Flores', email: 'roberto.flores@siegfried-fs.com', status: 'active', role: 'admin', lastLogin: '2025-11-24' },
+            { id: 2, name: 'Ana García', email: 'ana.garcia@example.com', status: 'active', role: 'user', lastLogin: '2025-11-23' },
+            { id: 3, name: 'Carlos López', email: 'carlos.lopez@example.com', status: 'inactive', role: 'user', lastLogin: '2025-11-20' },
+            { id: 4, name: 'María Rodríguez', email: 'maria.rodriguez@example.com', status: 'active', role: 'user', lastLogin: '2025-11-24' },
+            { id: 5, name: 'Juan Pérez', email: 'juan.perez@example.com', status: 'inactive', role: 'user', lastLogin: '2025-11-15' }
+        ];
+        
+        this.users = mockUsers;
+        this.renderUsersStats();
+        this.renderUsersList();
+        this.setupUsersFilters();
+    }
+
+    renderUsersStats() {
+        const total = this.users.length;
+        const active = this.users.filter(u => u.status === 'active').length;
+        const inactive = this.users.filter(u => u.status === 'inactive').length;
+        
+        document.getElementById('totalUsers').textContent = total;
+        document.getElementById('activeUsers').textContent = active;
+        document.getElementById('inactiveUsers').textContent = inactive;
+    }
+
+    renderUsersList(filter = 'all') {
+        let filteredUsers = this.users;
+        
+        if (filter !== 'all') {
+            if (filter === 'admin') {
+                filteredUsers = this.users.filter(u => u.role === 'admin');
+            } else {
+                filteredUsers = this.users.filter(u => u.status === filter);
+            }
+        }
+        
+        const usersList = document.getElementById('usersList');
+        usersList.innerHTML = filteredUsers.map(user => `
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="user-avatar">${user.name.charAt(0)}</div>
+                    <div class="user-details">
+                        <h4>${user.name}</h4>
+                        <p>${user.email}</p>
+                        <small>Último acceso: ${user.lastLogin}</small>
+                    </div>
+                </div>
+                <div class="user-status">
+                    <span class="status-badge ${user.status}">${user.status === 'active' ? '🟢 Activo' : '🔴 Inactivo'}</span>
+                    <span class="role-badge ${user.role}">${user.role === 'admin' ? '👑 Admin' : '👤 Usuario'}</span>
+                </div>
+                <div class="user-actions">
+                    <button class="btn-small" onclick="adminPanel.toggleUserStatus(${user.id})">
+                        ${user.status === 'active' ? 'Desactivar' : 'Activar'}
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    setupUsersFilters() {
+        const filterButtons = document.querySelectorAll('.users-filters .filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.renderUsersList(btn.dataset.filter);
+            });
+        });
+    }
+
+    toggleUserStatus(userId) {
+        const user = this.users.find(u => u.id === userId);
+        if (user) {
+            user.status = user.status === 'active' ? 'inactive' : 'active';
+            this.renderUsersStats();
+            this.renderUsersList();
+            this.showToast(`Usuario ${user.status === 'active' ? 'activado' : 'desactivado'}`, 'success');
+        }
+    }
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
         toast.textContent = message;
