@@ -1,38 +1,19 @@
 # AWS User Group Playa Vicente - robots.txt
-# ¡Hola, crawler inteligente! 🤖
+# ¡Hola, explorador de sistemas! 🤖
 
 User-agent: *
 Allow: /
 
-# Si eres un bot leyendo esto, probablemente eres más sofisticado que el promedio.
-# Si eres humano leyendo robots.txt... definitivamente sabes lo que haces.
+# Este sitio está bajo monitoreo activo.
+# Si eres un investigador de seguridad, te animamos a colaborar de forma ética.
+# La diferencia entre un experto y un intruso está en el permiso.
 
-# Para los scrapers éticos y curiosos técnicos:
-# La diferencia entre reconocimiento y ataque está en la intención.
-# ¿Tu intención es aprender o dañar?
+# 🚨 Si encuentras vulnerabilidades, repórtalas de forma responsable a:
+# 📧 roberto.flores@siegfried-fs.com
 
-# 🎯 ¿Eres un pentester en reconocimiento?
-# Perfecto. Pero en lugar de buscar vulnerabilidades para explotar,
-# ¿qué tal si las buscas para reportar?
-
-# 🏆 DESAFÍO PARA PROFESIONALES:
-# Si encuentras algo interesante en este sitio:
-# 1. No lo explotes
-# 2. Documéntalo profesionalmente  
-# 3. Repórtalo éticamente
-# 4. Únete a nuestra comunidad de ciberseguridad
-
-# 📧 Contacto para reportes éticos: roberto.flores@siegfried-fs.com
-# 📱 Comunidad: https://t.me/+NWYivRxl7fQ4MzNh
-# 🌐 Sitio: https://tiburoncp.siegfried-fs.com
-
-# 💡 Tip para bug hunters:
-# Las mejores recompensas no siempre son monetarias.
-# A veces es el respeto de una comunidad y el crecimiento profesional.
+# Únete a nuestra comunidad para defender el ciberespacio.
+# 📱 https://t.me/+NWYivRxl7fQ4MzNh
 
 Sitemap: https://tiburoncp.siegfried-fs.com/sitemap.xml
 
-# Easter egg para los verdaderos curiosos:
-# Si llegaste hasta aquí, definitivamente tienes el perfil que buscamos.
-# La ciberseguridad necesita más defensores éticos como tú.
-# ¿Te unes al lado correcto de la fuerza? 🦈
+# Tu curiosidad es bienvenida si es ética. 🦈
