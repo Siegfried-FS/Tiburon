@@ -228,12 +228,15 @@ class AuthManager {
             // Mostrar insignia de admin si corresponde
             const adminBadge = document.getElementById('admin-badge');
             const userRoleBadge = document.getElementById('user-role');
+            const adminPanelBtn = document.getElementById('adminPanelBtn');
 
             if (this.isAdministrator()) {
                 if(adminBadge) adminBadge.style.display = 'inline-block';
                 if(userRoleBadge) userRoleBadge.style.display = 'none';
+                if(adminPanelBtn) adminPanelBtn.style.display = 'block';
             } else {
                 if(adminBadge) adminBadge.style.display = 'none';
+                if(adminPanelBtn) adminPanelBtn.style.display = 'none';
                 const userRole = this.getUserRole();
                 if (userRole && userRoleBadge) {
                     userRoleBadge.textContent = userRole;

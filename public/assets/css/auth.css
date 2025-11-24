@@ -243,3 +243,17 @@
     /* Mantenerlos si se utilizan en otros lugares, pero en el header ahora usamos btn-secondary/primary/etc */
     /* Elimino estilos duplicados o en desuso para el header */
 }
+
+/* Estilos para botón de admin */
+.btn-dropdown.admin-only {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white !important;
+    font-weight: 500;
+    border: none;
+}
+
+.btn-dropdown.admin-only:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
