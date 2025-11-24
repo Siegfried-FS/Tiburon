@@ -72,6 +72,7 @@ class AuthManager {
                             groups: idTokenPayload['cognito:groups'] || []
                         };
                         
+                        localStorage.setItem('userGroups', JSON.stringify(this.currentUser.groups));
                         this.updateUI(true);
                         this.setupEventListeners();
                         return;
@@ -109,6 +110,7 @@ class AuthManager {
             
             // Obtener información del usuario
             await this.getUserInfo(tokens.access_token);
+            localStorage.setItem('userGroups', JSON.stringify(this.currentUser.groups));
             
         } catch (error) {
             console.error('Error handling auth callback:', error);
@@ -231,10 +233,11 @@ class AuthManager {
     }
 
     signOut() {
-        // Limpiar sessionStorage
+        // Limpiar sessionStorage y localStorage
         sessionStorage.removeItem('accessToken');
         sessionStorage.removeItem('idToken');
         sessionStorage.removeItem('refreshToken');
+        localStorage.removeItem('userGroups');
         
         this.currentUser = null;
         this.updateUI(false);

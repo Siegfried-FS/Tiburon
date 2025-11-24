@@ -1,6 +1,9 @@
 // DEFENSA DE TIERRA QUEMADA Y DEPURACIÓN
 (function() {
     'use strict';
+    // Pausa la ejecución si las herramientas de desarrollador están abiertas
+    debugger;
+    
     try {
         const token = localStorage.getItem('cognitoAccessToken');
         const userGroups = localStorage.getItem('userGroups');
