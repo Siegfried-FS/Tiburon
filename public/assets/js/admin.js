@@ -373,16 +373,98 @@ class AdminPanel {
         }
 
         try {
-            // Aquí normalmente guardarías en el backend
-            // Por ahora solo actualizamos localmente
-            console.log('Guardando contenido:', formData);
+            // Actualizar localmente
+            this.updateLocalContent(type, formData);
             
             modal.remove();
-            await this.loadAllContent();
-            this.showToast(`${type} ${itemId ? 'actualizado' : 'creado'}`, 'success');
+            this.renderAllContent(); // Re-renderizar con datos actualizados
+            
+            // Mostrar mensaje informativo
+            this.showToast(`✅ ${type} ${itemId ? 'actualizado' : 'creado'} localmente`, 'success');
+            
+            // Mostrar información sobre persistencia
+            setTimeout(() => {
+                this.showToast('💡 Los cambios son locales. Para persistir, se necesita configurar AWS S3', 'info');
+            }, 2000);
+            
         } catch (error) {
             console.error('Error saving content:', error);
             this.showToast('Error al guardar contenido', 'error');
+        }
+    }
+
+    updateLocalContent(type, formData) {
+        let targetArray;
+        switch(type) {
+            case 'post':
+                targetArray = this.posts;
+                break;
+            case 'game':
+                targetArray = this.games;
+                break;
+            case 'resource':
+                targetArray = this.resources;
+                break;
+            case 'workshop':
+                targetArray = this.workshops;
+                break;
+        }
+
+        if (targetArray) {
+            const existingIndex = targetArray.findIndex(item => item.id === formData.id);
+            if (existingIndex >= 0) {
+                // Actualizar existente
+                targetArray[existingIndex] = { ...targetArray[existingIndex], ...formData };
+            } else {
+                // Agregar nuevo
+                targetArray.push(formData);
+            }
+        }
+    }
+
+    async saveToS3(type, formData) {
+        const fileMap = {
+            'post': 'feed.json',
+            'game': 'logic-games.json',
+            'resource': 'resources.json',
+            'workshop': 'workshops.json'
+        };
+
+        const fileName = fileMap[type];
+        if (!fileName) return;
+
+        // Preparar datos para guardar
+        let dataToSave;
+        switch(type) {
+            case 'post':
+                dataToSave = { posts: this.posts };
+                break;
+            case 'game':
+                dataToSave = this.games; // Array directo
+                break;
+            case 'resource':
+                dataToSave = { resources: this.resources };
+                break;
+            case 'workshop':
+                dataToSave = { workshops: this.workshops };
+                break;
+        }
+
+        // Llamar a Lambda para guardar en S3
+        const response = await fetch(`${API_BASE_URL}/save-content`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify({
+                fileName: fileName,
+                content: dataToSave
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Error guardando en S3');
         }
     }
 
