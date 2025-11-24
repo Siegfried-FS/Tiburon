@@ -71,6 +71,35 @@ class Admin {
                 this.data.events = [];
             }
 
+            // Cargar juegos
+            try {
+                const gamesRes = await fetch(`${API_BASE}/get-content/logic-games.json`);
+                if (gamesRes.ok) {
+                    const gamesData = await gamesRes.json();
+                    this.data.games = Array.isArray(gamesData) ? gamesData : [];
+                }
+            } catch (e) {
+                this.data.games = [];
+            }
+
+            // Cargar recursos
+            try {
+                const resourcesRes = await fetch(`${API_BASE}/get-content/resources.json`);
+                if (resourcesRes.ok) {
+                    const resourcesData = await resourcesRes.json();
+                    this.data.resources = [];
+                    if (Array.isArray(resourcesData)) {
+                        resourcesData.forEach(category => {
+                            if (category.items) {
+                                this.data.resources.push(...category.items);
+                            }
+                        });
+                    }
+                }
+            } catch (e) {
+                this.data.resources = [];
+            }
+
             // Usuarios mock
             this.data.users = [
                 { id: 1, name: 'Roberto Flores', email: 'roberto.ciberseguridad@gmail.com', role: 'Admin', status: 'active' },
@@ -112,23 +141,29 @@ class Admin {
                     <div class="stat-label">Eventos</div>
                 </div>
                 <div class="stat">
+                    <span class="stat-number">${this.data.games.length}</span>
+                    <div class="stat-label">Juegos</div>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">${this.data.resources.length}</span>
+                    <div class="stat-label">Recursos</div>
+                </div>
+                <div class="stat">
                     <span class="stat-number">${this.data.users.length}</span>
                     <div class="stat-label">Usuarios</div>
                 </div>
-                <div class="stat">
-                    <span class="stat-number">${this.data.users.filter(u => u.status === 'active').length}</span>
-                    <div class="stat-label">Activos</div>
-                </div>
             </div>
             
-            <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
-                <button class="btn" onclick="admin.createContent('post')">Nuevo Post</button>
-                <button class="btn" onclick="admin.createContent('event')">Nuevo Evento</button>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <button class="btn" onclick="admin.createContent('post')">+ Post</button>
+                <button class="btn" onclick="admin.createContent('event')">+ Evento</button>
+                <button class="btn" onclick="admin.createContent('game')">+ Juego</button>
+                <button class="btn" onclick="admin.createContent('resource')">+ Recurso</button>
             </div>
             
             <div class="card">
-                <h3>Acciones Rápidas</h3>
-                <p>Gestiona el contenido y usuarios de la comunidad AWS User Group Tiburón.</p>
+                <h3>Panel de Administración</h3>
+                <p>Gestiona todo el contenido del AWS User Group Tiburón desde aquí.</p>
             </div>
         `;
     }
@@ -136,7 +171,9 @@ class Admin {
     renderContent() {
         const allContent = [
             ...this.data.posts.map(p => ({...p, type: 'post'})),
-            ...this.data.events.map(e => ({...e, type: 'event'}))
+            ...this.data.events.map(e => ({...e, type: 'event'})),
+            ...this.data.games.map(g => ({...g, type: 'game'})),
+            ...this.data.resources.map(r => ({...r, type: 'resource'}))
         ];
 
         return `
@@ -145,6 +182,8 @@ class Admin {
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-sm" onclick="admin.createContent('post')">+ Post</button>
                     <button class="btn btn-sm" onclick="admin.createContent('event')">+ Evento</button>
+                    <button class="btn btn-sm" onclick="admin.createContent('game')">+ Juego</button>
+                    <button class="btn btn-sm" onclick="admin.createContent('resource')">+ Recurso</button>
                 </div>
             </div>
             
@@ -152,6 +191,8 @@ class Admin {
                 <button class="filter active" data-filter="all">Todos (${allContent.length})</button>
                 <button class="filter" data-filter="post">Posts (${this.data.posts.length})</button>
                 <button class="filter" data-filter="event">Eventos (${this.data.events.length})</button>
+                <button class="filter" data-filter="game">Juegos (${this.data.games.length})</button>
+                <button class="filter" data-filter="resource">Recursos (${this.data.resources.length})</button>
             </div>
             
             <div id="content-list" class="content-grid">
