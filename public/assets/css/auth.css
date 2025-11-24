@@ -259,7 +259,7 @@
 }
 
 /* Estilos para página de autenticación */
-.auth-container {
+body.auth-page .auth-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
