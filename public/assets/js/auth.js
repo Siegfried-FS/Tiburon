@@ -393,14 +393,15 @@ window.authManager = new AuthManager();
 // Show admin navigation if user is admin
 async function updateAdminNavigation() {
     try {
-        const currentUser = getCurrentUser();
-        if (!currentUser) return;
+        // Verificar si hay usuario autenticado
+        if (!window.authManager || !window.authManager.currentUser) {
+            return;
+        }
 
-        const userGroups = await getUserGroups();
-        const isAdmin = userGroups.includes('Admin');
+        const isAdmin = window.authManager.isAdministrator();
         
         // Show/hide admin link in navigation
-        const adminNavItems = document.querySelectorAll('#adminNavItem, .admin-nav-item');
+        const adminNavItems = document.querySelectorAll('#adminNavItem, .admin-nav-item, #adminPanelBtn');
         adminNavItems.forEach(item => {
             if (item) {
                 item.style.display = isAdmin ? 'block' : 'none';
