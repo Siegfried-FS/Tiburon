@@ -1,0 +1,42 @@
+# AWS User Group Playa Vicente - Security Policy
+# ¡Hola, security researcher! 🔒
+
+Contact: roberto.flores@siegfried-fs.com
+Expires: 2025-12-31T23:59:59.000Z
+Preferred-Languages: es, en
+
+# Si estás leyendo este archivo, definitivamente eres un profesional.
+# security.txt no es algo que revise cualquier persona.
+
+# 🛡️ PARA SECURITY RESEARCHERS:
+# Gracias por seguir las mejores prácticas y buscar el archivo correcto.
+# Eso ya te distingue como alguien serio y profesional.
+
+# 🎯 POLÍTICA DE DIVULGACIÓN RESPONSABLE:
+# 1. Reporta vulnerabilidades de forma privada primero
+# 2. Danos tiempo razonable para patchear (90 días)
+# 3. No accedas a datos que no te pertenecen
+# 4. No interrumpas el servicio para otros usuarios
+
+# 🏆 RECONOCIMIENTO:
+# Los researchers éticos serán reconocidos públicamente
+# (con su permiso) en nuestro hall of fame.
+
+# 💡 ¿ERES NUEVO EN BUG BOUNTY?
+# Este es un excelente lugar para empezar:
+# • Sitio real pero de una comunidad educativa
+# • Feedback constructivo garantizado
+# • Oportunidad de networking con profesionales
+
+# 🎓 PARA ESTUDIANTES DE CIBERSEGURIDAD:
+# Si encuentras algo y no estás seguro si es una vulnerabilidad,
+# ¡pregunta! Estamos aquí para enseñar, no para juzgar.
+
+# 📧 Contacto directo: roberto.flores@siegfried-fs.com
+# 📱 Comunidad: https://t.me/+NWYivRxl7fQ4MzNh
+# 🌐 Sitio: https://tiburoncp.siegfried-fs.com
+
+# Gracias por hacer la web más segura de forma ética.
+# La ciberseguridad necesita más profesionales como tú. 🦈
+
+Policy: https://tiburoncp.siegfried-fs.com/security-policy

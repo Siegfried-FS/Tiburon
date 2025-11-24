@@ -1,26 +1,37 @@
 # AWS User Group Playa Vicente - .htaccess
-# ¡Hola, explorador curioso! 🦈
+# ¡Hola, administrador de sistemas! 🛡️
 
-# Si estás leyendo este archivo, definitivamente sabes lo que haces.
-# Para romper se necesita valor, pero para construir y defender, se requiere perseverancia.
-# Si tienes ambos, nuestra comunidad te necesita.
+# Si estás leyendo este archivo, claramente sabes de configuraciones web.
+# Eso te convierte automáticamente en alguien interesante para nosotros.
 
-# RETO TÉCNICO:
-# La seguridad no es un destino, sino un viaje.
-# Si encuentras vulnerabilidades, bugs o mejoras, repórtalas éticamente.
-# ¡Colaboremos en lugar de competir!
+# Para los sysadmins y DevOps que llegaron aquí:
+# Sabemos que tu trabajo es mantener todo funcionando y seguro.
+# Nosotros también creemos en la seguridad proactiva.
 
-# Contacto para reportes éticos:
-# 📧 roberto.flores@siegfried-fs.com
-# 📱 https://t.me/+NWYivRxl7fQ4MzNh
+# 🔧 PARA PROFESIONALES DE INFRAESTRUCTURA:
+# Si encuentras configuraciones mejorables, vulnerabilidades o malas prácticas,
+# no las aproveches... compártelas. La comunidad crece cuando todos aportamos.
 
-# Tu conocimiento + nuestra comunidad = Ciberseguridad más fuerte para todos
+# 🎯 ¿Eres un red teamer o blue teamer?
+# Perfecto. Necesitamos ambos perfiles en nuestra comunidad.
+# La defensa se fortalece cuando entiende el ataque.
+
+# 💼 OPORTUNIDADES PROFESIONALES:
+# Si andas revisando archivos .htaccess, probablemente tienes:
+# • Conocimientos de Apache/Nginx
+# • Experiencia en hardening
+# • Ojo para configuraciones de seguridad
+# Exactamente lo que buscan las empresas hoy en día.
+
+# 📧 Contacto profesional: roberto.flores@siegfried-fs.com
+# 📱 Comunidad técnica: https://t.me/+NWYivRxl7fQ4MzNh
 
 # Configuraciones de seguridad básicas
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options nosniff
     Header always set X-Frame-Options DENY
     Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
 # Bloquear acceso a archivos sensibles
@@ -29,5 +40,7 @@
     Deny from all
 </Files>
 
-# Si llegaste hasta aquí leyendo, definitivamente tienes el perfil que buscamos.
-# ¿Nos ayudas a hacer la web más segura?
+# Si llegaste hasta aquí leyendo configuraciones de Apache,
+# definitivamente tienes el perfil técnico que respetamos.
+# La ciberseguridad necesita más profesionales como tú.
+# ¿Nos ayudas a hacer la web más segura? 🦈
