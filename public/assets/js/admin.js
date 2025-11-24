@@ -80,6 +80,10 @@ class AdminPanel {
             this.showContentModal('resource');
         });
 
+        document.getElementById('addWorkshopBtn')?.addEventListener('click', () => {
+            this.showContentModal('workshop');
+        });
+
         // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -169,7 +173,14 @@ class AdminPanel {
         try {
             const response = await fetch('/assets/data/logic-games.json');
             const data = await response.json();
-            this.games = data.games || [];
+            // Los juegos están directamente en el array, no en data.games
+            this.games = Array.isArray(data) ? data : (data.games || []);
+            // Agregar IDs si no existen
+            this.games = this.games.map((game, index) => ({
+                ...game,
+                id: game.id || `game-${index}`,
+                type: 'game'
+            }));
         } catch (error) {
             console.error('Error loading games:', error);
             this.games = [];
@@ -180,7 +191,12 @@ class AdminPanel {
         try {
             const response = await fetch('/assets/data/resources.json');
             const data = await response.json();
-            this.resources = data.resources || [];
+            this.resources = Array.isArray(data) ? data : (data.resources || []);
+            this.resources = this.resources.map((resource, index) => ({
+                ...resource,
+                id: resource.id || `resource-${index}`,
+                type: 'resource'
+            }));
         } catch (error) {
             console.error('Error loading resources:', error);
             this.resources = [];
@@ -191,7 +207,12 @@ class AdminPanel {
         try {
             const response = await fetch('/assets/data/workshops.json');
             const data = await response.json();
-            this.workshops = data.workshops || [];
+            this.workshops = Array.isArray(data) ? data : (data.workshops || []);
+            this.workshops = this.workshops.map((workshop, index) => ({
+                ...workshop,
+                id: workshop.id || `workshop-${index}`,
+                type: 'workshop'
+            }));
         } catch (error) {
             console.error('Error loading workshops:', error);
             this.workshops = [];
@@ -261,6 +282,12 @@ class AdminPanel {
     }
 
     showContentModal(type, item = null) {
+        // Cerrar modal existente si hay uno
+        const existingModal = document.querySelector('.modal-overlay');
+        if (existingModal) {
+            existingModal.remove();
+        }
+
         const isEdit = item !== null;
         const modal = document.createElement('div');
         modal.className = 'modal-overlay';
@@ -300,20 +327,14 @@ class AdminPanel {
                             <option value="development" ${item?.category === 'development' ? 'selected' : ''}>Desarrollo</option>
                         </select>
                     </div>
-                    ${type === 'game' ? `
+                    ${type === 'game' || type === 'resource' ? `
                         <div class="form-group">
-                            <label>URL del Juego:</label>
-                            <input type="url" id="gameUrl" value="${item?.url || ''}" placeholder="https://ejemplo.com/juego">
-                        </div>
-                    ` : ''}
-                    ${type === 'resource' ? `
-                        <div class="form-group">
-                            <label>URL del Recurso:</label>
-                            <input type="url" id="resourceUrl" value="${item?.url || ''}" placeholder="https://ejemplo.com/recurso">
+                            <label>URL:</label>
+                            <input type="url" id="contentUrl" value="${item?.url || ''}" placeholder="https://ejemplo.com">
                         </div>
                     ` : ''}
                     <div class="modal-actions">
-                        <button type="button" class="btn-secondary" onclick="this.closest('.modal-overlay').remove()">Cancelar</button>
+                        <button type="button" class="btn-secondary modal-cancel">Cancelar</button>
                         <button type="submit" class="btn-primary">${isEdit ? 'Actualizar' : 'Crear'}</button>
                     </div>
                 </form>
@@ -324,6 +345,7 @@ class AdminPanel {
 
         // Event listeners
         modal.querySelector('.modal-close').onclick = () => modal.remove();
+        modal.querySelector('.modal-cancel').onclick = () => modal.remove();
         modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
 
         modal.querySelector('#contentForm').onsubmit = async (e) => {
