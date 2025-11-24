@@ -620,9 +620,55 @@ class TiburonAdmin {
     }
 
     saveContent(type, id, formData) {
-        console.log('Guardando contenido:', type, id, formData);
+        console.log('💾 Guardando contenido:', type, id, formData);
+        
+        // Actualizar datos locales
+        if (type === 'event') {
+            const eventIndex = this.data.events.findIndex(e => e.id === id || e.title === id);
+            if (eventIndex >= 0) {
+                // Actualizar evento existente
+                this.data.events[eventIndex] = {
+                    ...this.data.events[eventIndex],
+                    ...formData,
+                    id: id || this.data.events[eventIndex].id
+                };
+            } else {
+                // Crear nuevo evento
+                this.data.events.push({
+                    ...formData,
+                    id: id || `event-${Date.now()}`
+                });
+            }
+            
+            // Guardar en S3
+            this.saveEventsToS3();
+        }
+        
         this.showToast('Contenido guardado exitosamente', 'success');
         this.showSection('content');
+    }
+
+    async saveEventsToS3() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/save-content`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    fileName: 'events.json',
+                    content: this.data.events
+                })
+            });
+            
+            if (response.ok) {
+                console.log('✅ Eventos guardados en S3');
+            } else {
+                console.error('❌ Error guardando en S3:', await response.text());
+            }
+        } catch (error) {
+            console.error('❌ Error de red:', error);
+        }
     }
 
     saveUser(userId, formData) {
