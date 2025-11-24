@@ -160,15 +160,15 @@ class AdminPanel {
 
     async loadFeedPosts() {
         try {
-            // Intentar cargar desde S3 primero
-            const s3Response = await fetch('https://tiburon-content-bucket.s3.amazonaws.com/assets/data/feed.json');
-            if (s3Response.ok) {
-                const data = await s3Response.json();
+            // Usar Lambda para obtener datos con CORS correcto
+            const response = await fetch(`${API_BASE_URL}/get-content/feed.json`);
+            if (response.ok) {
+                const data = await response.json();
                 this.posts = data.posts || [];
                 return;
             }
         } catch (error) {
-            console.log('S3 no disponible, cargando desde local:', error);
+            console.log('Lambda no disponible, cargando desde local:', error);
         }
         
         // Fallback a archivo local
