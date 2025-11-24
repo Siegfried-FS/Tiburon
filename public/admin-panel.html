@@ -1,34 +1,41 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="display: none;">
 <head>
     <script>
-        // BLOQUEO ABSOLUTO - Primera línea de defensa
+        // DEFENSA DE TIERRA QUEMADA Y DEPURACIÓN
         (function() {
-            // Verificar autenticación básica
-            const token = localStorage.getItem('cognitoAccessToken');
-            const userGroups = localStorage.getItem('userGroups');
-            
-            // Si no hay token, bloquear inmediatamente
-            if (!token) {
-                window.location.replace('/admin-denied.html');
-                return;
-            }
-            
-            // Verificar grupos de admin
-            if (!userGroups) {
-                window.location.replace('/admin-denied.html');
-                return;
-            }
-            
             try {
-                const groups = JSON.parse(userGroups);
-                if (!groups.includes('Admins')) {
+                const token = localStorage.getItem('cognitoAccessToken');
+                const userGroups = localStorage.getItem('userGroups');
+
+                console.log('--- Verificación de Acceso Admin ---');
+                console.log('Token encontrado:', !!token);
+                console.log('Grupos encontrados:', userGroups);
+
+                if (!token || !userGroups) {
+                    console.error('Acceso denegado: Falta token o grupos. Redirigiendo...');
                     window.location.replace('/admin-denied.html');
                     return;
                 }
+
+                const groups = JSON.parse(userGroups);
+                const isAdmin = groups.includes('Admins');
+
+                console.log('¿Es administrador?:', isAdmin);
+
+                if (!isAdmin) {
+                    console.error('Acceso denegado: El usuario no pertenece al grupo "Admins". Redirigiendo...');
+                    window.location.replace('/admin-denied.html');
+                    return;
+                }
+
+                // Si todas las verificaciones pasan, mostrar la página
+                console.log('%cAcceso concedido. Mostrando panel de administración.', 'color: green; font-weight: bold;');
+                document.documentElement.style.display = 'block';
+
             } catch (e) {
+                console.error('Error crítico en la verificación de acceso. Redirigiendo...', e);
                 window.location.replace('/admin-denied.html');
-                return;
             }
         })();
     </script>
