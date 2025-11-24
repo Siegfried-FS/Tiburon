@@ -1,370 +1,145 @@
-/* Estilos para Sistema de Autenticación */
+/* =============================================================================
+   ESTILOS PARA PÁGINA DE AUTENTICACIÓN
+   ============================================================================= */
 
-/* Botones de auth en el header */
-.auth-buttons {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-/* Nuevo: Contenedor para la información del usuario autenticado */
-.user-info-display {
-    display: flex; /* Asegurar que es un contenedor flex */
-    align-items: center; /* Centrar verticalmente los ítems dentro del contenedor */
-    gap: 0.75rem;
-    position: relative;
-    padding: 0.25rem 0.5rem;
-    border-radius: 8px;
-    transition: background 0.2s ease;
-    min-height: 44px; /* Asegurar una altura mínima consistente */
-}
-
-.user-info-display:hover {
-    background: var(--bg-card-hover);
-}
-
-.user-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid var(--border-color);
-}
-
-.user-name {
-    color: var(--text-primary);
-    font-weight: bold;
-    line-height: normal; /* Asegurar que la altura de línea no cause desalineación */
-    margin-right: 0.25rem;
-}
-
-/* Menú desplegable del usuario */
-.user-dropdown-menu {
-    position: relative;
-}
-
-.user-dropdown-content {
-    display: none; /* Oculto por defecto, visible con JS (clase .show) */
-    position: absolute;
-    top: calc(100% + 5px); /* Debajo del toggle */
-    right: 0;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-    min-width: 180px;
-    z-index: 100;
-    flex-direction: column; /* Para apilar los botones */
-    padding: 0.5rem; /* Padding uniforme */
-    gap: 0.25rem; /* Espacio entre botones del dropdown */
-}
-
-.user-dropdown-content.show {
-    display: flex; /* Muestra el menú cuando tiene la clase 'show' */
-}
-
-.btn-dropdown {
-    /* Inherit general button styles and then override for dropdown specific needs */
-    width: 100%;
-    background: none; /* No background by default */
-    border: none; /* No border by default */
-    color: var(--text-secondary); /* Default text color */
-    text-align: left; /* Align text to the left */
-    padding: 0.75rem 1rem; /* Consistent padding */
-    cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
-    font-size: 1rem; /* Consistente con otros botones */
-    font-weight: 600; /* Consistente con botones principales */
-    line-height: 1.5; /* Ajustado para mejor alineación vertical */
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.5rem;
-    font-family: inherit;
-    border-radius: 0; /* Remove border-radius for dropdown items unless specific */
-}
-
-.btn-dropdown:hover {
-    background: var(--bg-card-hover);
-    color: var(--primary-color);
-}
-
-/* Specific styling for btn-tertiary within dropdown */
-.btn-dropdown.btn-tertiary {
-    border: none; /* Remove border if it was added */
-    background: none;
-    color: var(--text-secondary);
-}
-
-.btn-dropdown.btn-tertiary:hover {
-    background: var(--bg-card-hover);
-    color: var(--primary-color);
-}
-
-/* Estilos de botones existentes */
-.btn-primary, .btn-secondary, .btn-danger, .btn-tertiary {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-family: inherit; /* Asegurar consistencia */
-}
-
-.btn-primary {
-    background: var(--primary-color);
-    color: white;
-}
-
-.btn-primary:hover:not(:disabled) {
-    background: var(--secondary-color);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
-}
-
-.btn-secondary {
-    background: transparent;
-    color: var(--text-primary);
-    border: 2px solid var(--border-color);
-}
-
-.btn-secondary:hover:not(:disabled) {
-    background: var(--bg-card-hover);
-    border-color: var(--primary-color);
-}
-
-.btn-danger {
-    background: #e74c3c;
-    color: white;
-}
-
-.btn-danger:hover:not(:disabled) {
-    background: #c0392b;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-}
-
-/* Responsive para móviles */
-@media (max-width: 768px) {
-    .auth-buttons {
-        flex-direction: column;
-        gap: 0.25rem;
-        width: 100%;
-    }
-    
-    .auth-buttons .btn-secondary {
-        width: 100%;
-        padding: 0.75rem;
-    }
-
-    .user-info-display {
-        width: 100%;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 0.5rem 0;
-        margin-top: 0.5rem;
-        flex-direction: column;
-    }
-
-    .user-dropdown-menu {
-        width: 100%;
-        text-align: center;
-        margin-top: 0.5rem;
-    }
-
-    .user-dropdown-toggle {
-        width: 100%;
-        border-radius: 8px;
-        border: 1px solid var(--border-color);
-        padding: 0.75rem;
-        font-size: 1rem;
-        color: var(--text-primary);
-        background: var(--bg-secondary);
-    }
-
-    .user-dropdown-content {
-        position: static; /* Cambiar a estático en móvil para que fluya con el contenido */
-        width: 100%;
-        border: none;
-        box-shadow: none;
-        border-radius: 0;
-        background: none;
-        padding: 0;
-    }
-
-    .user-dropdown-content.show {
-        margin-top: 0.5rem;
-    }
-
-    .btn-dropdown {
-        padding: 0.75rem;
-        text-align: center;
-        border-radius: 8px;
-        margin-bottom: 0.25rem; /* Espacio entre botones en móvil */
-        background: var(--bg-secondary);
-        border: 1px solid var(--border-color);
-        color: var(--text-primary);
-        justify-content: center; /* Centrar contenido del botón */
-    }
-
-    .btn-dropdown:hover {
-        background: var(--primary-color);
-        color: white;
-    }
-
-    .btn-dropdown.btn-danger {
-        background: #e74c3c;
-        color: white;
-    }
-    .btn-dropdown.btn-danger:hover {
-        background: #c0392b;
-        color: white;
-    }
-    .btn-dropdown.btn-tertiary {
-        background: transparent;
-        color: var(--text-secondary);
-        border: 1px solid var(--border-color);
-    }
-    .btn-dropdown.btn-tertiary:hover {
-        background: var(--bg-card-hover);
-        color: var(--primary-color);
-    }
-}
-
-/* Otros estilos de auth existentes (formularios, modales, etc.) */
-.login-btn, .register-btn, .logout-btn, .edit-btn {
-    /* Mantenerlos si se utilizan en otros lugares, pero en el header ahora usamos btn-secondary/primary/etc */
-    /* Elimino estilos duplicados o en desuso para el header */
-}
-
-/* Estilos para botón de admin */
-.btn-dropdown.admin-only {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white !important;
-    font-weight: 500;
-    border: none;
-}
-
-.btn-dropdown.admin-only:hover {
-    background: linear-gradient(135deg, #764ba2, #667eea);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
-/* Estilos para página de autenticación */
-body.auth-page .auth-container {
+.main-content {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    padding: 20px;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
 }
 
-.auth-card {
+.hero-section {
     background: var(--bg-color);
-    border-radius: 16px;
-    padding: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    max-width: 400px;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
     width: 100%;
     text-align: center;
+    border: 1px solid var(--border-color);
 }
 
-.auth-header h1 {
+.hero-title {
     font-size: 2.5rem;
-    margin: 0 0 10px 0;
-    color: var(--primary-color);
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    font-weight: 700;
 }
 
-.auth-header h2 {
+.hero-subtitle {
     font-size: 1.2rem;
-    margin: 0 0 10px 0;
     color: var(--text-color);
-    font-weight: 500;
+    opacity: 0.8;
+    margin-bottom: 2rem;
+    line-height: 1.6;
 }
 
-.auth-header p {
-    color: var(--text-color);
-    opacity: 0.7;
-    margin: 0 0 30px 0;
-}
-
-.auth-message {
-    padding: 15px;
+.info-message {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 1rem;
     border-radius: 8px;
-    margin-bottom: 20px;
-    background: #fff3cd;
-    color: #856404;
-    border: 1px solid #ffeaa7;
+    margin-bottom: 2rem;
+    border-left: 4px solid #1976d2;
 }
 
-.btn-google {
+.auth-container {
+    margin: 2rem 0;
+}
+
+.google-login-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    width: 100%;
-    padding: 12px 20px;
-    background: white !important;
-    color: #333 !important;
-    border: 1px solid #ddd !important;
-    border-radius: 8px;
-    font-size: 16px;
+    gap: 0.75rem;
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    outline: none !important;
-    text-decoration: none !important;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+    width: 100%;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
 }
 
-.btn-google:hover {
-    background: #f8f9fa !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    transform: translateY(-1px);
-    color: #333 !important;
+.google-login-btn:hover {
+    background: #3367d6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(66, 133, 244, 0.4);
 }
 
-.btn-google:focus {
-    outline: none !important;
-    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.3) !important;
-    background: white !important;
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
-.btn-google:active {
-    background: #e8f0fe !important;
-    transform: translateY(0);
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--bg-card);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease;
 }
 
-.auth-info {
-    margin-top: 20px;
+.feature-item:hover {
+    transform: translateY(-2px);
 }
 
-.auth-info p {
-    font-size: 12px;
+.feature-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-color);
+    border-radius: 50%;
+    color: white;
+}
+
+.feature-text {
+    font-weight: 500;
     color: var(--text-color);
-    opacity: 0.6;
-    line-height: 1.4;
 }
 
-@media (max-width: 480px) {
-    .auth-card {
-        padding: 30px 20px;
-        margin: 10px;
+/* Responsive */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1rem;
     }
     
-    .auth-header h1 {
+    .hero-section {
+        padding: 2rem;
+    }
+    
+    .hero-title {
         font-size: 2rem;
     }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .info-message {
+    background: rgba(33, 150, 243, 0.1);
+    color: #64b5f6;
+    border-left-color: #64b5f6;
+}
+
+[data-theme="dark"] .main-content {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
 }

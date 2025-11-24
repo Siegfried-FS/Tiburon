@@ -4,40 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comunidad | AWS User Group Playa Vicente</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="alternate icon" href="/favicon.ico">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/header.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
 </head>
 <body>
     <div id="header-placeholder"></div>
     
     <main class="main-content">
         <section class="hero-section">
-            <div class="hero-content">
-                <h1 class="hero-title">🦈 Únete a Nuestra Comunidad</h1>
-                <p class="hero-subtitle">AWS User Group Playa Vicente - Tecnología, Aprendizaje y Crecimiento</p>
-                
-                <div id="authMessage" class="info-message" style="display: none;"></div>
-                
-                <div class="cta-buttons">
-                    <button id="googleLoginBtn" class="btn-primary">
-                        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" width="20" height="20">
-                        Continuar con Google
-                    </button>
+            <h1 class="hero-title">🦈 Únete a Nuestra Comunidad</h1>
+            <p class="hero-subtitle">AWS User Group Playa Vicente<br>Tecnología, Aprendizaje y Crecimiento</p>
+            
+            <div id="authMessage" class="info-message" style="display: none;"></div>
+            
+            <div class="auth-container">
+                <button id="googleLoginBtn" class="google-login-btn">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" width="20" height="20">
+                    Continuar con Google
+                </button>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">☁️</div>
+                    <div class="feature-text">Cloud Computing</div>
                 </div>
-                
-                <div class="community-features">
-                    <div class="feature">
-                        <span class="feature-icon">☁️</span>
-                        <span>Cloud Computing</span>
-                    </div>
-                    <div class="feature">
-                        <span class="feature-icon">🔒</span>
-                        <span>Ciberseguridad</span>
-                    </div>
-                    <div class="feature">
-                        <span class="feature-icon">💻</span>
-                        <span>Desarrollo</span>
-                    </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-text">Ciberseguridad</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💻</div>
+                    <div class="feature-text">Desarrollo</div>
                 </div>
             </div>
         </section>
