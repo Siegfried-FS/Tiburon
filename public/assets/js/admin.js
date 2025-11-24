@@ -197,11 +197,11 @@ class TiburonAdmin {
     setupNavigation() {
         document.body.innerHTML = `
             <div class="admin-container">
-                <aside class="admin-sidebar">
-                    <div class="admin-logo">
-                        <h1>🦈 Tiburón Admin</h1>
-                    </div>
+                <header class="admin-sidebar">
                     <nav class="admin-nav">
+                        <div style="display: flex; align-items: center; gap: 2rem; margin-right: 2rem;">
+                            <h1 style="color: var(--accent-color); font-size: 1.25rem; margin: 0;">🦈 Tiburón Admin</h1>
+                        </div>
                         <button class="nav-btn active" data-section="dashboard">
                             <span class="nav-icon">📊</span>
                             Dashboard
@@ -219,7 +219,7 @@ class TiburonAdmin {
                             Configuración
                         </button>
                     </nav>
-                </aside>
+                </header>
                 <main class="admin-main">
                     <div id="admin-content"></div>
                 </main>
