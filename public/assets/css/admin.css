@@ -921,6 +921,7 @@
 .user-actions {
     display: flex;
     gap: 0.5rem;
+    flex-wrap: wrap;
 }
 
 .btn-small {
@@ -937,6 +938,36 @@
 .btn-small:hover {
     background: var(--accent-color);
     color: white;
+}
+
+.btn-role {
+    border-color: #28a745;
+    color: #28a745;
+}
+
+.btn-role:hover {
+    background: #28a745;
+    color: white;
+}
+
+.user-info-modal {
+    background: #2a2a2a;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #333;
+}
+
+.user-info-modal h4 {
+    margin: 0 0 0.5rem 0;
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.user-info-modal p {
+    margin: 0;
+    color: #ccc;
+    font-size: 0.9rem;
 }
 @media (max-width: 768px) {
     .content-header {

@@ -639,6 +639,9 @@ class AdminPanel {
                     <button class="btn-small" onclick="adminPanel.toggleUserStatus(${user.id})">
                         ${user.status === 'active' ? 'Desactivar' : 'Activar'}
                     </button>
+                    <button class="btn-small btn-role" onclick="adminPanel.editUserRole(${user.id})">
+                        Cambiar Rol
+                    </button>
                 </div>
             </div>
         `).join('');
@@ -653,6 +656,63 @@ class AdminPanel {
                 this.renderUsersList(btn.dataset.filter);
             });
         });
+    }
+
+    editUserRole(userId) {
+        const user = this.users.find(u => u.id === userId);
+        if (!user) return;
+
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        
+        modal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Cambiar Rol de Usuario</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-form">
+                    <div class="user-info-modal">
+                        <h4>${user.name}</h4>
+                        <p>${user.email}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="userRole">Rol del Usuario:</label>
+                        <select id="userRole" required>
+                            <option value="user" ${user.role === 'user' ? 'selected' : ''}>👤 Usuario</option>
+                            <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>👑 Administrador</option>
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary modal-cancel">Cancelar</button>
+                        <button type="button" class="btn-primary" onclick="adminPanel.saveUserRole(${userId})">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        modal.querySelector('.modal-close').onclick = () => modal.remove();
+        modal.querySelector('.modal-cancel').onclick = () => modal.remove();
+        modal.onclick = (e) => e.target === modal && modal.remove();
+    }
+
+    saveUserRole(userId) {
+        const user = this.users.find(u => u.id === userId);
+        const newRole = document.getElementById('userRole').value;
+        
+        if (user && newRole) {
+            const oldRole = user.role;
+            user.role = newRole;
+            
+            // Cerrar modal
+            document.querySelector('.modal-overlay').remove();
+            
+            // Actualizar vista
+            this.renderUsersList();
+            this.showToast(`Rol cambiado de ${oldRole} a ${newRole}`, 'success');
+        }
     }
 
     toggleUserStatus(userId) {
