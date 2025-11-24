@@ -1,74 +1,58 @@
-// =============================================================================
-// ADMIN PANEL - GESTIÓN COMPLETA DE CONTENIDOS
-// =============================================================================
-
+// Panel de Administración - Tiburón
 const API_BASE_URL = 'https://fklo6233x5.execute-api.us-east-1.amazonaws.com/prod';
 
 class AdminPanel {
     constructor() {
-        this.currentUser = null;
-        this.currentSection = 'dashboard';
+        this.currentUser = { name: 'Roberto Flores', role: 'admin' };
         this.posts = [];
         this.events = [];
         this.games = [];
         this.resources = [];
         this.workshops = [];
-        this.init();
+        this.users = [];
     }
 
     async init() {
-        await this.checkAuth();
         this.setupNavigation();
         this.setupEventListeners();
         await this.loadDashboard();
     }
 
-    async checkAuth() {
-        try {
-            const accessToken = sessionStorage.getItem('accessToken');
-            const idToken = sessionStorage.getItem('idToken');
-            
-            if (!accessToken || !idToken) {
-                window.location.href = '/auth.html?redirect=admin&reason=unauthorized';
-                return;
-            }
-
-            const tokenPayload = JSON.parse(atob(idToken.split('.')[1]));
-            const groups = tokenPayload['cognito:groups'] || [];
-            
-            if (!groups.includes('Admins')) {
-                window.location.href = '/admin-denied.html';
-                return;
-            }
-
-            this.currentUser = {
-                name: tokenPayload.name || tokenPayload.email,
-                role: 'Admin',
-                email: tokenPayload.email,
-                groups: groups
-            };
-            
-            document.getElementById('adminUserName').textContent = this.currentUser.name;
-            
-        } catch (error) {
-            console.error('Error de autenticación:', error);
-            sessionStorage.clear();
-            window.location.href = '/auth.html?redirect=admin&reason=error';
-        }
-    }
-
     setupNavigation() {
         const navButtons = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('.admin-section');
+
         navButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const section = e.target.dataset.section;
-                this.switchSection(section);
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.section;
+                
+                navButtons.forEach(b => b.classList.remove('active'));
+                sections.forEach(s => s.style.display = 'none');
+                
+                btn.classList.add('active');
+                document.getElementById(target).style.display = 'block';
+                
+                this.switchSection(target);
             });
         });
     }
 
+    async switchSection(section) {
+        switch(section) {
+            case 'dashboard':
+                await this.loadDashboard();
+                break;
+            case 'posts':
+                await this.loadAllContent();
+                break;
+            case 'users':
+                await this.loadUsersData();
+                break;
+        }
+    }
+
     setupEventListeners() {
-        // Add Content Buttons
+        // Botones de agregar contenido
         document.getElementById('addPostBtn')?.addEventListener('click', () => {
             this.showContentModal('post');
         });
@@ -89,61 +73,30 @@ class AdminPanel {
             this.showContentModal('workshop');
         });
 
-        // Filter buttons
+        // Filtros
         document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                this.filterContent(e.target.dataset.filter);
+                btn.classList.add('active');
+                this.filterContent(btn.dataset.filter);
             });
         });
     }
 
-    async switchSection(section) {
-        // Update navigation
-        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`[data-section="${section}"]`).classList.add('active');
-
-        // Update content
-        document.querySelectorAll('.admin-section').forEach(sec => sec.classList.remove('active'));
-        document.getElementById(section).classList.add('active');
-
-        this.currentSection = section;
-
-        // Load section data
-        switch(section) {
-            case 'dashboard':
-                await this.loadDashboard();
-                break;
-            case 'users':
-                await this.loadUsersData();
-                break;
-                await this.loadAllContent();
-                break;
-            case 'games':
-                await this.loadGames();
-                break;
-            case 'resources':
-                await this.loadResources();
-                break;
-        }
-    }
-
     async loadDashboard() {
         try {
-            // Cargar estadísticas de archivos JSON locales
             await this.loadAllContent();
             
             const totalPosts = this.posts.length;
             const totalGames = this.games.length;
             const totalResources = this.resources.length;
+            const totalWorkshops = this.workshops.length;
             
-            document.getElementById('totalUsers').textContent = '2';
-            document.getElementById('totalPosts').textContent = totalPosts.toString();
-            document.getElementById('pendingPosts').textContent = '0';
-            document.getElementById('monthlyGrowth').textContent = '+' + (totalPosts + totalGames + totalResources);
-
-            this.loadRecentActivity();
+            document.getElementById('totalPosts').textContent = totalPosts;
+            document.getElementById('totalGames').textContent = totalGames;
+            document.getElementById('totalResources').textContent = totalResources;
+            document.getElementById('totalWorkshops').textContent = totalWorkshops;
+            
         } catch (error) {
             console.error('Error loading dashboard:', error);
         }
@@ -151,7 +104,6 @@ class AdminPanel {
 
     async loadAllContent() {
         try {
-            // Cargar todos los contenidos del sitio
             await Promise.all([
                 this.loadFeedPosts(),
                 this.loadEventsData(),
@@ -168,7 +120,6 @@ class AdminPanel {
 
     async loadFeedPosts() {
         try {
-            // Usar Lambda para obtener datos con CORS correcto
             const response = await fetch(`${API_BASE_URL}/get-content/feed.json`);
             if (response.ok) {
                 const data = await response.json();
@@ -184,7 +135,6 @@ class AdminPanel {
             console.log('Lambda no disponible, cargando desde local:', error);
         }
         
-        // Fallback a archivo local
         try {
             const response = await fetch('/assets/data/feed.json');
             const data = await response.json();
@@ -202,7 +152,6 @@ class AdminPanel {
 
     async loadEventsData() {
         try {
-            // Usar Lambda para obtener datos con CORS correcto
             const response = await fetch(`${API_BASE_URL}/get-content/events.json`);
             if (response.ok) {
                 const data = await response.json();
@@ -218,7 +167,6 @@ class AdminPanel {
             console.log('Lambda no disponible, cargando desde local:', error);
         }
         
-        // Fallback a archivo local
         try {
             const response = await fetch('/assets/data/events.json');
             const data = await response.json();
@@ -236,10 +184,9 @@ class AdminPanel {
 
     async loadGamesData() {
         try {
-            // Intentar cargar desde S3 primero
-            const s3Response = await fetch('https://tiburon-content-bucket.s3.amazonaws.com/assets/data/logic-games.json');
-            if (s3Response.ok) {
-                const data = await s3Response.json();
+            const response = await fetch(`${API_BASE_URL}/get-content/logic-games.json`);
+            if (response.ok) {
+                const data = await response.json();
                 this.games = Array.isArray(data) ? data : (data.games || []);
                 this.games = this.games.map((game, index) => ({
                     ...game,
@@ -249,10 +196,9 @@ class AdminPanel {
                 return;
             }
         } catch (error) {
-            console.log('S3 no disponible, cargando desde local:', error);
+            console.log('Lambda no disponible, cargando desde local:', error);
         }
         
-        // Fallback a archivo local
         try {
             const response = await fetch('/assets/data/logic-games.json');
             const data = await response.json();
@@ -270,10 +216,9 @@ class AdminPanel {
 
     async loadResourcesData() {
         try {
-            // Intentar cargar desde S3 primero
-            const s3Response = await fetch('https://tiburon-content-bucket.s3.amazonaws.com/assets/data/resources.json');
-            if (s3Response.ok) {
-                const data = await s3Response.json();
+            const response = await fetch(`${API_BASE_URL}/get-content/resources.json`);
+            if (response.ok) {
+                const data = await response.json();
                 this.resources = Array.isArray(data) ? data : (data.resources || []);
                 this.resources = this.resources.map((resource, index) => ({
                     ...resource,
@@ -283,10 +228,9 @@ class AdminPanel {
                 return;
             }
         } catch (error) {
-            console.log('S3 no disponible, cargando desde local:', error);
+            console.log('Lambda no disponible, cargando desde local:', error);
         }
         
-        // Fallback a archivo local
         try {
             const response = await fetch('/assets/data/resources.json');
             const data = await response.json();
@@ -304,10 +248,9 @@ class AdminPanel {
 
     async loadWorkshopsData() {
         try {
-            // Intentar cargar desde S3 primero
-            const s3Response = await fetch('https://tiburon-content-bucket.s3.amazonaws.com/assets/data/workshops.json');
-            if (s3Response.ok) {
-                const data = await s3Response.json();
+            const response = await fetch(`${API_BASE_URL}/get-content/workshops.json`);
+            if (response.ok) {
+                const data = await response.json();
                 this.workshops = Array.isArray(data) ? data : (data.workshops || []);
                 this.workshops = this.workshops.map((workshop, index) => ({
                     ...workshop,
@@ -317,10 +260,9 @@ class AdminPanel {
                 return;
             }
         } catch (error) {
-            console.log('S3 no disponible, cargando desde local:', error);
+            console.log('Lambda no disponible, cargando desde local:', error);
         }
         
-        // Fallback a archivo local
         try {
             const response = await fetch('/assets/data/workshops.json');
             const data = await response.json();
@@ -336,57 +278,6 @@ class AdminPanel {
         }
     }
 
-    filterContent(filter) {
-        const allContent = [
-            ...this.posts.map(item => ({...item, type: 'post'})),
-            ...this.games.map(item => ({...item, type: 'game'})),
-            ...this.resources.map(item => ({...item, type: 'resource'})),
-            ...this.workshops.map(item => ({...item, type: 'workshop'}))
-        ];
-
-        let filteredContent = allContent;
-        
-        if (filter !== 'all') {
-            filteredContent = allContent.filter(item => item.type === filter);
-        }
-
-        this.renderFilteredContent(filteredContent);
-    }
-
-    renderFilteredContent(content) {
-        const contentList = document.getElementById('postsList');
-        if (!contentList) return;
-
-        if (content.length === 0) {
-            contentList.innerHTML = '<p>No hay contenido disponible</p>';
-            return;
-        }
-
-        contentList.innerHTML = content.map(item => `
-            <div class="content-item" data-id="${item.id}" data-type="${item.type}">
-                <div class="content-header">
-                    <h3>${item.title}</h3>
-                    <div class="content-badges">
-                        <span class="content-type type-${item.type}">${item.type}</span>
-                        ${item.category ? `<span class="content-category">${item.category}</span>` : ''}
-                    </div>
-                </div>
-                <div class="content-body">
-                    ${item.image ? `<img src="${item.image}" alt="${item.title}" class="content-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZjNmNGY2Ii8+CjxwYXRoIGQ9Ik0yMCAyNkM5IDI2IDkgMTQgMjAgMTRTMzEgMjYgMjAgMjZaIiBmaWxsPSIjOWNhM2FmIi8+CjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjMiIGZpbGw9IiM5Y2EzYWYiLz4KPC9zdmc+'; this.onerror=null;">` : ''}
-                    <p>${(item.content || item.description || '').substring(0, 150)}...</p>
-                    <div class="content-meta">
-                        <span>Por: ${item.author || 'Admin'}</span>
-                        <span>${new Date(item.date || Date.now()).toLocaleDateString()}</span>
-                    </div>
-                </div>
-                <div class="content-actions">
-                    <button class="btn-primary" onclick="adminPanel.editContent('${item.id}', '${item.type}')">✏️ Editar</button>
-                    <button class="btn-warning" onclick="adminPanel.deleteContent('${item.id}', '${item.type}')">🗑️ Eliminar</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
     renderAllContent() {
         const allContent = [
             ...this.posts.map(item => ({...item, type: 'post'})),
@@ -399,58 +290,100 @@ class AdminPanel {
         this.renderFilteredContent(allContent);
     }
 
-    showContentModal(type, item = null) {
-        // Cerrar modal existente si hay uno
-        const existingModal = document.querySelector('.modal-overlay');
-        if (existingModal) {
-            existingModal.remove();
-        }
+    filterContent(filter) {
+        const allContent = [
+            ...this.posts.map(item => ({...item, type: 'post'})),
+            ...this.events.map(item => ({...item, type: 'event'})),
+            ...this.games.map(item => ({...item, type: 'game'})),
+            ...this.resources.map(item => ({...item, type: 'resource'})),
+            ...this.workshops.map(item => ({...item, type: 'workshop'}))
+        ];
 
-        const isEdit = item !== null;
+        const filtered = filter === 'all' ? allContent : allContent.filter(item => item.type === filter);
+        this.renderFilteredContent(filtered);
+    }
+
+    renderFilteredContent(content) {
+        const container = document.getElementById('postsList');
+        if (!container) return;
+
+        container.innerHTML = content.map(item => `
+            <div class="post-card">
+                <div class="post-header">
+                    <h3>${item.title}</h3>
+                    <span class="post-type">${item.type}</span>
+                </div>
+                <div class="post-content">
+                    <p>${(item.description || item.content || '').substring(0, 150)}...</p>
+                    ${item.image ? `<img src="${item.image}" alt="${item.title}" class="content-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZjNmNGY2Ii8+CjxwYXRoIGQ9Ik0yMCAyNkM5IDI2IDkgMTQgMjAgMTRTMzEgMjYgMjAgMjZaIiBmaWxsPSIjOWNhM2FmIi8+CjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjMiIGZpbGw9IiM5Y2EzYWYiLz4KPC9zdmc+'; this.onerror=null;">` : ''}
+                </div>
+                <div class="post-actions">
+                    <button class="btn-edit" onclick="adminPanel.editContent('${item.type}', '${item.id}')">Editar</button>
+                    <button class="btn-delete" onclick="adminPanel.deleteContent('${item.type}', '${item.id}')">Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    showContentModal(type, itemId = null) {
+        const isEdit = itemId !== null;
+        const item = isEdit ? this.findItemById(itemId, type) : null;
+        
         const modal = document.createElement('div');
         modal.className = 'modal-overlay';
-        
-        const typeLabels = {
-            post: 'Post',
-            game: 'Juego',
-            resource: 'Recurso',
-            workshop: 'Taller'
-        };
         
         modal.innerHTML = `
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>${isEdit ? 'Editar' : 'Nuevo'} ${typeLabels[type]}</h2>
+                    <h3>${isEdit ? 'Editar' : 'Crear'} ${type}</h3>
                     <button class="modal-close">&times;</button>
                 </div>
-                <form id="contentForm">
+                <form class="modal-form">
                     <div class="form-group">
-                        <label>Título:</label>
-                        <input type="text" id="contentTitle" value="${item?.title || ''}" required>
+                        <label for="contentTitle">Título:</label>
+                        <input type="text" id="contentTitle" required value="${item?.title || ''}">
                     </div>
+                    
                     <div class="form-group">
-                        <label>Descripción/Contenido:</label>
-                        <textarea id="contentDescription" rows="6" required>${item?.content || item?.description || ''}</textarea>
+                        <label for="contentDescription">Descripción:</label>
+                        <textarea id="contentDescription" rows="4" required>${item?.description || item?.content || ''}</textarea>
                     </div>
+                    
                     <div class="form-group">
-                        <label>Imagen URL:</label>
-                        <input type="url" id="contentImage" value="${item?.image || ''}" placeholder="https://ejemplo.com/imagen.jpg">
+                        <label for="contentImage">URL de Imagen:</label>
+                        <input type="url" id="contentImage" placeholder="https://..." value="${item?.image || item?.imageUrl || ''}">
                     </div>
-                    <div class="form-group">
-                        <label>Categoría:</label>
-                        <select id="contentCategory">
-                            <option value="general" ${item?.category === 'general' ? 'selected' : ''}>General</option>
-                            <option value="aws" ${item?.category === 'aws' ? 'selected' : ''}>AWS</option>
-                            <option value="security" ${item?.category === 'security' ? 'selected' : ''}>Seguridad</option>
-                            <option value="development" ${item?.category === 'development' ? 'selected' : ''}>Desarrollo</option>
-                        </select>
-                    </div>
-                    ${type === 'game' || type === 'resource' ? `
+                    
+                    ${type === 'event' ? `
                         <div class="form-group">
-                            <label>URL:</label>
-                            <input type="url" id="contentUrl" value="${item?.url || ''}" placeholder="https://ejemplo.com">
+                            <label for="eventStatus">Estado:</label>
+                            <select id="eventStatus" required>
+                                <option value="abierto" ${item?.status === 'abierto' ? 'selected' : ''}>🟢 Abierto</option>
+                                <option value="cerrado" ${item?.status === 'cerrado' ? 'selected' : ''}>🔴 Cerrado</option>
+                                <option value="cancelado" ${item?.status === 'cancelado' ? 'selected' : ''}>⚫ Cancelado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventUrl">URL de Registro:</label>
+                            <input type="url" id="eventUrl" placeholder="https://..." value="${item?.registrationUrl || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label for="eventDate">Fecha:</label>
+                            <input type="datetime-local" id="eventDate" value="${item?.date ? new Date(item.date).toISOString().slice(0,16) : ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventLocation">Ubicación:</label>
+                            <input type="text" id="eventLocation" placeholder="Ubicación" value="${item?.location || ''}">
                         </div>
                     ` : ''}
+                    
+                    ${(type === 'game' || type === 'resource') ? `
+                        <div class="form-group">
+                            <label for="contentUrl">URL:</label>
+                            <input type="url" id="contentUrl" placeholder="https://..." value="${item?.url || ''}">
+                        </div>
+                    ` : ''}
+                    
                     <div class="modal-actions">
                         <button type="button" class="btn-secondary modal-cancel">Cancelar</button>
                         <button type="submit" class="btn-primary">${isEdit ? 'Actualizar' : 'Crear'}</button>
@@ -458,17 +391,16 @@ class AdminPanel {
                 </form>
             </div>
         `;
-
+        
         document.body.appendChild(modal);
-
-        // Event listeners
+        
         modal.querySelector('.modal-close').onclick = () => modal.remove();
         modal.querySelector('.modal-cancel').onclick = () => modal.remove();
-        modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
-
-        modal.querySelector('#contentForm').onsubmit = async (e) => {
+        modal.onclick = (e) => e.target === modal && modal.remove();
+        
+        modal.querySelector('.modal-form').onsubmit = async (e) => {
             e.preventDefault();
-            await this.saveContent(type, item?.id, modal);
+            await this.saveContent(type, itemId, modal);
         };
     }
 
@@ -479,22 +411,25 @@ class AdminPanel {
             content: document.getElementById('contentDescription').value,
             description: document.getElementById('contentDescription').value,
             image: document.getElementById('contentImage').value,
-            category: document.getElementById('contentCategory').value,
             author: this.currentUser.name,
             date: new Date().toISOString()
         };
 
-        // Agregar URL si existe el campo
+        // Campos específicos por tipo
+        if (type === 'event') {
+            formData.status = document.getElementById('eventStatus').value;
+            formData.registrationUrl = document.getElementById('eventUrl').value;
+            formData.date = document.getElementById('eventDate').value;
+            formData.location = document.getElementById('eventLocation').value;
+        }
+
         const urlField = document.getElementById('contentUrl');
         if (urlField) {
             formData.url = urlField.value;
         }
 
         try {
-            // Actualizar localmente primero
             this.updateLocalContent(type, formData);
-            
-            // Guardar en S3 a través de Lambda
             await this.saveToS3(type);
             
             modal.remove();
@@ -504,6 +439,24 @@ class AdminPanel {
         } catch (error) {
             console.error('Error saving content:', error);
             this.showToast('❌ Error al guardar en S3. Cambios solo locales.', 'error');
+        }
+    }
+
+    updateLocalContent(type, formData) {
+        let targetArray;
+        switch(type) {
+            case 'post': targetArray = this.posts; break;
+            case 'event': targetArray = this.events; break;
+            case 'game': targetArray = this.games; break;
+            case 'resource': targetArray = this.resources; break;
+            case 'workshop': targetArray = this.workshops; break;
+        }
+
+        const existingIndex = targetArray.findIndex(item => item.id === formData.id);
+        if (existingIndex >= 0) {
+            targetArray[existingIndex] = { ...targetArray[existingIndex], ...formData };
+        } else {
+            targetArray.push(formData);
         }
     }
 
@@ -519,14 +472,16 @@ class AdminPanel {
         const fileName = fileMap[type];
         if (!fileName) return;
 
-        // Preparar datos para guardar
         let dataToSave;
         switch(type) {
             case 'post':
                 dataToSave = { posts: this.posts };
                 break;
+            case 'event':
+                dataToSave = this.events;
+                break;
             case 'game':
-                dataToSave = this.games; // Array directo
+                dataToSave = this.games;
                 break;
             case 'resource':
                 dataToSave = { resources: this.resources };
@@ -536,7 +491,6 @@ class AdminPanel {
                 break;
         }
 
-        // Llamar a Lambda para guardar en S3
         const response = await fetch(`${API_BASE_URL}/save-content`, {
             method: 'POST',
             headers: {
@@ -553,140 +507,45 @@ class AdminPanel {
             const error = await response.text();
             throw new Error(`Error guardando en S3: ${error}`);
         }
-
-        const result = await response.json();
-        console.log('Guardado en S3:', result);
     }
 
-    updateLocalContent(type, formData) {
+    findItemById(id, type) {
         let targetArray;
         switch(type) {
-            case 'post':
-                targetArray = this.posts;
-                break;
-            case 'game':
-                targetArray = this.games;
-                break;
-            case 'resource':
-                targetArray = this.resources;
-                break;
-            case 'workshop':
-                targetArray = this.workshops;
-                break;
+            case 'post': targetArray = this.posts; break;
+            case 'event': targetArray = this.events; break;
+            case 'game': targetArray = this.games; break;
+            case 'resource': targetArray = this.resources; break;
+            case 'workshop': targetArray = this.workshops; break;
         }
+        return targetArray.find(item => item.id === id);
+    }
 
-        if (targetArray) {
-            const existingIndex = targetArray.findIndex(item => item.id === formData.id);
-            if (existingIndex >= 0) {
-                // Actualizar existente
-                targetArray[existingIndex] = { ...targetArray[existingIndex], ...formData };
-            } else {
-                // Agregar nuevo
-                targetArray.push(formData);
+    editContent(type, id) {
+        this.showContentModal(type, id);
+    }
+
+    deleteContent(type, id) {
+        if (confirm('¿Estás seguro de que quieres eliminar este elemento?')) {
+            let targetArray;
+            switch(type) {
+                case 'post': targetArray = this.posts; break;
+                case 'event': targetArray = this.events; break;
+                case 'game': targetArray = this.games; break;
+                case 'resource': targetArray = this.resources; break;
+                case 'workshop': targetArray = this.workshops; break;
+            }
+            
+            const index = targetArray.findIndex(item => item.id === id);
+            if (index >= 0) {
+                targetArray.splice(index, 1);
+                this.renderAllContent();
+                this.showToast(`${type} eliminado`, 'success');
             }
         }
     }
 
-    async saveToS3(type, formData) {
-        const fileMap = {
-            'post': 'feed.json',
-            'game': 'logic-games.json',
-            'resource': 'resources.json',
-            'workshop': 'workshops.json'
-        };
-
-        const fileName = fileMap[type];
-        if (!fileName) return;
-
-        // Preparar datos para guardar
-        let dataToSave;
-        switch(type) {
-            case 'post':
-                dataToSave = { posts: this.posts };
-                break;
-            case 'game':
-                dataToSave = this.games; // Array directo
-                break;
-            case 'resource':
-                dataToSave = { resources: this.resources };
-                break;
-            case 'workshop':
-                dataToSave = { workshops: this.workshops };
-                break;
-        }
-
-        // Llamar a Lambda para guardar en S3
-        const response = await fetch(`${API_BASE_URL}/save-content`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
-            },
-            body: JSON.stringify({
-                fileName: fileName,
-                content: dataToSave
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Error guardando en S3');
-        }
-    }
-
-    editContent(id, type) {
-        let item;
-        switch(type) {
-            case 'post':
-                item = this.posts.find(p => p.id === id);
-                break;
-            case 'game':
-                item = this.games.find(g => g.id === id);
-                break;
-            case 'resource':
-                item = this.resources.find(r => r.id === id);
-                break;
-            case 'workshop':
-                item = this.workshops.find(w => w.id === id);
-                break;
-        }
-        
-        if (item) {
-            this.showContentModal(type, item);
-        }
-    }
-
-    deleteContent(id, type) {
-        if (!confirm(`¿Estás seguro de eliminar este ${type}?`)) return;
-        
-        // Aquí eliminarías del backend
-        this.showToast(`${type} eliminado`, 'success');
-        this.loadAllContent();
-    }
-
-    loadRecentActivity() {
-        const activityList = document.getElementById('recentActivity');
-        const recentItems = [
-            ...this.posts.slice(0, 3).map(p => ({...p, type: 'post'})),
-            ...this.games.slice(0, 2).map(g => ({...g, type: 'game'}))
-        ].slice(0, 5);
-
-        if (recentItems.length > 0) {
-            activityList.innerHTML = recentItems.map(item => `
-                <div class="activity-item">
-                    <span class="activity-icon">${item.type === 'post' ? '📝' : '🎮'}</span>
-                    <div class="activity-content">
-                        <strong>${item.title}</strong>
-                        <small>${new Date(item.date || Date.now()).toLocaleDateString()}</small>
-                    </div>
-                </div>
-            `).join('');
-        } else {
-            activityList.innerHTML = '<p>No hay actividad reciente</p>';
-        }
-    }
-
     async loadUsersData() {
-        // Datos simulados de usuarios para demostración
         const mockUsers = [
             { id: 1, name: 'Roberto Flores', email: 'roberto.flores@siegfried-fs.com', status: 'active', role: 'admin', lastLogin: '2025-11-24' },
             { id: 2, name: 'Ana García', email: 'ana.garcia@example.com', status: 'active', role: 'user', lastLogin: '2025-11-23' },
@@ -784,7 +643,9 @@ class AdminPanel {
     }
 }
 
-// Initialize admin panel
+// Inicializar panel admin
+let adminPanel;
 document.addEventListener('DOMContentLoaded', () => {
-    window.adminPanel = new AdminPanel();
+    adminPanel = new AdminPanel();
+    adminPanel.init();
 });
