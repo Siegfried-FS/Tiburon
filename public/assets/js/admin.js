@@ -15,8 +15,8 @@ class Admin {
             return false;
         }
         
-        // Mostrar el body una vez verificado
-        document.body.style.display = 'block';
+        // Mostrar el contenido solo si es admin
+        document.body.style.visibility = 'visible';
         return true;
     }
 

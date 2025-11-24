@@ -1,10 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <script>
+        // Protección INMEDIATA - antes de cualquier carga
+        (function() {
+            const token = localStorage.getItem('cognitoAccessToken');
+            const userGroups = localStorage.getItem('userGroups');
+            
+            if (!token || !userGroups) {
+                window.location.replace('/admin-denied.html');
+                return;
+            }
+            
+            try {
+                const groups = JSON.parse(userGroups);
+                if (!groups.includes('Admins')) {
+                    window.location.replace('/admin-denied.html');
+                    return;
+                }
+            } catch (e) {
+                window.location.replace('/admin-denied.html');
+                return;
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración | AWS User Group Playa Vicente</title>
-    <meta name="robots" content="noindex, nofollow"> <!-- Prevent indexing -->
+    <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦈</text></svg>">
     
     <!-- Estilos del sitio -->
@@ -37,7 +60,7 @@
         })();
     </script>
 </head>
-<body style="display: none;">
+<body style="visibility: hidden;">
     <!-- Placeholder para el header dinámico -->
     <div id="header-placeholder"></div>
     <div id="particles-js"></div>
