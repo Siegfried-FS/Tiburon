@@ -351,7 +351,7 @@ class AdminPanel {
             <div class="user-item">
                 <div class="user-info">
                     <strong>Roberto Flores</strong>
-                    <span>roberto.ciberseguridad@gmail.com</span>
+                    <span>roberto.flores@siegfried-fs.com</span>
                     <span class="user-role">Admin</span>
                 </div>
                 <div class="user-actions">

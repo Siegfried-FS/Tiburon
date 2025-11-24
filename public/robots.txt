@@ -12,7 +12,7 @@ Allow: /
 # Colaboremos en lugar de competir.
 
 # Contacto para reportes éticos:
-# 📧 roberto.ciberseguridad@gmail.com
+# 📧 roberto.flores@siegfried-fs.com
 # 📱 https://t.me/+NWYivRxl7fQ4MzNh
 # 🌐 https://tiburoncp.siegfried-fs.com
 

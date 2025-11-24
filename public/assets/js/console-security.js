@@ -29,7 +29,7 @@
     
     // Información de contacto
     console.log('%c🦈 AWS User Group Playa Vicente', styles.community);
-    console.log('%c📧 Contacto: roberto.ciberseguridad@gmail.com', styles.contact);
+    console.log('%c📧 Contacto: roberto.flores@siegfried-fs.com', styles.contact);
     console.log('%c📱 Telegram: https://t.me/+NWYivRxl7fQ4MzNh', styles.contact);
     console.log('%c🌐 Sitio: https://tiburoncp.siegfried-fs.com', styles.contact);
     

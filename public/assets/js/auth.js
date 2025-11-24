@@ -243,6 +243,9 @@ class AuthManager {
     }
 
     updateUI(isAuthenticated) {
+        // Debug para verificar estado
+        console.log('updateUI called with:', isAuthenticated, 'currentUser:', this.currentUser);
+        
         const authButtons = document.getElementById('authButtons');
         const userInfoDisplay = document.getElementById('userInfo');
         const loginBtn = document.getElementById('loginBtn');
@@ -250,10 +253,18 @@ class AuthManager {
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
 
+        // Debug elementos DOM
+        console.log('DOM elements found:', {
+            authButtons: !!authButtons,
+            userInfoDisplay: !!userInfoDisplay,
+            loginBtn: !!loginBtn
+        });
+
         if (isAuthenticated && this.currentUser) {
-            // Usuario autenticado
+            // Usuario autenticado - ocultar botón login, mostrar info usuario
+            console.log('Showing user info, hiding auth buttons');
             if (authButtons) authButtons.style.display = 'none';
-            if (userInfoDisplay) userInfoDisplay.style.display = 'flex'; // Usar 'flex' para mostrar correctamente el layout
+            if (userInfoDisplay) userInfoDisplay.style.display = 'flex';
             
             if (userAvatar) userAvatar.src = this.currentUser.picture || '/assets/images/profile-photo.jpg';
             if (userName) userName.textContent = this.currentUser.name || this.currentUser.email;
@@ -299,11 +310,18 @@ class AuthManager {
 
         } else {
             // Usuario no autenticado
-            if (authButtons) authButtons.style.display = 'flex'; // Usar 'flex' para mostrar correctamente el layout
-            if (userInfoDisplay) userInfoDisplay.style.display = 'none';
+            console.log('Showing auth buttons, hiding user info');
+            if (authButtons) {
+                authButtons.style.display = 'flex';
+                console.log('Auth buttons set to flex');
+            }
+            if (userInfoDisplay) {
+                userInfoDisplay.style.display = 'none';
+                console.log('User info hidden');
+            }
             
-            if (userAvatar) userAvatar.src = '/assets/images/profile-photo.jpg'; // Resetear a la imagen por defecto
-            if (userName) userName.textContent = ''; // Limpiar nombre de usuario
+            if (userAvatar) userAvatar.src = '/assets/images/profile-photo.jpg';
+            if (userName) userName.textContent = '';
         }
         
         // Notificar al resto de la aplicación que el estado de autenticación está resuelto
