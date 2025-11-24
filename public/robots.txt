@@ -1,17 +1,25 @@
-#                      ^`.                     o
-#      ^_              \  \                  o  o
-#      \ \             {   \                 o
-#      {  \           /     `~~~--__
-#      {   \___----~~'              `~~-_     ______          _____
-#       \                         /// a  `~._(_||___)________/___ 
-#       / /~~~~-, ,__.    ,      ///  __,,,,)      o  ______/    \
-#       \/      \/    `~~~;   ,---~~-_`~= \ \------o-'            \
-#                        /   /            / /
-#                       '._.'           _/_/
-#                                       ';|
-# 
+# AWS User Group Playa Vicente - robots.txt
+# ¡Hola, explorador curioso! 🦈
+
 User-agent: *
-Disallow: 
+Allow: /
+
+# Si estás leyendo esto, probablemente tienes curiosidad técnica.
+# Para romper se necesita valor, pero para construir y defender, se requiere perseverancia.
+# Si tienes ambos, nuestra comunidad te necesita.
+
+# ¿Encontraste algo interesante? No lo explotes, repórtalo.
+# Colaboremos en lugar de competir.
+
+# Contacto para reportes éticos:
+# 📧 roberto.ciberseguridad@gmail.com
+# 📱 https://t.me/+NWYivRxl7fQ4MzNh
+# 🌐 https://tiburoncp.siegfried-fs.com
+
+# Tu conocimiento + nuestra comunidad = Ciberseguridad más fuerte para todos
 
 Sitemap: https://tiburoncp.siegfried-fs.com/sitemap.xml
 
+# Easter egg para los curiosos:
+# La seguridad no es un destino, sino un viaje.
+# ¿Nos acompañas en este viaje?

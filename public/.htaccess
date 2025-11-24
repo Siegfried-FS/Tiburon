@@ -1,0 +1,33 @@
+# AWS User Group Playa Vicente - .htaccess
+# ¡Hola, explorador curioso! 🦈
+
+# Si estás leyendo este archivo, definitivamente sabes lo que haces.
+# Para romper se necesita valor, pero para construir y defender, se requiere perseverancia.
+# Si tienes ambos, nuestra comunidad te necesita.
+
+# RETO TÉCNICO:
+# La seguridad no es un destino, sino un viaje.
+# Si encuentras vulnerabilidades, bugs o mejoras, repórtalas éticamente.
+# ¡Colaboremos en lugar de competir!
+
+# Contacto para reportes éticos:
+# 📧 roberto.ciberseguridad@gmail.com
+# 📱 https://t.me/+NWYivRxl7fQ4MzNh
+
+# Tu conocimiento + nuestra comunidad = Ciberseguridad más fuerte para todos
+
+# Configuraciones de seguridad básicas
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Bloquear acceso a archivos sensibles
+<Files ~ "^\.">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Si llegaste hasta aquí leyendo, definitivamente tienes el perfil que buscamos.
+# ¿Nos ayudas a hacer la web más segura?
