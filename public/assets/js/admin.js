@@ -766,6 +766,8 @@ class AdminPanel {
             this.showToast(`Usuario ${user.status === 'active' ? 'activado' : 'desactivado'}`, 'success');
         }
     }
+
+    showToast(message, type = 'info') {
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
         toast.textContent = message;
