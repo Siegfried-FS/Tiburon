@@ -243,6 +243,14 @@ class AuthManager {
     }
 
     updateUI(isAuthenticated) {
+        // Esperar a que el DOM esté listo si no lo está
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                this.updateUI(isAuthenticated);
+            });
+            return;
+        }
+        
         // Debug para verificar estado
         console.log('updateUI called with:', isAuthenticated, 'currentUser:', this.currentUser);
         

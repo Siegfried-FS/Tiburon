@@ -25,7 +25,7 @@ exports.handler = async (event) => {
         
         switch (method) {
             case 'GET':
-                if (path.includes('/stats')) {
+                if (path.includes('/stats') || path.endsWith('/posts/stats')) {
                     return await getStats();
                 }
                 return await getPosts(event.queryStringParameters);
