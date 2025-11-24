@@ -4,213 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración | AWS User Group Playa Vicente</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="alternate icon" href="/favicon.ico">
+    <meta name="description" content="Panel de administración para gestionar el contenido del AWS User Group Playa Vicente">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦈</text></svg>">
+    
+    <!-- Estilos del sitio original -->
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
-    <div id="header-placeholder"></div>
-    
+    <!-- Header del sitio original -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <a href="index.html" class="brand-link">
+                    <span class="brand-icon">🦈</span>
+                    <span class="brand-text">Tiburón</span>
+                </a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="feed.html" class="nav-link">Feed</a>
+                <a href="events.html" class="nav-link">Eventos</a>
+                <a href="resources.html" class="nav-link">Recursos</a>
+                <a href="games.html" class="nav-link">Juegos</a>
+                <a href="workshops.html" class="nav-link">Talleres</a>
+                <a href="glosario.html" class="nav-link">Glosario</a>
+                <a href="niveles.html" class="nav-link">Niveles</a>
+                <a href="admin.html" class="nav-link active">Admin</a>
+            </div>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido del admin -->
     <main class="main-content">
-        <div class="admin-container">
-            <div class="admin-header">
-                <h1>⚙️ Panel de Administración</h1>
-                <p>Bienvenido, <span id="adminUserName">Admin</span></p>
+        <div class="container">
+            <!-- Navegación del admin -->
+            <div class="admin-nav-tabs">
+                <button class="admin-tab active" data-section="dashboard">📊 Dashboard</button>
+                <button class="admin-tab" data-section="content">📝 Contenido</button>
+                <button class="admin-tab" data-section="users">👥 Usuarios</button>
             </div>
 
-            <div class="admin-nav">
-                <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
-                <button class="nav-btn" data-section="posts">📝 Posts</button>
-                <button class="nav-btn" data-section="users">👥 Usuarios</button>
-                <button class="nav-btn" data-section="settings">⚙️ Configuración</button>
-            </div>
-
-            <div class="admin-content">
-                <!-- Dashboard Section -->
-                <div id="dashboard" class="admin-section active">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon">👥</div>
-                            <div class="stat-info">
-                                <h3 id="totalUsers">0</h3>
-                                <p>Usuarios Totales</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">📝</div>
-                            <div class="stat-info">
-                                <h3 id="totalPosts">0</h3>
-                                <p>Posts Publicados</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">⏳</div>
-                            <div class="stat-info">
-                                <h3 id="pendingPosts">0</h3>
-                                <p>Posts Pendientes</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">📈</div>
-                            <div class="stat-info">
-                                <h3 id="monthlyGrowth">+0%</h3>
-                                <p>Crecimiento Mensual</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="recent-activity">
-                        <h3>Actividad Reciente</h3>
-                        <div id="recentActivity" class="activity-list">
-                            <!-- Se carga dinámicamente -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Posts Section -->
-                <div id="posts" class="admin-section">
-                    <div class="section-header">
-                        <h2>📝 Gestión de Contenidos</h2>
-                        <div class="add-content-buttons">
-                            <button id="addPostBtn" class="add-content-btn">📝 Nuevo Post</button>
-                            <button id="addEventBtn" class="add-content-btn">📅 Nuevo Evento</button>
-                            <button id="addGameBtn" class="add-content-btn">🎮 Nuevo Juego</button>
-                            <button id="addResourceBtn" class="add-content-btn">📚 Nuevo Recurso</button>
-                            <button id="addWorkshopBtn" class="add-content-btn">🛠️ Nuevo Taller</button>
-                        </div>
-                    </div>
-                    <div class="posts-filters">
-                        <button class="filter-btn active" data-filter="all">Todos</button>
-                        <button class="filter-btn" data-filter="post">Posts</button>
-                        <button class="filter-btn" data-filter="event">Eventos</button>
-                        <button class="filter-btn" data-filter="game">Juegos</button>
-                        <button class="filter-btn" data-filter="resource">Recursos</button>
-                        <button class="filter-btn" data-filter="workshop">Talleres</button>
-                    </div>
-                    <div id="postsList" class="posts-list">
-                        <!-- Se carga dinámicamente -->
-                    </div>
-                </div>
-
-                <!-- Users Section -->
-                <div id="users" class="admin-section">
-                    <div class="section-header">
-                        <h2>👥 Gestión de Usuarios</h2>
-                        <div class="users-stats">
-                            <div class="stat-card">
-                                <h3 id="totalUsers">0</h3>
-                                <p>Total Usuarios</p>
-                            </div>
-                            <div class="stat-card">
-                                <h3 id="activeUsers">0</h3>
-                                <p>Activos</p>
-                            </div>
-                            <div class="stat-card">
-                                <h3 id="inactiveUsers">0</h3>
-                                <p>Inactivos</p>
-                            </div>
-                        </div>
-                        <div class="roles-stats">
-                            <h3>📊 Distribución por Roles</h3>
-                            <div class="roles-grid">
-                                <div class="role-stat">
-                                    <span class="role-icon">👑</span>
-                                    <div class="role-info">
-                                        <h4 id="roleAdmins">0</h4>
-                                        <p>Admins</p>
-                                    </div>
-                                </div>
-                                <div class="role-stat">
-                                    <span class="role-icon">🚢</span>
-                                    <div class="role-info">
-                                        <h4 id="roleCapitan">0</h4>
-                                        <p>Capitanes</p>
-                                    </div>
-                                </div>
-                                <div class="role-stat">
-                                    <span class="role-icon">⚔️</span>
-                                    <div class="role-info">
-                                        <h4 id="roleCorsario">0</h4>
-                                        <p>Corsarios</p>
-                                    </div>
-                                </div>
-                                <div class="role-stat">
-                                    <span class="role-icon">⛵</span>
-                                    <div class="role-info">
-                                        <h4 id="roleNavegante">0</h4>
-                                        <p>Navegantes</p>
-                                    </div>
-                                </div>
-                                <div class="role-stat">
-                                    <span class="role-icon">🧭</span>
-                                    <div class="role-info">
-                                        <h4 id="roleExplorador">0</h4>
-                                        <p>Exploradores</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="users-filters">
-                        <button class="filter-btn active" data-filter="all">Todos</button>
-                        <button class="filter-btn" data-filter="active">Activos</button>
-                        <button class="filter-btn" data-filter="inactive">Inactivos</button>
-                        <button class="filter-btn" data-filter="Admins">👑 Admins</button>
-                        <button class="filter-btn" data-filter="Capitán">🚢 Capitanes</button>
-                        <button class="filter-btn" data-filter="Corsario">⚔️ Corsarios</button>
-                        <button class="filter-btn" data-filter="Navegante">⛵ Navegantes</button>
-                        <button class="filter-btn" data-filter="Explorador">🧭 Exploradores</button>
-                    </div>
-                    <div id="usersList" class="users-list">
-                        <!-- Se carga dinámicamente -->
-                    </div>
-                </div>
-
-                <!-- Settings Section -->
-                <div id="settings" class="admin-section">
-                    <div class="section-header">
-                        <h2>Configuración del Sitio</h2>
-                    </div>
-                    <div class="settings-grid">
-                        <div class="setting-card">
-                            <h3>🎨 Apariencia</h3>
-                            <div class="setting-item">
-                                <label>Tema por defecto:</label>
-                                <select id="defaultTheme">
-                                    <option value="light">Claro</option>
-                                    <option value="dark">Oscuro</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="setting-card">
-                            <h3>📢 Notificaciones</h3>
-                            <div class="setting-item">
-                                <label>
-                                    <input type="checkbox" id="emailNotifications">
-                                    Notificaciones por email
-                                </label>
-                            </div>
-                        </div>
-                        <div class="setting-card">
-                            <h3>🔒 Seguridad</h3>
-                            <div class="setting-item">
-                                <label>
-                                    <input type="checkbox" id="requireApproval">
-                                    Requerir aprobación para posts
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn-primary" id="saveSettings">💾 Guardar Configuración</button>
-                </div>
-            </div>
+            <!-- Contenido dinámico -->
+            <div id="admin-content" class="admin-content"></div>
         </div>
     </main>
 
+    <!-- Scripts del sitio original -->
     <script src="assets/js/app.js"></script>
-    <script src="assets/js/script-loader.js"></script>
     <script src="assets/js/admin.js"></script>
 </body>
 </html>
