@@ -14,9 +14,9 @@ class Admin {
     }
 
     setupNavigation() {
-        document.querySelectorAll('.admin-tab').forEach(tab => {
+        document.querySelectorAll('#admin-nav-tabs .tab-header').forEach(tab => {
             tab.onclick = () => {
-                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('#admin-nav-tabs .tab-header').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 this.showSection(tab.dataset.section);
             };
@@ -139,14 +139,12 @@ class Admin {
             </div>
             
             <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
-                <button class="admin-btn" onclick="admin.createContent('post')">📝 Nuevo Post</button>
-                <button class="admin-btn" onclick="admin.createContent('event')">📅 Nuevo Evento</button>
-                <button class="admin-btn admin-btn-secondary" onclick="admin.createContent('game')">🎮 Nuevo Juego</button>
-                <button class="admin-btn admin-btn-secondary" onclick="admin.createContent('resource')">📚 Nuevo Recurso</button>
+                <button class="admin-action-btn" onclick="admin.createContent('post')">📝 Nuevo Post</button>
+                <button class="admin-action-btn" onclick="admin.createContent('event')">📅 Nuevo Evento</button>
             </div>
             
-            <div class="admin-card">
-                <h3>🦈 Panel de Administración Tiburón</h3>
+            <div class="admin-card" style="background: var(--bg-card); padding: 1.5rem;">
+                <h3 style="color: var(--text-primary);">🦈 Panel de Administración Tiburón</h3>
                 <p>Gestiona todo el contenido del AWS User Group Playa Vicente desde este panel integrado.</p>
             </div>
         `;
@@ -161,25 +159,26 @@ class Admin {
         ];
 
         return `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
                 <h2>Gestión de Contenido</h2>
                 <div style="display: flex; gap: 0.5rem;">
-                    <button class="admin-btn admin-btn-sm" onclick="admin.createContent('post')">+ Post</button>
-                    <button class="admin-btn admin-btn-sm" onclick="admin.createContent('event')">+ Evento</button>
-                    <button class="admin-btn admin-btn-sm" onclick="admin.createContent('game')">+ Juego</button>
-                    <button class="admin-btn admin-btn-sm" onclick="admin.createContent('resource')">+ Recurso</button>
+                    <button class="admin-action-btn" onclick="admin.createContent('post')">📝 Nuevo Post</button>
+                    <button class="admin-action-btn" onclick="admin.createContent('event')">📅 Nuevo Evento</button>
                 </div>
             </div>
             
-            <div class="admin-filters">
-                <button class="admin-filter active" data-filter="all">Todos (${allContent.length})</button>
-                <button class="admin-filter" data-filter="post">📝 Posts (${this.data.posts.length})</button>
-                <button class="admin-filter" data-filter="event">📅 Eventos (${this.data.events.length})</button>
-                <button class="admin-filter" data-filter="game">🎮 Juegos (${this.data.games.length})</button>
-                <button class="admin-filter" data-filter="resource">📚 Recursos (${this.data.resources.length})</button>
+            <div class="admin-filters" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin: 1.5rem 0;">
+                <input type="search" id="admin-search-bar" placeholder="🔍 Buscar por título..." class="admin-form-input" style="max-width: 300px; flex-grow: 1;">
+                <div class="admin-filter-buttons" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                    <button class="tab-header active" data-filter="all">Todos</button>
+                    <button class="tab-header" data-filter="post">📝 Posts</button>
+                    <button class="tab-header" data-filter="event">📅 Eventos</button>
+                    <button class="tab-header" data-filter="game">🎮 Juegos</button>
+                    <button class="tab-header" data-filter="resource">📚 Recursos</button>
+                </div>
             </div>
             
-            <div id="content-list" class="admin-grid">
+            <div id="content-list" class="labs-grid" style="margin-top: 2rem;">
                 ${this.renderContentList(allContent)}
             </div>
         `;
@@ -188,34 +187,76 @@ class Admin {
     renderContentList(items) {
         if (items.length === 0) {
             return `
-                <div class="admin-empty">
-                    <div class="admin-empty-title">No hay contenido</div>
-                    <p>Crea tu primer elemento de contenido</p>
-                    <button class="admin-btn" onclick="admin.createContent('post')">📝 Crear Post</button>
+                <div class="admin-empty" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                    <h3>No se encontró contenido</h3>
+                    <p>Intenta con otro filtro o término de búsqueda.</p>
                 </div>
             `;
         }
 
         return items.map(item => `
-            <div class="admin-card">
-                <div class="admin-card-header">
-                    <h3 class="admin-card-title">${item.title || 'Sin título'}</h3>
-                    <span class="admin-card-type">${item.type}</span>
-                </div>
-                <div class="admin-card-content">
-                    ${(item.content || item.description || '').substring(0, 120)}...
-                </div>
-                <div class="admin-card-meta">
-                    ${item.date ? `<span>📅 ${new Date(item.date).toLocaleDateString()}</span>` : ''}
-                    ${item.status ? `<span>🔘 ${item.status}</span>` : ''}
-                    ${item.location ? `<span>📍 ${item.location}</span>` : ''}
-                </div>
-                <div class="admin-card-actions">
-                    <button class="admin-btn admin-btn-sm admin-btn-secondary" onclick="admin.editContent('${item.type}', '${item.id}')">Editar</button>
-                    <button class="admin-btn admin-btn-sm admin-btn-danger" onclick="admin.deleteContent('${item.type}', '${item.id}')">Eliminar</button>
+            <div class="lab-module">
+                <div class="lab-card-content">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.1rem; color: var(--text-primary); margin: 0;">${this.getIconForType(item.type)} ${item.title || 'Sin título'}</h3>
+                        <span class="tag">${item.type}</span>
+                    </div>
+                    <p style="font-size: 0.9rem; flex-grow: 1; color: var(--text-secondary); margin-bottom: 1rem;">
+                        ${(item.content || item.description || '').substring(0, 100)}...
+                    </p>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                        ${item.date ? `<span>📅 ${new Date(item.date).toLocaleDateString()}</span>` : ''}
+                        ${item.status ? `<span style="margin-left: 10px;">🔘 ${item.status}</span>` : ''}
+                    </div>
+                    <div class="admin-card-actions">
+                        <button class="admin-action-btn" onclick="admin.editContent('${item.type}', '${item.id || item.title}')">Editar</button>
+                        <button class="admin-action-btn danger" onclick="admin.deleteContent('${item.type}', '${item.id || item.title}')">Eliminar</button>
+                    </div>
                 </div>
             </div>
         `).join('');
+    }
+
+    getIconForType(type) {
+        switch(type) {
+            case 'post': return '📝';
+            case 'event': return '📅';
+            case 'game': return '🎮';
+            case 'resource': return '📚';
+            default: return '📄';
+        }
+    }
+
+    setupContentFilters() {
+        document.querySelectorAll('.admin-filter-buttons .tab-header').forEach(filter => {
+            filter.onclick = () => {
+                document.querySelectorAll('.admin-filter-buttons .tab-header').forEach(f => f.classList.remove('active'));
+                filter.classList.add('active');
+                this.filterContent();
+            };
+        });
+        document.getElementById('admin-search-bar').oninput = () => this.filterContent();
+    }
+
+    filterContent() {
+        const type = document.querySelector('.admin-filter-buttons .tab-header.active').dataset.filter;
+        const searchTerm = document.getElementById('admin-search-bar').value.toLowerCase();
+
+        const allContent = [
+            ...this.data.posts.map(p => ({...p, type: 'post'})),
+            ...this.data.events.map(e => ({...e, type: 'event'})),
+            ...this.data.games.map(g => ({...g, type: 'game'})),
+            ...this.data.resources.map(r => ({...r, type: 'resource'}))
+        ];
+        
+        let filteredByType = type === 'all' ? allContent : allContent.filter(item => item.type === type);
+
+        let finalFiltered = filteredByType;
+        if (searchTerm) {
+            finalFiltered = filteredByType.filter(item => (item.title || '').toLowerCase().includes(searchTerm));
+        }
+
+        document.getElementById('content-list').innerHTML = this.renderContentList(finalFiltered);
     }
 
     renderUsers() {
@@ -233,34 +274,12 @@ class Admin {
                             <span>${user.status === 'active' ? '🟢 Activo' : '🔴 Inactivo'}</span>
                         </div>
                         <div class="admin-card-actions">
-                            <button class="admin-btn admin-btn-sm admin-btn-secondary" onclick="admin.editUser(${user.id})">Editar Rol</button>
+                            <button class="admin-action-btn" onclick="admin.editUser(${user.id})">Editar Rol</button>
                         </div>
                     </div>
                 `).join('')}
             </div>
         `;
-    }
-
-    setupContentFilters() {
-        document.querySelectorAll('.admin-filter').forEach(filter => {
-            filter.onclick = () => {
-                document.querySelectorAll('.admin-filter').forEach(f => f.classList.remove('active'));
-                filter.classList.add('active');
-                this.filterContent(filter.dataset.filter);
-            };
-        });
-    }
-
-    filterContent(type) {
-        const allContent = [
-            ...this.data.posts.map(p => ({...p, type: 'post'})),
-            ...this.data.events.map(e => ({...e, type: 'event'})),
-            ...this.data.games.map(g => ({...g, type: 'game'})),
-            ...this.data.resources.map(r => ({...r, type: 'resource'}))
-        ];
-        
-        const filtered = type === 'all' ? allContent : allContent.filter(item => item.type === type);
-        document.getElementById('content-list').innerHTML = this.renderContentList(filtered);
     }
 
     createContent(type) {

@@ -3,12 +3,12 @@ const STATIC_CACHE = [
     '/',
     '/feed.html',
     '/assets/css/styles.css',
+    '/assets/css/header.css',
+    '/assets/css/top-bar.css',
     '/assets/js/app.js',
     '/assets/js/auth.js',
     '/assets/js/script-loader.js',
-    '/assets/images/logo.png',
-    '/shared/header.html',
-    '/shared/footer.html'
+    '/assets/shared/header.html'
 ];
 
 const DYNAMIC_CACHE = 'tiburon-dynamic-v1.0';

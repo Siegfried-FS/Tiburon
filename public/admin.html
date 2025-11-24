@@ -4,63 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración | AWS User Group Playa Vicente</title>
-    <meta name="description" content="Panel de administración para gestionar el contenido del AWS User Group Playa Vicente">
+    <meta name="robots" content="noindex, nofollow"> <!-- Prevent indexing -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦈</text></svg>">
     
-    <!-- Estilos del sitio original -->
+    <!-- Estilos del sitio -->
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/top-bar.css">
+    <link rel="stylesheet" href="assets/css/header.css">
+    <!-- Estilos específicos del admin -->
     <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
-    <!-- Header del sitio original -->
-    <header class="header">
-        <nav class="nav">
-            <div class="nav-brand">
-                <a href="index.html" class="brand-link">
-                    <span class="brand-icon">🦈</span>
-                    <span class="brand-text">Tiburón</span>
-                </a>
-            </div>
-            <div class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link">Inicio</a>
-                <a href="feed.html" class="nav-link">Feed</a>
-                <a href="events.html" class="nav-link">Eventos</a>
-                <a href="resources.html" class="nav-link">Recursos</a>
-                <a href="games.html" class="nav-link">Juegos</a>
-                <a href="workshops.html" class="nav-link">Talleres</a>
-                <a href="glosario.html" class="nav-link">Glosario</a>
-                <a href="niveles.html" class="nav-link">Niveles</a>
-                <a href="admin.html" class="nav-link active">Admin</a>
-            </div>
-            <div class="nav-controls">
-                <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
-                    <span class="theme-icon">🌙</span>
-                </button>
-                <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-        </nav>
-    </header>
+    <!-- Placeholder para el header dinámico -->
+    <div id="header-placeholder"></div>
+    <div id="particles-js"></div>
 
-    <!-- Contenido del admin -->
-    <main class="main-content">
-        <div class="container">
-            <!-- Navegación del admin -->
-            <div class="admin-nav-tabs">
-                <button class="admin-tab active" data-section="dashboard">📊 Dashboard</button>
-                <button class="admin-tab" data-section="content">📝 Contenido</button>
-                <button class="admin-tab" data-section="users">👥 Usuarios</button>
+    <main>
+        <section class="content-section">
+            <h1>⚙️ Panel de Administración</h1>
+            <p class="tagline" style="text-align: center; margin-bottom: 40px;">Gestiona el contenido y los usuarios del sitio.</p>
+
+            <!-- Navegación del admin con el estilo de los tabs del sitio -->
+            <div class="tab-headers" id="admin-nav-tabs">
+                <button class="tab-header active" data-section="dashboard">📊 Dashboard</button>
+                <button class="tab-header" data-section="content">📝 Contenido</button>
+                <button class="tab-header" data-section="users">👥 Usuarios</button>
             </div>
 
-            <!-- Contenido dinámico -->
-            <div id="admin-content" class="admin-content"></div>
-        </div>
+            <!-- Contenido dinámico del admin -->
+            <div id="admin-content" class="admin-content-area">
+                <!-- El contenido se cargará aquí vía admin.js -->
+            </div>
+        </section>
     </main>
 
-    <!-- Scripts del sitio original -->
+    <!-- Scripts -->
+    <script src="assets/js/sw-register.js"></script>
+    <script src="assets/js/lazy-loading.js"></script>
+    <script src="assets/js/script-loader.js"></script>
+    <script src="assets/js/p.js"></script>
+    <script type="text/javascript" src="assets/js/v.js"></script>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/admin.js"></script>
 </body>

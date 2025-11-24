@@ -38,7 +38,7 @@ async function loadData(filename) {
 // INICIALIZACIÓN
 // =============================================================================
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('authScriptsLoaded', async () => {
     // Cargar header dinámico primero
     await loadHeader();
     
@@ -62,7 +62,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Event listeners
     setupEventListeners();
-});
+
+                // Asegurar que la UI de autenticación se actualice después de cargar el header
+                window.authManager.init(); // Llama a init(), que a su vez llama a checkAuthState()
+                updateAdminNavigation();});
 
 // =============================================================================
 // CARGA DEL HEADER DINÁMICO
@@ -491,7 +494,7 @@ async function loadResources() {
 // =============================================================================
 
 function initScrollAnimations() {
-    const animatedElements = document.querySelectorAll('.animate-on-scroll, .lab-module, .event-card, .feed-post');
+    const animatedElements = document.querySelectorAll('.content-section, .nav-card, .badge-item, .about-card, .contact-card, .animate-on-scroll, .lab-module, .event-card, .feed-post');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

@@ -15,7 +15,8 @@ const cognitoConfig = {
 class AuthManager {
     constructor() {
         this.currentUser = null;
-        this.init();
+        // La inicialización (this.init()) ahora se llama explícitamente desde app.js
+        // después de que el header se ha cargado, para evitar race conditions.
     }
 
     init() {
@@ -243,47 +244,10 @@ class AuthManager {
     }
 
     updateUI(isAuthenticated) {
-        // Función para intentar actualizar UI
-        const attemptUpdate = () => {
-            const authButtons = document.getElementById('authButtons');
-            const userInfoDisplay = document.getElementById('userInfo');
-            
-            // Si los elementos no existen, usar MutationObserver para esperar
-            if (!authButtons && !userInfoDisplay) {
-                const observer = new MutationObserver((mutations) => {
-                    const authButtons = document.getElementById('authButtons');
-                    const userInfoDisplay = document.getElementById('userInfo');
-                    
-                    if (authButtons || userInfoDisplay) {
-                        observer.disconnect();
-                        this.doUpdateUI(isAuthenticated);
-                    }
-                });
-                
-                observer.observe(document.body, {
-                    childList: true,
-                    subtree: true
-                });
-                
-                // Fallback timeout
-                setTimeout(() => {
-                    observer.disconnect();
-                    this.doUpdateUI(isAuthenticated);
-                }, 2000);
-                
-                return;
-            }
-            
-            // Elementos encontrados, proceder con actualización
-            this.doUpdateUI(isAuthenticated);
-        };
-        
-        // Si el DOM no está listo, esperar
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', attemptUpdate);
-        } else {
-            attemptUpdate();
-        }
+        // La lógica compleja de temporización (MutationObserver, setTimeout) se ha eliminado.
+        // Ahora se confía en que app.js llama a init() en el momento correcto (después de cargar el header),
+        // por lo que podemos proceder a actualizar la UI directamente.
+        this.doUpdateUI(isAuthenticated);
     }
     
     doUpdateUI(isAuthenticated) {
@@ -475,31 +439,3 @@ async function updateAdminNavigation() {
         console.error('Error updating admin navigation:', error);
     }
 }
-
-// Call this after page loads
-document.addEventListener('DOMContentLoaded', () => {
-    // Verificar si hay tokens y actualizar UI inmediatamente
-    const accessToken = sessionStorage.getItem('accessToken');
-    const idToken = sessionStorage.getItem('idToken');
-    
-    if (accessToken && idToken) {
-        try {
-            const tokenPayload = JSON.parse(atob(idToken.split('.')[1]));
-            const groups = tokenPayload['cognito:groups'] || [];
-            
-            window.authManager.currentUser = {
-                name: tokenPayload.name || tokenPayload.email,
-                email: tokenPayload.email,
-                picture: tokenPayload.picture,
-                groups: groups
-            };
-            
-            window.authManager.updateUI(true);
-        } catch (error) {
-            console.error('Error parsing token:', error);
-            sessionStorage.clear();
-        }
-    }
-    
-    updateAdminNavigation();
-});
