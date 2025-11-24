@@ -43,66 +43,55 @@ class AuthManager {
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code');
             
-    async checkAuthState() {
-        try {
-            // Verificar si hay un código de autorización en la URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
-            
             if (code) {
                 await this.handleAuthCallback(code);
                 // Limpiar la URL
                 window.history.replaceState({}, document.title, window.location.pathname);
-            } else {
-                // Verificar si hay tokens guardados
-                const accessToken = sessionStorage.getItem('accessToken');
-                const idToken = sessionStorage.getItem('idToken');
-                
-                if (accessToken && idToken) {
-                    try {
-                        // Verificar que el token no haya expirado
-                        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
-                        const now = Math.floor(Date.now() / 1000);
+                return;
+            }
+            
+            // Verificar si hay tokens guardados
+            const accessToken = sessionStorage.getItem('accessToken');
+            const idToken = sessionStorage.getItem('idToken');
+            
+            if (accessToken && idToken) {
+                try {
+                    // Verificar que el token no haya expirado
+                    const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+                    const now = Math.floor(Date.now() / 1000);
+                    
+                    if (tokenPayload.exp > now) {
+                        // Token válido, obtener información del usuario
+                        const idTokenPayload = JSON.parse(atob(idToken.split('.')[1]));
                         
-                        if (tokenPayload.exp > now) {
-                            // Token válido, obtener información del usuario
-                            const idTokenPayload = JSON.parse(atob(idToken.split('.')[1]));
-                            
-                            this.currentUser = {
-                                name: idTokenPayload.name || idTokenPayload.email,
-                                email: idTokenPayload.email,
-                                picture: idTokenPayload.picture,
-                                groups: idTokenPayload['cognito:groups'] || []
-                            };
-                            
-                            this.updateUI(true);
-                            this.setupEventListeners();
-                            return;
-                        } else {
-                            // Token expirado, limpiar
-                            sessionStorage.clear();
-                        }
-                    } catch (error) {
-                        console.error('Error parsing tokens:', error);
+                        this.currentUser = {
+                            name: idTokenPayload.name || idTokenPayload.email,
+                            email: idTokenPayload.email,
+                            picture: idTokenPayload.picture,
+                            groups: idTokenPayload['cognito:groups'] || []
+                        };
+                        
+                        this.updateUI(true);
+                        this.setupEventListeners();
+                        return;
+                    } else {
+                        // Token expirado, limpiar
                         sessionStorage.clear();
                     }
-                }
-                
-                // No hay tokens válidos
-                this.updateUI(false);
-                this.setupEventListeners();
-            }
-                // Verificar si hay tokens en localStorage
-                const accessToken = sessionStorage.getItem('accessToken');
-                if (accessToken) {
-                    await this.validateToken(accessToken);
-                } else {
-                    this.updateUI(false);
+                } catch (error) {
+                    console.error('Error parsing tokens:', error);
+                    sessionStorage.clear();
                 }
             }
-        } catch (error) {
-            console.error('Error checking auth state:', error);
+            
+            // No hay tokens válidos
             this.updateUI(false);
+            this.setupEventListeners();
+            
+        } catch (error) {
+            console.error('Error en checkAuthState:', error);
+            this.updateUI(false);
+            this.setupEventListeners();
         }
     }
 
