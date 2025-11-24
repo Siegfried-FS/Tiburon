@@ -585,15 +585,29 @@ class AdminPanel {
     }
 
     async loadUsersData() {
-        const mockUsers = [
-            { id: 1, name: 'Roberto Flores', email: 'admin@tiburoncp.local', status: 'active', role: 'admin', lastLogin: '2025-11-24' },
-            { id: 2, name: 'Usuario Demo 1', email: 'user1@tiburoncp.local', status: 'active', role: 'user', lastLogin: '2025-11-23' },
-            { id: 3, name: 'Usuario Demo 2', email: 'user2@tiburoncp.local', status: 'inactive', role: 'user', lastLogin: '2025-11-20' },
-            { id: 4, name: 'Usuario Demo 3', email: 'user3@tiburoncp.local', status: 'active', role: 'user', lastLogin: '2025-11-24' },
-            { id: 5, name: 'Usuario Demo 4', email: 'user4@tiburoncp.local', status: 'inactive', role: 'user', lastLogin: '2025-11-15' }
+        // Usuarios reales de Cognito
+        const realUsers = [
+            { 
+                id: 1, 
+                name: 'Roberto Flores', 
+                email: 'roberto.ciberseguridad@gmail.com', 
+                status: 'active', 
+                role: 'Admins', 
+                lastLogin: '2025-11-23',
+                cognitoId: 'Google_108232812694941446413'
+            },
+            { 
+                id: 2, 
+                name: 'Roberto Flores', 
+                email: 'ingblack13@gmail.com', 
+                status: 'active', 
+                role: 'Explorador', 
+                lastLogin: '2025-11-23',
+                cognitoId: 'Google_107553276718009632173'
+            }
         ];
         
-        this.users = mockUsers;
+        this.users = realUsers;
         this.renderUsersStats();
         this.renderUsersList();
         this.setupUsersFilters();
@@ -614,7 +628,7 @@ class AdminPanel {
         
         if (filter !== 'all') {
             if (filter === 'admin') {
-                filteredUsers = this.users.filter(u => u.role === 'admin');
+                filteredUsers = this.users.filter(u => u.role === 'Admins');
             } else {
                 filteredUsers = this.users.filter(u => u.status === filter);
             }
@@ -633,7 +647,7 @@ class AdminPanel {
                 </div>
                 <div class="user-status">
                     <span class="status-badge ${user.status}">${user.status === 'active' ? '🟢 Activo' : '🔴 Inactivo'}</span>
-                    <span class="role-badge ${user.role}">${user.role === 'admin' ? '👑 Admin' : '👤 Usuario'}</span>
+                    <span class="role-badge ${user.role.toLowerCase()}">${this.getRoleIcon(user.role)} ${user.role}</span>
                 </div>
                 <div class="user-actions">
                     <button class="btn-small" onclick="adminPanel.toggleUserStatus(${user.id})">
@@ -645,6 +659,17 @@ class AdminPanel {
                 </div>
             </div>
         `).join('');
+    }
+
+    getRoleIcon(role) {
+        const icons = {
+            'Explorador': '🧭',
+            'Navegante': '⛵',
+            'Corsario': '⚔️',
+            'Capitán': '🚢',
+            'Admins': '👑'
+        };
+        return icons[role] || '👤';
     }
 
     setupUsersFilters() {
@@ -679,8 +704,11 @@ class AdminPanel {
                     <div class="form-group">
                         <label for="userRole">Rol del Usuario:</label>
                         <select id="userRole" required>
-                            <option value="user" ${user.role === 'user' ? 'selected' : ''}>👤 Usuario</option>
-                            <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>👑 Administrador</option>
+                            <option value="Explorador" ${user.role === 'Explorador' ? 'selected' : ''}>🧭 Explorador</option>
+                            <option value="Navegante" ${user.role === 'Navegante' ? 'selected' : ''}>⛵ Navegante</option>
+                            <option value="Corsario" ${user.role === 'Corsario' ? 'selected' : ''}>⚔️ Corsario</option>
+                            <option value="Capitán" ${user.role === 'Capitán' ? 'selected' : ''}>🚢 Capitán</option>
+                            <option value="Admins" ${user.role === 'Admins' ? 'selected' : ''}>👑 Admin</option>
                         </select>
                     </div>
                     <div class="modal-actions">
