@@ -15,7 +15,7 @@ exports.handler = async (event) => {
     
     try {
         // Handle CORS preflight
-        if (event.httpMethod === 'OPTIONS') {
+        if (event.requestContext.http.method === 'OPTIONS') {
             return {
                 statusCode: 200,
                 headers,
@@ -23,7 +23,7 @@ exports.handler = async (event) => {
             };
         }
 
-        if (event.httpMethod !== 'POST') {
+        if (event.requestContext.http.method !== 'POST') {
             return {
                 statusCode: 405,
                 headers,
@@ -47,8 +47,7 @@ exports.handler = async (event) => {
             Bucket: BUCKET_NAME,
             Key: `assets/data/${fileName}`,
             Body: JSON.stringify(content, null, 2),
-            ContentType: 'application/json',
-            ACL: 'public-read'
+            ContentType: 'application/json'
         }));
 
         return {
