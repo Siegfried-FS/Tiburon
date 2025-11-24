@@ -54,14 +54,30 @@
 }
 
 #top-bar .auth-buttons .btn-secondary {
-    padding: 0.25rem 0.75rem;
-    font-size: 0.85rem;
-    height: auto !important;
-    min-height: auto !important;
+    /* Reset completo de estilos */
+    all: unset;
+    /* Aplicar estilos específicos */
+    background: var(--secondary-color) !important;
+    color: white !important;
+    padding: 0.25rem 0.75rem !important;
+    border-radius: 4px !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
     display: inline-block !important;
-    width: auto !important;
-    vertical-align: middle;
-    line-height: 1.4;
+    text-align: center !important;
+    text-decoration: none !important;
+    border: none !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    vertical-align: middle !important;
+    line-height: 1.4 !important;
+    transition: background-color 0.3s ease !important;
+}
+
+#top-bar .auth-buttons .btn-secondary:hover {
+    background: var(--secondary-color-hover) !important;
+    color: white !important;
 }
 
 #top-bar .user-info-display {

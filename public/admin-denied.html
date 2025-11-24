@@ -3,97 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Denegado | AWS User Group Playa Vicente</title>
+    <title>AWS User Group Playa Vicente</title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <style>
-        .denied-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 80vh;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .denied-icon {
-            font-size: 120px;
-            margin-bottom: 20px;
-            animation: shake 0.5s ease-in-out infinite alternate;
-        }
-        
-        @keyframes shake {
-            0% { transform: translateX(-5px); }
-            100% { transform: translateX(5px); }
-        }
-        
-        .denied-title {
-            font-size: 2.5rem;
-            color: #ff6b6b;
-            margin-bottom: 15px;
-        }
-        
-        .denied-message {
-            font-size: 1.2rem;
-            color: var(--text-color);
-            margin-bottom: 30px;
-            max-width: 600px;
-            line-height: 1.6;
-        }
-        
-        .denied-actions {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-secondary {
-            background: var(--border-color);
-            color: var(--text-color);
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-    </style>
 </head>
 <body>
-    <div class="denied-container">
-        <div class="denied-icon">🚫</div>
-        <h1 class="denied-title">Acceso Denegado</h1>
-        <p class="denied-message">
-            Lo sentimos, pero no tienes permisos de administrador para acceder a este panel. 
-            Solo los administradores autorizados pueden gestionar el contenido y usuarios de la comunidad.
-        </p>
-        <div class="denied-actions">
-            <a href="/" class="btn btn-primary">🏠 Ir al Inicio</a>
-            <a href="/feed.html" class="btn btn-secondary">📢 Ver Feed</a>
-            <button onclick="history.back()" class="btn btn-secondary">⬅️ Volver</button>
+    <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg-color);">
+        <div style="text-align: center; max-width: 600px; padding: 40px;">
+            <h1 style="font-size: 3rem; margin-bottom: 20px;">🦈</h1>
+            <h2 style="color: var(--primary-color); margin-bottom: 15px;">AWS User Group Playa Vicente</h2>
+            <p style="color: var(--text-color); margin-bottom: 30px; line-height: 1.6;">
+                ¡Únete a nuestra comunidad de tecnología en Veracruz! Aprende sobre cloud computing, 
+                ciberseguridad y desarrollo con expertos de la industria.
+            </p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="/" style="background: var(--primary-color); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500;">🏠 Explorar Comunidad</a>
+                <a href="https://t.me/+NWYivRxl7fQ4MzNh" target="_blank" style="background: var(--secondary-color); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500;">📱 Únete al Telegram</a>
+            </div>
         </div>
     </div>
     
     <script>
-        // Auto redirect after 10 seconds
+        // Log para desarrolladores curiosos
+        console.log('🦈 ¡Hola, desarrollador!');
+        console.log('Si llegaste aquí, probablemente tienes curiosidad por la tecnología.');
+        console.log('En AWS User Group Playa Vicente valoramos esa curiosidad y el aprendizaje ético.');
+        console.log('Te invitamos a unirte a nuestra comunidad donde crecemos juntos:');
+        console.log('📱 Telegram: https://t.me/+NWYivRxl7fQ4MzNh');
+        console.log('🌐 Sitio: https://tiburoncp.siegfried-fs.com');
+        console.log('¡Aquí aprendemos cloud computing, ciberseguridad y desarrollo de forma ética!');
+        
+        // Redirect silencioso después de 3 segundos
         setTimeout(() => {
             window.location.href = '/';
-        }, 10000);
+        }, 3000);
     </script>
 </body>
 </html>
