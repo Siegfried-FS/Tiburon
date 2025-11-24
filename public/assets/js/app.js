@@ -39,6 +39,9 @@ async function loadData(filename) {
 // =============================================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Cargar header dinámico primero
+    await loadHeader();
+    
     // Inicializar componentes básicos
     loadTheme();
     
@@ -60,6 +63,66 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Event listeners
     setupEventListeners();
 });
+
+// =============================================================================
+// CARGA DEL HEADER DINÁMICO
+// =============================================================================
+
+async function loadHeader() {
+    const headerPlaceholder = document.getElementById('header-placeholder');
+    if (!headerPlaceholder) {
+        return; // No hay placeholder, no hacer nada
+    }
+
+    try {
+        const response = await fetch('assets/shared/header.html');
+        if (!response.ok) throw new Error(`Error al cargar header: ${response.status}`);
+        
+        const headerHTML = await response.text();
+        headerPlaceholder.outerHTML = headerHTML;
+        
+        // Configurar event listeners del header después de cargarlo
+        setupHeaderEventListeners();
+        
+    } catch (error) {
+        console.error('Error al cargar el header:', error);
+        if(headerPlaceholder) {
+            headerPlaceholder.innerHTML = '<p style="color:red; text-align:center;">Error al cargar el menú.</p>';
+        }
+    }
+}
+
+function setupHeaderEventListeners() {
+    // Hamburger menu
+    const hamburger = document.querySelector('.hamburger');
+    if (hamburger) {
+        hamburger.addEventListener('click', (event) => {
+            event.stopPropagation();
+            toggleMenu();
+        });
+    }
+
+    // Navigation links
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+
+    // Theme toggle
+    const themeToggle = document.querySelector('.theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+        const nav = document.querySelector('.nav');
+        const navMenu = document.getElementById('nav-menu');
+        if (nav && navMenu && !nav.contains(event.target) && navMenu.classList.contains('active')) {
+            closeMenu();
+        }
+    });
+}
 
 // =============================================================================
 // TEMA CLARO/OSCURO
@@ -106,26 +169,25 @@ function loadTheme() {
 // =============================================================================
 
 function setupEventListeners() {
-    // Theme toggle
-    const themeToggle = document.querySelector('.theme-toggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
-    }
+    // Los event listeners del header se configuran en setupHeaderEventListeners()
+    // Aquí solo ponemos listeners generales que no dependen del header
     
-    // Navigation
-    const hamburger = document.querySelector('.hamburger');
-    if (hamburger) {
-        hamburger.addEventListener('click', toggleMenu);
+    // Scroll to post if hash in URL
+    if (window.location.hash) {
+        setTimeout(() => {
+            const targetId = window.location.hash.substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetElement.style.border = '2px solid #0066cc';
+                targetElement.style.borderRadius = '8px';
+                setTimeout(() => {
+                    targetElement.style.border = '';
+                    targetElement.style.borderRadius = '';
+                }, 3000);
+            }
+        }, 1000);
     }
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (event) => {
-        const nav = document.querySelector('.nav');
-        const navMenu = document.getElementById('nav-menu');
-        if (nav && navMenu && !nav.contains(event.target) && navMenu.classList.contains('active')) {
-            closeMenu();
-        }
-    });
 }
 
 function toggleMenu() {
