@@ -221,6 +221,8 @@ class AdminPanel {
             this.events = [];
         }
     }
+
+    async loadGamesData() {
         try {
             // Intentar cargar desde S3 primero
             const s3Response = await fetch('https://tiburon-content-bucket.s3.amazonaws.com/assets/data/logic-games.json');
