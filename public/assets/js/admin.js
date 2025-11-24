@@ -227,13 +227,27 @@ class AdminPanel {
             if (response.ok) {
                 const data = await response.json();
                 console.log('📊 Datos de recursos desde Lambda:', data);
-                this.resources = Array.isArray(data) ? data : (data.resources || []);
-                this.resources = this.resources.map((resource, index) => ({
-                    ...resource,
-                    id: resource.id || `resource-${index}`,
-                    type: 'resource'
-                }));
-                console.log('✅ Recursos cargados desde Lambda:', this.resources.length);
+                
+                // Aplanar recursos de categorías
+                this.resources = [];
+                if (Array.isArray(data)) {
+                    data.forEach((category, catIndex) => {
+                        if (category.items && Array.isArray(category.items)) {
+                            category.items.forEach((item, itemIndex) => {
+                                this.resources.push({
+                                    ...item,
+                                    id: item.id || `resource-${catIndex}-${itemIndex}`,
+                                    type: 'resource',
+                                    category: category.category || 'General'
+                                });
+                            });
+                        }
+                    });
+                } else if (data.resources) {
+                    this.resources = data.resources;
+                }
+                
+                console.log('✅ Recursos procesados:', this.resources.length);
                 return;
             }
         } catch (error) {
@@ -244,13 +258,27 @@ class AdminPanel {
             const response = await fetch('/assets/data/resources.json');
             const data = await response.json();
             console.log('📊 Datos de recursos desde local:', data);
-            this.resources = Array.isArray(data) ? data : (data.resources || []);
-            this.resources = this.resources.map((resource, index) => ({
-                ...resource,
-                id: resource.id || `resource-${index}`,
-                type: 'resource'
-            }));
-            console.log('✅ Recursos cargados desde local:', this.resources.length);
+            
+            // Aplanar recursos de categorías
+            this.resources = [];
+            if (Array.isArray(data)) {
+                data.forEach((category, catIndex) => {
+                    if (category.items && Array.isArray(category.items)) {
+                        category.items.forEach((item, itemIndex) => {
+                            this.resources.push({
+                                ...item,
+                                id: item.id || `resource-${catIndex}-${itemIndex}`,
+                                type: 'resource',
+                                category: category.category || 'General'
+                            });
+                        });
+                    }
+                });
+            } else if (data.resources) {
+                this.resources = data.resources;
+            }
+            
+            console.log('✅ Recursos procesados desde local:', this.resources.length);
         } catch (error) {
             console.error('Error loading resources:', error);
             this.resources = [];
@@ -558,11 +586,11 @@ class AdminPanel {
 
     async loadUsersData() {
         const mockUsers = [
-            { id: 1, name: 'Roberto Flores', email: 'roberto.flores@siegfried-fs.com', status: 'active', role: 'admin', lastLogin: '2025-11-24' },
-            { id: 2, name: 'Ana García', email: 'ana.garcia@example.com', status: 'active', role: 'user', lastLogin: '2025-11-23' },
-            { id: 3, name: 'Carlos López', email: 'carlos.lopez@example.com', status: 'inactive', role: 'user', lastLogin: '2025-11-20' },
-            { id: 4, name: 'María Rodríguez', email: 'maria.rodriguez@example.com', status: 'active', role: 'user', lastLogin: '2025-11-24' },
-            { id: 5, name: 'Juan Pérez', email: 'juan.perez@example.com', status: 'inactive', role: 'user', lastLogin: '2025-11-15' }
+            { id: 1, name: 'Roberto Flores', email: 'admin@tiburoncp.local', status: 'active', role: 'admin', lastLogin: '2025-11-24' },
+            { id: 2, name: 'Usuario Demo 1', email: 'user1@tiburoncp.local', status: 'active', role: 'user', lastLogin: '2025-11-23' },
+            { id: 3, name: 'Usuario Demo 2', email: 'user2@tiburoncp.local', status: 'inactive', role: 'user', lastLogin: '2025-11-20' },
+            { id: 4, name: 'Usuario Demo 3', email: 'user3@tiburoncp.local', status: 'active', role: 'user', lastLogin: '2025-11-24' },
+            { id: 5, name: 'Usuario Demo 4', email: 'user4@tiburoncp.local', status: 'inactive', role: 'user', lastLogin: '2025-11-15' }
         ];
         
         this.users = mockUsers;
