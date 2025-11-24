@@ -287,30 +287,21 @@ class AuthManager {
             if (this.isAdministrator()) {
                 if(adminBadge) adminBadge.style.display = 'inline-block';
                 if(adminPanelBtn) adminPanelBtn.style.display = 'block';
-            }
+            } else {
                 if(adminBadge) adminBadge.style.display = 'none';
                 if(adminPanelBtn) adminPanelBtn.style.display = 'none';
-                const userRole = this.getUserRole();
-                if (userRole && userRoleBadge) {
-                    userRoleBadge.textContent = userRole;
-                    userRoleBadge.style.display = 'inline-block';
-                } else if (userRoleBadge) {
-                    userRoleBadge.style.display = 'none';
-                }
             }
 
-            this.setupUserMenuListeners(); // Configurar listeners para los elementos del menú de usuario
+            this.setupUserMenuListeners();
 
             // Mostrar mensaje de bienvenida si acaba de iniciar sesión
             if (sessionStorage.getItem('justLoggedIn') === 'true') {
                 alert(`¡Bienvenido, ${this.currentUser.name || this.currentUser.email} al AWS User Group Playa Vicente!`);
                 sessionStorage.removeItem('justLoggedIn');
                 
-                // Verificar si hay un redirect pendiente
                 const postLoginRedirect = sessionStorage.getItem('postLoginRedirect');
                 if (postLoginRedirect) {
                     sessionStorage.removeItem('postLoginRedirect');
-                    // Redirigir después de un breve delay para que se vea el mensaje
                     setTimeout(() => {
                         window.location.href = postLoginRedirect + '.html';
                     }, 1500);
@@ -326,7 +317,6 @@ class AuthManager {
             if (userName) userName.textContent = '';
         }
         
-        // Notificar al resto de la aplicación que el estado de autenticación está resuelto
         document.dispatchEvent(new CustomEvent('authStateReady', { detail: { isAuthenticated } }));
     }
 
