@@ -87,7 +87,7 @@ class AdminPanel {
 
     async verifyTokenWithServer(token) {
         try {
-            const response = await fetch('/api/verify-admin', {
+            const response = await fetch('https://vu7i71hm28.execute-api.us-east-1.amazonaws.com/verify-admin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
