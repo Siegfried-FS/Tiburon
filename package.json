@@ -1,14 +1,11 @@
 {
-  "name": "tiburon-performance-tests",
+  "name": "admin-posts-lambda",
   "version": "1.0.0",
-  "description": "Performance testing suite for AWS User Group site",
-  "scripts": {
-    "test:performance": "node test-performance.js",
-    "test:lighthouse": "lighthouse http://localhost:8000/feed.html --output=json --output-path=./lighthouse-report.json",
-    "serve": "cd public && python3 -m http.server 8000"
-  },
-  "devDependencies": {
-    "puppeteer": "^21.0.0",
-    "lighthouse": "^11.0.0"
+  "description": "Lambda function for admin posts management",
+  "main": "admin-posts-lambda.js",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0",
+    "@aws-sdk/client-s3": "^3.0.0"
   }
 }

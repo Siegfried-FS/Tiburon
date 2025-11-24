@@ -1,6 +1,10 @@
-const AWS = require('aws-sdk');
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-const s3 = new AWS.S3();
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+const { DynamoDBDocumentClient, ScanCommand, QueryCommand, PutCommand, UpdateCommand, DeleteCommand } = require('@aws-sdk/lib-dynamodb');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+
+const dynamoClient = new DynamoDBClient({ region: 'us-east-1' });
+const dynamodb = DynamoDBDocumentClient.from(dynamoClient);
+const s3 = new S3Client({ region: 'us-east-1' });
 
 const TABLE_NAME = 'tiburon-posts';
 const BUCKET_NAME = 'tiburon-feed-data';
@@ -80,8 +84,8 @@ async function getPosts(queryParams = {}) {
     }
     
     const result = status && status !== 'all' 
-        ? await dynamodb.query(params).promise()
-        : await dynamodb.scan(params).promise();
+        ? await dynamodb.send(new QueryCommand(params))
+        : await dynamodb.send(new ScanCommand(params));
     
     return {
         statusCode: 200,
@@ -105,10 +109,10 @@ async function createPost(postData) {
         category: postData.category || 'general'
     };
     
-    await dynamodb.put({
+    await dynamodb.send(new PutCommand({
         TableName: TABLE_NAME,
         Item: post
-    }).promise();
+    }));
     
     // Si el post es publicado, actualizar feed.json
     if (post.status === 'published') {
@@ -139,13 +143,13 @@ async function updatePost(postId, updateData) {
     expressionAttributeValues[':updatedAt'] = new Date().toISOString();
     updateExpression.push('#updatedAt = :updatedAt');
     
-    await dynamodb.update({
+    await dynamodb.send(new UpdateCommand({
         TableName: TABLE_NAME,
         Key: { id: postId },
         UpdateExpression: `SET ${updateExpression.join(', ')}`,
         ExpressionAttributeNames: expressionAttributeNames,
         ExpressionAttributeValues: expressionAttributeValues
-    }).promise();
+    }));
     
     // Si el status cambió a published, actualizar feed.json
     if (updateData.status === 'published') {
@@ -160,10 +164,10 @@ async function updatePost(postId, updateData) {
 }
 
 async function deletePost(postId) {
-    await dynamodb.delete({
+    await dynamodb.send(new DeleteCommand({
         TableName: TABLE_NAME,
         Key: { id: postId }
-    }).promise();
+    }));
     
     await updateFeedJson();
     
@@ -175,9 +179,9 @@ async function deletePost(postId) {
 }
 
 async function getStats() {
-    const allPosts = await dynamodb.scan({
+    const allPosts = await dynamodb.send(new ScanCommand({
         TableName: TABLE_NAME
-    }).promise();
+    }));
     
     const posts = allPosts.Items;
     const totalPosts = posts.filter(p => p.status === 'published').length;
@@ -204,14 +208,14 @@ async function getStats() {
 async function updateFeedJson() {
     try {
         // Obtener posts publicados
-        const result = await dynamodb.query({
+        const result = await dynamodb.send(new QueryCommand({
             TableName: TABLE_NAME,
             IndexName: 'status-createdAt-index',
             KeyConditionExpression: '#status = :status',
             ExpressionAttributeNames: { '#status': 'status' },
             ExpressionAttributeValues: { ':status': 'published' },
             ScanIndexForward: false
-        }).promise();
+        }));
         
         const feedPosts = result.Items.map(post => ({
             id: post.id,
@@ -223,13 +227,13 @@ async function updateFeedJson() {
             category: post.category || 'general'
         }));
         
-        await s3.putObject({
+        await s3.send(new PutObjectCommand({
             Bucket: BUCKET_NAME,
             Key: FEED_KEY,
             Body: JSON.stringify({ posts: feedPosts }),
             ContentType: 'application/json',
             ACL: 'public-read'
-        }).promise();
+        }));
         
         console.log('Feed updated successfully');
     } catch (error) {

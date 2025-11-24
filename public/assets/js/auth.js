@@ -243,39 +243,51 @@ class AuthManager {
     }
 
     updateUI(isAuthenticated) {
-        // Esperar a que el DOM esté listo si no lo está
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                this.updateUI(isAuthenticated);
-            });
-            return;
-        }
+        // Función para intentar actualizar UI
+        const attemptUpdate = () => {
+            const authButtons = document.getElementById('authButtons');
+            const userInfoDisplay = document.getElementById('userInfo');
+            
+            // Si los elementos no existen, esperar más tiempo
+            if (!authButtons && !userInfoDisplay) {
+                setTimeout(attemptUpdate, 200);
+                return;
+            }
+            
+            // Elementos encontrados, proceder con actualización
+            this.doUpdateUI(isAuthenticated);
+        };
         
+        // Si el DOM no está listo, esperar
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', attemptUpdate);
+        } else {
+            attemptUpdate();
+        }
+    }
+    
+    doUpdateUI(isAuthenticated) {
         const authButtons = document.getElementById('authButtons');
         const userInfoDisplay = document.getElementById('userInfo');
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
 
         if (isAuthenticated && this.currentUser) {
-            // Usuario autenticado - ocultar botón login, mostrar info usuario
+            // Usuario autenticado
             if (authButtons) authButtons.style.display = 'none';
             if (userInfoDisplay) userInfoDisplay.style.display = 'flex';
             
             if (userAvatar) userAvatar.src = this.currentUser.picture || '/assets/images/profile-photo.jpg';
             if (userName) userName.textContent = this.currentUser.name || this.currentUser.email;
             
-            // Mostrar insignia de admin si corresponde
+            // Admin badge
             const adminBadge = document.getElementById('admin-badge');
-            const userRoleBadge = document.getElementById('user-role');
             const adminPanelBtn = document.getElementById('adminPanelBtn');
-
+            
             if (this.isAdministrator()) {
                 if(adminBadge) adminBadge.style.display = 'inline-block';
-                if(userRoleBadge) userRoleBadge.style.display = 'none';
                 if(adminPanelBtn) adminPanelBtn.style.display = 'block';
-            } else {
+            }
                 if(adminBadge) adminBadge.style.display = 'none';
                 if(adminPanelBtn) adminPanelBtn.style.display = 'none';
                 const userRole = this.getUserRole();
