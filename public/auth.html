@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | AWS User Group Playa Vicente</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>🦈 Tiburón</h1>
+                <h2>AWS User Group Playa Vicente</h2>
+                <p>Inicia sesión para acceder a la comunidad</p>
+            </div>
+            
+            <div class="auth-content">
+                <div id="authMessage" class="auth-message" style="display: none;"></div>
+                
+                <div class="auth-buttons">
+                    <button id="googleLoginBtn" class="btn-google">
+                        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" width="20" height="20">
+                        Continuar con Google
+                    </button>
+                </div>
+                
+                <div class="auth-info">
+                    <p>Al iniciar sesión, aceptas nuestros términos de servicio y política de privacidad.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
+    <script src="https://unpkg.com/amazon-cognito-identity-js@6.3.12/dist/amazon-cognito-identity.min.js"></script>
+    <script src="assets/js/auth.js"></script>
+    
+    <script>
+        // Manejar parámetros de URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirect = urlParams.get('redirect');
+        const reason = urlParams.get('reason');
+        
+        // Mostrar mensaje según la razón
+        const authMessage = document.getElementById('authMessage');
+        if (reason && authMessage) {
+            let message = '';
+            switch(reason) {
+                case 'unauthorized':
+                    message = '❌ Necesitas iniciar sesión para acceder al panel de administración.';
+                    break;
+                case 'expired':
+                    message = '⏰ Tu sesión ha expirado. Por favor, inicia sesión nuevamente.';
+                    break;
+                case 'error':
+                    message = '⚠️ Hubo un error con tu sesión. Por favor, inicia sesión nuevamente.';
+                    break;
+                default:
+                    message = 'ℹ️ Por favor, inicia sesión para continuar.';
+            }
+            authMessage.textContent = message;
+            authMessage.style.display = 'block';
+        }
+        
+        // Configurar botón de Google
+        document.getElementById('googleLoginBtn').addEventListener('click', () => {
+            if (window.authManager) {
+                // Guardar redirect para después del login
+                if (redirect) {
+                    sessionStorage.setItem('postLoginRedirect', redirect);
+                }
+                window.authManager.signInWithGoogle();
+            }
+        });
+        
+        // Si ya está autenticado, redirigir
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.authManager && window.authManager.currentUser) {
+                const redirectTo = redirect || 'index.html';
+                window.location.href = redirectTo + '.html';
+            }
+        });
+    </script>
+</body>
+</html>

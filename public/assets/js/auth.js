@@ -252,6 +252,18 @@ class AuthManager {
             if (sessionStorage.getItem('justLoggedIn') === 'true') {
                 alert(`¡Bienvenido, ${this.currentUser.name || this.currentUser.email} al AWS User Group Playa Vicente!`);
                 sessionStorage.removeItem('justLoggedIn');
+                
+                // Verificar si hay un redirect pendiente
+                const postLoginRedirect = sessionStorage.getItem('postLoginRedirect');
+                if (postLoginRedirect) {
+                    sessionStorage.removeItem('postLoginRedirect');
+                    // Redirigir después de un breve delay para que se vea el mensaje
+                    setTimeout(() => {
+                        window.location.href = postLoginRedirect + '.html';
+                    }, 1500);
+                }
+            }
+                sessionStorage.removeItem('justLoggedIn');
             }
 
         } else {
