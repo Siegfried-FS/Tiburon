@@ -66,19 +66,28 @@
         
         // Configurar botón de Google
         document.getElementById('googleLoginBtn').addEventListener('click', () => {
-            if (window.authManager) {
-                // Guardar redirect para después del login
-                if (redirect) {
-                    sessionStorage.setItem('postLoginRedirect', redirect);
-                }
-                window.authManager.signInWithGoogle();
+            // Guardar redirect para después del login
+            if (redirect) {
+                sessionStorage.setItem('postLoginRedirect', redirect);
             }
+            
+            // Redirigir directamente a Cognito OAuth
+            const cognitoAuthUrl = 'https://auth.tiburoncp.siegfried-fs.com/oauth2/authorize?' +
+                'client_id=1gsjecdf86pgdgvvis7l30hha1&' +
+                'response_type=code&' +
+                'scope=email+openid+profile+aws.cognito.signin.user.admin&' +
+                'redirect_uri=' + encodeURIComponent(window.location.origin) + '&' +
+                'identity_provider=Google';
+            
+            window.location.href = cognitoAuthUrl;
         });
         
         // Si ya está autenticado, redirigir
         document.addEventListener('DOMContentLoaded', () => {
-            if (window.authManager && window.authManager.currentUser) {
-                const redirectTo = redirect || 'index.html';
+            // Verificar si hay tokens en sessionStorage
+            const accessToken = sessionStorage.getItem('accessToken');
+            if (accessToken) {
+                const redirectTo = redirect || 'index';
                 window.location.href = redirectTo + '.html';
             }
         });
