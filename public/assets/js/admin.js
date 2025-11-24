@@ -360,7 +360,7 @@ class AdminPanel {
                     </div>
                 </div>
                 <div class="content-body">
-                    ${item.image ? `<img src="${item.image}" alt="${item.title}" class="content-image" onerror="this.style.display='none'">` : ''}
+                    ${item.image ? `<img src="${item.image}" alt="${item.title}" class="content-image" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZjNmNGY2Ii8+CjxwYXRoIGQ9Ik0yMCAyNkM5IDI2IDkgMTQgMjAgMTRTMzEgMjYgMjAgMjZaIiBmaWxsPSIjOWNhM2FmIi8+CjxjaXJjbGUgY3g9IjIwIiBjeT0iMjAiIHI9IjMiIGZpbGw9IiM5Y2EzYWYiLz4KPC9zdmc+'; this.onerror=null;">` : ''}
                     <p>${(item.content || item.description || '').substring(0, 150)}...</p>
                     <div class="content-meta">
                         <span>Por: ${item.author || 'Admin'}</span>
