@@ -263,8 +263,6 @@ class AuthManager {
                     }, 1500);
                 }
             }
-                sessionStorage.removeItem('justLoggedIn');
-            }
 
         } else {
             // Usuario no autenticado
