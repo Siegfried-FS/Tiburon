@@ -15,8 +15,8 @@ class Admin {
             return false;
         }
         
-        // Mostrar el contenido solo si es admin
-        document.body.style.visibility = 'visible';
+        // Activar clase de autorización para mostrar contenido
+        document.body.classList.add('admin-authorized');
         return true;
     }
 
