@@ -251,9 +251,6 @@ class AuthManager {
             return;
         }
         
-        // Debug para verificar estado
-        console.log('updateUI called with:', isAuthenticated, 'currentUser:', this.currentUser);
-        
         const authButtons = document.getElementById('authButtons');
         const userInfoDisplay = document.getElementById('userInfo');
         const loginBtn = document.getElementById('loginBtn');
@@ -261,16 +258,8 @@ class AuthManager {
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
 
-        // Debug elementos DOM
-        console.log('DOM elements found:', {
-            authButtons: !!authButtons,
-            userInfoDisplay: !!userInfoDisplay,
-            loginBtn: !!loginBtn
-        });
-
         if (isAuthenticated && this.currentUser) {
             // Usuario autenticado - ocultar botón login, mostrar info usuario
-            console.log('Showing user info, hiding auth buttons');
             if (authButtons) authButtons.style.display = 'none';
             if (userInfoDisplay) userInfoDisplay.style.display = 'flex';
             
@@ -318,15 +307,8 @@ class AuthManager {
 
         } else {
             // Usuario no autenticado
-            console.log('Showing auth buttons, hiding user info');
-            if (authButtons) {
-                authButtons.style.display = 'flex';
-                console.log('Auth buttons set to flex');
-            }
-            if (userInfoDisplay) {
-                userInfoDisplay.style.display = 'none';
-                console.log('User info hidden');
-            }
+            if (authButtons) authButtons.style.display = 'flex';
+            if (userInfoDisplay) userInfoDisplay.style.display = 'none';
             
             if (userAvatar) userAvatar.src = '/assets/images/profile-photo.jpg';
             if (userName) userName.textContent = '';

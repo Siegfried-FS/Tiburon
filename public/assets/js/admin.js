@@ -2,7 +2,7 @@
 // ADMIN PANEL - CORE FUNCTIONALITY WITH REAL BACKEND
 // =============================================================================
 
-const API_BASE_URL = 'https://fklo6233x5.execute-api.us-east-1.amazonaws.com';
+const API_BASE_URL = 'https://fklo6233x5.execute-api.us-east-1.amazonaws.com/prod';
 
 class AdminPanel {
     constructor() {
