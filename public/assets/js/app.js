@@ -785,7 +785,17 @@ async function loadFeed() {
             throw new Error('No se pudo cargar el feed');
         }
 
-        const posts = feedData.posts || [];
+        // Manejar diferentes formatos de datos
+        let posts;
+        if (Array.isArray(feedData)) {
+            posts = feedData; // Si es array directo
+        } else if (feedData.posts) {
+            posts = feedData.posts; // Si tiene propiedad posts
+        } else {
+            posts = []; // Fallback
+        }
+
+        console.log('📰 Posts cargados en feed público:', posts.length);
 
         if (!posts || posts.length === 0) {
             container.innerHTML = '<p style="text-align: center;">Aún no hay nada en el feed. ¡Vuelve pronto!</p>';
