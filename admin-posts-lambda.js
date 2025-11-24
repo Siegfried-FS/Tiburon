@@ -25,11 +25,13 @@ exports.handler = async (event) => {
     
     try {
         const method = event.httpMethod;
-        const path = event.path;
+        const path = event.rawPath || event.path || '';
+        
+        console.log('Method:', method, 'Path:', path);
         
         switch (method) {
             case 'GET':
-                if (path.includes('/stats') || path.endsWith('/posts/stats')) {
+                if (path.endsWith('/stats') || path.includes('stats')) {
                     return await getStats();
                 }
                 return await getPosts(event.queryStringParameters);

@@ -248,9 +248,29 @@ class AuthManager {
             const authButtons = document.getElementById('authButtons');
             const userInfoDisplay = document.getElementById('userInfo');
             
-            // Si los elementos no existen, esperar más tiempo
+            // Si los elementos no existen, usar MutationObserver para esperar
             if (!authButtons && !userInfoDisplay) {
-                setTimeout(attemptUpdate, 200);
+                const observer = new MutationObserver((mutations) => {
+                    const authButtons = document.getElementById('authButtons');
+                    const userInfoDisplay = document.getElementById('userInfo');
+                    
+                    if (authButtons || userInfoDisplay) {
+                        observer.disconnect();
+                        this.doUpdateUI(isAuthenticated);
+                    }
+                });
+                
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+                
+                // Fallback timeout
+                setTimeout(() => {
+                    observer.disconnect();
+                    this.doUpdateUI(isAuthenticated);
+                }, 2000);
+                
                 return;
             }
             

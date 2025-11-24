@@ -163,14 +163,46 @@ class AdminPanel {
 
     async loadPosts(filter = 'all') {
         try {
+            // Cargar posts de DynamoDB
             const url = filter === 'all' ? `${API_BASE_URL}/posts` : `${API_BASE_URL}/posts?status=${filter}`;
             const response = await fetch(url);
             const data = await response.json();
             
             this.posts = data.posts || [];
+            
+            // Si no hay posts en DynamoDB, cargar del feed.json existente
+            if (this.posts.length === 0) {
+                await this.loadExistingFeedPosts();
+            }
+            
             this.renderPosts(this.posts);
         } catch (error) {
             console.error('Error loading posts:', error);
+            // Fallback: cargar posts del feed.json
+            await this.loadExistingFeedPosts();
+        }
+    }
+    
+    async loadExistingFeedPosts() {
+        try {
+            const response = await fetch('/assets/data/feed.json');
+            const feedData = await response.json();
+            
+            // Convertir posts del feed a formato DynamoDB
+            this.posts = feedData.posts.map(post => ({
+                id: post.id || `feed-${Date.now()}-${Math.random()}`,
+                title: post.title,
+                content: post.content,
+                author: post.author || 'Admin',
+                status: 'published', // Los posts del feed están publicados
+                createdAt: post.date,
+                category: post.category || 'general',
+                tags: post.tags || []
+            }));
+            
+            this.renderPosts(this.posts);
+        } catch (error) {
+            console.error('Error loading feed posts:', error);
             document.getElementById('postsList').innerHTML = '<p>Error cargando posts</p>';
         }
     }
