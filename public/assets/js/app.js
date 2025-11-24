@@ -2,23 +2,23 @@
 // CONFIGURACIÓN Y CARGA DE DATOS
 // =============================================================================
 
-// Configuración de URLs - S3 primero, local como fallback
+// Configuración de URLs - Lambda primero, local como fallback
 const DATA_SOURCES = {
-    s3: 'https://tiburon-content-bucket.s3.amazonaws.com/assets/data/',
+    lambda: 'https://fklo6233x5.execute-api.us-east-1.amazonaws.com/prod/get-content/',
     local: '/assets/data/'
 };
 
 // Función para cargar datos con fallback
 async function loadData(filename) {
     try {
-        // Intentar S3 primero
-        const s3Response = await fetch(DATA_SOURCES.s3 + filename);
-        if (s3Response.ok) {
-            console.log(`✅ Cargando ${filename} desde S3`);
-            return await s3Response.json();
+        // Intentar Lambda primero
+        const lambdaResponse = await fetch(DATA_SOURCES.lambda + filename);
+        if (lambdaResponse.ok) {
+            console.log(`✅ Cargando ${filename} desde Lambda/S3`);
+            return await lambdaResponse.json();
         }
     } catch (error) {
-        console.log(`⚠️ S3 no disponible para ${filename}, usando local`);
+        console.log(`⚠️ Lambda no disponible para ${filename}, usando local`);
     }
     
     // Fallback a local
