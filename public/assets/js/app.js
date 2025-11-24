@@ -383,11 +383,9 @@ async function loadEvents() {
     const container = document.getElementById('events-container');
     if (!container) return;
 
-    // Asumiendo que los eventos no tienen un grid directo, mostramos 2 esqueletos.
     showSkeletonLoader(container, eventCardSkeleton, 2, 'events-grid');
 
     try {
-        // Simular un pequeño retraso para que el esqueleto sea visible
         await new Promise(resolve => setTimeout(resolve, 500));
 
         const events = await loadData('events.json');
@@ -398,25 +396,115 @@ async function loadEvents() {
             return;
         }
 
-        // Sort events: events with specific dates first, then by date; events with only year last.
-        events.sort((a, b) => {
-            const aDate = a.date ? new Date(a.date) : null;
-            const bDate = b.date ? new Date(b.date) : null;
-            if (aDate && bDate) return bDate - aDate;
-            if (aDate) return -1;
-            if (bDate) return 1;
-            return b.year - a.year;
+        // Filtrar y ordenar eventos por fecha (más recientes primero)
+        const now = new Date();
+        const sortedEvents = events
+            .filter(event => event.date) // Solo eventos con fecha
+            .sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateB - dateA; // Más recientes primero
+            });
+
+        // Separar eventos por estado
+        const upcomingEvents = sortedEvents.filter(event => {
+            const eventDate = new Date(event.date);
+            return eventDate >= now && event.status === 'abierto';
         });
 
-        // Group events by year
-        const eventsByYear = events.reduce((acc, event) => {
-            const year = event.date ? new Date(event.date).getFullYear() : event.year;
-            if (!acc[year]) {
-                acc[year] = [];
+        const pastEvents = sortedEvents.filter(event => {
+            const eventDate = new Date(event.date);
+            return eventDate < now || event.status === 'cerrado' || event.status === 'cancelado';
+        });
+
+        let html = '';
+
+        // Eventos próximos
+        if (upcomingEvents.length > 0) {
+            html += '<h2 class="events-section-title">🟢 Próximos Eventos</h2>';
+            html += '<div class="events-grid">';
+            upcomingEvents.forEach(event => {
+                html += renderEventCard(event);
+            });
+            html += '</div>';
+        }
+
+        // Eventos pasados
+        if (pastEvents.length > 0) {
+            html += '<h2 class="events-section-title">📅 Eventos Pasados</h2>';
+            html += '<div class="events-grid past-events">';
+            pastEvents.forEach(event => {
+                html += renderEventCard(event);
+            });
+            html += '</div>';
+        }
+
+        if (upcomingEvents.length === 0 && pastEvents.length === 0) {
+            html = '<p>No hay eventos disponibles. ¡Vuelve pronto!</p>';
+        }
+
+        container.innerHTML = html;
+
+    } catch (error) {
+        console.error('Error loading events:', error);
+        container.innerHTML = '<p>Error al cargar eventos. Intenta más tarde.</p>';
+    }
+}
+
+function renderEventCard(event) {
+    const eventDate = new Date(event.date);
+    const now = new Date();
+    const isPast = eventDate < now || event.status === 'cerrado' || event.status === 'cancelado';
+    
+    // Formatear fecha
+    const formattedDate = eventDate.toLocaleDateString('es-ES', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    // Estado del evento
+    let statusBadge = '';
+    let registrationButton = '';
+    
+    switch(event.status) {
+        case 'abierto':
+            if (!isPast) {
+                statusBadge = '<span class="event-status open">🟢 Abierto</span>';
+                if (event.registrationUrl) {
+                    registrationButton = `<a href="${event.registrationUrl}" target="_blank" class="btn-register">Registrarse</a>`;
+                }
+            } else {
+                statusBadge = '<span class="event-status closed">🔴 Finalizado</span>';
             }
-            acc[year].push(event);
-            return acc;
-        }, {});
+            break;
+        case 'cerrado':
+            statusBadge = '<span class="event-status closed">🔴 Cerrado</span>';
+            break;
+        case 'cancelado':
+            statusBadge = '<span class="event-status cancelled">⚫ Cancelado</span>';
+            break;
+    }
+
+    return `
+        <div class="event-card ${isPast ? 'past-event' : ''}">
+            ${event.image ? `<img src="${event.image}" alt="${event.title}" class="event-image">` : ''}
+            <div class="event-content">
+                <div class="event-header">
+                    <h3>${event.title}</h3>
+                    ${statusBadge}
+                </div>
+                <p class="event-date">📅 ${formattedDate}</p>
+                ${event.location ? `<p class="event-location">📍 ${event.location}</p>` : ''}
+                <p class="event-description">${event.description || event.content || ''}</p>
+                ${registrationButton}
+            </div>
+        </div>
+    `;
+}
 
         let html = '';
         const sortedYears = Object.keys(eventsByYear).sort((a, b) => b - a);
