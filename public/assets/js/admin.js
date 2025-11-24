@@ -9,6 +9,7 @@ class AdminPanel {
         this.currentUser = null;
         this.currentSection = 'dashboard';
         this.posts = [];
+        this.events = [];
         this.games = [];
         this.resources = [];
         this.workshops = [];
@@ -72,6 +73,10 @@ class AdminPanel {
             this.showContentModal('post');
         });
         
+        document.getElementById('addEventBtn')?.addEventListener('click', () => {
+            this.showContentModal('event');
+        });
+
         document.getElementById('addGameBtn')?.addEventListener('click', () => {
             this.showContentModal('game');
         });
@@ -147,6 +152,7 @@ class AdminPanel {
             // Cargar todos los contenidos del sitio
             await Promise.all([
                 this.loadFeedPosts(),
+                this.loadEventsData(),
                 this.loadGamesData(),
                 this.loadResourcesData(),
                 this.loadWorkshopsData()
@@ -182,7 +188,39 @@ class AdminPanel {
         }
     }
 
-    async loadGamesData() {
+    async loadEventsData() {
+        try {
+            // Usar Lambda para obtener datos con CORS correcto
+            const response = await fetch(`${API_BASE_URL}/get-content/events.json`);
+            if (response.ok) {
+                const data = await response.json();
+                this.events = Array.isArray(data) ? data : (data.events || []);
+                this.events = this.events.map((event, index) => ({
+                    ...event,
+                    id: event.id || `event-${index}`,
+                    type: 'event'
+                }));
+                return;
+            }
+        } catch (error) {
+            console.log('Lambda no disponible, cargando desde local:', error);
+        }
+        
+        // Fallback a archivo local
+        try {
+            const response = await fetch('/assets/data/events.json');
+            const data = await response.json();
+            this.events = Array.isArray(data) ? data : (data.events || []);
+            this.events = this.events.map((event, index) => ({
+                ...event,
+                id: event.id || `event-${index}`,
+                type: 'event'
+            }));
+        } catch (error) {
+            console.error('Error loading events:', error);
+            this.events = [];
+        }
+    }
         try {
             // Intentar cargar desde S3 primero
             const s3Response = await fetch('https://tiburon-content-bucket.s3.amazonaws.com/assets/data/logic-games.json');
@@ -338,6 +376,7 @@ class AdminPanel {
     renderAllContent() {
         const allContent = [
             ...this.posts.map(item => ({...item, type: 'post'})),
+            ...this.events.map(item => ({...item, type: 'event'})),
             ...this.games.map(item => ({...item, type: 'game'})),
             ...this.resources.map(item => ({...item, type: 'resource'})),
             ...this.workshops.map(item => ({...item, type: 'workshop'}))
@@ -457,6 +496,7 @@ class AdminPanel {
     async saveToS3(type) {
         const fileMap = {
             'post': 'feed.json',
+            'event': 'events.json',
             'game': 'logic-games.json',
             'resource': 'resources.json',
             'workshop': 'workshops.json'
