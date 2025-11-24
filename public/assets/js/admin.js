@@ -447,7 +447,7 @@ class AdminPanel {
                                 <option value="cancelado" ${item?.status === 'cancelado' ? 'selected' : ''}>⚫ Cancelado</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" id="eventUrlGroup" style="${item?.status === 'abierto' ? 'display:block' : 'display:none'}">
                             <label for="eventUrl">URL de Registro:</label>
                             <input type="url" id="eventUrl" placeholder="https://..." value="${item?.registrationUrl || ''}">
                         </div>
@@ -482,6 +482,17 @@ class AdminPanel {
         modal.querySelector('.modal-cancel').onclick = () => modal.remove();
         modal.onclick = (e) => e.target === modal && modal.remove();
         
+        // Event listener para mostrar/ocultar URL de registro
+        if (type === 'event') {
+            const statusSelect = modal.querySelector('#eventStatus');
+            const urlGroup = modal.querySelector('#eventUrlGroup');
+            if (statusSelect && urlGroup) {
+                statusSelect.onchange = () => {
+                    urlGroup.style.display = statusSelect.value === 'abierto' ? 'block' : 'none';
+                };
+            }
+        }
+        
         modal.querySelector('.modal-form').onsubmit = async (e) => {
             e.preventDefault();
             await this.saveContent(type, itemId, modal);
@@ -505,6 +516,7 @@ class AdminPanel {
             formData.registrationUrl = document.getElementById('eventUrl').value;
             formData.date = document.getElementById('eventDate').value;
             formData.location = document.getElementById('eventLocation').value;
+            console.log('💾 Guardando evento:', formData);
         }
 
         const urlField = document.getElementById('contentUrl');
