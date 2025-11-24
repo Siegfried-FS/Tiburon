@@ -255,7 +255,7 @@ class AdminPanel {
                     </div>
                 </div>
                 <div class="content-body">
-                    ${item.image ? `<img src="${item.image}" alt="${item.title}" class="content-image">` : ''}
+                    ${item.image ? `<img src="${item.image}" alt="${item.title}" class="content-image" onerror="this.style.display='none'">` : ''}
                     <p>${(item.content || item.description || '').substring(0, 150)}...</p>
                     <div class="content-meta">
                         <span>Por: ${item.author || 'Admin'}</span>
@@ -366,16 +366,17 @@ class AdminPanel {
             date: new Date().toISOString()
         };
 
-        if (type === 'game') {
-            formData.url = document.getElementById('gameUrl').value;
-        }
-        if (type === 'resource') {
-            formData.url = document.getElementById('resourceUrl').value;
+        // Agregar URL si existe el campo
+        const urlField = document.getElementById('contentUrl');
+        if (urlField) {
+            formData.url = urlField.value;
         }
 
         try {
             // Aquí normalmente guardarías en el backend
             // Por ahora solo actualizamos localmente
+            console.log('Guardando contenido:', formData);
+            
             modal.remove();
             await this.loadAllContent();
             this.showToast(`${type} ${itemId ? 'actualizado' : 'creado'}`, 'success');
