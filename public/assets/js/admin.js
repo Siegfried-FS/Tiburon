@@ -92,10 +92,16 @@ class AdminPanel {
             const totalResources = this.resources.length;
             const totalWorkshops = this.workshops.length;
             
-            document.getElementById('totalPosts').textContent = totalPosts;
-            document.getElementById('totalGames').textContent = totalGames;
-            document.getElementById('totalResources').textContent = totalResources;
-            document.getElementById('totalWorkshops').textContent = totalWorkshops;
+            // Verificar que los elementos existen antes de asignar
+            const postsEl = document.getElementById('totalPosts');
+            const gamesEl = document.getElementById('totalGames');
+            const resourcesEl = document.getElementById('totalResources');
+            const workshopsEl = document.getElementById('totalWorkshops');
+            
+            if (postsEl) postsEl.textContent = totalPosts;
+            if (gamesEl) gamesEl.textContent = totalGames;
+            if (resourcesEl) resourcesEl.textContent = totalResources;
+            if (workshopsEl) workshopsEl.textContent = totalWorkshops;
             
         } catch (error) {
             console.error('Error loading dashboard:', error);
@@ -215,16 +221,19 @@ class AdminPanel {
     }
 
     async loadResourcesData() {
+        console.log('🔍 Cargando recursos...');
         try {
             const response = await fetch(`${API_BASE_URL}/get-content/resources.json`);
             if (response.ok) {
                 const data = await response.json();
+                console.log('📊 Datos de recursos desde Lambda:', data);
                 this.resources = Array.isArray(data) ? data : (data.resources || []);
                 this.resources = this.resources.map((resource, index) => ({
                     ...resource,
                     id: resource.id || `resource-${index}`,
                     type: 'resource'
                 }));
+                console.log('✅ Recursos cargados desde Lambda:', this.resources.length);
                 return;
             }
         } catch (error) {
@@ -234,12 +243,14 @@ class AdminPanel {
         try {
             const response = await fetch('/assets/data/resources.json');
             const data = await response.json();
+            console.log('📊 Datos de recursos desde local:', data);
             this.resources = Array.isArray(data) ? data : (data.resources || []);
             this.resources = this.resources.map((resource, index) => ({
                 ...resource,
                 id: resource.id || `resource-${index}`,
                 type: 'resource'
             }));
+            console.log('✅ Recursos cargados desde local:', this.resources.length);
         } catch (error) {
             console.error('Error loading resources:', error);
             this.resources = [];
