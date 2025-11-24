@@ -55,8 +55,8 @@ class AdminPanel {
             const user = await Auth.currentAuthenticatedUser();
             const groups = user.signInUserSession.accessToken.payload['cognito:groups'] || [];
             
-            // Verificar que el usuario tenga grupo Admin
-            if (!groups.includes('Admin')) {
+            // Verificar que el usuario tenga grupo Admins
+            if (!groups.includes('Admins')) {
                 console.log('Usuario sin permisos de admin');
                 window.location.href = '/admin-denied.html';
                 return;

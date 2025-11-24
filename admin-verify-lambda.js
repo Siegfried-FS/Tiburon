@@ -70,9 +70,9 @@ exports.handler = async (event) => {
             };
         }
 
-        // Verificar que el usuario tenga grupo Admin
+        // Verificar que el usuario tenga grupo Admins
         const groups = decoded['cognito:groups'] || [];
-        if (!groups.includes('Admin')) {
+        if (!groups.includes('Admins')) {
             return {
                 statusCode: 403,
                 headers,
