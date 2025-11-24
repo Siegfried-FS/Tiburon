@@ -34,6 +34,15 @@
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
+# Bloquear acceso directo al panel de administración
+<Files "admin.html">
+    Order deny,allow
+    Deny from all
+    # Solo permitir desde localhost para desarrollo
+    Allow from 127.0.0.1
+    Allow from ::1
+</Files>
+
 # Bloquear acceso a archivos sensibles
 <Files ~ "^\.">
     Order allow,deny
