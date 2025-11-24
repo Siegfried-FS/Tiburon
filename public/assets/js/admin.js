@@ -160,6 +160,19 @@ class AdminPanel {
 
     async loadFeedPosts() {
         try {
+            // Intentar cargar desde S3 primero
+            const s3Response = await fetch('https://tiburon-content-bucket.s3.amazonaws.com/assets/data/feed.json');
+            if (s3Response.ok) {
+                const data = await s3Response.json();
+                this.posts = data.posts || [];
+                return;
+            }
+        } catch (error) {
+            console.log('S3 no disponible, cargando desde local:', error);
+        }
+        
+        // Fallback a archivo local
+        try {
             const response = await fetch('/assets/data/feed.json');
             const data = await response.json();
             this.posts = data.posts || [];
@@ -171,11 +184,27 @@ class AdminPanel {
 
     async loadGamesData() {
         try {
+            // Intentar cargar desde S3 primero
+            const s3Response = await fetch('https://tiburon-content-bucket.s3.amazonaws.com/assets/data/logic-games.json');
+            if (s3Response.ok) {
+                const data = await s3Response.json();
+                this.games = Array.isArray(data) ? data : (data.games || []);
+                this.games = this.games.map((game, index) => ({
+                    ...game,
+                    id: game.id || `game-${index}`,
+                    type: 'game'
+                }));
+                return;
+            }
+        } catch (error) {
+            console.log('S3 no disponible, cargando desde local:', error);
+        }
+        
+        // Fallback a archivo local
+        try {
             const response = await fetch('/assets/data/logic-games.json');
             const data = await response.json();
-            // Los juegos están directamente en el array, no en data.games
             this.games = Array.isArray(data) ? data : (data.games || []);
-            // Agregar IDs si no existen
             this.games = this.games.map((game, index) => ({
                 ...game,
                 id: game.id || `game-${index}`,
@@ -188,6 +217,24 @@ class AdminPanel {
     }
 
     async loadResourcesData() {
+        try {
+            // Intentar cargar desde S3 primero
+            const s3Response = await fetch('https://tiburon-content-bucket.s3.amazonaws.com/assets/data/resources.json');
+            if (s3Response.ok) {
+                const data = await s3Response.json();
+                this.resources = Array.isArray(data) ? data : (data.resources || []);
+                this.resources = this.resources.map((resource, index) => ({
+                    ...resource,
+                    id: resource.id || `resource-${index}`,
+                    type: 'resource'
+                }));
+                return;
+            }
+        } catch (error) {
+            console.log('S3 no disponible, cargando desde local:', error);
+        }
+        
+        // Fallback a archivo local
         try {
             const response = await fetch('/assets/data/resources.json');
             const data = await response.json();
@@ -204,6 +251,24 @@ class AdminPanel {
     }
 
     async loadWorkshopsData() {
+        try {
+            // Intentar cargar desde S3 primero
+            const s3Response = await fetch('https://tiburon-content-bucket.s3.amazonaws.com/assets/data/workshops.json');
+            if (s3Response.ok) {
+                const data = await s3Response.json();
+                this.workshops = Array.isArray(data) ? data : (data.workshops || []);
+                this.workshops = this.workshops.map((workshop, index) => ({
+                    ...workshop,
+                    id: workshop.id || `workshop-${index}`,
+                    type: 'workshop'
+                }));
+                return;
+            }
+        } catch (error) {
+            console.log('S3 no disponible, cargando desde local:', error);
+        }
+        
+        // Fallback a archivo local
         try {
             const response = await fetch('/assets/data/workshops.json');
             const data = await response.json();
@@ -373,24 +438,70 @@ class AdminPanel {
         }
 
         try {
-            // Actualizar localmente
+            // Actualizar localmente primero
             this.updateLocalContent(type, formData);
             
+            // Guardar en S3 a través de Lambda
+            await this.saveToS3(type);
+            
             modal.remove();
-            this.renderAllContent(); // Re-renderizar con datos actualizados
-            
-            // Mostrar mensaje informativo
-            this.showToast(`✅ ${type} ${itemId ? 'actualizado' : 'creado'} localmente`, 'success');
-            
-            // Mostrar información sobre persistencia
-            setTimeout(() => {
-                this.showToast('💡 Los cambios son locales. Para persistir, se necesita configurar AWS S3', 'info');
-            }, 2000);
+            this.renderAllContent();
+            this.showToast(`✅ ${type} ${itemId ? 'actualizado' : 'creado'} y guardado en AWS S3`, 'success');
             
         } catch (error) {
             console.error('Error saving content:', error);
-            this.showToast('Error al guardar contenido', 'error');
+            this.showToast('❌ Error al guardar en S3. Cambios solo locales.', 'error');
         }
+    }
+
+    async saveToS3(type) {
+        const fileMap = {
+            'post': 'feed.json',
+            'game': 'logic-games.json',
+            'resource': 'resources.json',
+            'workshop': 'workshops.json'
+        };
+
+        const fileName = fileMap[type];
+        if (!fileName) return;
+
+        // Preparar datos para guardar
+        let dataToSave;
+        switch(type) {
+            case 'post':
+                dataToSave = { posts: this.posts };
+                break;
+            case 'game':
+                dataToSave = this.games; // Array directo
+                break;
+            case 'resource':
+                dataToSave = { resources: this.resources };
+                break;
+            case 'workshop':
+                dataToSave = { workshops: this.workshops };
+                break;
+        }
+
+        // Llamar a Lambda para guardar en S3
+        const response = await fetch(`${API_BASE_URL}/save-content`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify({
+                fileName: fileName,
+                content: dataToSave
+            })
+        });
+
+        if (!response.ok) {
+            const error = await response.text();
+            throw new Error(`Error guardando en S3: ${error}`);
+        }
+
+        const result = await response.json();
+        console.log('Guardado en S3:', result);
     }
 
     updateLocalContent(type, formData) {
