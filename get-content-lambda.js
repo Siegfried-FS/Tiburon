@@ -15,7 +15,7 @@ exports.handler = async (event) => {
     
     try {
         // Handle CORS preflight
-        if (event.httpMethod === 'OPTIONS') {
+        if (event.requestContext.http.method === 'OPTIONS') {
             return {
                 statusCode: 200,
                 headers,
@@ -23,7 +23,7 @@ exports.handler = async (event) => {
             };
         }
 
-        if (event.httpMethod !== 'GET') {
+        if (event.requestContext.http.method !== 'GET') {
             return {
                 statusCode: 405,
                 headers,
@@ -32,8 +32,7 @@ exports.handler = async (event) => {
         }
 
         // Extraer filename del path
-        const path = event.rawPath || event.path || '';
-        const filename = path.split('/').pop();
+        const filename = event.pathParameters?.filename;
 
         if (!filename || !filename.endsWith('.json')) {
             return {
