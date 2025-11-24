@@ -1,4 +1,40 @@
 // =============================================================================
+// CONFIGURACIÓN Y CARGA DE DATOS
+// =============================================================================
+
+// Configuración de URLs - S3 primero, local como fallback
+const DATA_SOURCES = {
+    s3: 'https://tiburon-content-bucket.s3.amazonaws.com/assets/data/',
+    local: '/assets/data/'
+};
+
+// Función para cargar datos con fallback
+async function loadData(filename) {
+    try {
+        // Intentar S3 primero
+        const s3Response = await fetch(DATA_SOURCES.s3 + filename);
+        if (s3Response.ok) {
+            console.log(`✅ Cargando ${filename} desde S3`);
+            return await s3Response.json();
+        }
+    } catch (error) {
+        console.log(`⚠️ S3 no disponible para ${filename}, usando local`);
+    }
+    
+    // Fallback a local
+    try {
+        const localResponse = await fetch(DATA_SOURCES.local + filename);
+        if (localResponse.ok) {
+            console.log(`📁 Cargando ${filename} desde local`);
+            return await localResponse.json();
+        }
+    } catch (error) {
+        console.error(`❌ Error cargando ${filename}:`, error);
+        return null;
+    }
+}
+
+// =============================================================================
 // NÚCLEO: INICIALIZACIÓN Y FUNCIONES PRINCIPALES
 // =============================================================================
 
@@ -268,8 +304,8 @@ async function loadGlossary() {
         // Simular un pequeño retraso para que el esqueleto sea visible
         await new Promise(resolve => setTimeout(resolve, 500));
 
-        const response = await fetch('assets/data/glosario.json');
-        allTerms = await response.json();
+        const response = await loadData('glosario.json');
+        allTerms = response || [];
 
         if (allTerms.length === 0) {
             container.innerHTML = '<p>No hay términos en el glosario en este momento.</p>';
@@ -354,8 +390,8 @@ async function loadEvents() {
         // Simular un pequeño retraso para que el esqueleto sea visible
         await new Promise(resolve => setTimeout(resolve, 500));
 
-        const response = await fetch('assets/data/events.json');
-        const events = await response.json();
+        const events = await loadData('events.json');
+        if (!events) return;
 
         if (events.length === 0) {
             container.innerHTML = '<p>No hay eventos próximos. ¡Vuelve pronto!</p>';
@@ -491,8 +527,8 @@ async function loadResources() {
     let activeCategory = 'all';
 
     try {
-        const response = await fetch('assets/data/resources.json');
-        allCategories = await response.json();
+        allCategories = await loadData('resources.json');
+        if (!allCategories) return;
 
         if (allCategories.length === 0) {
             container.innerHTML = '<p>No hay recursos disponibles en este momento.</p>';
@@ -568,8 +604,8 @@ async function loadLogicGames() {
 
     try {
         await new Promise(resolve => setTimeout(resolve, 500));
-        const response = await fetch('assets/data/logic-games.json');
-        allGames = await response.json();
+        allGames = await loadData('logic-games.json');
+        if (!allGames) return;
 
         if (allGames.length === 0) {
             container.innerHTML = '<p>No hay juegos de lógica disponibles en este momento.</p>';
@@ -653,8 +689,8 @@ async function loadWorkshops() {
 
     try {
         await new Promise(resolve => setTimeout(resolve, 500));
-        const response = await fetch('assets/data/workshops.json');
-        allWorkshops = await response.json();
+        allWorkshops = await loadData('workshops.json');
+        if (!allWorkshops) return;
 
         if (allWorkshops.length === 0) {
             container.innerHTML = '<p>Aún no hay talleres en el historial. ¡Vuelve pronto!</p>';
@@ -743,12 +779,13 @@ async function loadFeed() {
     try {
         await new Promise(resolve => setTimeout(resolve, 500));
         
-        // ¡CAMBIO IMPORTANTE! Ahora el feed se lee desde S3 para que la Lambda pueda modificarlo.
-        // Reemplaza esta URL por la URL pública de tu feed.json en S3
-        const feedUrl = 'https://tiburon-community-data-1763934850.s3.amazonaws.com/data/feed.json';
-        const response = await fetch(feedUrl, { cache: 'no-store' }); // Usar no-store para obtener siempre la última versión
+        // Cargar feed desde S3 con fallback a local
+        const feedData = await loadData('feed.json');
+        if (!feedData) {
+            throw new Error('No se pudo cargar el feed');
+        }
 
-        const posts = await response.json();
+        const posts = feedData.posts || [];
 
         if (!posts || posts.length === 0) {
             container.innerHTML = '<p style="text-align: center;">Aún no hay nada en el feed. ¡Vuelve pronto!</p>';
