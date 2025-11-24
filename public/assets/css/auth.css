@@ -313,28 +313,38 @@
     gap: 12px;
     width: 100%;
     padding: 12px 20px;
-    background: white;
-    color: #333;
-    border: 1px solid #ddd;
+    background: white !important;
+    color: #333 !important;
+    border: 1px solid #ddd !important;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    outline: none;
-    text-decoration: none;
+    outline: none !important;
+    text-decoration: none !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 .btn-google:hover {
-    background: #f8f9fa;
+    background: #f8f9fa !important;
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     transform: translateY(-1px);
+    color: #333 !important;
 }
 
 .btn-google:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.3);
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.3) !important;
+    background: white !important;
+}
+
+.btn-google:active {
+    background: #e8f0fe !important;
+    transform: translateY(0);
 }
 
 .auth-info {

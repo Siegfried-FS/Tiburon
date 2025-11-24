@@ -45,15 +45,19 @@ class AdminPanel {
 
     async checkAuth() {
         try {
-            // Verificar token JWT válido de Cognito
-            const session = await Auth.currentSession();
-            if (!session.isValid()) {
-                throw new Error('Sesión inválida');
+            // Verificar si hay tokens en sessionStorage
+            const accessToken = sessionStorage.getItem('accessToken');
+            const idToken = sessionStorage.getItem('idToken');
+            
+            if (!accessToken || !idToken) {
+                console.log('No hay tokens, redirigiendo a auth');
+                window.location.href = '/auth.html?redirect=admin&reason=unauthorized';
+                return;
             }
 
-            // Obtener usuario actual con grupos
-            const user = await Auth.currentAuthenticatedUser();
-            const groups = user.signInUserSession.accessToken.payload['cognito:groups'] || [];
+            // Decodificar el token para obtener información del usuario
+            const tokenPayload = JSON.parse(atob(idToken.split('.')[1]));
+            const groups = tokenPayload['cognito:groups'] || [];
             
             // Verificar que el usuario tenga grupo Admins
             if (!groups.includes('Admins')) {
@@ -62,17 +66,11 @@ class AdminPanel {
                 return;
             }
 
-            // Verificar token con el servidor (doble verificación)
-            const tokenValid = await this.verifyTokenWithServer(session.getAccessToken().getJwtToken());
-            if (!tokenValid) {
-                throw new Error('Token no válido en servidor');
-            }
-
-            // Usuario autenticado y autorizado
+            // Usuario es admin válido
             this.currentUser = {
-                name: user.attributes.name || user.attributes.email,
+                name: tokenPayload.name || tokenPayload.email,
                 role: 'Admin',
-                email: user.attributes.email,
+                email: tokenPayload.email,
                 groups: groups
             };
             
@@ -80,8 +78,11 @@ class AdminPanel {
             
         } catch (error) {
             console.error('Error de autenticación:', error);
-            // Redirigir a login con parámetro de admin
-            window.location.href = '/auth.html?redirect=admin&reason=unauthorized';
+            // Limpiar tokens inválidos
+            sessionStorage.removeItem('accessToken');
+            sessionStorage.removeItem('idToken');
+            sessionStorage.removeItem('refreshToken');
+            window.location.href = '/auth.html?redirect=admin&reason=error';
         }
     }
 
@@ -351,20 +352,24 @@ class AdminPanel {
 
     async verifyCurrentToken() {
         try {
-            const session = await Auth.currentSession();
-            if (!session.isValid()) {
-                throw new Error('Sesión inválida');
+            const accessToken = sessionStorage.getItem('accessToken');
+            if (!accessToken) {
+                throw new Error('No hay token');
             }
             
-            const tokenValid = await this.verifyTokenWithServer(session.getAccessToken().getJwtToken());
-            if (!tokenValid) {
-                throw new Error('Token no válido');
+            // Verificar que el token no haya expirado
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const now = Math.floor(Date.now() / 1000);
+            
+            if (tokenPayload.exp < now) {
+                throw new Error('Token expirado');
             }
             
             return true;
         } catch (error) {
             console.error('Token verification failed:', error);
             alert('❌ Sesión expirada. Redirigiendo al login...');
+            sessionStorage.clear();
             window.location.href = '/auth.html?redirect=admin&reason=expired';
             return false;
         }
