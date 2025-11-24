@@ -5,67 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comunidad | AWS User Group Playa Vicente</title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/header.css">
 </head>
-<body class="auth-page">
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <h1>🦈 Tiburón</h1>
-                <h2>AWS User Group Playa Vicente</h2>
-                <p>Únete a nuestra comunidad de tecnología</p>
-            </div>
-            
-            <div class="auth-content">
-                <div id="authMessage" class="auth-message" style="display: none;"></div>
+<body>
+    <div id="header-placeholder"></div>
+    
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">🦈 Únete a Nuestra Comunidad</h1>
+                <p class="hero-subtitle">AWS User Group Playa Vicente - Tecnología, Aprendizaje y Crecimiento</p>
                 
-                <div class="auth-buttons">
-                    <button id="googleLoginBtn" class="btn-google">
+                <div id="authMessage" class="info-message" style="display: none;"></div>
+                
+                <div class="cta-buttons">
+                    <button id="googleLoginBtn" class="btn-primary">
                         <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" width="20" height="20">
                         Continuar con Google
                     </button>
                 </div>
                 
-                <div class="auth-info">
-                    <p>Al iniciar sesión, aceptas nuestros términos de servicio y política de privacidad.</p>
+                <div class="community-features">
+                    <div class="feature">
+                        <span class="feature-icon">☁️</span>
+                        <span>Cloud Computing</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🔒</span>
+                        <span>Ciberseguridad</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">💻</span>
+                        <span>Desarrollo</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
-    <script src="https://unpkg.com/amazon-cognito-identity-js@6.3.12/dist/amazon-cognito-identity.min.js"></script>
-    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/script-loader.js"></script>
     
     <script>
-        // Manejar parámetros de URL
         const urlParams = new URLSearchParams(window.location.search);
         const redirect = urlParams.get('redirect');
         const reason = urlParams.get('reason');
         
-        // Mostrar mensaje según la razón
         const authMessage = document.getElementById('authMessage');
         if (reason && authMessage) {
-            let message = '';
-            switch(reason) {
-                case 'unauthorized':
-                case 'expired':
-                case 'error':
-                default:
-                    message = 'ℹ️ Inicia sesión para acceder a todas las funcionalidades de la comunidad.';
-            }
-            authMessage.textContent = message;
+            authMessage.textContent = 'ℹ️ Inicia sesión para acceder a todas las funcionalidades de la comunidad.';
             authMessage.style.display = 'block';
         }
         
-        // Configurar botón de Google
         document.getElementById('googleLoginBtn').addEventListener('click', () => {
-            // Guardar redirect para después del login
             if (redirect) {
                 sessionStorage.setItem('postLoginRedirect', redirect);
             }
             
-            // Redirigir directamente a Cognito OAuth
             const cognitoAuthUrl = 'https://auth.tiburoncp.siegfried-fs.com/oauth2/authorize?' +
                 'client_id=1gsjecdf86pgdgvvis7l30hha1&' +
                 'response_type=code&' +
@@ -76,18 +72,9 @@
             window.location.href = cognitoAuthUrl;
         });
         
-        // Si ya está autenticado, redirigir
         document.addEventListener('DOMContentLoaded', () => {
-            // Mensaje educativo para desarrolladores
-            console.log('🦈 ¡Hola, desarrollador!');
-            console.log('Vemos que tienes curiosidad por la tecnología. ¡Genial!');
-            console.log('En AWS User Group Playa Vicente valoramos esa curiosidad y el aprendizaje ético.');
-            console.log('Te invitamos a unirte a nuestra comunidad donde crecemos juntos:');
-            console.log('📱 Telegram: https://t.me/+NWYivRxl7fQ4MzNh');
-            console.log('🌐 Sitio: https://tiburoncp.siegfried-fs.com');
-            console.log('¡Aquí aprendemos cloud computing, ciberseguridad y desarrollo de forma ética!');
+            console.log('🦈 Te invitamos a unirte: https://t.me/+NWYivRxl7fQ4MzNh');
             
-            // Verificar si hay tokens en sessionStorage
             const accessToken = sessionStorage.getItem('accessToken');
             if (accessToken) {
                 const redirectTo = redirect || 'index';

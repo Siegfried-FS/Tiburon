@@ -5,149 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración | AWS User Group Playa Vicente</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
-    <div id="loadingScreen" class="loading-screen">
-        <div class="loading-content">
-            <div class="shark-loader">🦈</div>
-            <p>Cargando Panel de Administración...</p>
-        </div>
-    </div>
+    <div id="header-placeholder"></div>
+    
+    <main class="main-content">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1>⚙️ Panel de Administración</h1>
+                <p>Bienvenido, <span id="adminUserName">Admin</span></p>
+            </div>
 
-    <div id="adminPanel" class="admin-panel" style="display: none;">
-        <!-- Header -->
-        <header class="admin-header">
-            <div class="admin-header-content">
-                <div class="admin-logo">
-                    <h1>🦈 Panel Admin</h1>
-                    <span class="admin-subtitle">AWS User Group Playa Vicente</span>
+            <div class="admin-nav">
+                <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
+                <button class="nav-btn" data-section="posts">📝 Posts</button>
+                <button class="nav-btn" data-section="users">👥 Usuarios</button>
+                <button class="nav-btn" data-section="settings">⚙️ Configuración</button>
+            </div>
+
+            <div class="admin-content">
+                <!-- Dashboard Section -->
+                <div id="dashboard" class="admin-section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <h3 id="totalUsers">0</h3>
+                                <p>Usuarios Totales</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📝</div>
+                            <div class="stat-info">
+                                <h3 id="totalPosts">0</h3>
+                                <p>Posts Publicados</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⏳</div>
+                            <div class="stat-info">
+                                <h3 id="pendingPosts">0</h3>
+                                <p>Posts Pendientes</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📈</div>
+                            <div class="stat-info">
+                                <h3 id="monthlyGrowth">+0%</h3>
+                                <p>Crecimiento Mensual</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="recent-activity">
+                        <h3>Actividad Reciente</h3>
+                        <div id="recentActivity" class="activity-list">
+                            <!-- Se carga dinámicamente -->
+                        </div>
+                    </div>
                 </div>
-                <div class="admin-user">
-                    <span id="adminUserName">Cargando...</span>
-                    <button id="logoutBtn" class="btn-logout">Cerrar Sesión</button>
+
+                <!-- Posts Section -->
+                <div id="posts" class="admin-section">
+                    <div class="section-header">
+                        <h2>Gestión de Posts</h2>
+                        <button class="btn-primary" id="addPostBtn">➕ Nuevo Post</button>
+                    </div>
+                    <div class="posts-filters">
+                        <button class="filter-btn active" data-filter="all">Todos</button>
+                        <button class="filter-btn" data-filter="pending">Pendientes</button>
+                        <button class="filter-btn" data-filter="published">Publicados</button>
+                    </div>
+                    <div id="postsList" class="posts-list">
+                        <!-- Se carga dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Users Section -->
+                <div id="users" class="admin-section">
+                    <div class="section-header">
+                        <h2>Gestión de Usuarios</h2>
+                        <div class="search-box">
+                            <input type="text" id="userSearch" placeholder="Buscar usuarios...">
+                        </div>
+                    </div>
+                    <div id="usersList" class="users-list">
+                        <!-- Se carga dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settings" class="admin-section">
+                    <div class="section-header">
+                        <h2>Configuración del Sitio</h2>
+                    </div>
+                    <div class="settings-grid">
+                        <div class="setting-card">
+                            <h3>🎨 Apariencia</h3>
+                            <div class="setting-item">
+                                <label>Tema por defecto:</label>
+                                <select id="defaultTheme">
+                                    <option value="light">Claro</option>
+                                    <option value="dark">Oscuro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="setting-card">
+                            <h3>📢 Notificaciones</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="emailNotifications">
+                                    Notificaciones por email
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-card">
+                            <h3>🔒 Seguridad</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="requireApproval">
+                                    Requerir aprobación para posts
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" id="saveSettings">💾 Guardar Configuración</button>
                 </div>
             </div>
-        </header>
+        </div>
+    </main>
 
-        <!-- Navigation -->
-        <nav class="admin-nav">
-            <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
-            <button class="nav-btn" data-section="posts">📝 Posts</button>
-            <button class="nav-btn" data-section="users">👥 Usuarios</button>
-            <button class="nav-btn" data-section="settings">⚙️ Configuración</button>
-        </nav>
-
-        <!-- Main Content -->
-        <main class="admin-main">
-            <!-- Dashboard Section -->
-            <section id="dashboard" class="admin-section active">
-                <h2>📊 Dashboard</h2>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon">👥</div>
-                        <div class="stat-info">
-                            <h3 id="totalUsers">-</h3>
-                            <p>Total Usuarios</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">📝</div>
-                        <div class="stat-info">
-                            <h3 id="totalPosts">-</h3>
-                            <p>Posts Publicados</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">⏳</div>
-                        <div class="stat-info">
-                            <h3 id="pendingPosts">-</h3>
-                            <p>Posts Pendientes</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">❤️</div>
-                        <div class="stat-info">
-                            <h3 id="totalLikes">-</h3>
-                            <p>Total Likes</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="recent-activity">
-                    <h3>📈 Actividad Reciente</h3>
-                    <div id="recentActivity" class="activity-list">
-                        <div class="activity-item skeleton"></div>
-                        <div class="activity-item skeleton"></div>
-                        <div class="activity-item skeleton"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Posts Section -->
-            <section id="posts" class="admin-section">
-                <h2>📝 Gestión de Posts</h2>
-                <div class="section-actions">
-                    <button id="createPostBtn" class="btn-primary">➕ Crear Post</button>
-                    <button id="refreshPostsBtn" class="btn-secondary">🔄 Actualizar</button>
-                </div>
-                <div id="postsContainer" class="posts-container">
-                    <div class="post-skeleton"></div>
-                    <div class="post-skeleton"></div>
-                </div>
-            </section>
-
-            <!-- Users Section -->
-            <section id="users" class="admin-section">
-                <h2>👥 Gestión de Usuarios</h2>
-                <div class="section-actions">
-                    <input type="text" id="userSearch" placeholder="🔍 Buscar usuario..." class="search-input">
-                    <button id="refreshUsersBtn" class="btn-secondary">🔄 Actualizar</button>
-                </div>
-                <div id="usersContainer" class="users-container">
-                    <div class="user-skeleton"></div>
-                    <div class="user-skeleton"></div>
-                </div>
-            </section>
-
-            <!-- Settings Section -->
-            <section id="settings" class="admin-section">
-                <h2>⚙️ Configuración</h2>
-                <div class="settings-grid">
-                    <div class="setting-card">
-                        <h3>🎨 Apariencia</h3>
-                        <div class="setting-item">
-                            <label>Tema por defecto:</label>
-                            <select id="defaultTheme">
-                                <option value="light">Claro</option>
-                                <option value="dark">Oscuro</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="setting-card">
-                        <h3>📢 Mensajes</h3>
-                        <div class="setting-item">
-                            <label>Mensaje de bienvenida:</label>
-                            <textarea id="welcomeMessage" rows="3" placeholder="Mensaje para nuevos usuarios..."></textarea>
-                        </div>
-                    </div>
-                    <div class="setting-card">
-                        <h3>🔧 Sistema</h3>
-                        <div class="setting-item">
-                            <button id="clearCacheBtn" class="btn-warning">🗑️ Limpiar Cache</button>
-                            <button id="exportDataBtn" class="btn-secondary">📥 Exportar Datos</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="settings-actions">
-                    <button id="saveSettingsBtn" class="btn-primary">💾 Guardar Cambios</button>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- Scripts -->
-    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/script-loader.js"></script>
     <script src="assets/js/admin.js"></script>
 </body>
 </html>
