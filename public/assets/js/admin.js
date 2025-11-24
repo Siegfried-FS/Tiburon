@@ -170,7 +170,12 @@ class AdminPanel {
             const response = await fetch(`${API_BASE_URL}/get-content/feed.json`);
             if (response.ok) {
                 const data = await response.json();
-                this.posts = data.posts || [];
+                this.posts = data.posts || data || [];
+                this.posts = this.posts.map((post, index) => ({
+                    ...post,
+                    id: post.id || `post-${index}`,
+                    type: 'post'
+                }));
                 return;
             }
         } catch (error) {
@@ -181,7 +186,12 @@ class AdminPanel {
         try {
             const response = await fetch('/assets/data/feed.json');
             const data = await response.json();
-            this.posts = data.posts || [];
+            this.posts = data.posts || data || [];
+            this.posts = this.posts.map((post, index) => ({
+                ...post,
+                id: post.id || `post-${index}`,
+                type: 'post'
+            }));
         } catch (error) {
             console.error('Error loading posts:', error);
             this.posts = [];
