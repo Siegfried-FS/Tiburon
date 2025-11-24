@@ -663,23 +663,44 @@ class AdminPanel {
         const active = this.users.filter(u => u.status === 'active').length;
         const inactive = this.users.filter(u => u.status === 'inactive').length;
         
+        // Contar por roles
+        const roleStats = {
+            'Admins': this.users.filter(u => u.role === 'Admins').length,
+            'Capitán': this.users.filter(u => u.role === 'Capitán').length,
+            'Corsario': this.users.filter(u => u.role === 'Corsario').length,
+            'Navegante': this.users.filter(u => u.role === 'Navegante').length,
+            'Explorador': this.users.filter(u => u.role === 'Explorador').length
+        };
+        
         document.getElementById('totalUsers').textContent = total;
         document.getElementById('activeUsers').textContent = active;
         document.getElementById('inactiveUsers').textContent = inactive;
+        
+        // Actualizar estadísticas por rol
+        Object.entries(roleStats).forEach(([role, count]) => {
+            const element = document.getElementById(`role${role.replace('á', 'a').replace('ó', 'o')}`);
+            if (element) element.textContent = count;
+        });
     }
 
     renderUsersList(filter = 'all') {
         let filteredUsers = this.users;
         
         if (filter !== 'all') {
-            if (filter === 'admin') {
-                filteredUsers = this.users.filter(u => u.role === 'Admins');
-            } else {
+            if (filter === 'active' || filter === 'inactive') {
                 filteredUsers = this.users.filter(u => u.status === filter);
+            } else {
+                // Filtrar por rol específico
+                filteredUsers = this.users.filter(u => u.role === filter);
             }
         }
         
         const usersList = document.getElementById('usersList');
+        if (filteredUsers.length === 0) {
+            usersList.innerHTML = '<p class="no-users">No hay usuarios en esta categoría.</p>';
+            return;
+        }
+        
         usersList.innerHTML = filteredUsers.map(user => `
             <div class="user-card">
                 <div class="user-info">
