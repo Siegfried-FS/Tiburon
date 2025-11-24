@@ -1,53 +1,53 @@
 /* =============================================================================
-   ESTILOS PARA PÁGINA DE AUTENTICACIÓN
+   ESTILOS PARA PÁGINA DE AUTENTICACIÓN - CONSISTENTE CON EL SITIO
    ============================================================================= */
 
 .main-content {
-    min-height: 100vh;
+    min-height: calc(100vh - 80px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    background: var(--bg-color);
 }
 
 .hero-section {
-    background: var(--bg-color);
-    border-radius: 20px;
+    background: var(--bg-card);
+    border-radius: 16px;
     padding: 3rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+    box-shadow: var(--shadow);
+    max-width: 450px;
     width: 100%;
     text-align: center;
     border: 1px solid var(--border-color);
 }
 
 .hero-title {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
     color: var(--text-color);
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .hero-subtitle {
-    font-size: 1.2rem;
-    color: var(--text-color);
-    opacity: 0.8;
+    font-size: 1rem;
+    color: var(--text-secondary);
     margin-bottom: 2rem;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .info-message {
-    background: #e3f2fd;
-    color: #1976d2;
+    background: rgba(74, 144, 226, 0.1);
+    color: var(--accent-color);
     padding: 1rem;
     border-radius: 8px;
-    margin-bottom: 2rem;
-    border-left: 4px solid #1976d2;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--accent-color);
+    font-size: 0.9rem;
 }
 
 .auth-container {
-    margin: 2rem 0;
+    margin: 1.5rem 0;
 }
 
 .google-login-btn {
@@ -55,63 +55,65 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    background: #4285f4;
+    background: var(--accent-color);
     color: white;
     border: none;
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    font-size: 1.1rem;
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     width: 100%;
-    margin-bottom: 2rem;
-    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
 }
 
 .google-login-btn:hover {
-    background: #3367d6;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(66, 133, 244, 0.4);
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
 }
 
 .features-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
-    margin-top: 2rem;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
 }
 
 .feature-item {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem;
-    background: var(--bg-card);
-    border-radius: 12px;
+    padding: 0.875rem;
+    background: var(--bg-color);
+    border-radius: 8px;
     border: 1px solid var(--border-color);
-    transition: transform 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .feature-item:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
 }
 
 .feature-icon {
-    font-size: 1.5rem;
-    width: 40px;
-    height: 40px;
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--accent-color);
-    border-radius: 50%;
+    border-radius: 6px;
     color: white;
 }
 
 .feature-text {
     font-weight: 500;
     color: var(--text-color);
+    font-size: 0.9rem;
 }
 
 /* Responsive */
@@ -121,25 +123,12 @@
     }
     
     .hero-section {
-        padding: 2rem;
+        padding: 2rem 1.5rem;
     }
     
     .hero-title {
-        font-size: 2rem;
-    }
-    
-    .hero-subtitle {
-        font-size: 1rem;
+        font-size: 1.8rem;
     }
 }
 
-/* Dark mode adjustments */
-[data-theme="dark"] .info-message {
-    background: rgba(33, 150, 243, 0.1);
-    color: #64b5f6;
-    border-left-color: #64b5f6;
-}
-
-[data-theme="dark"] .main-content {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-}
+/* Dark mode ya está manejado por las variables CSS del sitio */
