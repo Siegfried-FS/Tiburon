@@ -10,8 +10,20 @@
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <!-- Incluir header compartido con tema -->
-    <div id="header-container"></div>
+    <!-- Header simple con tema -->
+    <div id="top-bar">
+        <div class="top-bar-content">
+            <div class="theme-toggle-container">
+                <button class="theme-toggle" title="Cambiar tema">🌙</button>
+            </div>
+            <div class="auth-container">
+                <div class="user-info-display">
+                    <span id="userName" class="user-name">Admin</span>
+                    <a href="index.html" class="btn-secondary">🏠 Volver al Sitio</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="admin-container">
         <!-- Header del Panel Admin -->
@@ -19,7 +31,6 @@
             <h1 class="admin-title">Panel de Administración</h1>
             <div class="admin-user-info">
                 <span id="admin-user-name">Cargando...</span>
-                <a href="index.html" class="btn-admin btn-admin-secondary btn-admin-sm">🏠 Volver al Sitio</a>
             </div>
         </div>
 
@@ -107,8 +118,28 @@
     </div>
 
     <!-- Scripts -->
-    <script src="assets/js/theme.js?v=3"></script>
-    <script src="assets/js/header-loader.js?v=3"></script>
+    <script>
+        // Tema simple integrado
+        function initTheme() {
+            const themeToggle = document.querySelector('.theme-toggle');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            });
+        }
+        
+        // Inicializar tema
+        document.addEventListener('DOMContentLoaded', initTheme);
+    </script>
     <script src="assets/js/admin-panel-security.js?v=3"></script>
     <script src="assets/js/admin-real-fixed.js?v=3"></script>
 </body>
