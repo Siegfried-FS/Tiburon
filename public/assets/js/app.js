@@ -612,42 +612,30 @@ function openShareModal(url, title) {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                const action = option.dataset.action;
                 const shareName = option.querySelector('.share-name').textContent;
                 
-                if (action === 'copy') {
+                if (shareName === 'Copiar') {
                     copyToClipboard(url);
                     showToast('¡Enlace copiado al portapapeles!');
-                } else {
-                    let shareUrl = '';
-                    
-                    // Generar URLs directamente aquí
-                    switch(shareName) {
-                        case 'Facebook':
-                            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-                            break;
-                        case 'Twitter':
-                            shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
-                            break;
-                        case 'LinkedIn':
-                            shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-                            break;
-                        case 'WhatsApp':
-                            shareUrl = `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`;
-                            break;
-                        case 'Telegram':
-                            shareUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
-                            break;
-                        case 'Gmail':
-                            shareUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`;
-                            break;
-                    }
-                    
-                    if (shareUrl) {
-                        console.log('Opening:', shareName, shareUrl);
-                        window.open(shareUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
-                    }
+                    closeShareModal();
+                    return;
                 }
+                
+                // Test directo - forzar apertura
+                if (shareName === 'Facebook') {
+                    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                    console.log('Trying to open Facebook:', fbUrl);
+                    location.href = fbUrl; // Cambiar a location.href en lugar de window.open
+                } else if (shareName === 'Twitter') {
+                    const twUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+                    console.log('Trying to open Twitter:', twUrl);
+                    location.href = twUrl;
+                } else if (shareName === 'WhatsApp') {
+                    const waUrl = `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`;
+                    console.log('Trying to open WhatsApp:', waUrl);
+                    location.href = waUrl;
+                }
+                
                 closeShareModal();
             });
         });
