@@ -608,16 +608,44 @@ function openShareModal(url, title) {
 
         // Agregar event listeners a las opciones
         shareOptions.querySelectorAll('.share-option').forEach(option => {
-            option.addEventListener('click', () => {
+            option.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 const action = option.dataset.action;
+                const shareName = option.querySelector('.share-name').textContent;
+                
                 if (action === 'copy') {
-                    copyToClipboard(option.dataset.copyUrl);
+                    copyToClipboard(url);
                     showToast('¡Enlace copiado al portapapeles!');
                 } else {
-                    const shareUrl = option.dataset.url;
-                    console.log('Opening URL:', shareUrl); // Debug
-                    if (shareUrl && shareUrl.startsWith('http')) {
-                        window.open(shareUrl, '_blank', 'width=600,height=400');
+                    let shareUrl = '';
+                    
+                    // Generar URLs directamente aquí
+                    switch(shareName) {
+                        case 'Facebook':
+                            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                            break;
+                        case 'Twitter':
+                            shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+                            break;
+                        case 'LinkedIn':
+                            shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+                            break;
+                        case 'WhatsApp':
+                            shareUrl = `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`;
+                            break;
+                        case 'Telegram':
+                            shareUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+                            break;
+                        case 'Gmail':
+                            shareUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`;
+                            break;
+                    }
+                    
+                    if (shareUrl) {
+                        console.log('Opening:', shareName, shareUrl);
+                        window.open(shareUrl, '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
                     }
                 }
                 closeShareModal();
