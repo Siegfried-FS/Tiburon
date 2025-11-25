@@ -40,29 +40,43 @@ class Admin {
     }
 
     async loadData() {
+        const token = sessionStorage.getItem('accessToken');
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        };
+
         try {
+            // Cargar usuarios reales
+            try {
+                const usersRes = await fetch(`${API_BASE}/users`, { headers });
+                if (usersRes.ok) {
+                    this.data.users = await usersRes.json();
+                } else {
+                    console.error('Failed to load users');
+                    this.data.users = [];
+                }
+            } catch (e) {
+                console.error('Error fetching users:', e);
+                this.data.users = [];
+            }
+            
+            // Note: The rest of the data loading is for content, which uses a different API.
+            // This part can be refactored later if needed.
             // Cargar posts
             try {
-                const feedRes = await fetch(`${API_BASE}/get-content/feed.json`);
+                const feedRes = await fetch(`https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/content/feed.json`);
                 if (feedRes.ok) {
                     const feedData = await feedRes.json();
                     this.data.posts = feedData.posts || feedData || [];
                 }
             } catch (e) {
-                this.data.posts = [
-                    {
-                        id: 'post-1',
-                        title: 'Bienvenidos al AWS User Group',
-                        content: 'Comunidad de tecnología en la nube',
-                        date: new Date().toISOString(),
-                        author: { name: 'Roberto Flores', avatar: '' }
-                    }
-                ];
+                 this.data.posts = [];
             }
 
             // Cargar eventos
             try {
-                const eventsRes = await fetch(`${API_BASE}/get-content/events.json`);
+                const eventsRes = await fetch(`https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/content/events.json`);
                 if (eventsRes.ok) {
                     const eventsData = await eventsRes.json();
                     this.data.events = Array.isArray(eventsData) ? eventsData : [];
@@ -73,7 +87,7 @@ class Admin {
 
             // Cargar juegos
             try {
-                const gamesRes = await fetch(`${API_BASE}/get-content/logic-games.json`);
+                const gamesRes = await fetch(`https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/content/logic-games.json`);
                 if (gamesRes.ok) {
                     const gamesData = await gamesRes.json();
                     this.data.games = Array.isArray(gamesData) ? gamesData : [];
@@ -84,7 +98,7 @@ class Admin {
 
             // Cargar recursos
             try {
-                const resourcesRes = await fetch(`${API_BASE}/get-content/resources.json`);
+                const resourcesRes = await fetch(`https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/content/resources.json`);
                 if (resourcesRes.ok) {
                     const resourcesData = await resourcesRes.json();
                     this.data.resources = [];
@@ -99,12 +113,6 @@ class Admin {
             } catch (e) {
                 this.data.resources = [];
             }
-
-            // Usuarios mock
-            this.data.users = [
-                { id: 1, name: 'Roberto Flores', email: 'roberto.ciberseguridad@gmail.com', role: 'Admin', status: 'active' },
-                { id: 2, name: 'Roberto Flores', email: 'ingblack13@gmail.com', role: 'Explorador', status: 'active' }
-            ];
 
         } catch (error) {
             console.error('Error loading data:', error);

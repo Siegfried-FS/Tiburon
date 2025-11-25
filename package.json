@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "description": "Lambda function for admin posts management",
   "main": "admin-posts-lambda.js",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.939.0",
     "@aws-sdk/client-dynamodb": "^3.0.0",
     "@aws-sdk/client-s3": "^3.937.0",
     "@aws-sdk/lib-dynamodb": "^3.0.0"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
   }
 }

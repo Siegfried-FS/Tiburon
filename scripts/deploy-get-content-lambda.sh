@@ -20,6 +20,7 @@ aws lambda update-function-code \
     --function-name $FUNCTION_NAME \
     --zip-file fileb://lambda-deployment.zip \
     --region $REGION \
+    --runtime nodejs24.x \
     --profile $PROFILE
 
 echo "✅ Función Lambda $FUNCTION_NAME actualizada exitosamente"
