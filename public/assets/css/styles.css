@@ -3317,3 +3317,97 @@ html {
 .past-events .event-card {
     border-left: 4px solid #6c757d;
 }
+
+/* ========================================================================== */
+/*   ESTILOS PARA TARJETAS DE JUEGOS DE LÓGICA                             */
+/* ========================================================================== */
+.logic-games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.logic-game-card {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+.logic-game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+    border-color: var(--primary-color);
+}
+
+.logic-game-image {
+    width: 100%;
+    height: 180px; /* Consistent height with other card images */
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.logic-game-card:hover .logic-game-image {
+    transform: scale(1.05);
+}
+
+.logic-game-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.logic-game-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+.logic-game-content p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.logic-game-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto; /* Push tags to the bottom */
+    margin-bottom: 15px;
+}
+
+/* Inherit general .tag styles for consistency */
+.logic-game-tags .tag {
+    background: rgba(0, 212, 255, 0.15);
+    color: var(--primary-color);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Adapt the cta-button to fit the game card */
+.logic-game-card .cta-button {
+    width: 100%;
+    margin-top: 10px;
+    align-self: center; /* Center the button if flex-direction is column */
+}
+
+/* Media query for smaller screens, if needed for further adjustments */
+@media (max-width: 768px) {
+    .logic-game-card {
+        /* Adjustments for smaller screens if necessary */
+    }
+}
+

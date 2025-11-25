@@ -67,6 +67,12 @@ document.addEventListener('authScriptsLoaded', async () => {
     if (document.getElementById('resources-grid')) {
         loadResources();
     }
+    if (document.getElementById('glossary-container')) {
+        loadGlossary();
+    }
+    if (document.getElementById('logic-games-grid')) {
+        loadLogicGames();
+    }
     
     // Inicializar funcionalidades
     initScrollAnimations();
@@ -321,52 +327,73 @@ function renderEventCard(event) {
     const eventDate = new Date(event.date);
     const now = new Date();
     const isPast = eventDate < now || event.status === 'cerrado' || event.status === 'cancelado';
-    
-    // Formatear fecha
-    const formattedDate = eventDate.toLocaleDateString('es-ES', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
 
-    // Estado del evento
+    const day = eventDate.getDate();
+    const month = eventDate.toLocaleString('es-ES', { month: 'short' }).toUpperCase();
+    const year = eventDate.getFullYear();
+    const formattedTime = eventDate.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
     let statusBadge = '';
     let registrationButton = '';
-    
+    let eventStatusClass = '';
+
     switch(event.status) {
         case 'abierto':
             if (!isPast) {
-                statusBadge = '<span class="event-status open">🟢 Abierto</span>';
-                if (event.registrationUrl) {
-                    registrationButton = `<a href="${event.registrationUrl}" target="_blank" class="btn-register">Registrarse</a>`;
+                statusBadge = '<span class="event-status upcoming">Próximo</span>';
+                eventStatusClass = 'upcoming-event';
+                if (event.registration_url) { // Changed to registration_url to match events.json
+                    registrationButton = `<a href="${event.registration_url}" target="_blank" class="register-btn">Registrarse <span class="btn-icon">➡️</span></a>`;
                 }
             } else {
-                statusBadge = '<span class="event-status closed">🔴 Finalizado</span>';
+                statusBadge = '<span class="event-status past">Finalizado</span>';
+                eventStatusClass = 'past-event';
             }
             break;
         case 'cerrado':
-            statusBadge = '<span class="event-status closed">🔴 Cerrado</span>';
+            statusBadge = '<span class="event-status past">Finalizado</span>';
+            eventStatusClass = 'past-event';
             break;
         case 'cancelado':
-            statusBadge = '<span class="event-status cancelled">⚫ Cancelado</span>';
+            statusBadge = '<span class="event-status past">Cancelado</span>';
+            eventStatusClass = 'past-event';
+            break;
+        default: // Handle events without explicit status or past events
+            if (isPast) {
+                statusBadge = '<span class="event-status past">Finalizado</span>';
+                eventStatusClass = 'past-event';
+            } else {
+                 statusBadge = '<span class="event-status upcoming">Próximo</span>';
+                 eventStatusClass = 'upcoming-event';
+                 if (event.registration_url) {
+                    registrationButton = `<a href="${event.registration_url}" target="_blank" class="register-btn">Registrarse <span class="btn-icon">➡️</span></a>`;
+                }
+            }
             break;
     }
+    
+    // Price tag
+    const priceTag = event.price === 'free' ? '<span class="price-tag free">Gratis</span>' : (event.price ? `<span class="price-tag paid">${event.price}</span>` : '');
 
     return `
-        <div class="event-card ${isPast ? 'past-event' : ''}">
-            ${event.image ? `<img src="${event.image}" alt="${event.title}" class="event-image">` : ''}
-            <div class="event-content">
-                <div class="event-header">
-                    <h3>${event.title}</h3>
+        <div class="event-card ${isPast ? 'past-event-card' : ''}">
+            <div class="event-date-block ${eventStatusClass}">
+                <span class="day">${day}</span>
+                <span class="month">${month}</span>
+                <span class="year">${year}</span>
+            </div>
+            <div class="event-details">
+                <h3 class="event-title">${event.title}</h3>
+                <p class="event-description">${event.description || ''}</p>
+                <div class="event-badges">
                     ${statusBadge}
+                    ${priceTag}
+                    ${event.format ? `<span class="tag format-tag">${event.format}</span>` : ''}
                 </div>
-                <p class="event-date">📅 ${formattedDate}</p>
-                ${event.location ? `<p class="event-location">📍 ${event.location}</p>` : ''}
-                <p class="event-description">${event.description || event.content || ''}</p>
-                ${registrationButton}
+                ${event.location ? `<p class="event-location"><span class="tag">📍 ${event.location}</span></p>` : ''}
+                <div class="event-actions">
+                    ${registrationButton}
+                </div>
             </div>
         </div>
     `;
@@ -525,12 +552,185 @@ async function loadResources() {
     }
 }
 
+async function loadGlossary() {
+    const container = document.getElementById('glossary-container');
+    if (!container) return;
+
+    try {
+        const terms = await loadData('glosario.json');
+        if (!terms || terms.length === 0) {
+            container.innerHTML = '<p style="text-align: center;">No hay términos disponibles en el glosario.</p>';
+            return;
+        }
+
+        // Sort terms alphabetically
+        terms.sort((a, b) => a.term.localeCompare(b.term));
+
+        let html = '';
+        terms.forEach(term => {
+            html += renderGlossaryCard(term);
+        });
+
+        container.innerHTML = html;
+        setupGlossarySearch(terms); // Setup search and filter after rendering
+        setupAlphabetFilter(terms);
+        initScrollAnimations(); // Re-apply scroll animations if needed
+
+    } catch (error) {
+        console.error('Error al cargar el glosario:', error);
+        container.innerHTML = '<p>Error al cargar el glosario. Intenta recargar la página.</p>';
+    }
+}
+
+function renderGlossaryCard(term) {
+    return `
+        <div class="term-card">
+            <h3>${term.term}</h3>
+            ${term.category ? `<p class="glossary-category">Categoría: <span>${term.category}</span></p>` : ''}
+            <p>${term.definition}</p>
+        </div>
+    `;
+}
+
+function setupGlossarySearch(terms) {
+    const searchInput = document.getElementById('glossary-search');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (event) => {
+        const searchTerm = event.target.value.toLowerCase();
+        filterAndRenderGlossaryTerms(terms, searchTerm, '');
+    });
+}
+
+function setupAlphabetFilter(terms) {
+    const alphabetFilterContainer = document.getElementById('alphabet-filter');
+    if (!alphabetFilterContainer) return;
+
+    // Clear existing filters
+    alphabetFilterContainer.innerHTML = '';
+
+    // Create "All" button
+    const allButton = document.createElement('button');
+    allButton.textContent = 'Todos';
+    allButton.classList.add('filter-button');
+    allButton.classList.add('active'); // Initially active
+    allButton.addEventListener('click', () => {
+        filterAndRenderGlossaryTerms(terms, '', '');
+        setActiveFilterButton(allButton);
+    });
+    alphabetFilterContainer.appendChild(allButton);
+
+    // Create alphabet buttons
+    for (let i = 0; i < 26; i++) {
+        const letter = String.fromCharCode(65 + i); // A-Z
+        const button = document.createElement('button');
+        button.textContent = letter;
+        button.classList.add('filter-button');
+        button.addEventListener('click', () => {
+            filterAndRenderGlossaryTerms(terms, '', letter);
+            setActiveFilterButton(button);
+        });
+        alphabetFilterContainer.appendChild(button);
+    }
+}
+
+function setActiveFilterButton(activeButton) {
+    document.querySelectorAll('.filter-button').forEach(button => {
+        button.classList.remove('active');
+    });
+    activeButton.classList.add('active');
+}
+
+function filterAndRenderGlossaryTerms(allTerms, searchTerm, filterLetter) {
+    const container = document.getElementById('glossary-container');
+    if (!container) return;
+
+    let filteredTerms = allTerms;
+
+    if (searchTerm) {
+        filteredTerms = filteredTerms.filter(term => 
+            term.term.toLowerCase().includes(searchTerm) ||
+            term.definition.toLowerCase().includes(searchTerm) ||
+            (term.category && term.category.toLowerCase().includes(searchTerm))
+        );
+    }
+
+    if (filterLetter) {
+        filteredTerms = filteredTerms.filter(term => 
+            term.term.toLowerCase().startsWith(filterLetter.toLowerCase())
+        );
+    }
+
+    if (filteredTerms.length === 0) {
+        container.innerHTML = '<p style="text-align: center;">No se encontraron términos que coincidan con la búsqueda o filtro.</p>';
+        return;
+    }
+
+    let html = '';
+    filteredTerms.forEach(term => {
+        html += renderGlossaryCard(term);
+    });
+    container.innerHTML = html;
+    initScrollAnimations(); // Re-apply animations for filtered results
+}
+
+// Add this function after loadGlossary
+async function loadLogicGames() {
+    const container = document.getElementById('logic-games-grid');
+    if (!container) return;
+
+    try {
+        const games = await loadData('logic-games.json');
+        if (!games || games.length === 0) {
+            container.innerHTML = '<p style="text-align: center;">No hay juegos de lógica disponibles en este momento.</p>';
+            return;
+        }
+
+        let html = '';
+        games.forEach(game => {
+            html += renderLogicGameCard(game);
+        });
+
+        container.innerHTML = html;
+        setupLogicGameTagFilter(games); // To be implemented later, similar to glossary filters
+        initScrollAnimations();
+
+    } catch (error) {
+        console.error('Error al cargar los juegos de lógica:', error);
+        container.innerHTML = '<p>Error al cargar los juegos de lógica. Intenta recargar la página.</p>';
+    }
+}
+
+function renderLogicGameCard(game) {
+    return `
+        <div class="logic-game-card">
+            ${game.image ? `<img src="${game.image}" alt="${game.title}" class="logic-game-image">` : ''}
+            <div class="logic-game-content">
+                <h3>${game.title}</h3>
+                <p>${game.description || ''}</p>
+                ${game.tags && game.tags.length > 0 ? `
+                    <div class="logic-game-tags">
+                        ${game.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                ` : ''}
+                <a href="${game.url}" target="_blank" class="cta-button">Jugar <span class="btn-icon">🎮</span></a>
+            </div>
+        </div>
+    `;
+}
+
+// Add setupLogicGameTagFilter placeholder for now
+function setupLogicGameTagFilter(games) {
+    // Placeholder for future tag filtering logic
+    console.log("Setting up logic game tag filter (placeholder). Games:", games);
+}
+
 // =============================================================================
 // UTILIDADES
 // =============================================================================
 
 function initScrollAnimations() {
-    const animatedElements = document.querySelectorAll('.content-section, .nav-card, .badge-item, .about-card, .contact-card, .animate-on-scroll, .lab-module, .event-card, .feed-post');
+    const animatedElements = document.querySelectorAll('.content-section, .nav-card, .badge-item, .about-card, .contact-card, .animate-on-scroll, .lab-module, .event-card, .feed-post, .glossary-card, .logic-game-card');
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

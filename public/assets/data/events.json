@@ -1,12 +1,14 @@
 [
     {
+        "date": "2025-10-20",
         "title": "Taller Práctico: Lanza tu Primer Sitio Web en la Nube con AWS S3",
         "description": "Únete a este taller práctico en el campus UGM de Playa Vicente. Descubre los conceptos esenciales de la nube y construye tu primer sitio web estático desde cero utilizando Amazon S3. Una oportunidad ideal para completar el desafío inicial de AWS Cloud Quest.",
         "image": "https://images.unsplash.com/photo-1573495627361-d9b87960b12d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "tags": ["Workshop", "S3", "Principiantes", "UGM", "Cloud Quest"],
         "format": "Presencial",
         "registration_url": "https://luma.com/njx6wlpp",
-        "price": "free"
+        "price": "free",
+        "status": "cerrado"
     },
     {
         "date": "2025-11-13",
@@ -15,7 +17,8 @@
         "image": "https://images.unsplash.com/photo-1573495627361-d9b87960b12d?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "tags": ["Workshop", "S3", "Principiantes", "COBAEV", "Cloud Quest"],
         "format": "Presencial",
-        "price": "free"
+        "price": "free",
+        "status": "cerrado"
     },
     {
         "date": "2025-12-01",
@@ -24,33 +27,37 @@
         "image": "https://d1.awsstatic.com/reinvent/social-share/reinvent-2023-social-share.3692cb9c1585a243355a3d56a04a055775a8b63b.png",
         "tags": ["Internacional", "AWS", "Conferencia"],
         "format": "Presencial",
-        "price": "paid"
+        "price": "paid",
+        "status": "abierto"
     },
     {
-        "year": "Próximamente",
+        "date": "2026-01-15",
         "title": "Sesión Inaugural: ¡Nace AWS User Group Playa Vicente!",
         "description": "¡La primera reunión de la comunidad! Un espacio para definir juntos los objetivos del grupo, planificar futuros eventos y conectar con otros apasionados por la tecnología en una sesión de networking.",
         "image": "assets/images/events/placeholder-1.jpg",
         "tags": ["Comunidad", "Networking"],
         "format": "Presencial",
-        "price": "free"
+        "price": "free",
+        "status": "abierto"
     },
     {
-        "year": "2026",
+        "date": "2026-03-10",
         "title": "AWS Community Day México",
         "description": "El evento más grande de la comunidad de AWS en México, organizado por y para la comunidad. Un día lleno de charlas técnicas, talleres y networking.",
         "image": "https://d1.awsstatic.com/events/community-day/community-day-meet-ups.e391a43b73a383ca98d27822d34a098f8b8b8b8b.png",
         "tags": ["Comunidad", "Nacional", "Conferencia"],
         "format": "Híbrido (Por confirmar)",
-        "price": "free"
+        "price": "free",
+        "status": "abierto"
     },
     {
-        "year": "2026",
+        "date": "2026-05-20",
         "title": "AWS Summit México",
         "description": "El evento oficial de AWS en México. Conoce los últimos servicios, aprende de los expertos de AWS y conecta con otros profesionales de la industria.",
         "image": "https://d1.awsstatic.com/events/summit-2022/logo-lockups/Summit-Social-Default-2022.b639b0b7d8722c71f691731800a007d5c5d10111.png",
         "tags": ["Oficial", "AWS", "Conferencia"],
         "format": "Híbrido (Por confirmar)",
-        "price": "free"
+        "price": "free",
+        "status": "abierto"
     }
 ]

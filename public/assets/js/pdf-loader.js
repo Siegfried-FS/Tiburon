@@ -84,10 +84,10 @@ class PDFAutoLoader {
             <div class="pdf-header">
                 <h3>📄 ${this.extractFileName(pdfPath)}</h3>
                 <div class="pdf-actions">
-                    <button onclick="window.open('${pdfPath}', '_blank')" class="btn-primary">
+                    <button class="btn-primary" data-action="open-pdf" data-pdf-path="${pdfPath}">
                         📖 Abrir PDF
                     </button>
-                    <button onclick="this.downloadPDF('${pdfPath}')" class="btn-secondary">
+                    <button class="btn-secondary" data-action="download-pdf" data-pdf-path="${pdfPath}">
                         💾 Descargar
                     </button>
                 </div>
@@ -99,6 +99,14 @@ class PDFAutoLoader {
 
         pdfList.appendChild(pdfCard);
         
+        // Attach event listeners to the buttons
+        pdfCard.querySelector('[data-action="open-pdf"]').addEventListener('click', () => {
+            window.open(pdfPath, '_blank');
+        });
+        pdfCard.querySelector('[data-action="download-pdf"]').addEventListener('click', () => {
+            this.downloadPDF(pdfPath);
+        });
+
         // Generar preview del PDF
         setTimeout(() => this.generatePDFPreview(pdfPath, index), 100);
     }
