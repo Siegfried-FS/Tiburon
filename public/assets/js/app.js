@@ -452,7 +452,7 @@ async function loadFeed() {
                 year: 'numeric' 
             });
             const isLiked = localStorage.getItem(`like_${post.id}`) === 'true';
-            const directUrl = `https://tiburoncp.siegfried-fs.com/feed.html#${post.id}`;
+            const directUrl = `https://tiburoncp.siegfried-fs.com/feed.html#post-${post.id}`;
 
             html += `
                 <div class="feed-post" id="post-${post.id}">
