@@ -1,19 +1,18 @@
-# AWS User Group Playa Vicente - robots.txt
-# ¡Hola, explorador de sistemas! 🤖
+# 🤖 ¡Hola, explorador! Qué bueno verte por aquí.
+#
+# Nos tomamos la seguridad muy en serio y monitoreamos nuestro sistema activamente.
+# Si tu curiosidad te trajo hasta aquí, ¡excelente! Nos encanta la gente curiosa.
+#
+# La diferencia entre un problema y una oportunidad es el permiso.
+# Si encuentras algo interesante, nos encantaría que nos lo reportaras de forma responsable.
+#
+# 📧 roberto.flores@siegfried-fs.com
+#
+# ¿Te apasiona la seguridad y la nube? ¡Únete a nuestra comunidad!
+# 📱 https://t.me/+NWYivRxl7fQ4MzNh
+#
+# Construyamos un ciberespacio más seguro juntos. 🦈
 
 User-agent: *
 Allow: /
-
-# Este sitio está bajo monitoreo activo.
-# Si eres un investigador de seguridad, te animamos a colaborar de forma ética.
-# La diferencia entre un experto y un intruso está en el permiso.
-
-# 🚨 Si encuentras vulnerabilidades, repórtalas de forma responsable a:
-# 📧 roberto.flores@siegfried-fs.com
-
-# Únete a nuestra comunidad para defender el ciberespacio.
-# 📱 https://t.me/+NWYivRxl7fQ4MzNh
-
 Sitemap: https://tiburoncp.siegfried-fs.com/sitemap.xml
-
-# Tu curiosidad es bienvenida si es ética. 🦈

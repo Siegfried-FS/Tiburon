@@ -50,11 +50,15 @@ exports.handler = async (event) => {
         // All input is sanitized. Path traversal attempts are logged.
         if (baseName !== fileName) {
             console.warn(`Potential path traversal attempt blocked: ${fileName}`);
-            // ¡Oye, pirata! Todos los intentos son monitoreados. ¡Procede con cuidado!
             return {
                 statusCode: 400,
                 headers,
-                body: JSON.stringify({ error: 'Invalid fileName. Path traversal is not permitted.' })
+                body: JSON.stringify({
+                    message: "🕵️ ¡Atención, explorador!",
+                    details: "Tu intento de path traversal ha sido bloqueado y registrado. Nos tomamos la seguridad muy en serio.",
+                    invitation: "Si te apasiona la seguridad, ¿por qué no te unes a nuestra comunidad para colaborar de forma ética?",
+                    community_url: "https://t.me/+NWYivRxl7fQ4MzNh"
+                })
             };
         }
 
