@@ -810,14 +810,6 @@ main {
     font-weight: 600;
 }
 
-.nav-menu a.active {
-    color: var(--primary-color);
-}
-
-.nav-menu a.active::after {
-    width: 100%;
-}
-
 /* Placeholder para PDFs */
 .pdf-placeholder {
     padding: 20px;
