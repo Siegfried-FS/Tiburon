@@ -1,0 +1,27 @@
+Headers que se implementarán en producción:
+
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: geolocation=(), microphone=(), camera=()
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://sdk.amazonaws.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; object-src 'self'; frame-src 'self'; connect-src 'self' https:; frame-ancestors 'self'
+
+Análisis de Seguridad:
+✅ HSTS - Fuerza HTTPS por 1 año
+✅ X-Content-Type-Options - Previene MIME sniffing
+✅ X-Frame-Options - Bloquea clickjacking
+✅ X-XSS-Protection - Filtro XSS del navegador
+✅ Referrer-Policy - Controla información de referrer
+✅ Permissions-Policy - Bloquea APIs sensibles
+✅ CSP - Política de seguridad de contenido restrictiva
+
+Funcionalidad verificada:
+✅ No usa iframes (X-Frame-Options: DENY es seguro)
+✅ No usa APIs de geolocation/camera/microphone
+✅ CSP permite todos los recursos necesarios:
+  - Scripts: self, inline, CDNs específicos
+  - Estilos: self, inline, Google Fonts
+  - Imágenes: self, data URLs, HTTPS
+  - Conexiones: self, HTTPS

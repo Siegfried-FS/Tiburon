@@ -524,10 +524,179 @@ function addFeedEventListeners() {
         button.addEventListener('click', () => {
             const shareUrl = button.dataset.shareUrl;
             const shareTitle = button.dataset.shareTitle;
-            // Aquí puedes implementar el modal de compartir
-            console.log('Compartir:', shareTitle, shareUrl);
+            openShareModal(shareUrl, shareTitle);
         });
     });
+}
+
+// Función para abrir el modal de compartir
+function openShareModal(url, title) {
+    // Crear el modal si no existe
+    let modal = document.getElementById('shareModal');
+    if (!modal) {
+        modal = createShareModal();
+        document.body.appendChild(modal);
+    }
+
+    // Actualizar contenido del modal
+    const modalTitle = modal.querySelector('.share-modal-title');
+    const shareOptions = modal.querySelector('.share-options-grid');
+    
+    modalTitle.textContent = `Compartir: ${title}`;
+    
+    // Configurar opciones de compartir
+    const shareData = [
+        {
+            name: 'Facebook',
+            icon: '📘',
+            url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+            color: '#1877F2'
+        },
+        {
+            name: 'Twitter',
+            icon: '🐦',
+            url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+            color: '#1DA1F2'
+        },
+        {
+            name: 'LinkedIn',
+            icon: '💼',
+            url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+            color: '#0A66C2'
+        },
+        {
+            name: 'WhatsApp',
+            icon: '💬',
+            url: `https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`,
+            color: '#25D366'
+        },
+        {
+            name: 'Telegram',
+            icon: '✈️',
+            url: `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+            color: '#0088CC'
+        },
+        {
+            name: 'Gmail',
+            icon: '📧',
+            url: `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`,
+            color: '#EA4335'
+        },
+        {
+            name: 'Copiar',
+            icon: '📋',
+            action: 'copy',
+            color: '#6B7280'
+        }
+    ];
+
+    shareOptions.innerHTML = shareData.map(option => `
+        <button class="share-option" 
+                data-url="${option.url || ''}" 
+                data-action="${option.action || 'open'}"
+                data-copy-url="${url}"
+                style="--share-color: ${option.color}">
+            <span class="share-icon">${option.icon}</span>
+            <span class="share-name">${option.name}</span>
+        </button>
+    `).join('');
+
+    // Agregar event listeners a las opciones
+    shareOptions.querySelectorAll('.share-option').forEach(option => {
+        option.addEventListener('click', () => {
+            const action = option.dataset.action;
+            if (action === 'copy') {
+                copyToClipboard(option.dataset.copyUrl);
+                showToast('¡Enlace copiado al portapapeles!');
+            } else {
+                window.open(option.dataset.url, '_blank', 'width=600,height=400');
+            }
+            closeShareModal();
+        });
+    });
+
+    // Mostrar modal
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Animación de entrada
+    requestAnimationFrame(() => {
+        modal.classList.add('active');
+    });
+}
+
+// Función para crear el modal de compartir
+function createShareModal() {
+    const modal = document.createElement('div');
+    modal.id = 'shareModal';
+    modal.className = 'share-modal';
+    modal.innerHTML = `
+        <div class="share-modal-overlay"></div>
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3 class="share-modal-title">Compartir Post</h3>
+                <button class="share-modal-close" onclick="closeShareModal()">✕</button>
+            </div>
+            <div class="share-options-grid">
+                <!-- Las opciones se cargan dinámicamente -->
+            </div>
+        </div>
+    `;
+
+    // Event listener para cerrar al hacer clic en el overlay
+    modal.querySelector('.share-modal-overlay').addEventListener('click', closeShareModal);
+    
+    return modal;
+}
+
+// Función para cerrar el modal de compartir
+function closeShareModal() {
+    const modal = document.getElementById('shareModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
+}
+
+// Función para copiar al portapapeles
+async function copyToClipboard(text) {
+    try {
+        await navigator.clipboard.writeText(text);
+    } catch (err) {
+        // Fallback para navegadores que no soportan clipboard API
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+    }
+}
+
+// Función para mostrar toast notifications
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    
+    document.body.appendChild(toast);
+    
+    // Animación de entrada
+    requestAnimationFrame(() => {
+        toast.classList.add('show');
+    });
+    
+    // Remover después de 3 segundos
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 3000);
 }
 
 async function loadResources() {
