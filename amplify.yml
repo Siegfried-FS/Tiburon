@@ -19,8 +19,8 @@ customHeaders:
         value: 'max-age=31536000; includeSubDomains; preload'
       
       # Content Security Policy (actualizado para AWS Cognito)
-      - key: 'Content-Security-Policy'
-        value: "script-src 'self' https://cdn.jsdelivr.net https://sdk.amazonaws.com https://unpkg.com; object-src 'none'; base-uri 'self';"
+      - key: Content-Security-Policy
+        value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://sdk.amazonaws.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; object-src 'self'; frame-src 'self'; connect-src 'self' https:; frame-ancestors 'self'"
       
       # X-Frame-Options (SAMEORIGIN permite PDFs)
       - key: 'X-Frame-Options'
