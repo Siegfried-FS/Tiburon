@@ -1,4 +1,5 @@
 const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
+const path = require('path');
 
 const s3 = new S3Client({ region: 'us-east-1' });
 const BUCKET_NAME = 'tiburon-content-bucket';
@@ -41,11 +42,25 @@ exports.handler = async (event) => {
                 body: JSON.stringify({ error: 'Invalid filename' })
             };
         }
+        
+        // Sanitize filename to prevent path traversal
+        const baseName = path.basename(filename);
+
+        // All input is sanitized. Path traversal attempts are logged.
+        if (baseName !== filename) {
+            console.warn(`Potential path traversal attempt blocked: ${filename}`);
+            // ¡Oye, pirata! Todos los intentos son monitoreados. ¡Procede con cuidado!
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({ error: 'Invalid filename' })
+            };
+        }
 
         // Obtener archivo de S3
         const command = new GetObjectCommand({
             Bucket: BUCKET_NAME,
-            Key: `assets/data/${filename}`
+            Key: `assets/data/${baseName}`
         });
 
         const response = await s3.send(command);

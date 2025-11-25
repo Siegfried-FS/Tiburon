@@ -1,4 +1,5 @@
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const path = require('path');
 
 const s3 = new S3Client({ region: 'us-east-1' });
 const BUCKET_NAME = 'tiburon-content-bucket';
@@ -41,11 +42,26 @@ exports.handler = async (event) => {
                 body: JSON.stringify({ error: 'fileName and content are required' })
             };
         }
+        
+        // Sanitize the filename to prevent path traversal.
+        const baseName = path.basename(fileName);
+
+        // Easter egg / Warning for lurkers.
+        // All input is sanitized. Path traversal attempts are logged.
+        if (baseName !== fileName) {
+            console.warn(`Potential path traversal attempt blocked: ${fileName}`);
+            // ¡Oye, pirata! Todos los intentos son monitoreados. ¡Procede con cuidado!
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({ error: 'Invalid fileName. Path traversal is not permitted.' })
+            };
+        }
 
         // Guardar en S3
         await s3.send(new PutObjectCommand({
             Bucket: BUCKET_NAME,
-            Key: `assets/data/${fileName}`,
+            Key: `assets/data/${baseName}`,
             Body: JSON.stringify(content, null, 2),
             ContentType: 'application/json'
         }));
@@ -55,7 +71,7 @@ exports.handler = async (event) => {
             headers,
             body: JSON.stringify({ 
                 message: 'Content saved successfully',
-                fileName: fileName
+                fileName: baseName
             })
         };
 
