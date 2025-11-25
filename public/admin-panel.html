@@ -6,11 +6,10 @@
     <title>Panel de Administración - Tiburón CP</title>
     <link rel="stylesheet" href="assets/css/styles.css?v=3">
     <link rel="stylesheet" href="assets/css/header.css?v=3">
-    <link rel="stylesheet" href="assets/css/admin-panel.css?v=3">
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <!-- Header simple con tema -->
+    <!-- Header igual al resto del sitio -->
     <div id="top-bar">
         <div class="top-bar-content">
             <div class="theme-toggle-container">
@@ -25,101 +24,182 @@
         </div>
     </div>
 
-    <div class="admin-container">
-        <!-- Header del Panel Admin -->
-        <div class="admin-header">
-            <h1 class="admin-title">Panel de Administración</h1>
-            <div class="admin-user-info">
-                <span id="admin-user-name">Cargando...</span>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1><a href="index.html">🦈 Panel Admin</a></h1>
             </div>
-        </div>
-
-        <!-- Navegación por Tabs -->
-        <nav class="admin-nav">
-            <ul class="admin-tabs">
-                <li class="admin-tab">
-                    <button data-section="dashboard" class="active">📊 Dashboard</button>
-                </li>
-                <li class="admin-tab">
-                    <button data-section="posts">📝 Posts</button>
-                </li>
-                <li class="admin-tab">
-                    <button data-section="analytics">📈 Analytics</button>
-                </li>
-                <li class="admin-tab">
-                    <button data-section="settings">⚙️ Configuración</button>
-                </li>
+            <ul class="nav-menu">
+                <li><a href="#dashboard" class="nav-link active" data-section="dashboard">📊 Dashboard</a></li>
+                <li><a href="#posts" class="nav-link" data-section="posts">📝 Posts</a></li>
+                <li><a href="#analytics" class="nav-link" data-section="analytics">📈 Analytics</a></li>
+                <li><a href="#settings" class="nav-link" data-section="settings">⚙️ Config</a></li>
             </ul>
         </nav>
+    </header>
 
+    <main class="main-content">
         <!-- Dashboard Section -->
-        <section id="dashboard-section" class="admin-section">
-            <h2>Resumen General</h2>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">📝</div>
-                    <div class="stat-number" id="stat-total-posts">0</div>
-                    <div class="stat-label">Total Posts</div>
+        <section id="dashboard-section" class="content-section">
+            <div class="container">
+                <h2 class="section-title">📊 Dashboard</h2>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>📝 Total Posts</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-number" id="stat-total-posts">0</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>✅ Publicados</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-number" id="stat-published-posts">0</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>📄 Borradores</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-number" id="stat-draft-posts">0</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>❤️ Total Likes</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="stat-number" id="stat-total-likes">0</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">✅</div>
-                    <div class="stat-number" id="stat-published-posts">0</div>
-                    <div class="stat-label">Publicados</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📄</div>
-                    <div class="stat-number" id="stat-draft-posts">0</div>
-                    <div class="stat-label">Borradores</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">❤️</div>
-                    <div class="stat-number" id="stat-total-likes">0</div>
-                    <div class="stat-label">Total Likes</div>
-                </div>
-            </div>
 
-            <div class="admin-alert admin-alert-success">
-                <span>🎉</span>
-                ¡Bienvenido al panel de administración! Aquí puedes gestionar todo el contenido del sitio.
+                <div class="alert alert-success">
+                    <span>🎉</span>
+                    ¡Bienvenido al panel de administración! Aquí puedes gestionar todo el contenido del sitio.
+                </div>
             </div>
         </section>
 
         <!-- Posts Section -->
-        <section id="posts-section" class="admin-section" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h2>Gestión de Posts</h2>
-                <button id="create-post-btn" class="btn-admin btn-admin-primary">
-                    ➕ Crear Nuevo Post
-                </button>
-            </div>
-            <div id="posts-list" class="posts-container">
-                <div class="loading-skeleton"></div>
+        <section id="posts-section" class="content-section" style="display: none;">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">📝 Gestión de Posts</h2>
+                    <button id="create-post-btn" class="btn btn-primary">
+                        ➕ Crear Nuevo Post
+                    </button>
+                </div>
+                
+                <div id="posts-list" class="posts-container">
+                    <div class="loading-skeleton"></div>
+                </div>
             </div>
         </section>
 
         <!-- Analytics Section -->
-        <section id="analytics-section" class="admin-section" style="display: none;">
-            <h2>Analytics y Métricas</h2>
-            <div class="admin-alert admin-alert-info">
-                <span>📈</span>
-                <strong>Escalabilidad:</strong> El sitio puede crecer hasta 1,000 usuarios manteniendo el costo en $0.00/mes.
+        <section id="analytics-section" class="content-section" style="display: none;">
+            <div class="container">
+                <h2 class="section-title">📈 Analytics</h2>
+                <div class="alert alert-info">
+                    <span>📈</span>
+                    <strong>Escalabilidad:</strong> El sitio puede crecer hasta 1,000 usuarios manteniendo el costo en $0.00/mes.
+                </div>
             </div>
         </section>
 
         <!-- Settings Section -->
-        <section id="settings-section" class="admin-section" style="display: none;">
-            <h2>Configuración del Sitio</h2>
-            <div class="admin-alert admin-alert-warning">
-                <span>⚙️</span>
-                <strong>Configuración Avanzada:</strong> Las configuraciones del sitio se gestionan a través de archivos JSON en S3.
+        <section id="settings-section" class="content-section" style="display: none;">
+            <div class="container">
+                <h2 class="section-title">⚙️ Configuración</h2>
+                <div class="alert alert-warning">
+                    <span>⚙️</span>
+                    <strong>Configuración Avanzada:</strong> Las configuraciones del sitio se gestionan a través de archivos JSON en S3.
+                </div>
             </div>
         </section>
-    </div>
+    </main>
 
-    <!-- Scripts -->
+    <style>
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .posts-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .post-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .post-header h4 {
+            margin: 0;
+            color: var(--text-color);
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-published {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+        
+        .status-draft {
+            background: rgba(251, 191, 36, 0.1);
+            color: #fbbf24;
+        }
+        
+        .post-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+    </style>
+
     <script>
-        // Tema simple integrado
+        // Tema del sitio
         function initTheme() {
             const themeToggle = document.querySelector('.theme-toggle');
             const savedTheme = localStorage.getItem('theme') || 'light';
@@ -137,10 +217,31 @@
             });
         }
         
-        // Inicializar tema
-        document.addEventListener('DOMContentLoaded', initTheme);
+        // Navegación
+        function initNavigation() {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const section = e.target.dataset.section;
+                    
+                    // Update active nav
+                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    // Show/hide sections
+                    document.querySelectorAll('.content-section').forEach(s => {
+                        s.style.display = s.id === `${section}-section` ? 'block' : 'none';
+                    });
+                });
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            initNavigation();
+        });
     </script>
     <script src="assets/js/admin-panel-security.js?v=3"></script>
-    <script src="assets/js/admin-real-fixed.js?v=3"></script>
+    <script src="assets/js/admin-simple.js?v=3"></script>
 </body>
 </html>
