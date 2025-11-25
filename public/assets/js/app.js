@@ -22,28 +22,19 @@ const DATA_SOURCES = {
 
 // Función para cargar datos con fallback
 async function loadData(filename) {
-    try {
-        // Intentar Lambda primero
-        const lambdaResponse = await fetch(DATA_SOURCES.lambda + filename);
-        if (lambdaResponse.ok) {
-            console.log(`✅ Cargando ${filename} desde Lambda/S3`);
-            return await lambdaResponse.json();
-        }
-    } catch (error) {
-        console.log(`⚠️ Lambda no disponible para ${filename}, usando local`);
-    }
-    
-    // Fallback a local
+    // Usar solo rutas locales por ahora para diagnosticar
     try {
         const localResponse = await fetch(DATA_SOURCES.local + filename);
         if (localResponse.ok) {
             console.log(`📁 Cargando ${filename} desde local`);
             return await localResponse.json();
+        } else {
+            console.error(`❌ Error HTTP ${localResponse.status} cargando ${filename}`);
         }
     } catch (error) {
         console.error(`❌ Error cargando ${filename}:`, error);
-        return null;
     }
+    return null;
 }
 
 // =============================================================================
