@@ -1,13 +1,25 @@
 version: 1
 frontend:
   phases:
+    preBuild:
+      commands:
+        - echo "Installing dependencies..."
+        - npm ci
     build:
       commands:
-        - echo "Building secure Tiburon"
+        - echo "Deploying backend Lambda functions..."
+        - chmod +x ./deploy-get-content-lambda.sh
+        - chmod +x ./deploy-save-content-lambda.sh
+        - ./deploy-get-content-lambda.sh
+        - ./deploy-save-content-lambda.sh
+        - echo "Backend deployment complete. Proceeding with frontend."
   artifacts:
     baseDirectory: public
     files:
       - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
 customHeaders:
   - pattern: '**/*'
     headers:
