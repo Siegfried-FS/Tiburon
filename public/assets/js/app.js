@@ -592,7 +592,10 @@ function openShareModal(url, title) {
     ];
 
     if (shareOptions) {
-        shareOptions.innerHTML = shareData.map(option => `
+        console.log('Share URL being used:', url); // Debug
+        shareOptions.innerHTML = shareData.map(option => {
+            console.log('Generated URL for', option.name, ':', option.url); // Debug
+            return `
             <button class="share-option" 
                     data-url="${option.url || ''}" 
                     data-action="${option.action || 'open'}"
@@ -601,7 +604,7 @@ function openShareModal(url, title) {
                 <span class="share-icon">${option.icon}</span>
                 <span class="share-name">${option.name}</span>
             </button>
-        `).join('');
+        `}).join('');
 
         // Agregar event listeners a las opciones
         shareOptions.querySelectorAll('.share-option').forEach(option => {
@@ -611,7 +614,11 @@ function openShareModal(url, title) {
                     copyToClipboard(option.dataset.copyUrl);
                     showToast('¡Enlace copiado al portapapeles!');
                 } else {
-                    window.open(option.dataset.url, '_blank', 'width=600,height=400');
+                    const shareUrl = option.dataset.url;
+                    console.log('Opening URL:', shareUrl); // Debug
+                    if (shareUrl && shareUrl.startsWith('http')) {
+                        window.open(shareUrl, '_blank', 'width=600,height=400');
+                    }
                 }
                 closeShareModal();
             });
