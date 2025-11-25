@@ -33,24 +33,45 @@ class AdminPanel {
 
     async loadPosts() {
         try {
-            const response = await fetch(`${this.apiBase}/admin/posts`);
+            const token = localStorage.getItem('cognitoToken');
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            // Agregar token si existe (para futuras validaciones)
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
+            const response = await fetch(`${this.apiBase}/admin/posts`, { headers });
             if (response.ok) {
                 const data = await response.json();
                 this.posts = data.posts || [];
                 this.renderPosts();
                 this.updateStats();
+            } else {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
         } catch (error) {
             console.error('Error loading posts:', error);
-            this.showAlert('Error cargando posts', 'danger');
+            this.showAlert('Error cargando posts: ' + error.message, 'danger');
         }
     }
 
     async createPost(postData) {
         try {
+            const token = localStorage.getItem('cognitoToken');
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
             const response = await fetch(`${this.apiBase}/admin/posts`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers,
                 body: JSON.stringify({
                     ...postData,
                     author: this.currentUser
@@ -65,19 +86,29 @@ class AdminPanel {
                 this.showAlert('Post creado exitosamente', 'success');
                 return newPost;
             } else {
-                throw new Error('Error creating post');
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Error creating post');
             }
         } catch (error) {
             console.error('Error creating post:', error);
-            this.showAlert('Error creando post', 'danger');
+            this.showAlert('Error creando post: ' + error.message, 'danger');
         }
     }
 
     async updatePost(postId, postData) {
         try {
+            const token = localStorage.getItem('cognitoToken');
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
             const response = await fetch(`${this.apiBase}/admin/posts/${postId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers,
                 body: JSON.stringify(postData)
             });
 
@@ -91,11 +122,12 @@ class AdminPanel {
                 }
                 return updatedPost;
             } else {
-                throw new Error('Error updating post');
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Error updating post');
             }
         } catch (error) {
             console.error('Error updating post:', error);
-            this.showAlert('Error actualizando post', 'danger');
+            this.showAlert('Error actualizando post: ' + error.message, 'danger');
         }
     }
 
@@ -103,8 +135,16 @@ class AdminPanel {
         if (!confirm('¿Estás seguro de eliminar este post?')) return;
 
         try {
+            const token = localStorage.getItem('cognitoToken');
+            const headers = {};
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
             const response = await fetch(`${this.apiBase}/admin/posts/${postId}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers
             });
 
             if (response.ok) {
@@ -113,11 +153,12 @@ class AdminPanel {
                 this.updateStats();
                 this.showAlert('Post eliminado exitosamente', 'success');
             } else {
-                throw new Error('Error deleting post');
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Error deleting post');
             }
         } catch (error) {
             console.error('Error deleting post:', error);
-            this.showAlert('Error eliminando post', 'danger');
+            this.showAlert('Error eliminando post: ' + error.message, 'danger');
         }
     }
 

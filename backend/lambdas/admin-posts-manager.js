@@ -21,6 +21,17 @@ const getCorsHeaders = (origin) => {
     };
 };
 
+// Función básica para verificar token (sin JWT library por ahora)
+function basicTokenCheck(authHeader) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return false;
+    }
+    
+    const token = authHeader.substring(7);
+    // Verificación básica: el token debe tener al menos 100 caracteres (JWT típico)
+    return token.length > 100;
+}
+
 // Función para obtener datos de S3
 async function getS3Data(key) {
     try {
@@ -74,6 +85,8 @@ exports.handler = async (event) => {
     const origin = event.headers?.origin || event.headers?.Origin;
     const corsHeaders = getCorsHeaders(origin);
     
+    console.log('Event received:', JSON.stringify(event, null, 2));
+    
     // Handle preflight
     if (event.httpMethod === 'OPTIONS' || event.requestContext?.http?.method === 'OPTIONS') {
         return { statusCode: 200, headers: corsHeaders, body: '' };
@@ -82,6 +95,20 @@ exports.handler = async (event) => {
     try {
         const method = event.httpMethod || event.requestContext?.http?.method;
         const path = event.path || event.rawPath;
+        
+        console.log('Method:', method, 'Path:', path);
+        
+        // Para operaciones que no sean GET, verificar token básico
+        if (method !== 'GET') {
+            const authHeader = event.headers?.Authorization || event.headers?.authorization;
+            if (!basicTokenCheck(authHeader)) {
+                return {
+                    statusCode: 401,
+                    headers: corsHeaders,
+                    body: JSON.stringify({ error: 'Token de autorización requerido' })
+                };
+            }
+        }
         
         // GET /admin/posts - Listar posts
         if (method === 'GET' && path === '/admin/posts') {
@@ -203,7 +230,7 @@ exports.handler = async (event) => {
         return {
             statusCode: 500,
             headers: corsHeaders,
-            body: JSON.stringify({ error: 'Internal server error' })
+            body: JSON.stringify({ error: 'Internal server error', details: error.message })
         };
     }
 };
