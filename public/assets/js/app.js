@@ -108,7 +108,31 @@ function setupHeaderEventListeners() {
     // Navigation links
     const navLinks = document.querySelectorAll('.nav-menu a');
     navLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
+        // If it's a dropdown toggle, handle the submenu
+        if (link.classList.contains('dropdown-toggle')) {
+            link.addEventListener('click', function(event) {
+                // Prevent navigation for javascript:void(0)
+                event.preventDefault();
+                event.stopPropagation(); // Stop event from bubbling up to the document click listener
+
+                // On mobile, a click should toggle the submenu
+                if (window.innerWidth <= 768) {
+                    const parentLi = this.parentElement;
+                    
+                    // Close other open submenus
+                    parentLi.parentElement.querySelectorAll('.dropdown.active').forEach(openDropdown => {
+                        if (openDropdown !== parentLi) {
+                            openDropdown.classList.remove('active');
+                        }
+                    });
+
+                    parentLi.classList.toggle('active');
+                }
+            });
+        } else {
+            // If it's a normal link that navigates, it should close the menu
+            link.addEventListener('click', closeMenu);
+        }
     });
 
     // Theme toggle
