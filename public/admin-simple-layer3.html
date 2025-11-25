@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Capa 3: Persistencia Real</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .post-item { background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #1976d2; }
+        .post-title { font-weight: bold; margin-bottom: 10px; }
+        .post-meta { font-size: 0.9rem; color: #666; margin-bottom: 10px; }
+        .post-content { line-height: 1.5; margin-bottom: 15px; }
+        .btn { background: #1976d2; color: white; padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+        .btn:hover { background: #1565c0; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .btn-danger { background: #d32f2f; }
+        .btn-success { background: #388e3c; }
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .form-group textarea { height: 150px; resize: vertical; }
+        .success { background: #e8f5e8; color: #2e7d32; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .error { background: #ffebee; color: #c62828; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .warning { background: #fff3e0; color: #f57c00; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .loading { background: #e3f2fd; color: #1976d2; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .saved { border-left-color: #4caf50 !important; background: #f1f8e9 !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🦈 Panel Admin - Capa 3: Persistencia Real</h1>
+            <p>Objetivo: Guardar cambios permanentemente usando Lambda APIs</p>
+            <a href="admin-simple-layer2.html" style="color: #1976d2;">← Capa 2</a> | 
+            <a href="index.html" style="color: #1976d2;">Sitio Principal</a>
+        </div>
+
+        <div id="status"></div>
+
+        <div class="warning">
+            <strong>🎯 Capa 3 - Persistencia Real:</strong><br>
+            • Los cambios se guardan usando las APIs Lambda existentes<br>
+            • Validación de que los cambios persisten al recargar<br>
+            • Manejo de errores de red y API<br>
+            • Feedback visual del estado de guardado
+        </div>
+
+        <h2>📝 Posts - Edición con Persistencia</h2>
+        <div id="posts-container">
+            <div>Cargando posts...</div>
+        </div>
+    </div>
+
+    <!-- Modal de Edición -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <h3>✏️ Editar Post (Guardado Real)</h3>
+            <form id="edit-form">
+                <div class="form-group">
+                    <label>Título:</label>
+                    <input type="text" id="edit-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Contenido:</label>
+                    <textarea id="edit-content" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Likes:</label>
+                    <input type="number" id="edit-likes" min="0">
+                </div>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn" id="save-btn">💾 Guardar Permanentemente</button>
+                    <button type="button" class="btn btn-danger" onclick="closeModal()">❌ Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        class Layer3Persistence {
+            constructor() {
+                this.posts = [];
+                this.apiBase = 'https://fklo6233x5.execute-api.us-east-1.amazonaws.com/prod';
+                this.init();
+            }
+
+            async init() {
+                try {
+                    await this.loadPosts();
+                    this.renderPosts();
+                    this.showSuccess('✅ Capa 3 lista - Los cambios se guardarán permanentemente');
+                } catch (error) {
+                    this.showError('❌ Error: ' + error.message);
+                }
+            }
+
+            async loadPosts() {
+                const possiblePaths = [
+                    '/assets/data/feed.json',
+                    'assets/data/feed.json',
+                    './assets/data/feed.json'
+                ];
+                
+                for (const path of possiblePaths) {
+                    try {
+                        const response = await fetch(path);
+                        if (response.ok) {
+                            const data = await response.json();
+                            this.posts = Array.isArray(data) ? data : (data.posts || []);
+                            console.log(`✅ Cargados ${this.posts.length} posts desde ${path}`);
+                            return;
+                        }
+                    } catch (error) {
+                        console.log(`❌ Error en ${path}:`, error.message);
+                    }
+                }
+                throw new Error('No se pudo cargar el feed');
+            }
+
+            renderPosts() {
+                const container = document.getElementById('posts-container');
+                
+                container.innerHTML = this.posts.map((post, index) => `
+                    <div class="post-item ${post._saved ? 'saved' : ''}" id="post-${post.id}">
+                        <div class="post-title">${post.title}</div>
+                        <div class="post-meta">
+                            🆔 ${post.id} | 👤 ${post.author?.name || 'Sin autor'} | ❤️ ${post.likes || 0} likes
+                            ${post._saved ? ' | ✅ GUARDADO' : ''}
+                        </div>
+                        <div class="post-content">
+                            ${post.content.substring(0, 200)}${post.content.length > 200 ? '...' : ''}
+                        </div>
+                        <button class="btn" onclick="layer3.editPost('${post.id}')" ${post._saving ? 'disabled' : ''}>
+                            ${post._saving ? '⏳ Guardando...' : '✏️ Editar y Guardar'}
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            editPost(postId) {
+                const post = this.posts.find(p => p.id === postId);
+                if (!post) {
+                    this.showError('❌ Post no encontrado');
+                    return;
+                }
+
+                // Llenar formulario
+                document.getElementById('edit-title').value = post.title;
+                document.getElementById('edit-content').value = post.content;
+                document.getElementById('edit-likes').value = post.likes || 0;
+
+                // Mostrar modal
+                document.getElementById('edit-modal').style.display = 'flex';
+
+                // Configurar evento de submit
+                document.getElementById('edit-form').onsubmit = (e) => {
+                    e.preventDefault();
+                    this.saveChanges(postId);
+                };
+            }
+
+            async saveChanges(postId) {
+                const title = document.getElementById('edit-title').value.trim();
+                const content = document.getElementById('edit-content').value.trim();
+                const likes = parseInt(document.getElementById('edit-likes').value) || 0;
+
+                if (!title || !content) {
+                    this.showError('❌ Título y contenido son obligatorios');
+                    return;
+                }
+
+                // Marcar como guardando
+                const postIndex = this.posts.findIndex(p => p.id === postId);
+                if (postIndex === -1) return;
+
+                this.posts[postIndex]._saving = true;
+                this.renderPosts();
+                this.closeModal();
+                this.showLoading('⏳ Guardando cambios en el servidor...');
+
+                try {
+                    // Preparar datos para la API
+                    const postData = {
+                        title,
+                        content,
+                        likes,
+                        author: this.posts[postIndex].author,
+                        status: 'published'
+                    };
+
+                    // Llamar a la API Lambda
+                    const response = await fetch(`${this.apiBase}/admin/posts/${postId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('cognitoToken')}`
+                        },
+                        body: JSON.stringify(postData)
+                    });
+
+                    if (response.ok) {
+                        // Actualizar post local
+                        this.posts[postIndex] = {
+                            ...this.posts[postIndex],
+                            title,
+                            content,
+                            likes,
+                            _saved: true,
+                            _saving: false
+                        };
+
+                        this.renderPosts();
+                        this.showSuccess(`✅ Post "${title}" guardado permanentemente en el servidor`);
+                        
+                        // Validar persistencia
+                        setTimeout(() => {
+                            this.validatePersistence(postId);
+                        }, 2000);
+
+                    } else {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                } catch (error) {
+                    console.error('Error guardando:', error);
+                    this.posts[postIndex]._saving = false;
+                    this.renderPosts();
+                    this.showError(`❌ Error guardando: ${error.message}`);
+                }
+            }
+
+            async validatePersistence(postId) {
+                try {
+                    this.showLoading('🔍 Validando que los cambios persistan...');
+                    
+                    // Recargar datos del servidor
+                    const response = await fetch(`${this.apiBase}/admin/posts`);
+                    if (response.ok) {
+                        const serverData = await response.json();
+                        const serverPost = serverData.posts?.find(p => p.id === postId);
+                        const localPost = this.posts.find(p => p.id === postId);
+                        
+                        if (serverPost && localPost) {
+                            const matches = 
+                                serverPost.title === localPost.title &&
+                                serverPost.content === localPost.content &&
+                                serverPost.likes === localPost.likes;
+                            
+                            if (matches) {
+                                this.showSuccess('✅ VALIDACIÓN EXITOSA: Los cambios persisten en el servidor');
+                            } else {
+                                this.showError('❌ VALIDACIÓN FALLIDA: Los cambios no coinciden en el servidor');
+                            }
+                        }
+                    }
+                } catch (error) {
+                    this.showError(`❌ Error validando persistencia: ${error.message}`);
+                }
+            }
+
+            closeModal() {
+                document.getElementById('edit-modal').style.display = 'none';
+            }
+
+            showSuccess(message) {
+                document.getElementById('status').innerHTML = `<div class="success">${message}</div>`;
+            }
+
+            showError(message) {
+                document.getElementById('status').innerHTML = `<div class="error">${message}</div>`;
+            }
+
+            showLoading(message) {
+                document.getElementById('status').innerHTML = `<div class="loading">${message}</div>`;
+            }
+        }
+
+        // Funciones globales
+        function closeModal() {
+            layer3.closeModal();
+        }
+
+        // Inicializar
+        let layer3;
+        document.addEventListener('DOMContentLoaded', () => {
+            layer3 = new Layer3Persistence();
+        });
+    </script>
+</body>
+</html>
