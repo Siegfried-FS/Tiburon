@@ -6,10 +6,15 @@
 # AWS credentials (pero permitir aws-config.json que solo tiene IDs públicos)
 .aws/
 aws-credentials.json
+amplify/
 
-# Node modules (si usamos npm en el futuro)
+# Node modules
 node_modules/
 package-lock.json
+
+# Backend artifacts
+backend/lambdas/*.zip
+backend/lambdas/node_modules/
 
 # Logs
 *.log
@@ -18,6 +23,8 @@ logs/
 # Temporary files
 .tmp/
 temp/
+*.tmp
+*.temp
 
 # IDE files
 .vscode/
@@ -28,4 +35,7 @@ temp/
 # OS files
 .DS_Store
 Thumbs.db
-*.zip
+
+# Build artifacts
+dist/
+build/
