@@ -10,8 +10,27 @@
     <link rel="stylesheet" href="assets/css/header.css?v=3">
 </head>
 <body>
-    <div id="particles-js"></div>
-    <div id="header-placeholder"></div>
+    <!-- Header igual al sitio -->
+    <div id="top-bar">
+        <div class="top-bar-content">
+            <div class="theme-toggle-container">
+                <button class="theme-toggle" title="Cambiar tema">🌙</button>
+            </div>
+            <div class="auth-container">
+                <div id="authButtons" class="auth-buttons">
+                    <a href="index.html" class="btn-secondary">🏠 Volver al Sitio</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1><a href="admin-panel.html">🦈 Panel Admin</a></h1>
+            </div>
+        </nav>
+    </header>
 
     <main>
         <!-- Dashboard Section -->
@@ -191,9 +210,27 @@
         }
     </style>
 
-    <script src="assets/js/particles.min.js"></script>
-    <script src="assets/js/theme.js"></script>
-    <script src="assets/js/header-loader.js"></script>
+    <script>
+        // Tema integrado
+        function initTheme() {
+            const themeToggle = document.querySelector('.theme-toggle');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', initTheme);
+    </script>
     <script src="assets/js/admin-panel-security.js?v=3"></script>
     <script src="assets/js/admin-site-style.js?v=3"></script>
 </body>
