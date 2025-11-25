@@ -40,43 +40,29 @@ class Admin {
     }
 
     async loadData() {
-        const token = sessionStorage.getItem('accessToken');
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        };
-
         try {
-            // Cargar usuarios reales
-            try {
-                const usersRes = await fetch(`${API_BASE}/users`, { headers });
-                if (usersRes.ok) {
-                    this.data.users = await usersRes.json();
-                } else {
-                    console.error('Failed to load users');
-                    this.data.users = [];
-                }
-            } catch (e) {
-                console.error('Error fetching users:', e);
-                this.data.users = [];
-            }
-            
-            // Note: The rest of the data loading is for content, which uses a different API.
-            // This part can be refactored later if needed.
             // Cargar posts
             try {
-                const feedRes = await fetch(`https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/content/feed.json`);
+                const feedRes = await fetch(`${API_BASE}/get-content/feed.json`);
                 if (feedRes.ok) {
                     const feedData = await feedRes.json();
                     this.data.posts = feedData.posts || feedData || [];
                 }
             } catch (e) {
-                 this.data.posts = [];
+                this.data.posts = [
+                    {
+                        id: 'post-1',
+                        title: 'Bienvenidos al AWS User Group',
+                        content: 'Comunidad de tecnología en la nube',
+                        date: new Date().toISOString(),
+                        author: { name: 'Roberto Flores', avatar: '' }
+                    }
+                ];
             }
 
             // Cargar eventos
             try {
-                const eventsRes = await fetch(`https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/content/events.json`);
+                const eventsRes = await fetch(`${API_BASE}/get-content/events.json`);
                 if (eventsRes.ok) {
                     const eventsData = await eventsRes.json();
                     this.data.events = Array.isArray(eventsData) ? eventsData : [];
@@ -87,7 +73,7 @@ class Admin {
 
             // Cargar juegos
             try {
-                const gamesRes = await fetch(`https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/content/logic-games.json`);
+                const gamesRes = await fetch(`${API_BASE}/get-content/logic-games.json`);
                 if (gamesRes.ok) {
                     const gamesData = await gamesRes.json();
                     this.data.games = Array.isArray(gamesData) ? gamesData : [];
@@ -98,7 +84,7 @@ class Admin {
 
             // Cargar recursos
             try {
-                const resourcesRes = await fetch(`https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/content/resources.json`);
+                const resourcesRes = await fetch(`${API_BASE}/get-content/resources.json`);
                 if (resourcesRes.ok) {
                     const resourcesData = await resourcesRes.json();
                     this.data.resources = [];
@@ -113,6 +99,26 @@ class Admin {
             } catch (e) {
                 this.data.resources = [];
             }
+
+            // Cargar usuarios reales
+            try {
+                const token = sessionStorage.getItem('accessToken');
+                const usersRes = await fetch(`${API_BASE}/users`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (usersRes.ok) {
+                    this.data.users = await usersRes.json();
+                } else {
+                    console.error('Failed to load users:', await usersRes.text());
+                    this.data.users = [];
+                }
+            } catch (e) {
+                console.error('Error fetching users:', e);
+                this.data.users = [];
+            }
+
 
         } catch (error) {
             console.error('Error loading data:', error);
@@ -295,10 +301,10 @@ class Admin {
                         </div>
                         <div class="admin-card-content">${user.email}</div>
                         <div class="admin-card-meta">
-                            <span>${user.status === 'active' ? '🟢 Activo' : '🔴 Inactivo'}</span>
+                            <span>${user.status === 'CONFIRMED' ? '🟢 Activo' : '🔴 Inactivo'}</span>
                         </div>
                         <div class="admin-card-actions">
-                            <button class="admin-action-btn" onclick="admin.editUser(${user.id})">Editar Rol</button>
+                            <button class="admin-action-btn" onclick="admin.editUser('${user.username}')">Editar Rol</button>
                         </div>
                     </div>
                 `).join('')}
@@ -319,26 +325,55 @@ class Admin {
         });
     }
 
-    editUser(id) {
-        const user = this.data.users.find(u => u.id === id);
-        this.showModal('Editar Usuario', `
+    async editUser(username) {
+        const user = this.data.users.find(u => u.username === username);
+        if (!user) {
+            this.showToast('Usuario no encontrado', 'error');
+            return;
+        }
+
+        this.showModal('Editar Rol de Usuario', `
             <div class="admin-form-group">
-                <label class="admin-form-label">Usuario: ${user.name}</label>
+                <label class="admin-form-label">Usuario: ${user.name} (${user.email})</label>
             </div>
             <div class="admin-form-group">
                 <label class="admin-form-label">Rol:</label>
                 <select name="role" class="admin-form-input">
                     <option value="Explorador" ${user.role === 'Explorador' ? 'selected' : ''}>🧭 Explorador</option>
                     <option value="Navegante" ${user.role === 'Navegante' ? 'selected' : ''}>⛵ Navegante</option>
+                    <option value="Moderador" ${user.role === 'Moderador' ? 'selected' : ''}>🛡️ Moderador</option>
                     <option value="Corsario" ${user.role === 'Corsario' ? 'selected' : ''}>⚔️ Corsario</option>
-                    <option value="Capitán" ${user.role === 'Capitán' ? 'selected' : ''}>🚢 Capitán</option>
-                    <option value="Admin" ${user.role === 'Admin' ? 'selected' : ''}>👑 Admin</option>
+                    <option value="Capitan" ${user.role === 'Capitan' ? 'selected' : ''}>🚢 Capitán</option>
+                    <option value="Admins" ${user.role === 'Admins' ? 'selected' : ''}>👑 Admin</option>
                 </select>
             </div>
-        `, (data) => {
-            user.role = data.role;
-            this.showToast('Usuario actualizado correctamente', 'success');
-            this.showSection('users');
+        `, async (data) => {
+            const token = sessionStorage.getItem('accessToken');
+            const newRole = data.role;
+
+            try {
+                const response = await fetch(`${API_BASE}/users/update-role`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ username, newRole })
+                });
+
+                if (response.ok) {
+                    this.showToast('Rol de usuario actualizado correctamente', 'success');
+                    // Update local data and re-render
+                    user.role = newRole;
+                    this.showSection('users');
+                } else {
+                    const errorData = await response.json();
+                    this.showToast(`Error: ${errorData.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('Error updating user role:', error);
+                this.showToast('Error de red al actualizar el rol.', 'error');
+            }
         });
     }
 
