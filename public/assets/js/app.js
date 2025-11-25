@@ -38,6 +38,44 @@ async function loadData(filename) {
 }
 
 // =============================================================================
+// UTILIDADES DE RENDERIZADO (ELIMINAR DUPLICACIÓN)
+// =============================================================================
+
+// Mensajes de error estándar
+const ERROR_MESSAGES = {
+    noData: (type) => `No hay ${type} disponibles en este momento.`,
+    loadError: (type) => `Error al cargar ${type}. Intenta recargar la página.`,
+    noResults: 'No se encontraron resultados que coincidan con la búsqueda o filtro.'
+};
+
+// Función utilitaria para renderizar contenido con manejo de errores
+function renderContent(container, html, callback = null) {
+    if (!container) return;
+    container.innerHTML = html;
+    if (callback) callback();
+}
+
+// Función utilitaria para manejar carga de datos con mensajes estándar
+async function loadAndRender(filename, container, renderFunction, dataType, callback = null) {
+    if (!container) return;
+    
+    try {
+        const data = await loadData(filename);
+        if (!data || data.length === 0) {
+            renderContent(container, `<p style="text-align: center;">${ERROR_MESSAGES.noData(dataType)}</p>`);
+            return;
+        }
+        
+        const html = renderFunction(data);
+        renderContent(container, html, callback);
+        
+    } catch (error) {
+        console.error(`Error al cargar ${dataType}:`, error);
+        renderContent(container, `<p style="text-align: center;">${ERROR_MESSAGES.loadError(dataType)}</p>`);
+    }
+}
+
+// =============================================================================
 // INICIALIZACIÓN
 // =============================================================================
 
@@ -254,15 +292,8 @@ function closeMenu() {
 
 async function loadEvents() {
     const container = document.getElementById('events-container');
-    if (!container) return;
-
-    try {
-        const events = await loadData('events.json');
-        if (!events || events.length === 0) {
-            container.innerHTML = '<p>No hay eventos disponibles. ¡Vuelve pronto!</p>';
-            return;
-        }
-
+    
+    function renderEventsHTML(events) {
         // Filtrar y ordenar eventos por fecha
         const now = new Date();
         const sortedEvents = events
@@ -302,16 +333,10 @@ async function loadEvents() {
             html += '</div>';
         }
 
-        if (upcomingEvents.length === 0 && pastEvents.length === 0) {
-            html = '<p>No hay eventos disponibles. ¡Vuelve pronto!</p>';
-        }
-
-        container.innerHTML = html;
-
-    } catch (error) {
-        console.error('Error loading events:', error);
-        container.innerHTML = '<p>Error al cargar eventos. Intenta más tarde.</p>';
+        return html || '<p>No hay eventos disponibles. ¡Vuelve pronto!</p>';
     }
+
+    await loadAndRender('events.json', container, renderEventsHTML, 'eventos');
 }
 
 function renderEventCard(event) {
@@ -545,31 +570,29 @@ async function loadResources() {
 
 async function loadGlossary() {
     const container = document.getElementById('glossary-container');
-    if (!container) return;
-
-    try {
-        const terms = await loadData('glosario.json');
-        if (!terms || terms.length === 0) {
-            container.innerHTML = '<p style="text-align: center;">No hay términos disponibles en el glosario.</p>';
-            return;
-        }
-
+    
+    function renderGlossaryHTML(terms) {
         // Sort terms alphabetically
         terms.sort((a, b) => a.term.localeCompare(b.term));
-
+        
         let html = '';
         terms.forEach(term => {
             html += renderGlossaryCard(term);
         });
-
-        container.innerHTML = html;
-        setupGlossarySearch(terms); // Setup search and filter after rendering
+        return html;
+    }
+    
+    function afterRender() {
+        const terms = JSON.parse(container.dataset.terms || '[]');
+        setupGlossarySearch(terms);
         setupAlphabetFilter(terms);
-        initScrollAnimations(); // Re-apply scroll animations if needed
+        initScrollAnimations();
+    }
 
-    } catch (error) {
-        console.error('Error al cargar el glosario:', error);
-        container.innerHTML = '<p>Error al cargar el glosario. Intenta recargar la página.</p>';
+    const terms = await loadData('glosario.json');
+    if (terms) {
+        container.dataset.terms = JSON.stringify(terms);
+        await loadAndRender('glosario.json', container, renderGlossaryHTML, 'términos del glosario', afterRender);
     }
 }
 
