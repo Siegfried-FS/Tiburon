@@ -1,0 +1,422 @@
+/* ===================================================================
+   PANEL DE ADMINISTRACIÓN - DISEÑO ELEGANTE Y CONSISTENTE
+   =================================================================== */
+
+:root {
+    --admin-primary: #4ecdc4;
+    --admin-secondary: #45b7b8;
+    --admin-accent: #96ceb4;
+    --admin-dark: #2c3e50;
+    --admin-light: #ecf0f1;
+    --admin-success: #27ae60;
+    --admin-warning: #f39c12;
+    --admin-danger: #e74c3c;
+    --admin-info: #3498db;
+    
+    --admin-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --admin-shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+    --admin-border-radius: 8px;
+    --admin-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Layout Principal */
+.admin-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+.admin-header {
+    background: white;
+    padding: 20px 30px;
+    border-radius: var(--admin-border-radius);
+    box-shadow: var(--admin-shadow);
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--admin-dark);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-title::before {
+    content: '🦈';
+    font-size: 2rem;
+}
+
+/* Navegación de Tabs */
+.admin-nav {
+    background: white;
+    border-radius: var(--admin-border-radius);
+    box-shadow: var(--admin-shadow);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.admin-tabs {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #f8f9fa;
+}
+
+.admin-tab {
+    flex: 1;
+}
+
+.admin-tab button {
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    background: transparent;
+    color: #6c757d;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--admin-transition);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.admin-tab button:hover {
+    background: rgba(78, 205, 196, 0.1);
+    color: var(--admin-primary);
+}
+
+.admin-tab button.active {
+    background: white;
+    color: var(--admin-primary);
+    box-shadow: 0 -2px 0 var(--admin-primary);
+}
+
+/* Contenido de Secciones */
+.admin-section {
+    background: white;
+    border-radius: var(--admin-border-radius);
+    box-shadow: var(--admin-shadow);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.admin-section h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--admin-dark);
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f3f4;
+}
+
+/* Botones Rediseñados */
+.btn-admin {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--admin-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    min-height: 40px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-admin:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--admin-shadow-hover);
+}
+
+.btn-admin-primary {
+    background: var(--admin-primary);
+    color: white;
+}
+
+.btn-admin-primary:hover {
+    background: var(--admin-secondary);
+}
+
+.btn-admin-success {
+    background: var(--admin-success);
+    color: white;
+}
+
+.btn-admin-warning {
+    background: var(--admin-warning);
+    color: white;
+}
+
+.btn-admin-danger {
+    background: var(--admin-danger);
+    color: white;
+}
+
+.btn-admin-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-admin-sm {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    min-height: 32px;
+}
+
+/* Cards de Estadísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: var(--admin-border-radius);
+    box-shadow: var(--admin-shadow);
+    text-align: center;
+    transition: var(--admin-transition);
+    border-left: 4px solid var(--admin-primary);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--admin-shadow-hover);
+}
+
+.stat-number {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--admin-primary);
+    margin: 0;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin: 5px 0 0 0;
+    font-weight: 500;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+/* Tablas Elegantes */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: var(--admin-border-radius);
+    overflow: hidden;
+    box-shadow: var(--admin-shadow);
+}
+
+.admin-table th {
+    background: #f8f9fa;
+    padding: 15px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--admin-dark);
+    font-size: 0.9rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f1f3f4;
+    font-size: 0.9rem;
+}
+
+.admin-table tr:hover {
+    background: rgba(78, 205, 196, 0.05);
+}
+
+/* Formularios */
+.admin-form {
+    display: grid;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--admin-dark);
+    font-size: 0.9rem;
+}
+
+.form-input {
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: var(--admin-transition);
+    background: white;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+}
+
+.form-textarea {
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Alertas y Notificaciones */
+.admin-alert {
+    padding: 15px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-alert-success {
+    background: rgba(39, 174, 96, 0.1);
+    color: var(--admin-success);
+    border-left: 4px solid var(--admin-success);
+}
+
+.admin-alert-warning {
+    background: rgba(243, 156, 18, 0.1);
+    color: var(--admin-warning);
+    border-left: 4px solid var(--admin-warning);
+}
+
+.admin-alert-danger {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--admin-danger);
+    border-left: 4px solid var(--admin-danger);
+}
+
+/* Loading States */
+.loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+    height: 20px;
+    margin: 10px 0;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 15px;
+    }
+    
+    .admin-header {
+        padding: 15px 20px;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .admin-tabs {
+        flex-direction: column;
+    }
+    
+    .admin-tab button {
+        padding: 12px 16px;
+    }
+    
+    .admin-section {
+        padding: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-table {
+        font-size: 0.8rem;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 8px;
+    }
+}
+
+/* Animaciones de Entrada */
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estados de Botones */
+.btn-admin:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn-admin.loading {
+    position: relative;
+    color: transparent;
+}
+
+.btn-admin.loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
