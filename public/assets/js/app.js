@@ -890,7 +890,7 @@ function renderLogicGameCard(game) {
 // Add setupLogicGameTagFilter placeholder for now
 function setupLogicGameTagFilter(games) {
     // Placeholder for future tag filtering logic
-    console.log("Setting up logic game tag filter (placeholder). Games:", games);
+    // Setup logic game tag filter (placeholder)
 }
 
 // =============================================================================
