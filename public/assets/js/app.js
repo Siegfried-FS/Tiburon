@@ -452,7 +452,7 @@ async function loadFeed() {
                 year: 'numeric' 
             });
             const isLiked = localStorage.getItem(`like_${post.id}`) === 'true';
-            const shareUrl = `https://share.tiburoncp.siegfried-fs.com/share?postId=${post.id}&v=${Date.now()}`;
+            const directUrl = `https://tiburoncp.siegfried-fs.com/feed.html#${post.id}`;
 
             html += `
                 <div class="feed-post" id="post-${post.id}">
@@ -474,7 +474,7 @@ async function loadFeed() {
                             <span class="like-count">${post.likes || 0}</span>
                         </button>
                         <div class="share-options">
-                            <button class="action-btn share-btn" data-share-url="${shareUrl}" data-share-title="${post.title}">📤 Compartir</button>
+                            <button class="action-btn share-btn" data-share-url="${directUrl}" data-share-title="${post.title}">📤 Compartir</button>
                         </div>
                     </div>
                 </div>
