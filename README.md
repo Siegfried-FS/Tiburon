@@ -43,19 +43,19 @@ Este proyecto utiliza una combinación de tecnologías frontend estándar y un b
 ### Backend (Serverless en AWS)
 - **AWS Cognito:**
     - **Función:** Provee el sistema completo de autenticación y gestión de usuarios (registro, inicio de sesión).
-    - **Implementación:** Se utiliza el flujo de "Authorization Code Grant" con un proveedor federado (Google). Los roles de usuario (`Admin`, `Capitán`, etc.) se gestionan a través de **Grupos de Cognito**.
+    - **Implementación:** Se utiliza el flujo de "Authorization Code Grant" con un proveedor federado (Google). Los roles de usuario (`Admin`, `Navegante`, etc.) se gestionan a través de **Grupos de Cognito**.
 - **AWS S3 (Simple Storage Service):**
-    - **Función:** Almacena el archivo `feed.json`.
-    - **Implementación:** Se utiliza un bucket de S3 estándar. Se configuró para tener **acceso de lectura público** en el archivo `feed.json` mediante una ACL (Access Control List). Esto permite que el sitio web (JavaScript) pueda obtener el archivo para mostrar el feed, mientras que la escritura se controla de forma segura a través de una función Lambda. Esta arquitectura desacopla los datos del código y es extremadamente costo-eficiente.
+    - **Función:** Almacena el archivo `feed.json` y otros datos.
+    - **Implementación:** Se utiliza un bucket de S3 estándar. Se configuró para tener **acceso de lectura público** a ciertos archivos (`feed.json`, `events.json`, `glosario.json`, etc.) mediante ACLs o políticas de bucket. Esto permite que el sitio web (JavaScript) obtenga los archivos para mostrar el contenido, mientras que la escritura se controla de forma segura a través de funciones Lambda. Esta arquitectura desacopla los datos del código y es extremadamente costo-eficiente.
 - **AWS Lambda:**
     - **Función:** Provee la lógica de backend sin necesidad de un servidor.
-    - **Implementación:** Tenemos una función (`og-renderer-lambda`) escrita en Node.js que genera dinámicamente las metaetiquetas Open Graph para las vistas previas en redes sociales.
+    - **Implementación:** Tenemos funciones como `og-renderer-lambda` (genera metaetiquetas), `get-content-lambda` (lee contenido) y `save-content-lambda` (guarda contenido), todas escritas en Node.js.
 - **AWS API Gateway:**
-    - **Función:** Actúa como la puerta de enlace HTTP para nuestra función Lambda.
-    - **Implementación:** Se configuró una API HTTP con una ruta `GET /share` que se integra con la función `og-renderer-lambda`. Esto crea una URL pública que podemos usar para los enlaces de "Compartir".
+    - **Función:** Actúa como la puerta de enlace HTTP para nuestras funciones Lambda.
+    - **Implementación:** Se configuraron APIs HTTP con rutas que se integran con las funciones Lambda correspondientes. Esto crea URLs públicas para interactuar con el backend.
 
 ### Hosting
-- **AWS Amplify:** Se utiliza para el despliegue y alojamiento del sitio web. Provee un flujo de CI/CD (Integración y Entrega Continuas) que despliega automáticamente los cambios cuando se hace `git push` a la rama principal.
+- **AWS Amplify:** Se utiliza para el despliegue y alojamiento del **frontend** (sitio web estático). Provee un flujo de CI/CD (Integración y Entrega Continuas) que despliega automáticamente los cambios en el frontend cuando se hace `git push` a la rama principal. **Importante:** El despliegue de la infraestructura y código de los servicios de backend (API Gateway, funciones Lambda) **no está gestionado por este pipeline de Amplify** y actualmente requiere despliegue manual o un pipeline de CI/CD separado.
 
 ---
 
@@ -64,12 +64,12 @@ Este proyecto utiliza una combinación de tecnologías frontend estándar y un b
 Este proyecto está diseñado para operar, en su mayor parte, dentro de la generosa capa gratuita de AWS, lo que lo hace muy económico de mantener.
 
 - **AWS Cognito:** Los primeros **50,000 usuarios activos mensuales (MAUs)** son gratuitos.
-- **AWS Lambda:** El primer **1 millón de invocaciones por mes** es gratuito. Nuestra función se invoca solo cuando alguien comparte un post, por lo que es muy poco probable superar este límite.
+- **AWS Lambda:** El primer **1 millón de invocaciones por mes** es gratuito. Nuestras funciones se invocan de forma esporádica, por lo que es muy poco probable superar este límite.
 - **AWS API Gateway:** El primer **1 millón de llamadas a la API HTTP por mes** es gratuito.
-- **AWS S3:** Los primeros **5 GB de almacenamiento estándar** son gratuitos, junto con 20,000 peticiones `GET`. Nuestro `feed.json` ocupa solo unos pocos KB.
+- **AWS S3:** Los primeros **5 GB de almacenamiento estándar** son gratuitos, junto con 20,000 peticiones `GET`. Nuestro contenido ocupa solo unos pocos KB.
 - **AWS Amplify:** Ofrece una capa gratuita que incluye **1,000 minutos de build y 5 GB de almacenamiento** al mes, suficiente para este proyecto.
 
-**Conclusión:** Mientras la comunidad tenga menos de 50,000 usuarios activos y el tráfico de compartidos sea razonable, el costo de mantener este proyecto en AWS debería ser de **cero o unos pocos centavos al mes**.
+**Conclusión:** Mientras la comunidad tenga menos de 50,000 usuarios activos y el tráfico de la API sea razonable, el costo de mantener este proyecto en AWS debería ser de **cero o unos pocos centavos al mes**.
 
 ---
 
@@ -93,7 +93,9 @@ El proyecto está organizado de la siguiente manera para separar el contenido, l
 ├── SOCIAL_SHARING_README.md # Documentación del sistema para compartir.
 ├── *.sh                     # Scripts de automatización (despliegue, pruebas, etc.).
 ├── amplify.yml              # Configuración de build para AWS Amplify.
-├── og-renderer-lambda.js    # Código fuente de la función Lambda.
+├── og-renderer-lambda.js    # Código fuente de la función Lambda de OG.
+├── get-content-lambda.js    # Código fuente de la función Lambda de lectura de contenido.
+├── save-content-lambda.js   # Código fuente de la función Lambda de guardado de contenido.
 └── README.md                # Este archivo.
 ```
 
@@ -102,7 +104,8 @@ El proyecto está organizado de la siguiente manera para separar el contenido, l
 ## 🔧 Configuración y Despliegue
 
 - Para la configuración del entorno local y el despliegue, por favor, consulta la sección correspondiente en `SOCIAL_SHARING_README.md` o sigue las instrucciones en `SETUP_MANUAL.md`.
-- El despliegue a producción se realiza automáticamente al hacer `git push` a la rama `main` a través de AWS Amplify.
+- El despliegue del **frontend** a producción se realiza automáticamente al hacer `git push` a la rama `main` a través de AWS Amplify.
+- **Para el despliegue del backend (funciones Lambda y rutas de API Gateway)**, se requieren scripts manuales (ej. `deploy-get-content-lambda.sh`, `deploy-save-content-lambda.sh`) hasta que se configure un pipeline de CI/CD adecuado.
 
 ---
 
@@ -214,7 +217,37 @@ Usuario comparte → share.tiburoncp.siegfried-fs.com/share?postId=X
 
 ---
 
-## 🚀 Próximos Pasos de Desarrollo
+## 📚 Lecciones Aprendidas: Gestión de APIs y Seguridad Backend
+
+Durante el desarrollo y depuración reciente, se identificaron y solucionaron varios desafíos críticos relacionados con la configuración de la API y la seguridad:
+
+### ⚙️ Despliegue y Enrutamiento de API Gateway
+- **Problema Inicial:** Tras implementar las funciones Lambda de `get-content-lambda` y `save-content-lambda`, los endpoints esperados (`GET /content/{filename}`, `POST /content`) devolvían errores `404 Not Found`.
+- **Diagnóstico:** Se descubrió que el proceso de CI/CD de AWS Amplify (configurado en `amplify.yml`) solo estaba desplegando los archivos del frontend, y no gestionaba la infraestructura del backend (rutas e integraciones de API Gateway).
+- **Solución:** Se realizaron configuraciones manuales utilizando el AWS CLI (`aws apigatewayv2`) para:
+    1.  Crear las integraciones adecuadas entre el API Gateway y las funciones Lambda (`get-content-lambda`, `save-content-lambda`).
+    2.  Definir las rutas `GET /content/{filename}` y `POST /content`.
+    3.  Otorgar los permisos necesarios a API Gateway para invocar las funciones Lambda (`aws lambda add-permission`).
+- **Lección Aprendida:** Es crucial entender el alcance exacto de los pipelines de CI/CD. En este proyecto, el despliegue del backend no es gestionado por el mismo `git push` del frontend.
+
+### 🔐 Mitigación de Vulnerabilidades de "Path Traversal" (OWASP A03:2021-Injection, A01:2021-Broken Access Control)
+- **Vulnerabilidad Identificada:** Las funciones Lambda `get-content-lambda` y `save-content-lambda` eran susceptibles a ataques de "path traversal". Un atacante podría haber manipulado los parámetros de entrada (`filename`) para acceder o sobrescribir archivos fuera de los directorios previstos en S3.
+- **Solución Implementada:**
+    1.  Se modificó el código de ambas funciones Lambda para utilizar `path.basename()` en los nombres de archivo. Esto asegura que solo se procese la parte del nombre del archivo, eliminando cualquier componente de directorio (`../`).
+    2.  Se añadió una validación explícita para detectar y rechazar cualquier intento de "path traversal", devolviendo un `400 Bad Request`.
+    3.  El código parcheado incluye un mensaje de "huevo de pascua" (`¡Oye, pirata! Todos los intentos son monitoreados. ¡Procede con cuidado!`) para alertar a los posibles atacantes.
+- **Despliegue de los Parches:** Dado que el CI/CD no desplegaba el código de las Lambdas, se utilizaron scripts de despliegue manual (`deploy-get-content-lambda.sh`, `deploy-save-content-lambda.sh`) para actualizar las funciones en producción.
+- **Lección Aprendida:** La sanitización de entradas es fundamental para prevenir vulnerabilidades de inyección. La seguridad debe ser considerada en cada capa de la arquitectura, desde el código hasta la configuración de la infraestructura.
+
+### 📝 Archivos de Configuración (`customHttp.yml`)
+- **Aclaración:** El archivo `customHttp.yml` es utilizado por AWS Amplify para definir **cabeceras HTTP personalizadas** (como `Content-Security-Policy`), no para configurar rutas de API Gateway. Su eliminación se realizó como parte de la limpieza, confirmando que no afectaba el enrutamiento.
+
+### 🛠️ Recomendaciones a Futuro
+- **Integrar Despliegue Backend en CI/CD:** Adaptar el `amplify.yml` o crear un pipeline de CI/CD separado para automatizar el despliegue de las funciones Lambda y sus configuraciones de API Gateway. Esto evitará despliegues manuales y garantizará que los parches de seguridad y las nuevas características se pongan en producción de manera consistente.
+
+---
+
+### 🚀 Próximos Pasos de Desarrollo
 
 ### **🎯 Estado Actual (Branch: `admin-panel`)**
 - ✅ **Sistema de compartir** completo y funcional
