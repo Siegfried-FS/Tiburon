@@ -541,7 +541,9 @@ function openShareModal(url, title) {
     const modalTitle = modal.querySelector('.share-modal-title');
     const shareOptions = modal.querySelector('.share-options-grid');
     
-    modalTitle.textContent = `Compartir: ${title}`;
+    if (modalTitle) {
+        modalTitle.textContent = `Compartir: ${title}`;
+    }
     
     // Configurar opciones de compartir
     const shareData = [
@@ -589,30 +591,32 @@ function openShareModal(url, title) {
         }
     ];
 
-    shareOptions.innerHTML = shareData.map(option => `
-        <button class="share-option" 
-                data-url="${option.url || ''}" 
-                data-action="${option.action || 'open'}"
-                data-copy-url="${url}"
-                style="--share-color: ${option.color}">
-            <span class="share-icon">${option.icon}</span>
-            <span class="share-name">${option.name}</span>
-        </button>
-    `).join('');
+    if (shareOptions) {
+        shareOptions.innerHTML = shareData.map(option => `
+            <button class="share-option" 
+                    data-url="${option.url || ''}" 
+                    data-action="${option.action || 'open'}"
+                    data-copy-url="${url}"
+                    style="--share-color: ${option.color}">
+                <span class="share-icon">${option.icon}</span>
+                <span class="share-name">${option.name}</span>
+            </button>
+        `).join('');
 
-    // Agregar event listeners a las opciones
-    shareOptions.querySelectorAll('.share-option').forEach(option => {
-        option.addEventListener('click', () => {
-            const action = option.dataset.action;
-            if (action === 'copy') {
-                copyToClipboard(option.dataset.copyUrl);
-                showToast('¡Enlace copiado al portapapeles!');
-            } else {
-                window.open(option.dataset.url, '_blank', 'width=600,height=400');
-            }
-            closeShareModal();
+        // Agregar event listeners a las opciones
+        shareOptions.querySelectorAll('.share-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const action = option.dataset.action;
+                if (action === 'copy') {
+                    copyToClipboard(option.dataset.copyUrl);
+                    showToast('¡Enlace copiado al portapapeles!');
+                } else {
+                    window.open(option.dataset.url, '_blank', 'width=600,height=400');
+                }
+                closeShareModal();
+            });
         });
-    });
+    }
 
     // Mostrar modal
     modal.style.display = 'flex';
