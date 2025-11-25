@@ -8,13 +8,25 @@ Para una comunidad de **20 usuarios**, mantenemos el proyecto completamente dent
 
 ## 📊 **Análisis de Uso Real vs Free Tier**
 
-### **Usuarios y Tráfico:**
-- **Usuarios activos:** 20/mes vs 50,000 gratuitos (Cognito)
-- **Requests API:** ~500/mes vs 1,000,000 gratuitos (API Gateway)
-- **Invocaciones Lambda:** ~100/mes vs 1,000,000 gratuitas
-- **Storage S3:** ~5MB vs 5GB gratuitos
+### **Usuarios y Tráfico (Escalabilidad):**
+- **20 usuarios:** ~500 requests/mes vs 1,000,000 gratuitos (99.95% libre)
+- **100 usuarios:** ~2,500 requests/mes vs 1,000,000 gratuitos (99.75% libre)
+- **500 usuarios:** ~12,500 requests/mes vs 1,000,000 gratuitos (98.75% libre)
+- **1,000 usuarios:** ~25,000 requests/mes vs 1,000,000 gratuitos (97.5% libre)
 
-**Margen de seguridad:** 99.9% dentro del free tier
+### **Lambda Invocaciones:**
+- **20 usuarios:** ~100 invocaciones/mes vs 1,000,000 gratuitas
+- **100 usuarios:** ~500 invocaciones/mes vs 1,000,000 gratuitas
+- **500 usuarios:** ~2,500 invocaciones/mes vs 1,000,000 gratuitas
+- **1,000 usuarios:** ~5,000 invocaciones/mes vs 1,000,000 gratuitas
+
+### **Storage S3:**
+- **20 usuarios:** ~5MB vs 5GB gratuitos
+- **100 usuarios:** ~25MB vs 5GB gratuitos
+- **500 usuarios:** ~125MB vs 5GB gratuitos
+- **1,000 usuarios:** ~250MB vs 5GB gratuitos
+
+**Margen de seguridad:** Hasta 1,000 usuarios = 97%+ dentro del free tier
 
 ---
 

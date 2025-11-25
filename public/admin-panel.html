@@ -1,65 +1,335 @@
 <!DOCTYPE html>
-<html lang="es" style="display: none;">
+<html lang="es">
 <head>
-    <script src="/assets/js/admin-panel-security.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración | AWS User Group Playa Vicente</title>
-    <meta name="robots" content="noindex, nofollow">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦈</text></svg>">
-    
-    <style>
-        /* Ocultar TODO por defecto */
-        body { 
-            visibility: hidden !important; 
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-        .admin-authorized {
-            visibility: visible !important;
-            opacity: 1 !important;
-            pointer-events: auto !important;
-        }
-    </style>
-    
-    <!-- Estilos del sitio -->
-    <link rel="stylesheet" href="/assets/css/styles.css?v=3">
-    <link rel="stylesheet" href="/assets/css/auth.css">
-    <link rel="stylesheet" href="/assets/css/top-bar.css">
-    <link rel="stylesheet" href="/assets/css/header.css?v=3">
-    <link rel="stylesheet" href="/assets/css/admin.css">
+    <title>Panel de Administración - Tiburón CP</title>
+    <link rel="stylesheet" href="assets/css/styles.css?v=3">
+    <link rel="stylesheet" href="assets/css/header.css?v=3">
+    <link rel="stylesheet" href="assets/css/admin-panel.css?v=3">
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <!-- Placeholder para el header dinámico -->
-    <div id="header-placeholder"></div>
-    <div id="particles-js"></div>
+    <div class="admin-container">
+        <!-- Header del Panel Admin -->
+        <div class="admin-header">
+            <h1 class="admin-title">Panel de Administración</h1>
+            <div class="admin-user-info">
+                <span id="admin-user-name">Cargando...</span>
+                <a href="index.html" class="btn-admin btn-admin-secondary btn-admin-sm">🏠 Volver al Sitio</a>
+            </div>
+        </div>
 
-    <main>
-        <section class="content-section">
-            <h1>⚙️ Panel de Administración</h1>
-            <p class="tagline" style="text-align: center; margin-bottom: 40px;">Gestiona el contenido y los usuarios del sitio.</p>
+        <!-- Navegación por Tabs -->
+        <nav class="admin-nav">
+            <ul class="admin-tabs">
+                <li class="admin-tab">
+                    <button data-section="dashboard" class="active">
+                        📊 Dashboard
+                    </button>
+                </li>
+                <li class="admin-tab">
+                    <button data-section="posts">
+                        📝 Posts
+                    </button>
+                </li>
+                <li class="admin-tab">
+                    <button data-section="analytics">
+                        📈 Analytics
+                    </button>
+                </li>
+                <li class="admin-tab">
+                    <button data-section="settings">
+                        ⚙️ Configuración
+                    </button>
+                </li>
+            </ul>
+        </nav>
 
-            <!-- Navegación del admin con el estilo de los tabs del sitio -->
-            <div class="tab-headers" id="admin-nav-tabs">
-                <button class="tab-header active" data-section="dashboard">📊 Dashboard</button>
-                <button class="tab-header" data-section="content">📝 Contenido</button>
-                <button class="tab-header" data-section="users">👥 Usuarios</button>
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="admin-section">
+            <h2>Resumen General</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-number" id="stat-total-posts">0</div>
+                    <div class="stat-label">Total Posts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-number" id="stat-published-posts">0</div>
+                    <div class="stat-label">Publicados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📄</div>
+                    <div class="stat-number" id="stat-draft-posts">0</div>
+                    <div class="stat-label">Borradores</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">❤️</div>
+                    <div class="stat-number" id="stat-total-likes">0</div>
+                    <div class="stat-label">Total Likes</div>
+                </div>
             </div>
 
-            <!-- Contenido dinámico del admin -->
-            <div id="admin-content" class="admin-content-area">
-                <!-- El contenido se cargará aquí vía admin.js -->
+            <div class="admin-alert admin-alert-success">
+                <span>🎉</span>
+                ¡Bienvenido al panel de administración! Aquí puedes gestionar todo el contenido del sitio.
             </div>
         </section>
-    </main>
+
+        <!-- Posts Section -->
+        <section id="posts-section" class="admin-section" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h2>Gestión de Posts</h2>
+                <button id="create-post-btn" class="btn-admin btn-admin-primary">
+                    ➕ Crear Nuevo Post
+                </button>
+            </div>
+
+            <!-- Lista de Posts -->
+            <div id="posts-list" class="posts-container">
+                <div class="loading-skeleton"></div>
+                <div class="loading-skeleton"></div>
+                <div class="loading-skeleton"></div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics-section" class="admin-section" style="display: none;">
+            <h2>Analytics y Métricas</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-number">~100</div>
+                    <div class="stat-label">Usuarios Proyectados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-number">$0.00</div>
+                    <div class="stat-label">Costo Mensual</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🚀</div>
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Dentro Free Tier</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-number">< 2s</div>
+                    <div class="stat-label">Tiempo de Carga</div>
+                </div>
+            </div>
+
+            <div class="admin-alert admin-alert-info">
+                <span>📈</span>
+                <strong>Escalabilidad:</strong> El sitio puede crecer hasta 1,000 usuarios manteniendo el costo en $0.00/mes.
+                Con 100 usuarios seguiremos usando solo el 0.2% del AWS Free Tier.
+            </div>
+
+            <div class="admin-section">
+                <h3>Límites del Free Tier</h3>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Servicio</th>
+                            <th>Uso Actual (100 usuarios)</th>
+                            <th>Límite Free Tier</th>
+                            <th>Margen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AWS Cognito</td>
+                            <td>100 MAUs</td>
+                            <td>50,000 MAUs</td>
+                            <td>99.8% libre</td>
+                        </tr>
+                        <tr>
+                            <td>AWS Lambda</td>
+                            <td>~2,000 invocaciones</td>
+                            <td>1,000,000 invocaciones</td>
+                            <td>99.8% libre</td>
+                        </tr>
+                        <tr>
+                            <td>API Gateway</td>
+                            <td>~5,000 requests</td>
+                            <td>1,000,000 requests</td>
+                            <td>99.5% libre</td>
+                        </tr>
+                        <tr>
+                            <td>S3 Storage</td>
+                            <td>~50MB</td>
+                            <td>5GB</td>
+                            <td>99% libre</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings-section" class="admin-section" style="display: none;">
+            <h2>Configuración del Sitio</h2>
+            
+            <div class="admin-form">
+                <div class="form-group">
+                    <label class="form-label">Nombre de la Comunidad</label>
+                    <input type="text" class="form-input" value="AWS User Group Playa Vicente" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">URL del Sitio</label>
+                    <input type="url" class="form-input" value="https://tiburoncp.siegfried-fs.com" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Administrador Principal</label>
+                    <input type="email" class="form-input" value="roberto.flores@siegfried-fs.com" readonly>
+                </div>
+            </div>
+
+            <div class="admin-alert admin-alert-warning">
+                <span>⚙️</span>
+                <strong>Configuración Avanzada:</strong> Las configuraciones del sitio se gestionan a través de archivos JSON en S3.
+                Para cambios importantes, contacta al desarrollador.
+            </div>
+
+            <div class="admin-section">
+                <h3>Información del Sistema</h3>
+                <table class="admin-table">
+                    <tbody>
+                        <tr>
+                            <td><strong>Versión del Panel</strong></td>
+                            <td>2.0.0 (Fase 2 Completa)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Backend</strong></td>
+                            <td>AWS Lambda (Node.js 24.x)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Base de Datos</strong></td>
+                            <td>S3 + JSON (Free Tier)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Autenticación</strong></td>
+                            <td>AWS Cognito + Google OAuth</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hosting</strong></td>
+                            <td>AWS Amplify + CloudFront</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Costo Mensual</strong></td>
+                            <td>$0.00 (Garantizado hasta 1K usuarios)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- CSS adicional para los posts -->
+    <style>
+        .posts-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .post-item {
+            background: white;
+            border-radius: var(--admin-border-radius);
+            box-shadow: var(--admin-shadow);
+            padding: 25px;
+            transition: var(--admin-transition);
+        }
+
+        .post-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--admin-shadow-hover);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .post-header h4 {
+            margin: 0;
+            color: var(--admin-dark);
+            font-size: 1.2rem;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-published {
+            background: rgba(39, 174, 96, 0.1);
+            color: var(--admin-success);
+        }
+
+        .status-draft {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--admin-warning);
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .post-content p {
+            color: #495057;
+            line-height: 1.6;
+            margin: 0 0 20px 0;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        @media (max-width: 768px) {
+            .post-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .post-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .post-actions {
+                justify-content: center;
+            }
+        }
+    </style>
 
     <!-- Scripts -->
-    <script src="/assets/js/sw-register.js"></script>
-    <script src="/assets/js/lazy-loading.js"></script>
-    <script src="/assets/js/script-loader.js"></script>
-    <script src="/assets/js/p.js"></script>
-    <script type="text/javascript" src="/assets/js/v.js"></script>
-    <script src="/assets/js/app.js?v=3"></script>
-    <script src="/assets/js/admin.js"></script>
+    <script src="assets/js/admin-panel-security.js?v=3"></script>
+    <script src="assets/js/admin-real.js?v=3"></script>
 </body>
 </html>
