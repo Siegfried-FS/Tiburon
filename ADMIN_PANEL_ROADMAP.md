@@ -163,15 +163,23 @@
 
 ---
 
-## 💰 **Estimación de Costos AWS:**
+## 💰 **Estimación de Costos AWS - 100% GRATUITO:**
 
-### **Servicios Adicionales Necesarios:**
-- **DynamoDB:** Tablas para posts, users, logs (~$0-5/mes)
-- **S3:** Storage para imágenes (~$1-3/mes)
-- **Bedrock:** IA para moderación (~$2-10/mes)
-- **CloudWatch:** Logs y métricas (~$1-5/mes)
+### **Servicios Utilizados (Todos en Free Tier):**
+- **AWS Cognito:** 20 usuarios vs 50,000 gratuitos = **$0.00**
+- **AWS Lambda:** ~100 invocaciones/mes vs 1,000,000 gratuitas = **$0.00**
+- **AWS API Gateway:** ~500 requests/mes vs 1,000,000 gratuitos = **$0.00**
+- **AWS S3:** ~5MB de datos vs 5GB gratuitos = **$0.00**
+- **AWS Amplify:** 1 build/mes vs 1,000 minutos gratuitos = **$0.00**
 
-**Total Estimado:** $4-23/mes (dentro de free tier en su mayoría)
+**Total Real para 20 usuarios:** **$0.00/mes** ✅
+
+### **🎯 Optimizaciones para Mantener Costo Cero:**
+- **Sin DynamoDB:** Usar S3 + JSON para datos (incluido en free tier)
+- **Sin Bedrock:** Moderación manual (más personal para comunidad pequeña)
+- **CloudWatch básico:** Solo logs esenciales (incluidos en free tier)
+- **Imágenes optimizadas:** Compresión automática para minimizar storage
+- **Límites conservadores:** Diseñado para no exceder free tier nunca
 
 ---
 
