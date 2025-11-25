@@ -1,4 +1,16 @@
 // =============================================================================
+// UTILIDADES DE TEMA (APLICACIÓN INMEDIATA PARA PREVENIR FLICKER)
+// =============================================================================
+
+function applyThemeImmediately() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+}
+applyThemeImmediately(); // Ejecutar inmediatamente para prevenir el "flicker"
+
+// =============================================================================
 // CONFIGURACIÓN Y CARGA DE DATOS
 // =============================================================================
 
@@ -188,12 +200,8 @@ function loadTheme() {
 }
 
 // Aplicar tema inmediatamente
-(function() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }
-})();
+// Moved to applyThemeImmediately() function
+applyThemeImmediately();
 
 // =============================================================================
 // EVENT LISTENERS
