@@ -34,10 +34,32 @@ class AdminPanel {
     async loadExistingPosts() {
         try {
             console.log('Cargando posts del feed...');
-            const response = await fetch('/assets/data/feed.json');
-            if (response.ok) {
-                const feedData = await response.json();
-                this.posts = (feedData.posts || []).map(post => ({
+            
+            // Probar múltiples rutas
+            const possiblePaths = [
+                '/assets/data/feed.json',
+                'assets/data/feed.json',
+                './assets/data/feed.json'
+            ];
+            
+            let feedData = null;
+            
+            for (const path of possiblePaths) {
+                try {
+                    console.log(`Probando ruta: ${path}`);
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        feedData = await response.json();
+                        console.log(`✅ Feed cargado desde: ${path}`);
+                        break;
+                    }
+                } catch (error) {
+                    console.log(`❌ Error en ${path}:`, error.message);
+                }
+            }
+            
+            if (feedData) {
+                this.posts = (feedData.posts || feedData || []).map(post => ({
                     id: post.id,
                     title: post.title,
                     content: post.content,
@@ -48,11 +70,14 @@ class AdminPanel {
                 }));
                 
                 console.log(`Cargados ${this.posts.length} posts`);
-                this.renderPosts();
-                this.updateStats();
+                console.log('Primer post:', this.posts[0]);
             } else {
-                console.error('Error cargando feed:', response.status);
+                console.error('No se pudo cargar el feed desde ninguna ruta');
+                this.posts = [];
             }
+            
+            this.renderPosts();
+            this.updateStats();
         } catch (error) {
             console.error('Error loading posts:', error);
             this.posts = [];

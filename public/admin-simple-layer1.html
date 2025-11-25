@@ -75,15 +75,41 @@
             async loadAndValidateData() {
                 console.log('🔍 Cargando datos del feed...');
                 
-                const response = await fetch('/assets/data/feed.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                // Probar múltiples rutas
+                const possiblePaths = [
+                    '/assets/data/feed.json',
+                    'assets/data/feed.json',
+                    './assets/data/feed.json'
+                ];
+                
+                let data = null;
+                let lastError = null;
+                
+                for (const path of possiblePaths) {
+                    try {
+                        console.log(`Probando ruta: ${path}`);
+                        const response = await fetch(path);
+                        if (response.ok) {
+                            data = await response.json();
+                            console.log(`✅ Datos cargados desde: ${path}`);
+                            break;
+                        } else {
+                            console.log(`❌ Error ${response.status} en: ${path}`);
+                        }
+                    } catch (error) {
+                        console.log(`❌ Error de red en: ${path}`, error.message);
+                        lastError = error;
+                    }
+                }
+                
+                if (!data) {
+                    throw new Error(`No se pudo cargar el feed desde ninguna ruta. Último error: ${lastError?.message}`);
                 }
 
-                const data = await response.json();
                 this.posts = Array.isArray(data) ? data : (data.posts || []);
                 
                 console.log(`📊 Encontrados ${this.posts.length} posts`);
+                console.log('📋 Primer post:', this.posts[0]);
                 
                 if (this.posts.length === 0) {
                     throw new Error('No se encontraron posts en el feed');
