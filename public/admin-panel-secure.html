@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Restringido - Tiburón CP</title>
+    <link rel="stylesheet" href="assets/css/styles.css?v=3">
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Página de acceso denegado por defecto -->
+    <div id="access-denied" class="access-denied-container">
+        <div class="access-denied-content">
+            <h1>🔒 Acceso Restringido</h1>
+            <p>Esta área requiere permisos especiales.</p>
+            <p>Si eres administrador, <a href="auth.html">inicia sesión aquí</a>.</p>
+            <a href="index.html" class="btn btn-primary">🏠 Volver al Inicio</a>
+        </div>
+    </div>
+
+    <!-- Panel admin (oculto por defecto) -->
+    <div id="admin-panel" style="display: none;">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1>🦈 Panel de Administración</h1>
+                <div class="admin-user-info">
+                    <span id="admin-user-name">Cargando...</span>
+                    <a href="index.html" class="btn btn-secondary">🏠 Volver al Sitio</a>
+                </div>
+            </div>
+            
+            <div class="admin-content">
+                <h2>Panel de Administración Cargado</h2>
+                <p>✅ Acceso verificado correctamente</p>
+                <button onclick="loadFullPanel()" class="btn btn-primary">Cargar Panel Completo</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .access-denied-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .access-denied-content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 400px;
+        }
+        
+        .access-denied-content h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .access-denied-content p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+    </style>
+
+    <!-- Scripts de seguridad -->
+    <script src="assets/js/admin-panel-security.js?v=3"></script>
+    <script>
+        // Solo mostrar el panel si pasa la verificación de seguridad
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Esperar a que se complete la verificación de seguridad
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Verificar si el usuario tiene acceso
+            const hasAccess = localStorage.getItem('adminAccess') === 'granted';
+            
+            if (hasAccess) {
+                // Ocultar página de acceso denegado
+                document.getElementById('access-denied').style.display = 'none';
+                // Mostrar panel admin básico
+                document.getElementById('admin-panel').style.display = 'block';
+            }
+        });
+        
+        function loadFullPanel() {
+            // Redirigir al panel completo solo después de verificación
+            window.location.href = 'admin-panel.html';
+        }
+    </script>
+</body>
+</html>
