@@ -105,17 +105,20 @@ function setupHeaderEventListeners() {
         });
     }
 
-    // Navigation links
+    // Get all navigation links
     const navLinks = document.querySelectorAll('.nav-menu a');
+    
     navLinks.forEach(link => {
-        // If it's a dropdown toggle, handle the submenu
-        if (link.classList.contains('dropdown-toggle')) {
-            link.addEventListener('click', function(event) {
-                // Prevent navigation for javascript:void(0)
+        link.addEventListener('click', function(event) {
+            // Always prevent default for links in nav-menu that are just '#'
+            if (this.getAttribute('href') === '#') {
                 event.preventDefault();
+            }
+
+            // Handle dropdown toggles (mobile logic)
+            if (this.classList.contains('dropdown-toggle')) {
                 event.stopPropagation(); // Stop event from bubbling up to the document click listener
 
-                // On mobile, a click should toggle the submenu
                 if (window.innerWidth <= 768) {
                     const parentLi = this.parentElement;
                     
@@ -128,11 +131,12 @@ function setupHeaderEventListeners() {
 
                     parentLi.classList.toggle('active');
                 }
-            });
-        } else {
-            // If it's a normal link that navigates, it should close the menu
-            link.addEventListener('click', closeMenu);
-        }
+            } else {
+                // For regular links that are not dropdown toggles, close the menu
+                // If they are actual navigation links, the browser will navigate AFTER this click handler.
+                closeMenu();
+            }
+        });
     });
 
     // Theme toggle
