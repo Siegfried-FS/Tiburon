@@ -104,8 +104,7 @@ El proyecto está organizado de la siguiente manera para separar el contenido, l
 ## 🔧 Configuración y Despliegue
 
 - Para la configuración del entorno local y el despliegue, por favor, consulta la sección correspondiente en `SOCIAL_SHARING_README.md` o sigue las instrucciones en `SETUP_MANUAL.md`.
-- El despliegue del **frontend** a producción se realiza automáticamente al hacer `git push` a la rama `main` a través de AWS Amplify.
-- **Para el despliegue del backend (funciones Lambda y rutas de API Gateway)**, se requieren scripts manuales (ej. `deploy-get-content-lambda.sh`, `deploy-save-content-lambda.sh`) hasta que se configure un pipeline de CI/CD adecuado.
+- El despliegue a producción tanto del **frontend** como del **backend** (código de las funciones Lambda) se realiza ahora de forma automática al hacer `git push` a la rama `main` a través de AWS Amplify.
 
 ---
 
@@ -242,8 +241,9 @@ Durante el desarrollo y depuración reciente, se identificaron y solucionaron va
 ### 📝 Archivos de Configuración (`customHttp.yml`)
 - **Aclaración:** El archivo `customHttp.yml` es utilizado por AWS Amplify para definir **cabeceras HTTP personalizadas** (como `Content-Security-Policy`), no para configurar rutas de API Gateway. Su eliminación se realizó como parte de la limpieza, confirmando que no afectaba el enrutamiento.
 
-### 🛠️ Recomendaciones a Futuro
-- **Integrar Despliegue Backend en CI/CD:** Adaptar el `amplify.yml` o crear un pipeline de CI/CD separado para automatizar el despliegue de las funciones Lambda y sus configuraciones de API Gateway. Esto evitará despliegues manuales y garantizará que los parches de seguridad y las nuevas características se pongan en producción de manera consistente.
+### 🛠️ Solución Definitiva y Próximos Pasos
+- **CI/CD Integrado para Backend:** Para crear una solución permanente, se modificó el archivo `amplify.yml`. Se añadieron los scripts de despliegue (`deploy-*.sh`) a la fase de `build`. Esto asegura que cada `git push` a la rama `main` no solo despliegue el frontend, sino que también actualice automáticamente el código de las funciones Lambda, cerrando el ciclo de CI/CD.
+- **Próximos Pasos:** Aunque el pipeline ahora es funcional, una futura mejora sería migrar la gestión de la infraestructura del backend (API Gateway, Lambdas) para que sea gestionada directamente por una herramienta de Infraestructura como Código (IaC) como AWS CDK, SAM, o el propio backend de Amplify, en lugar de depender de scripts de CLI.
 
 ---
 
