@@ -532,15 +532,8 @@ function addFeedEventListeners() {
 
 async function loadResources() {
     const container = document.getElementById('resources-grid');
-    if (!container) return;
-
-    try {
-        const allCategories = await loadData('resources.json');
-        if (!allCategories || allCategories.length === 0) {
-            container.innerHTML = '<p>No hay recursos disponibles en este momento.</p>';
-            return;
-        }
-
+    
+    function renderResourcesHTML(allCategories) {
         let html = '';
         allCategories.forEach(category => {
             if (category.items && category.items.length > 0) {
@@ -558,14 +551,10 @@ async function loadResources() {
                 });
             }
         });
-
-        container.innerHTML = html;
-        initScrollAnimations();
-
-    } catch (error) {
-        console.error('Error al cargar los recursos:', error);
-        container.innerHTML = '<p>Error al cargar los recursos. Intenta recargar la página.</p>';
+        return html;
     }
+
+    await loadAndRender('resources.json', container, renderResourcesHTML, 'recursos', initScrollAnimations);
 }
 
 async function loadGlossary() {
@@ -676,7 +665,7 @@ function filterAndRenderGlossaryTerms(allTerms, searchTerm, filterLetter) {
     }
 
     if (filteredTerms.length === 0) {
-        container.innerHTML = '<p style="text-align: center;">No se encontraron términos que coincidan con la búsqueda o filtro.</p>';
+        renderContent(container, `<p style="text-align: center;">${ERROR_MESSAGES.noResults}</p>`);
         return;
     }
 
@@ -684,34 +673,31 @@ function filterAndRenderGlossaryTerms(allTerms, searchTerm, filterLetter) {
     filteredTerms.forEach(term => {
         html += renderGlossaryCard(term);
     });
-    container.innerHTML = html;
-    initScrollAnimations(); // Re-apply animations for filtered results
+    renderContent(container, html, initScrollAnimations);
 }
 
 // Add this function after loadGlossary
 async function loadLogicGames() {
     const container = document.getElementById('logic-games-grid');
-    if (!container) return;
-
-    try {
-        const games = await loadData('logic-games.json');
-        if (!games || games.length === 0) {
-            container.innerHTML = '<p style="text-align: center;">No hay juegos de lógica disponibles en este momento.</p>';
-            return;
-        }
-
+    
+    function renderLogicGamesHTML(games) {
         let html = '';
         games.forEach(game => {
             html += renderLogicGameCard(game);
         });
-
-        container.innerHTML = html;
-        setupLogicGameTagFilter(games); // To be implemented later, similar to glossary filters
+        return html;
+    }
+    
+    function afterRender() {
+        const games = JSON.parse(container.dataset.games || '[]');
+        setupLogicGameTagFilter(games);
         initScrollAnimations();
+    }
 
-    } catch (error) {
-        console.error('Error al cargar los juegos de lógica:', error);
-        container.innerHTML = '<p>Error al cargar los juegos de lógica. Intenta recargar la página.</p>';
+    const games = await loadData('logic-games.json');
+    if (games) {
+        container.dataset.games = JSON.stringify(games);
+        await loadAndRender('logic-games.json', container, renderLogicGamesHTML, 'juegos de lógica', afterRender);
     }
 }
 
