@@ -8,10 +8,10 @@ frontend:
     build:
       commands:
         - echo "Deploying backend Lambda functions..."
-        - chmod +x ./deploy-get-content-lambda.sh
-        - chmod +x ./deploy-save-content-lambda.sh
-        - ./deploy-get-content-lambda.sh
-        - ./deploy-save-content-lambda.sh
+        - chmod +x ./scripts/deploy-get-content-lambda.sh
+        - chmod +x ./scripts/deploy-save-content-lambda.sh
+        - ./scripts/deploy-get-content-lambda.sh
+        - ./scripts/deploy-save-content-lambda.sh
         - echo "Backend deployment complete. Proceeding with frontend."
   artifacts:
     baseDirectory: public
