@@ -26,7 +26,6 @@ async function loadData(filename) {
     try {
         const localResponse = await fetch(DATA_SOURCES.local + filename);
         if (localResponse.ok) {
-            console.log(`📁 Cargando ${filename} desde local`);
             return await localResponse.json();
         } else {
             console.error(`❌ Error HTTP ${localResponse.status} cargando ${filename}`);
@@ -435,7 +434,7 @@ async function loadFeed() {
             posts = [];
         }
 
-        console.log('📰 Posts cargados en feed público:', posts.length);
+        
 
         if (!posts || posts.length === 0) {
             container.innerHTML = '<p style="text-align: center;">Aún no hay nada en el feed. ¡Vuelve pronto!</p>';
