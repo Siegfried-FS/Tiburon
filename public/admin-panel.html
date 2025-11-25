@@ -3,171 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Tiburón CP</title>
+    <title>Panel de Administración - AWS User Group Playa Vicente</title>
     <link rel="stylesheet" href="assets/css/styles.css?v=3">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/top-bar.css">
     <link rel="stylesheet" href="assets/css/header.css?v=3">
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <!-- Header igual al resto del sitio -->
-    <div id="top-bar">
-        <div class="top-bar-content">
-            <div class="theme-toggle-container">
-                <button class="theme-toggle" title="Cambiar tema">🌙</button>
-            </div>
-            <div class="auth-container">
-                <div class="user-info-display">
-                    <span id="userName" class="user-name">Admin</span>
-                    <a href="index.html" class="btn-secondary">🏠 Volver al Sitio</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="particles-js"></div>
+    <div id="header-placeholder"></div>
 
-    <header class="header">
-        <nav class="nav">
-            <div class="nav-brand">
-                <h1><a href="index.html">🦈 Panel Admin</a></h1>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="#dashboard" class="nav-link active" data-section="dashboard">📊 Dashboard</a></li>
-                <li><a href="#posts" class="nav-link" data-section="posts">📝 Posts</a></li>
-                <li><a href="#analytics" class="nav-link" data-section="analytics">📈 Analytics</a></li>
-                <li><a href="#settings" class="nav-link" data-section="settings">⚙️ Config</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="main-content">
+    <main>
         <!-- Dashboard Section -->
         <section id="dashboard-section" class="content-section">
-            <div class="container">
-                <h2 class="section-title">📊 Dashboard</h2>
-                
-                <div class="cards-grid">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>📝 Total Posts</h3>
-                        </div>
-                        <div class="card-content">
-                            <div class="stat-number" id="stat-total-posts">0</div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>✅ Publicados</h3>
-                        </div>
-                        <div class="card-content">
-                            <div class="stat-number" id="stat-published-posts">0</div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>📄 Borradores</h3>
-                        </div>
-                        <div class="card-content">
-                            <div class="stat-number" id="stat-draft-posts">0</div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>❤️ Total Likes</h3>
-                        </div>
-                        <div class="card-content">
-                            <div class="stat-number" id="stat-total-likes">0</div>
-                        </div>
-                    </div>
+            <h1>📊 Panel de Administración</h1>
+            <p class="tagline" style="text-align: center; margin-bottom: 40px;">Gestiona el contenido de la comunidad AWS User Group Playa Vicente</p>
+            
+            <div class="badge-grid">
+                <div class="badge-item">
+                    <div class="stat-number" id="stat-total-posts">0</div>
+                    <p>Total Posts</p>
                 </div>
+                <div class="badge-item">
+                    <div class="stat-number" id="stat-published-posts">0</div>
+                    <p>Publicados</p>
+                </div>
+                <div class="badge-item">
+                    <div class="stat-number" id="stat-draft-posts">0</div>
+                    <p>Borradores</p>
+                </div>
+                <div class="badge-item">
+                    <div class="stat-number" id="stat-total-likes">0</div>
+                    <p>Total Likes</p>
+                </div>
+            </div>
 
-                <div class="alert alert-success">
-                    <span>🎉</span>
-                    ¡Bienvenido al panel de administración! Aquí puedes gestionar todo el contenido del sitio.
-                </div>
+            <div class="nav-buttons" style="text-align: center; margin: 40px 0;">
+                <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
+                <button class="nav-btn" data-section="posts">📝 Posts</button>
+                <button class="nav-btn" data-section="analytics">📈 Analytics</button>
+                <button class="nav-btn" data-section="settings">⚙️ Config</button>
             </div>
         </section>
 
         <!-- Posts Section -->
         <section id="posts-section" class="content-section" style="display: none;">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">📝 Gestión de Posts</h2>
-                    <button id="create-post-btn" class="btn btn-primary">
-                        ➕ Crear Nuevo Post
-                    </button>
-                </div>
-                
-                <div id="posts-list" class="posts-container">
-                    <div class="loading-skeleton"></div>
-                </div>
+            <h1>📝 Gestión de Posts</h1>
+            <div style="text-align: center; margin-bottom: 40px;">
+                <button id="create-post-btn" class="nav-btn">➕ Crear Nuevo Post</button>
+            </div>
+            
+            <div id="posts-list" class="feed-grid">
+                <!-- Posts se cargarán aquí -->
             </div>
         </section>
 
         <!-- Analytics Section -->
         <section id="analytics-section" class="content-section" style="display: none;">
-            <div class="container">
-                <h2 class="section-title">📈 Analytics</h2>
-                <div class="alert alert-info">
-                    <span>📈</span>
-                    <strong>Escalabilidad:</strong> El sitio puede crecer hasta 1,000 usuarios manteniendo el costo en $0.00/mes.
-                </div>
-            </div>
+            <h1>📈 Analytics y Métricas</h1>
+            <p class="tagline" style="text-align: center; margin-bottom: 40px;">El sitio puede crecer hasta 1,000 usuarios manteniendo el costo en $0.00/mes</p>
         </section>
 
         <!-- Settings Section -->
         <section id="settings-section" class="content-section" style="display: none;">
-            <div class="container">
-                <h2 class="section-title">⚙️ Configuración</h2>
-                <div class="alert alert-warning">
-                    <span>⚙️</span>
-                    <strong>Configuración Avanzada:</strong> Las configuraciones del sitio se gestionan a través de archivos JSON en S3.
-                </div>
-            </div>
+            <h1>⚙️ Configuración del Sitio</h1>
+            <p class="tagline" style="text-align: center; margin-bottom: 40px;">Las configuraciones se gestionan a través de archivos JSON en S3</p>
         </section>
     </main>
 
     <style>
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: bold;
             color: var(--primary-color);
-            text-align: center;
+            margin-bottom: 10px;
         }
         
-        .section-header {
+        .nav-buttons {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
         
-        .posts-container {
-            display: grid;
-            gap: 1.5rem;
+        .nav-btn {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .nav-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
         }
         
         .post-item {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 15px;
+            padding: 20px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .post-item:hover {
+            transform: translateY(-5px);
         }
         
         .post-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 1rem;
+            margin-bottom: 15px;
         }
         
-        .post-header h4 {
-            margin: 0;
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: bold;
             color: var(--text-color);
+            margin: 0;
         }
         
         .status-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
+            padding: 4px 12px;
+            border-radius: 15px;
             font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
@@ -184,64 +156,45 @@
         }
         
         .post-meta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
             font-size: 0.9rem;
             color: var(--text-secondary);
+            margin-bottom: 15px;
         }
         
         .post-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 10px;
             justify-content: flex-end;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .btn-sm:hover {
+            transform: translateY(-1px);
         }
     </style>
 
-    <script>
-        // Tema del sitio
-        function initTheme() {
-            const themeToggle = document.querySelector('.theme-toggle');
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-            
-            themeToggle.addEventListener('click', () => {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                
-                document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-            });
-        }
-        
-        // Navegación
-        function initNavigation() {
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const section = e.target.dataset.section;
-                    
-                    // Update active nav
-                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                    e.target.classList.add('active');
-                    
-                    // Show/hide sections
-                    document.querySelectorAll('.content-section').forEach(s => {
-                        s.style.display = s.id === `${section}-section` ? 'block' : 'none';
-                    });
-                });
-            });
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            initNavigation();
-        });
-    </script>
+    <script src="assets/js/particles.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/header-loader.js"></script>
     <script src="assets/js/admin-panel-security.js?v=3"></script>
-    <script src="assets/js/admin-simple.js?v=3"></script>
+    <script src="assets/js/admin-site-style.js?v=3"></script>
 </body>
 </html>
