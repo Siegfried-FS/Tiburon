@@ -274,15 +274,14 @@ class AdminPanel {
 
     async saveToAPI(post) {
         try {
-            // Debug: Verificar datos de usuario
-            const token = localStorage.getItem('cognitoToken');
-            const userInfo = localStorage.getItem('userInfo');
-            const cognitoGroups = localStorage.getItem('cognitoGroups');
+            // Debug: Verificar datos de usuario (usando las claves correctas)
+            const token = sessionStorage.getItem('accessToken'); // CORREGIDO: sessionStorage y 'accessToken'
+            const userGroups = localStorage.getItem('userGroups'); // CORREGIDO: 'userGroups'
             
             console.log('🔍 Debug - Datos de usuario:');
             console.log('Token:', token ? 'Presente' : 'Ausente');
-            console.log('UserInfo:', userInfo);
-            console.log('Groups:', cognitoGroups);
+            console.log('Token length:', token ? token.length : 0);
+            console.log('Groups:', userGroups);
             
             if (!token) {
                 throw new Error('No hay token de autenticación');
