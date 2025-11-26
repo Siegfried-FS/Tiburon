@@ -287,13 +287,18 @@ class AdminPanel {
                 throw new Error('No hay token de autenticación');
             }
 
-            const response = await fetch(`https://fklo6233x5.execute-api.us-east-1.amazonaws.com/prod/admin/posts/${post.id}`, {
-                method: 'PUT',
+            const response = await fetch('https://fklo6233x5.execute-api.us-east-1.amazonaws.com/prod/content', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(post)
+                body: JSON.stringify({
+                    filename: 'feed.json',
+                    content: JSON.stringify({
+                        posts: this.posts
+                    }, null, 2)
+                })
             });
             
             if (!response.ok) {
