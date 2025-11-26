@@ -359,6 +359,9 @@ class AdminPanel {
         if (targetSection) {
             targetSection.style.display = 'block';
             console.log('✅ Sección mostrada:', sectionName);
+            
+            // Renderizar contenido específico de la sección
+            this.renderSectionContent(sectionName);
         } else {
             console.error('❌ Sección no encontrada:', `${sectionName}-section`);
         }
@@ -374,6 +377,30 @@ class AdminPanel {
             console.log('🎯 Botón activado:', sectionName);
         } else {
             console.error('❌ Botón no encontrado:', sectionName);
+        }
+    }
+
+    renderSectionContent(sectionName) {
+        console.log('🎨 Renderizando contenido para:', sectionName);
+        
+        switch (sectionName) {
+            case 'posts':
+                this.renderPosts();
+                break;
+            case 'eventos':
+                this.renderEvents();
+                break;
+            case 'juegos':
+                this.renderGames();
+                break;
+            case 'recursos':
+                this.renderResources();
+                break;
+            case 'glosario':
+                this.renderGlosario();
+                break;
+            default:
+                console.log('📋 Sección sin renderizado específico:', sectionName);
         }
     }
 
@@ -471,6 +498,80 @@ class AdminPanel {
             this.showAlert('❌ Error al actualizar post. Inténtalo de nuevo.');
             return null;
         }
+    }
+
+    renderEvents() {
+        const container = document.getElementById('events-list');
+        if (!container) {
+            console.log('⚠️ Contenedor events-list no encontrado');
+            return;
+        }
+
+        if (this.events.length === 0) {
+            container.innerHTML = `
+                <div class="feed-item">
+                    <h3>📅 No hay eventos</h3>
+                    <p>¡Crea tu primer evento!</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = this.events.map(event => `
+            <div class="feed-item">
+                <h3>${event.title}</h3>
+                <p>${event.description}</p>
+                <div class="post-actions">
+                    <button class="btn-sm btn-primary">✏️ Editar</button>
+                    <button class="btn-sm btn-danger">🗑️ Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderGames() {
+        const container = document.getElementById('games-list');
+        if (!container) {
+            console.log('⚠️ Contenedor games-list no encontrado');
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="feed-item">
+                <h3>🎮 Gestión de Juegos</h3>
+                <p>Funcionalidad en desarrollo...</p>
+            </div>
+        `;
+    }
+
+    renderResources() {
+        const container = document.getElementById('resources-list');
+        if (!container) {
+            console.log('⚠️ Contenedor resources-list no encontrado');
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="feed-item">
+                <h3>📚 Gestión de Recursos</h3>
+                <p>Funcionalidad en desarrollo...</p>
+            </div>
+        `;
+    }
+
+    renderGlosario() {
+        const container = document.getElementById('glosario-list');
+        if (!container) {
+            console.log('⚠️ Contenedor glosario-list no encontrado');
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="feed-item">
+                <h3>📖 Gestión de Glosario</h3>
+                <p>Funcionalidad en desarrollo...</p>
+            </div>
+        `;
     }
 
     async deletePost(postId) {
