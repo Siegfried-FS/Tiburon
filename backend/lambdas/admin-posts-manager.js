@@ -1,5 +1,5 @@
-const AWS = require('aws-sdk');
-const s3 = new AWS.S3();
+const { S3Client, GetObjectCommand, PutObjectCommand } = require('@aws-sdk/client-s3');
+const s3 = new S3Client({ region: 'us-east-1' });
 
 const BUCKET_NAME = 'tiburon-content-bucket';
 const POSTS_KEY = 'data/admin-posts.json';
@@ -35,11 +35,12 @@ function basicTokenCheck(authHeader) {
 // Función para obtener datos de S3
 async function getS3Data(key) {
     try {
-        const params = { Bucket: BUCKET_NAME, Key: key };
-        const data = await s3.getObject(params).promise();
-        return JSON.parse(data.Body.toString());
+        const command = new GetObjectCommand({ Bucket: BUCKET_NAME, Key: key });
+        const data = await s3.send(command);
+        const body = await data.Body.transformToString();
+        return JSON.parse(body);
     } catch (error) {
-        if (error.code === 'NoSuchKey') {
+        if (error.name === 'NoSuchKey') {
             return key === POSTS_KEY ? { posts: [], metadata: { totalPosts: 0, lastUpdated: new Date().toISOString(), version: "1.0" } } : { posts: [] };
         }
         throw error;
@@ -48,13 +49,13 @@ async function getS3Data(key) {
 
 // Función para guardar datos en S3
 async function putS3Data(key, data) {
-    const params = {
+    const command = new PutObjectCommand({
         Bucket: BUCKET_NAME,
         Key: key,
         Body: JSON.stringify(data, null, 2),
         ContentType: 'application/json'
-    };
-    await s3.putObject(params).promise();
+    });
+    await s3.send(command);
 }
 
 // Generar ID único para posts
@@ -89,7 +90,13 @@ exports.handler = async (event) => {
     
     // Handle preflight
     if (event.httpMethod === 'OPTIONS' || event.requestContext?.http?.method === 'OPTIONS') {
-        return { statusCode: 200, headers: corsHeaders, body: '' };
+        console.log('Handling OPTIONS request with headers:', corsHeaders);
+        return { 
+            statusCode: 200, 
+            headers: corsHeaders, 
+            body: '',
+            isBase64Encoded: false
+        };
     }
     
     try {
@@ -111,7 +118,7 @@ exports.handler = async (event) => {
         }
         
         // GET /admin/posts - Listar posts
-        if (method === 'GET' && path === '/admin/posts') {
+        if (method === 'GET' && (path === '/admin/posts' || path === '/prod/admin/posts')) {
             const data = await getS3Data(POSTS_KEY);
             return {
                 statusCode: 200,
@@ -121,7 +128,7 @@ exports.handler = async (event) => {
         }
         
         // POST /admin/posts - Crear post
-        if (method === 'POST' && path === '/admin/posts') {
+        if (method === 'POST' && (path === '/admin/posts' || path === '/prod/admin/posts')) {
             const body = JSON.parse(event.body);
             const data = await getS3Data(POSTS_KEY);
             
@@ -158,7 +165,7 @@ exports.handler = async (event) => {
         }
         
         // PUT /admin/posts/{id} - Actualizar post
-        if (method === 'PUT' && path.startsWith('/admin/posts/')) {
+        if (method === 'PUT' && (path.startsWith('/admin/posts/') || path.startsWith('/prod/admin/posts/'))) {
             const postId = path.split('/').pop();
             const body = JSON.parse(event.body);
             const data = await getS3Data(POSTS_KEY);
@@ -192,7 +199,7 @@ exports.handler = async (event) => {
         }
         
         // DELETE /admin/posts/{id} - Eliminar post
-        if (method === 'DELETE' && path.startsWith('/admin/posts/')) {
+        if (method === 'DELETE' && (path.startsWith('/admin/posts/') || path.startsWith('/prod/admin/posts/'))) {
             const postId = path.split('/').pop();
             const data = await getS3Data(POSTS_KEY);
             
