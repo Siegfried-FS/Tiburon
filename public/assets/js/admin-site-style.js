@@ -11,9 +11,19 @@ class AdminPanel {
 
     async init() {
         await this.loadCurrentUser();
-        await this.loadExistingPosts();
+        await this.loadAllContent();
         this.setupEventListeners();
-        this.showSection('dashboard'); // Mostrar dashboard por defecto
+        this.showSection('dashboard');
+    }
+
+    async loadAllContent() {
+        console.log('Cargando todo el contenido...');
+        await this.loadExistingPosts();
+        await this.loadEvents();
+        await this.loadGames();
+        await this.loadResources();
+        await this.loadGlosario();
+        this.updateAllStats();
     }
 
     async loadCurrentUser() {
@@ -124,7 +134,187 @@ class AdminPanel {
         `).join('');
     }
 
-    updateStats() {
+    async loadEvents() {
+        try {
+            const response = await fetch('/assets/data/events.json');
+            if (response.ok) {
+                const data = await response.json();
+                this.events = data.events || [];
+                this.renderEvents();
+                console.log(`Cargados ${this.events.length} eventos`);
+            }
+        } catch (error) {
+            console.log('Error cargando eventos:', error);
+            this.events = [];
+        }
+    }
+
+    async loadGames() {
+        try {
+            const response = await fetch('/assets/data/logic-games.json');
+            if (response.ok) {
+                const data = await response.json();
+                this.games = data.games || [];
+                this.renderGames();
+                console.log(`Cargados ${this.games.length} juegos`);
+            }
+        } catch (error) {
+            console.log('Error cargando juegos:', error);
+            this.games = [];
+        }
+    }
+
+    async loadResources() {
+        try {
+            const response = await fetch('/assets/data/resources.json');
+            if (response.ok) {
+                const data = await response.json();
+                this.resources = data.resources || [];
+                this.renderResources();
+                console.log(`Cargados ${this.resources.length} recursos`);
+            }
+        } catch (error) {
+            console.log('Error cargando recursos:', error);
+            this.resources = [];
+        }
+    }
+
+    async loadGlosario() {
+        try {
+            const response = await fetch('/assets/data/glosario.json');
+            if (response.ok) {
+                const data = await response.json();
+                this.glosario = data.terminos || [];
+                this.renderGlosario();
+                console.log(`Cargados ${this.glosario.length} términos del glosario`);
+            }
+        } catch (error) {
+            console.log('Error cargando glosario:', error);
+            this.glosario = [];
+        }
+    }
+
+    renderEvents() {
+        const container = document.getElementById('eventos-list');
+        if (!container || !this.events) return;
+
+        if (this.events.length === 0) {
+            container.innerHTML = '<div class="loading">No hay eventos disponibles.</div>';
+            return;
+        }
+
+        container.innerHTML = this.events.map(evento => `
+            <div class="post-item">
+                <div class="post-header">
+                    <h3 class="post-title">${evento.title}</h3>
+                    <span class="status-badge status-published">Evento</span>
+                </div>
+                <div class="post-meta">📅 ${evento.date} | 📍 ${evento.location}</div>
+                <p>${evento.description.substring(0, 150)}...</p>
+                <div class="post-actions">
+                    <button class="btn-sm btn-primary">✏️ Editar</button>
+                    <button class="btn-sm btn-danger">🗑️ Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderGames() {
+        const container = document.getElementById('juegos-list');
+        if (!container || !this.games) return;
+
+        if (this.games.length === 0) {
+            container.innerHTML = '<div class="loading">No hay juegos disponibles.</div>';
+            return;
+        }
+
+        container.innerHTML = this.games.map(juego => `
+            <div class="post-item">
+                <div class="post-header">
+                    <h3 class="post-title">${juego.title}</h3>
+                    <span class="status-badge status-published">Juego</span>
+                </div>
+                <div class="post-meta">🎮 ${juego.category} | ⭐ ${juego.difficulty}</div>
+                <p>${juego.description.substring(0, 150)}...</p>
+                <div class="post-actions">
+                    <button class="btn-sm btn-primary">✏️ Editar</button>
+                    <button class="btn-sm btn-danger">🗑️ Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderResources() {
+        const container = document.getElementById('recursos-list');
+        if (!container || !this.resources) return;
+
+        if (this.resources.length === 0) {
+            container.innerHTML = '<div class="loading">No hay recursos disponibles.</div>';
+            return;
+        }
+
+        container.innerHTML = this.resources.map(recurso => `
+            <div class="post-item">
+                <div class="post-header">
+                    <h3 class="post-title">${recurso.title}</h3>
+                    <span class="status-badge status-published">${recurso.category}</span>
+                </div>
+                <div class="post-meta">📚 ${recurso.type} | 🏷️ ${recurso.tags?.join(', ') || 'Sin tags'}</div>
+                <p>${recurso.description.substring(0, 150)}...</p>
+                <div class="post-actions">
+                    <button class="btn-sm btn-primary">✏️ Editar</button>
+                    <button class="btn-sm btn-danger">🗑️ Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderGlosario() {
+        const container = document.getElementById('glosario-list');
+        if (!container || !this.glosario) return;
+
+        if (this.glosario.length === 0) {
+            container.innerHTML = '<div class="loading">No hay términos disponibles.</div>';
+            return;
+        }
+
+        container.innerHTML = this.glosario.map(termino => `
+            <div class="post-item">
+                <div class="post-header">
+                    <h3 class="post-title">${termino.termino}</h3>
+                    <span class="status-badge status-published">Término</span>
+                </div>
+                <div class="post-meta">📖 ${termino.categoria}</div>
+                <p>${termino.definicion.substring(0, 150)}...</p>
+                <div class="post-actions">
+                    <button class="btn-sm btn-primary">✏️ Editar</button>
+                    <button class="btn-sm btn-danger">🗑️ Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    updateAllStats() {
+        const stats = {
+            totalPosts: this.posts?.length || 0,
+            totalEvents: this.events?.length || 0,
+            totalGames: this.games?.length || 0,
+            totalResources: this.resources?.length || 0,
+            totalGlosario: this.glosario?.length || 0,
+            totalLikes: this.posts?.reduce((sum, p) => sum + (p.likes || 0), 0) || 0
+        };
+
+        console.log('Actualizando stats completas:', stats);
+
+        // Actualizar elementos del DOM
+        document.getElementById('stat-total-posts').textContent = stats.totalPosts;
+        document.getElementById('stat-total-events').textContent = stats.totalEvents;
+        document.getElementById('stat-total-games').textContent = stats.totalGames;
+        document.getElementById('stat-total-resources').textContent = stats.totalResources;
+        document.getElementById('stat-total-glosario').textContent = stats.totalGlosario;
+        document.getElementById('stat-total-likes').textContent = stats.totalLikes;
+    }
+
         const totalPosts = this.posts.length;
         const publishedPosts = this.posts.filter(p => p.status === 'published').length;
         const draftPosts = this.posts.filter(p => p.status === 'draft').length;
