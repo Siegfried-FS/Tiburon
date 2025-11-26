@@ -119,7 +119,7 @@ exports.handler = async (event) => {
         
         // GET /admin/posts - Listar posts
         if (method === 'GET' && (path === '/admin/posts' || path === '/prod/admin/posts')) {
-            const data = await getS3Data(POSTS_KEY);
+            const data = await getS3Data(FEED_KEY);
             return {
                 statusCode: 200,
                 headers: { ...corsHeaders, 'Content-Type': 'application/json' },
