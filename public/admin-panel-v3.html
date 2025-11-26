@@ -122,7 +122,7 @@
                         // Intentar API primero, fallback a archivo local
                         let response;
                         try {
-                            response = await fetch('https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/prod/admin/posts');
+                            response = await fetch('https://fklo6233x5.execute-api.us-east-1.amazonaws.com/prod/admin/posts');
                             if (!response.ok) throw new Error('API failed');
                         } catch (error) {
                             console.log('API failed, using local file:', error.message);
