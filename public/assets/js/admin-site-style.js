@@ -6,6 +6,10 @@ class AdminPanel {
             email: 'admin@tiburoncp.com'
         };
         this.posts = [];
+        
+        // API Configuration
+        this.API_BASE_URL = 'https://5xjl51jprh.execute-api.us-east-1.amazonaws.com/prod';
+        
         this.init();
     }
 
@@ -42,58 +46,57 @@ class AdminPanel {
     }
 
     async loadExistingPosts() {
+        console.log('🔄 Cargando posts desde API...');
         try {
-            console.log('Cargando posts del feed...');
-            
-            // Probar múltiples rutas
-            const possiblePaths = [
-                '/assets/data/feed.json',
-                'assets/data/feed.json',
-                './assets/data/feed.json'
-            ];
-            
-            let feedData = null;
-            
-            for (const path of possiblePaths) {
-                try {
-                    console.log(`Probando ruta: ${path}`);
-                    const response = await fetch(path);
-                    if (response.ok) {
-                        feedData = await response.json();
-                        console.log(`✅ Feed cargado desde: ${path}`);
-                        break;
-                    }
-                } catch (error) {
-                    console.log(`❌ Error en ${path}:`, error.message);
+            // Intentar cargar desde API real
+            const response = await fetch(`${this.API_BASE_URL}/posts`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-            }
+            });
             
-            if (feedData) {
-                this.posts = (feedData.posts || feedData || []).map(post => ({
-                    id: post.id,
+            if (response.ok) {
+                const data = await response.json();
+                this.posts = (data.posts || []).map(post => ({
+                    id: post.item_id,
                     title: post.title,
                     content: post.content,
-                    author: post.author || this.currentUser,
-                    status: 'published',
-                    createdAt: post.date,
+                    author: post.author || { name: 'Admin', role: 'Administrator' },
+                    status: post.status || 'published',
+                    createdAt: post.created_at,
                     likes: post.likes || 0
                 }));
-                
-                console.log(`Cargados ${this.posts.length} posts`);
-                console.log('Primer post:', this.posts[0]);
+                console.log(`✅ API: Cargados ${this.posts.length} posts desde DynamoDB`);
             } else {
-                console.error('No se pudo cargar el feed desde ninguna ruta');
+                throw new Error(`API Error: ${response.status}`);
+            }
+        } catch (error) {
+            console.log('⚠️ API no disponible, usando fallback local:', error.message);
+            // Fallback a archivo local
+            try {
+                const response = await fetch('/assets/data/feed.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    this.posts = (data.posts || data || []).map(post => ({
+                        id: post.id,
+                        title: post.title,
+                        content: post.content,
+                        author: post.author || { name: 'Admin', role: 'Administrator' },
+                        status: 'published',
+                        createdAt: post.date,
+                        likes: post.likes || 0
+                    }));
+                    console.log(`📁 Fallback: Cargados ${this.posts.length} posts desde JSON local`);
+                }
+            } catch (fallbackError) {
+                console.error('❌ Error en fallback:', fallbackError);
                 this.posts = [];
             }
-            
-            this.renderPosts();
-            this.updateStats();
-        } catch (error) {
-            console.error('Error loading posts:', error);
-            this.posts = [];
-            this.renderPosts();
-            this.updateStats();
         }
+        
+        this.renderPosts();
+        this.updateStats();
     }
 
     renderPosts() {
@@ -354,30 +357,129 @@ class AdminPanel {
     }
 
     async createPost(postData) {
-        const newPost = {
-            id: 'post' + Date.now(),
-            title: postData.title,
-            content: postData.content,
-            author: this.currentUser,
-            status: postData.status || 'draft',
-            createdAt: new Date().toISOString(),
-            likes: 0
-        };
-        
-        this.posts.unshift(newPost);
-        this.renderPosts();
-        this.updateStats();
-        this.showAlert('Post creado exitosamente');
-        return newPost;
+        console.log('🔄 Creando post en API...');
+        try {
+            // Crear en API real
+            const response = await fetch(`${this.API_BASE_URL}/posts`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: postData.title,
+                    content: postData.content,
+                    status: postData.status || 'published',
+                    likes: 0
+                })
+            });
+            
+            if (response.ok) {
+                const newPost = await response.json();
+                console.log('✅ Post creado en DynamoDB:', newPost.item_id);
+                
+                // Actualizar lista local
+                const formattedPost = {
+                    id: newPost.item_id,
+                    title: newPost.title,
+                    content: newPost.content,
+                    author: newPost.author,
+                    status: newPost.status,
+                    createdAt: newPost.created_at,
+                    likes: newPost.likes
+                };
+                
+                this.posts.unshift(formattedPost);
+                this.renderPosts();
+                this.updateStats();
+                this.showAlert('✅ Post creado exitosamente en DynamoDB');
+                return formattedPost;
+            } else {
+                throw new Error(`API Error: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('❌ Error creando post:', error);
+            this.showAlert('❌ Error al crear post. Inténtalo de nuevo.');
+            return null;
+        }
+    }
+
+    async updatePost(postId, postData) {
+        console.log('✏️ Actualizando post en API...');
+        try {
+            // Actualizar en API real
+            const response = await fetch(`${this.API_BASE_URL}/posts/${postId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: postData.title,
+                    content: postData.content,
+                    status: postData.status,
+                    likes: postData.likes || 0
+                })
+            });
+            
+            if (response.ok) {
+                const updatedPost = await response.json();
+                console.log('✅ Post actualizado en DynamoDB:', postId);
+                
+                // Actualizar lista local
+                const index = this.posts.findIndex(p => p.id === postId);
+                if (index !== -1) {
+                    this.posts[index] = {
+                        id: updatedPost.item_id,
+                        title: updatedPost.title,
+                        content: updatedPost.content,
+                        author: updatedPost.author,
+                        status: updatedPost.status,
+                        createdAt: updatedPost.created_at,
+                        likes: updatedPost.likes
+                    };
+                }
+                
+                this.renderPosts();
+                this.updateStats();
+                this.showAlert('✅ Post actualizado exitosamente');
+                return updatedPost;
+            } else {
+                throw new Error(`API Error: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('❌ Error actualizando post:', error);
+            this.showAlert('❌ Error al actualizar post. Inténtalo de nuevo.');
+            return null;
+        }
     }
 
     async deletePost(postId) {
         if (!confirm('¿Estás seguro de eliminar este post?')) return;
         
-        this.posts = this.posts.filter(p => p.id !== postId);
-        this.renderPosts();
-        this.updateStats();
-        this.showAlert('Post eliminado');
+        console.log('🗑️ Eliminando post de API...');
+        try {
+            // Eliminar de API real
+            const response = await fetch(`${this.API_BASE_URL}/posts/${postId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                console.log('✅ Post eliminado de DynamoDB:', postId);
+                
+                // Actualizar lista local
+                this.posts = this.posts.filter(p => p.id !== postId);
+                this.renderPosts();
+                this.updateStats();
+                this.showAlert('✅ Post eliminado exitosamente');
+            } else {
+                throw new Error(`API Error: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('❌ Error eliminando post:', error);
+            this.showAlert('❌ Error al eliminar post. Inténtalo de nuevo.');
+        }
     }
 
     editPost(postId) {
@@ -459,14 +561,7 @@ class AdminPanel {
             };
             
             if (isEdit) {
-                const index = this.posts.findIndex(p => p.id === editPost.id);
-                if (index !== -1) {
-                    this.posts[index] = { ...this.posts[index], ...postData };
-                    await this.saveToAPI(this.posts[index]); // Guardar en API
-                    this.renderPosts();
-                    this.updateStats();
-                    this.showAlert('Post actualizado y guardado');
-                }
+                await this.updatePost(editPost.id, postData);
             } else {
                 await this.createPost(postData);
             }

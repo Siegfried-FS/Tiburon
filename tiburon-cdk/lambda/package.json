@@ -1,0 +1,9 @@
+{
+  "name": "tiburon-lambda-functions",
+  "version": "1.0.0",
+  "description": "Lambda functions for Tiburon AWS User Group platform",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0"
+  }
+}
