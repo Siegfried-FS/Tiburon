@@ -100,10 +100,19 @@ class AdminPanel {
     }
 
     renderPosts() {
+        console.log('🎨 Ejecutando renderPosts()...');
+        console.log('📊 Posts disponibles:', this.posts.length);
+        
         const container = document.getElementById('posts-list');
-        if (!container) return;
+        console.log('📦 Contenedor posts-list:', container ? 'ENCONTRADO' : 'NO ENCONTRADO');
+        
+        if (!container) {
+            console.error('❌ No se encontró el contenedor posts-list');
+            return;
+        }
 
         if (this.posts.length === 0) {
+            console.log('📝 No hay posts, mostrando mensaje vacío');
             container.innerHTML = `
                 <div class="feed-item">
                     <h3>📝 No hay posts</h3>
@@ -112,6 +121,9 @@ class AdminPanel {
             `;
             return;
         }
+
+        console.log('📝 Renderizando', this.posts.length, 'posts');
+        console.log('🔍 Primer post:', this.posts[0]);
 
         container.innerHTML = this.posts.map(post => `
             <div class="feed-item post-item">
@@ -135,6 +147,8 @@ class AdminPanel {
                 </div>
             </div>
         `).join('');
+        
+        console.log('✅ Posts renderizados exitosamente');
     }
 
     async loadEvents() {
