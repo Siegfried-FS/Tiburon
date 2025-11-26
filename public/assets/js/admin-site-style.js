@@ -274,10 +274,25 @@ class AdminPanel {
 
     async saveToAPI(post) {
         try {
+            // Debug: Verificar datos de usuario
+            const token = localStorage.getItem('cognitoToken');
+            const userInfo = localStorage.getItem('userInfo');
+            const cognitoGroups = localStorage.getItem('cognitoGroups');
+            
+            console.log('🔍 Debug - Datos de usuario:');
+            console.log('Token:', token ? 'Presente' : 'Ausente');
+            console.log('UserInfo:', userInfo);
+            console.log('Groups:', cognitoGroups);
+            
+            if (!token) {
+                throw new Error('No hay token de autenticación');
+            }
+
             const response = await fetch('https://fklo6233x5.execute-api.us-east-1.amazonaws.com/prod/admin/posts', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     action: 'update',
@@ -286,7 +301,9 @@ class AdminPanel {
             });
             
             if (!response.ok) {
-                throw new Error('Error al guardar en API');
+                const errorText = await response.text();
+                console.log('❌ Respuesta de error:', errorText);
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
             }
             
             console.log('✅ Post guardado en API');
