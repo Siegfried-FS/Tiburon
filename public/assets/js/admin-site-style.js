@@ -783,11 +783,18 @@ class AdminPanel {
     setupEventListeners() {
         console.log('Configurando event listeners...');
         
+        // Limpiar event listeners existentes
+        document.querySelectorAll('.nav-btn[data-section]').forEach(btn => {
+            btn.replaceWith(btn.cloneNode(true));
+        });
+        
         // Navegación entre secciones
         document.querySelectorAll('.nav-btn[data-section]').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const section = e.target.dataset.section;
-                console.log('Navegando a:', section);
+                console.log('🎯 Click en navegación:', section);
                 this.showSection(section);
             });
         });
