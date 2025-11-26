@@ -212,7 +212,7 @@ class AdminPanel {
             <div style="background: var(--card-bg); padding: 30px; border-radius: 15px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; border: 1px solid var(--border-color);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h3 style="color: var(--text-color); margin: 0;">${title}</h3>
-                    <button onclick="this.closest('div').remove()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-color);">×</button>
+                    <button id="close-modal-btn" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-color);">×</button>
                 </div>
                 <form id="post-form">
                     <div style="margin-bottom: 15px;">
@@ -226,6 +226,11 @@ class AdminPanel {
                                   style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; background: var(--card-bg); color: var(--text-color);">${editPost?.content || ''}</textarea>
                     </div>
                     <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold; color: var(--text-color);">Likes:</label>
+                        <input type="number" name="likes" value="${editPost?.likes || 0}" min="0"
+                               style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; background: var(--card-bg); color: var(--text-color);">
+                    </div>
+                    <div style="margin-bottom: 15px;">
                         <label style="display: block; margin-bottom: 5px; font-weight: bold; color: var(--text-color);">Estado:</label>
                         <select name="status" style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; background: var(--card-bg); color: var(--text-color);">
                             <option value="draft" ${editPost?.status === 'draft' ? 'selected' : ''}>Borrador</option>
@@ -236,7 +241,7 @@ class AdminPanel {
                         <button type="submit" style="background: var(--primary-color); color: white; padding: 12px 24px; border: none; border-radius: 25px; cursor: pointer; margin-right: 10px; font-weight: 500;">
                             ${isEdit ? '✏️ Actualizar' : '➕ Crear'} Post
                         </button>
-                        <button type="button" onclick="this.closest('div').remove()" style="background: #666; color: white; padding: 12px 24px; border: none; border-radius: 25px; cursor: pointer; font-weight: 500;">
+                        <button type="button" id="cancel-modal-btn" style="background: #666; color: white; padding: 12px 24px; border: none; border-radius: 25px; cursor: pointer; font-weight: 500;">
                             ❌ Cancelar
                         </button>
                     </div>
@@ -246,12 +251,20 @@ class AdminPanel {
         
         document.body.appendChild(modal);
         
+        // Event listeners para cerrar modal
+        document.getElementById('close-modal-btn').addEventListener('click', () => modal.remove());
+        document.getElementById('cancel-modal-btn').addEventListener('click', () => modal.remove());
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+        });
+        
         document.getElementById('post-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
             const postData = {
                 title: formData.get('title'),
                 content: formData.get('content'),
+                likes: parseInt(formData.get('likes')) || 0,
                 status: formData.get('status')
             };
             
@@ -366,6 +379,17 @@ class AdminPanel {
                 this.showCreatePostForm();
             });
         }
+        
+        // Botones crear para otras secciones
+        const sections = ['eventos', 'talleres', 'juegos', 'recursos', 'glosario'];
+        sections.forEach(section => {
+            const createBtn = document.getElementById(`create-${section === 'glosario' ? 'termino' : section.slice(0, -1)}-btn`);
+            if (createBtn) {
+                createBtn.addEventListener('click', () => {
+                    this.showAlert(`✨ Funcionalidad de ${section} próximamente. Demo enfocada en Posts.`);
+                });
+            }
+        });
     }
 }
 
