@@ -309,7 +309,11 @@
         <div class="nav-buttons">
             <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
             <button class="nav-btn" data-section="posts">📝 Posts</button>
-            <button class="nav-btn" data-section="analytics">📈 Analytics</button>
+            <button class="nav-btn" data-section="eventos">📅 Eventos</button>
+            <button class="nav-btn" data-section="talleres">🎓 Talleres</button>
+            <button class="nav-btn" data-section="juegos">🎮 Juegos</button>
+            <button class="nav-btn" data-section="recursos">📚 Recursos</button>
+            <button class="nav-btn" data-section="glosario">📖 Glosario</button>
             <button class="nav-btn" data-section="settings">⚙️ Config</button>
         </div>
     </section>
@@ -323,6 +327,61 @@
         
         <div id="posts-list" class="feed-grid">
             <!-- Posts se cargarán aquí -->
+        </div>
+    </section>
+
+    <!-- Eventos Section -->
+    <section id="eventos-section" class="content-section" style="display: none;">
+        <h1>📅 Gestión de Eventos</h1>
+        <div style="text-align: center; margin-bottom: 40px;">
+            <button id="create-evento-btn" class="nav-btn">➕ Crear Nuevo Evento</button>
+        </div>
+        <div id="eventos-list" class="feed-grid">
+            <div class="loading">Cargando eventos...</div>
+        </div>
+    </section>
+
+    <!-- Talleres Section -->
+    <section id="talleres-section" class="content-section" style="display: none;">
+        <h1>🎓 Gestión de Talleres</h1>
+        <div style="text-align: center; margin-bottom: 40px;">
+            <button id="create-taller-btn" class="nav-btn">➕ Crear Nuevo Taller</button>
+        </div>
+        <div id="talleres-list" class="feed-grid">
+            <div class="loading">Cargando talleres...</div>
+        </div>
+    </section>
+
+    <!-- Juegos Section -->
+    <section id="juegos-section" class="content-section" style="display: none;">
+        <h1>🎮 Gestión de Juegos</h1>
+        <div style="text-align: center; margin-bottom: 40px;">
+            <button id="create-juego-btn" class="nav-btn">➕ Crear Nuevo Juego</button>
+        </div>
+        <div id="juegos-list" class="feed-grid">
+            <div class="loading">Cargando juegos...</div>
+        </div>
+    </section>
+
+    <!-- Recursos Section -->
+    <section id="recursos-section" class="content-section" style="display: none;">
+        <h1>📚 Gestión de Recursos</h1>
+        <div style="text-align: center; margin-bottom: 40px;">
+            <button id="create-recurso-btn" class="nav-btn">➕ Crear Nuevo Recurso</button>
+        </div>
+        <div id="recursos-list" class="feed-grid">
+            <div class="loading">Cargando recursos...</div>
+        </div>
+    </section>
+
+    <!-- Glosario Section -->
+    <section id="glosario-section" class="content-section" style="display: none;">
+        <h1>📖 Gestión de Glosario</h1>
+        <div style="text-align: center; margin-bottom: 40px;">
+            <button id="create-termino-btn" class="nav-btn">➕ Crear Nuevo Término</button>
+        </div>
+        <div id="glosario-list" class="feed-grid">
+            <div class="loading">Cargando términos...</div>
         </div>
     </section>
 
