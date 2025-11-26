@@ -287,6 +287,22 @@ class AdminPanel {
                 throw new Error('No hay token de autenticación');
             }
 
+            // TEMPORAL: Simular guardado exitoso hasta que se arregle CORS
+            console.log('💾 Simulando guardado exitoso (CORS en progreso)');
+            console.log('Post a guardar:', post);
+            
+            // Actualizar en memoria local
+            const index = this.posts.findIndex(p => p.id === post.id);
+            if (index !== -1) {
+                this.posts[index] = { ...this.posts[index], ...post };
+                this.renderPosts();
+                this.updateStats();
+            }
+            
+            this.showAlert('✅ Cambios guardados localmente. Persistencia real en desarrollo.');
+            return { success: true };
+
+            /* CÓDIGO REAL - Activar cuando CORS funcione
             const response = await fetch('https://js62x5k3y8.execute-api.us-east-1.amazonaws.com/prod/content', {
                 method: 'POST',
                 headers: {
@@ -309,6 +325,7 @@ class AdminPanel {
             
             console.log('✅ Post guardado en API');
             return await response.json();
+            */
         } catch (error) {
             console.log('❌ Error guardando en API:', error);
             this.showAlert('⚠️ Cambios guardados localmente. API no disponible.');
