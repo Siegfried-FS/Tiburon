@@ -326,17 +326,31 @@ class AdminPanel {
 
         console.log('Actualizando stats:', { totalPosts, publishedPosts, draftPosts, totalLikes });
 
-        document.getElementById('stat-total-posts').textContent = totalPosts;
-        document.getElementById('stat-published-posts').textContent = publishedPosts;
-        document.getElementById('stat-draft-posts').textContent = draftPosts;
-        document.getElementById('stat-total-likes').textContent = totalLikes;
+        // Actualizar solo elementos que existen
+        const statElements = {
+            'stat-total-posts': totalPosts,
+            'stat-published-posts': publishedPosts,
+            'stat-draft-posts': draftPosts,
+            'stat-total-likes': totalLikes
+        };
+
+        Object.entries(statElements).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value;
+            } else {
+                console.log(`⚠️ Elemento ${id} no encontrado`);
+            }
+        });
     }
 
     showSection(sectionName) {
-        console.log('Mostrando sección:', sectionName);
+        console.log('🔄 Cambiando a sección:', sectionName);
         
         // Ocultar todas las secciones
-        document.querySelectorAll('.content-section').forEach(section => {
+        const allSections = document.querySelectorAll('.content-section');
+        console.log(`📋 Ocultando ${allSections.length} secciones`);
+        allSections.forEach(section => {
             section.style.display = 'none';
         });
         
@@ -344,6 +358,9 @@ class AdminPanel {
         const targetSection = document.getElementById(`${sectionName}-section`);
         if (targetSection) {
             targetSection.style.display = 'block';
+            console.log('✅ Sección mostrada:', sectionName);
+        } else {
+            console.error('❌ Sección no encontrada:', `${sectionName}-section`);
         }
         
         // Actualizar botones activos
@@ -354,6 +371,9 @@ class AdminPanel {
         const activeBtn = document.querySelector(`[data-section="${sectionName}"]`);
         if (activeBtn) {
             activeBtn.classList.add('active');
+            console.log('🎯 Botón activado:', sectionName);
+        } else {
+            console.error('❌ Botón no encontrado:', sectionName);
         }
     }
 
