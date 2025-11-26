@@ -296,6 +296,10 @@
                     <div class="stat-label">Posts Totales</div>
                 </div>
                 <div class="stat-card">
+                    <div class="stat-number" id="total-events">0</div>
+                    <div class="stat-label">Eventos Totales</div>
+                </div>
+                <div class="stat-card">
                     <div class="stat-number" id="total-likes">0</div>
                     <div class="stat-label">Total Likes</div>
                 </div>
@@ -314,7 +318,10 @@
         <!-- Eventos -->
         <div id="eventos" class="section">
             <h2>📅 Gestión de Eventos</h2>
-            <p>Funcionalidad en desarrollo...</p>
+            <button class="btn btn-success" onclick="createNewEvent()">➕ Crear Nuevo Evento</button>
+            <div id="events-container">
+                <div class="loading">Cargando eventos...</div>
+            </div>
         </div>
     </div>
 
@@ -366,12 +373,65 @@
         </div>
     </div>
     
+    <!-- Modal para crear/editar eventos -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <h3 id="eventModalTitle">Crear Nuevo Evento</h3>
+            <form id="eventForm">
+                <div class="form-group">
+                    <label class="form-label">📅 Título del Evento:</label>
+                    <input type="text" id="eventTitle" class="form-input" required placeholder="Ej: Taller AWS S3">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">📄 Descripción:</label>
+                    <textarea id="eventDescription" class="form-textarea" required placeholder="Descripción completa del evento..."></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">📅 Fecha:</label>
+                        <input type="date" id="eventDate" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">🕐 Hora:</label>
+                        <input type="time" id="eventTime" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">📍 Ubicación:</label>
+                        <input type="text" id="eventLocation" class="form-input" required placeholder="Ej: UGM Playa Vicente">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">📊 Estado:</label>
+                        <select id="eventStatus" class="form-input">
+                            <option value="upcoming">🔜 Próximo</option>
+                            <option value="ongoing">🔴 En curso</option>
+                            <option value="cerrado">✅ Cerrado</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeEventModal()">❌ Cancelar</button>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Evento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <script src="assets/js/admin-panel-security.js?v=3"></script>
     <script>
         // Configuración
         const API_BASE_URL = 'https://5xjl51jprh.execute-api.us-east-1.amazonaws.com/prod';
         let posts = [];
+        let events = [];
         let editingPostId = null;
+        let editingEventId = null;
         
         // Navegación
         function showSection(sectionName) {
@@ -394,6 +454,8 @@
             // Cargar contenido específico
             if (sectionName === 'posts') {
                 loadPosts();
+            } else if (sectionName === 'eventos') {
+                loadEvents();
             }
         }
         
@@ -457,9 +519,165 @@
             console.log('✅ Posts renderizados correctamente');
         }
         
+        // Cargar eventos
+        async function loadEvents() {
+            console.log('🔄 Cargando eventos desde API...');
+            const container = document.getElementById('events-container');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/events`);
+                if (response.ok) {
+                    const data = await response.json();
+                    events = data.events || [];
+                    console.log(`✅ Cargados ${events.length} eventos`);
+                    renderEvents();
+                    updateStats();
+                } else {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('❌ Error cargando eventos:', error);
+                container.innerHTML = '<div class="loading">Error al cargar eventos</div>';
+            }
+        }
+        
+        // Renderizar eventos
+        function renderEvents() {
+            console.log('🎨 Renderizando eventos...');
+            const container = document.getElementById('events-container');
+            
+            if (events.length === 0) {
+                container.innerHTML = '<div class="loading">No hay eventos disponibles</div>';
+                return;
+            }
+            
+            container.innerHTML = events.map(event => `
+                <div class="post-item">
+                    <div class="post-header">
+                        <h3 class="post-title">${event.title}</h3>
+                        <span class="status-badge">${event.status}</span>
+                    </div>
+                    <div class="post-meta">
+                        📅 ${new Date(event.date).toLocaleDateString()} | 
+                        🕐 ${event.time} | 
+                        📍 ${event.location}
+                    </div>
+                    <div class="post-content">
+                        ${event.description.substring(0, 200)}${event.description.length > 200 ? '...' : ''}
+                    </div>
+                    <div class="post-actions">
+                        <button class="btn btn-primary" onclick="editEvent('${event.item_id}')">
+                            ✏️ Editar
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteEvent('${event.item_id}')">
+                            🗑️ Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            console.log('✅ Eventos renderizados correctamente');
+        }
+        
+        // Funciones de eventos
+        function createNewEvent() {
+            editingEventId = null;
+            document.getElementById('eventModalTitle').textContent = '➕ Crear Nuevo Evento';
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventDescription').value = '';
+            document.getElementById('eventDate').value = '';
+            document.getElementById('eventTime').value = '';
+            document.getElementById('eventLocation').value = '';
+            document.getElementById('eventStatus').value = 'upcoming';
+            document.getElementById('eventModal').style.display = 'block';
+        }
+        
+        function editEvent(eventId) {
+            const event = events.find(e => e.item_id === eventId);
+            if (!event) return;
+            
+            editingEventId = eventId;
+            document.getElementById('eventModalTitle').textContent = '✏️ Editar Evento';
+            document.getElementById('eventTitle').value = event.title;
+            document.getElementById('eventDescription').value = event.description;
+            document.getElementById('eventDate').value = event.date;
+            document.getElementById('eventTime').value = event.time;
+            document.getElementById('eventLocation').value = event.location;
+            document.getElementById('eventStatus').value = event.status;
+            document.getElementById('eventModal').style.display = 'block';
+        }
+        
+        function closeEventModal() {
+            document.getElementById('eventModal').style.display = 'none';
+            editingEventId = null;
+        }
+        
+        async function deleteEvent(eventId) {
+            if (!confirm('¿Estás seguro de eliminar este evento?')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    console.log('✅ Evento eliminado');
+                    loadEvents();
+                } else {
+                    throw new Error(`Error: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('❌ Error eliminando evento:', error);
+                alert('Error al eliminar el evento');
+            }
+        }
+        
+        // Form submit para eventos
+        document.getElementById('eventForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const eventData = {
+                title: document.getElementById('eventTitle').value,
+                description: document.getElementById('eventDescription').value,
+                date: document.getElementById('eventDate').value,
+                time: document.getElementById('eventTime').value,
+                location: document.getElementById('eventLocation').value,
+                status: document.getElementById('eventStatus').value
+            };
+            
+            try {
+                let response;
+                if (editingEventId) {
+                    response = await fetch(`${API_BASE_URL}/events/${editingEventId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(eventData)
+                    });
+                } else {
+                    response = await fetch(`${API_BASE_URL}/events`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(eventData)
+                    });
+                }
+                
+                if (response.ok) {
+                    console.log('✅ Evento guardado exitosamente');
+                    closeEventModal();
+                    loadEvents();
+                } else {
+                    throw new Error(`Error: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('❌ Error guardando evento:', error);
+                alert('Error al guardar el evento');
+            }
+        });
+        
         // Actualizar estadísticas
         function updateStats() {
             document.getElementById('total-posts').textContent = posts.length;
+            document.getElementById('total-events').textContent = events.length;
             const totalLikes = posts.reduce((sum, post) => sum + (post.likes || 0), 0);
             document.getElementById('total-likes').textContent = totalLikes;
         }
@@ -581,6 +799,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             console.log('🚀 Inicializando panel admin...');
             loadPosts();
+            loadEvents();
         });
     </script>
 </body>

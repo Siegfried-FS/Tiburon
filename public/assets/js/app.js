@@ -25,7 +25,7 @@ const DATA_SOURCES = {
 async function loadData(filename) {
     console.log(`🔄 Cargando ${filename}...`);
     
-    // 1. Intentar DynamoDB API para posts
+    // 1. Intentar DynamoDB API para posts y eventos
     if (filename === 'feed.json') {
         try {
             console.log('📡 Intentando DynamoDB API...');
@@ -46,6 +46,31 @@ async function loadData(filename) {
             }
         } catch (error) {
             console.log('⚠️ DynamoDB no disponible:', error.message);
+        }
+    }
+    
+    if (filename === 'events.json') {
+        try {
+            console.log('📡 Intentando DynamoDB API para eventos...');
+            const response = await fetch(`${DATA_SOURCES.dynamodb}/events`);
+            if (response.ok) {
+                const data = await response.json();
+                const formattedEvents = (data.events || []).map(event => ({
+                    id: event.item_id,
+                    title: event.title,
+                    description: event.description,
+                    date: event.date,
+                    time: event.time,
+                    location: event.location,
+                    status: event.status,
+                    format: 'Presencial',
+                    price: 'free'
+                }));
+                console.log(`✅ DynamoDB: Cargados ${formattedEvents.length} eventos`);
+                return formattedEvents;
+            }
+        } catch (error) {
+            console.log('⚠️ DynamoDB eventos no disponible:', error.message);
         }
     }
     
