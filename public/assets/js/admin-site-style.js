@@ -259,9 +259,10 @@ class AdminPanel {
                 const index = this.posts.findIndex(p => p.id === editPost.id);
                 if (index !== -1) {
                     this.posts[index] = { ...this.posts[index], ...postData };
+                    await this.saveToAPI(this.posts[index]); // Guardar en API
                     this.renderPosts();
                     this.updateStats();
-                    this.showAlert('Post actualizado');
+                    this.showAlert('Post actualizado y guardado');
                 }
             } else {
                 await this.createPost(postData);
@@ -269,6 +270,31 @@ class AdminPanel {
             
             modal.remove();
         });
+    }
+
+    async saveToAPI(post) {
+        try {
+            const response = await fetch('https://fklo6233x5.execute-api.us-east-1.amazonaws.com/prod/admin/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'update',
+                    post: post
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('Error al guardar en API');
+            }
+            
+            console.log('✅ Post guardado en API');
+            return await response.json();
+        } catch (error) {
+            console.log('❌ Error guardando en API:', error);
+            this.showAlert('⚠️ Cambios guardados localmente. API no disponible.');
+        }
     }
 
     showAlert(message) {
