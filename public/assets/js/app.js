@@ -14,25 +14,67 @@ applyThemeImmediately(); // Ejecutar inmediatamente para prevenir el "flicker"
 // CONFIGURACIÓN Y CARGA DE DATOS
 // =============================================================================
 
-// Configuración de URLs - Lambda primero, local como fallback
+// Configuración de URLs - DynamoDB API primero, Lambda como fallback, local como último recurso
 const DATA_SOURCES = {
+    dynamodb: 'https://5xjl51jprh.execute-api.us-east-1.amazonaws.com/prod',
     lambda: 'https://fklo6233x5.execute-api.us-east-1.amazonaws.com/prod/get-content/',
     local: '/assets/data/'
 };
 
 // Función para cargar datos con fallback
 async function loadData(filename) {
-    // Usar solo rutas locales por ahora para diagnosticar
+    console.log(`🔄 Cargando ${filename}...`);
+    
+    // 1. Intentar DynamoDB API para posts
+    if (filename === 'feed.json') {
+        try {
+            console.log('📡 Intentando DynamoDB API...');
+            const response = await fetch(`${DATA_SOURCES.dynamodb}/posts`);
+            if (response.ok) {
+                const data = await response.json();
+                const formattedPosts = (data.posts || []).map(post => ({
+                    id: post.item_id,
+                    title: post.title,
+                    content: post.content,
+                    author: post.author || { name: 'Admin', role: 'Administrator' },
+                    date: post.created_at,
+                    likes: post.likes || 0,
+                    tags: post.tags || []
+                }));
+                console.log(`✅ DynamoDB: Cargados ${formattedPosts.length} posts`);
+                return { posts: formattedPosts };
+            }
+        } catch (error) {
+            console.log('⚠️ DynamoDB no disponible:', error.message);
+        }
+    }
+    
+    // 2. Fallback a Lambda
     try {
+        console.log('📡 Intentando Lambda API...');
+        const lambdaResponse = await fetch(DATA_SOURCES.lambda + filename);
+        if (lambdaResponse.ok) {
+            const data = await lambdaResponse.json();
+            console.log(`✅ Lambda: Cargado ${filename}`);
+            return data;
+        }
+    } catch (error) {
+        console.log('⚠️ Lambda no disponible:', error.message);
+    }
+    
+    // 3. Fallback a archivo local
+    try {
+        console.log('📁 Intentando archivo local...');
         const localResponse = await fetch(DATA_SOURCES.local + filename);
         if (localResponse.ok) {
-            return await localResponse.json();
-        } else {
-            console.error(`❌ Error HTTP ${localResponse.status} cargando ${filename}`);
+            const data = await localResponse.json();
+            console.log(`✅ Local: Cargado ${filename}`);
+            return data;
         }
     } catch (error) {
         console.error(`❌ Error cargando ${filename}:`, error);
     }
+    
     return null;
 }
 
