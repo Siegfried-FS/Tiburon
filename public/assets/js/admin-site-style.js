@@ -318,6 +318,7 @@ class AdminPanel {
         document.getElementById('stat-total-likes').textContent = stats.totalLikes;
     }
 
+    updateStats() {
         const totalPosts = this.posts.length;
         const publishedPosts = this.posts.filter(p => p.status === 'published').length;
         const draftPosts = this.posts.filter(p => p.status === 'draft').length;

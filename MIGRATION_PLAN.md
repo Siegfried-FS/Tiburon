@@ -254,9 +254,9 @@ jobs:
 
 ---
 
-**🦈 Estado Actual:** Checkpoint 1 COMPLETADO ✅ - CDK Setup + Deploy Exitoso
-**📅 Última Actualización:** 2025-11-26 14:02 UTC
-**🎯 Siguiente Paso:** Conectar frontend con API real
+**🦈 Estado Actual:** Checkpoint 2 COMPLETADO ✅ - CRUD Básico Funcionando
+**📅 Última Actualización:** 2025-11-26 14:07 UTC
+**🎯 Siguiente Paso:** Migrar datos existentes de JSON a DynamoDB
 
 ### ✅ PROGRESO ACTUAL:
 - [x] CDK project inicializado
@@ -267,15 +267,17 @@ jobs:
 - [x] Deploy a AWS exitoso ✅
 - [x] API funcionando ✅ (probado con curl)
 - [x] Tags aplicados ✅ (Project: Tiburon-AWS-UserGroup)
-- [ ] Frontend conectado (próximo paso)
+- [x] Frontend conectado ✅ CRUD completo
+- [x] Posts CRUD funcionando ✅ (CREATE, READ, UPDATE, DELETE)
+- [ ] Migrar datos existentes (próximo paso)
+- [ ] Eventos CRUD funcionando
+- [ ] Otros tipos de contenido
 
-### 🏷️ RECURSOS CREADOS CON TAGS:
-- **DynamoDB:** `tiburon-content` (25GB free tier)
-- **Lambda:** PostsHandler, EventsHandler (1M invocaciones/mes free)
-- **API Gateway:** CRUD endpoints (1M requests/mes free)
-- **CloudWatch:** Logs automáticos (incluido en free tier)
-
-### 🧪 API PROBADA:
-- ✅ GET /posts → Funciona
-- ✅ POST /posts → Funciona (post creado exitosamente)
-- ✅ CORS configurado correctamente
+### 🎯 FUNCIONALIDADES PROBADAS:
+- ✅ **Panel admin carga posts** desde DynamoDB
+- ✅ **Crear posts** desde panel → se guardan en DynamoDB
+- ✅ **Editar posts** desde panel → se actualizan en DynamoDB  
+- ✅ **Eliminar posts** desde panel → se borran de DynamoDB
+- ✅ **Fallback a JSON** si API no disponible
+- ✅ **Logs detallados** para debugging
+- ✅ **UX mejorada** con mensajes de éxito/error
