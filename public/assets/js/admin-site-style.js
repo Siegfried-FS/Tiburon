@@ -127,37 +127,74 @@ class AdminPanel {
 
         // Test visual directo
         container.innerHTML = `
-            <div style="background: red; color: white; padding: 20px; margin: 10px; border-radius: 10px;">
+            <div style="background: red; color: white; padding: 20px; margin: 10px; border-radius: 10px; position: relative; z-index: 9999; display: block !important; visibility: visible !important;">
                 🧪 TEST: Si ves esto, el contenedor funciona correctamente
             </div>
         `;
         
+        console.log('🔍 Contenedor HTML después del test:', container.innerHTML);
+        console.log('🔍 Contenedor estilos:', window.getComputedStyle(container));
+        
         // Esperar un momento y luego renderizar posts reales
         setTimeout(() => {
-            container.innerHTML = this.posts.map(post => `
-                <div class="feed-item post-item" style="background: var(--card-bg); border: 2px solid #007bff; padding: 20px; margin: 10px 0; border-radius: 10px;">
-                    <div class="post-header">
-                        <h3 class="post-title" style="color: var(--text-color); margin: 0 0 10px 0;">${post.title}</h3>
-                        <span class="status-badge status-${post.status}" style="background: #4CAF50; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px;">${post.status}</span>
-                    </div>
-                    <div class="post-meta" style="color: #666; font-size: 14px; margin-bottom: 15px;">
+            const postsHTML = this.posts.map(post => `
+                <div style="
+                    background: #ffffff !important; 
+                    border: 3px solid #ff0000 !important; 
+                    padding: 20px !important; 
+                    margin: 20px 0 !important; 
+                    border-radius: 10px !important;
+                    display: block !important;
+                    visibility: visible !important;
+                    position: relative !important;
+                    z-index: 9999 !important;
+                    min-height: 200px !important;
+                    width: 100% !important;
+                    box-sizing: border-box !important;
+                ">
+                    <h3 style="color: #000000 !important; font-size: 24px !important; margin: 0 0 10px 0 !important; display: block !important;">
+                        🚀 ${post.title}
+                    </h3>
+                    <div style="color: #666666 !important; font-size: 16px !important; margin-bottom: 15px !important; display: block !important;">
                         📅 ${new Date(post.createdAt).toLocaleDateString()} | 
                         👤 ${post.author?.name || 'Autor'} | 
                         ❤️ ${post.likes}
                     </div>
-                    <p style="color: var(--text-color); line-height: 1.5;">${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}</p>
-                    <div class="post-actions" style="display: flex; gap: 10px; margin-top: 15px;">
-                        <button class="btn-sm btn-primary" onclick="adminPanel.editPost('${post.id}')" style="background: #007bff; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
+                    <p style="color: #333333 !important; line-height: 1.5 !important; font-size: 16px !important; display: block !important;">
+                        ${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}
+                    </p>
+                    <div style="display: flex !important; gap: 10px !important; margin-top: 15px !important;">
+                        <button onclick="alert('Edit: ${post.id}')" style="
+                            background: #007bff !important; 
+                            color: white !important; 
+                            border: none !important; 
+                            padding: 12px 20px !important; 
+                            border-radius: 5px !important; 
+                            cursor: pointer !important;
+                            font-size: 16px !important;
+                            display: inline-block !important;
+                        ">
                             ✏️ Editar
                         </button>
-                        <button class="btn-sm btn-danger" onclick="adminPanel.deletePost('${post.id}')" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
+                        <button onclick="alert('Delete: ${post.id}')" style="
+                            background: #dc3545 !important; 
+                            color: white !important; 
+                            border: none !important; 
+                            padding: 12px 20px !important; 
+                            border-radius: 5px !important; 
+                            cursor: pointer !important;
+                            font-size: 16px !important;
+                            display: inline-block !important;
+                        ">
                             🗑️ Eliminar
                         </button>
                     </div>
                 </div>
             `).join('');
             
-            console.log('✅ Posts renderizados con estilos inline');
+            container.innerHTML = postsHTML;
+            console.log('✅ Posts renderizados con estilos FORZADOS');
+            console.log('🔍 HTML final:', container.innerHTML.substring(0, 200) + '...');
         }, 1000);
         
         console.log('✅ Posts renderizados exitosamente');
