@@ -125,28 +125,40 @@ class AdminPanel {
         console.log('📝 Renderizando', this.posts.length, 'posts');
         console.log('🔍 Primer post:', this.posts[0]);
 
-        container.innerHTML = this.posts.map(post => `
-            <div class="feed-item post-item">
-                <div class="post-header">
-                    <h3 class="post-title">${post.title}</h3>
-                    <span class="status-badge status-${post.status}">${post.status}</span>
-                </div>
-                <div class="post-meta">
-                    📅 ${new Date(post.createdAt).toLocaleDateString()} | 
-                    👤 ${post.author?.name || 'Autor'} | 
-                    ❤️ ${post.likes}
-                </div>
-                <p>${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}</p>
-                <div class="post-actions">
-                    <button class="btn-sm btn-primary" onclick="adminPanel.editPost('${post.id}')">
-                        ✏️ Editar
-                    </button>
-                    <button class="btn-sm btn-danger" onclick="adminPanel.deletePost('${post.id}')">
-                        🗑️ Eliminar
-                    </button>
-                </div>
+        // Test visual directo
+        container.innerHTML = `
+            <div style="background: red; color: white; padding: 20px; margin: 10px; border-radius: 10px;">
+                🧪 TEST: Si ves esto, el contenedor funciona correctamente
             </div>
-        `).join('');
+        `;
+        
+        // Esperar un momento y luego renderizar posts reales
+        setTimeout(() => {
+            container.innerHTML = this.posts.map(post => `
+                <div class="feed-item post-item" style="background: var(--card-bg); border: 2px solid #007bff; padding: 20px; margin: 10px 0; border-radius: 10px;">
+                    <div class="post-header">
+                        <h3 class="post-title" style="color: var(--text-color); margin: 0 0 10px 0;">${post.title}</h3>
+                        <span class="status-badge status-${post.status}" style="background: #4CAF50; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px;">${post.status}</span>
+                    </div>
+                    <div class="post-meta" style="color: #666; font-size: 14px; margin-bottom: 15px;">
+                        📅 ${new Date(post.createdAt).toLocaleDateString()} | 
+                        👤 ${post.author?.name || 'Autor'} | 
+                        ❤️ ${post.likes}
+                    </div>
+                    <p style="color: var(--text-color); line-height: 1.5;">${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}</p>
+                    <div class="post-actions" style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn-sm btn-primary" onclick="adminPanel.editPost('${post.id}')" style="background: #007bff; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
+                            ✏️ Editar
+                        </button>
+                        <button class="btn-sm btn-danger" onclick="adminPanel.deletePost('${post.id}')" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer;">
+                            🗑️ Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            console.log('✅ Posts renderizados con estilos inline');
+        }, 1000);
         
         console.log('✅ Posts renderizados exitosamente');
     }
