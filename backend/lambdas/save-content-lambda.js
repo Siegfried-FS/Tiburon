@@ -15,8 +15,9 @@ exports.handler = async (event) => {
     console.log('Event:', JSON.stringify(event, null, 2));
     
     try {
-        // Handle CORS preflight
-        if (event.requestContext.http.method === 'OPTIONS') {
+        // Handle CORS preflight - múltiples formatos
+        const method = event.requestContext?.http?.method || event.httpMethod;
+        if (method === 'OPTIONS') {
             return {
                 statusCode: 200,
                 headers,
@@ -24,7 +25,7 @@ exports.handler = async (event) => {
             };
         }
 
-        if (event.requestContext.http.method !== 'POST') {
+        if (method !== 'POST') {
             return {
                 statusCode: 405,
                 headers,

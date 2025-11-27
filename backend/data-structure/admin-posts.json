@@ -1,0 +1,26 @@
+{
+  "posts": [
+    {
+      "id": "post001",
+      "title": "Ejemplo de Post",
+      "content": "Este es un ejemplo de contenido del post.",
+      "author": {
+        "name": "Admin",
+        "email": "admin@tiburoncp.com",
+        "avatar": "/assets/images/avatar-admin.png"
+      },
+      "status": "published",
+      "createdAt": "2025-11-25T10:00:00Z",
+      "updatedAt": "2025-11-25T10:00:00Z",
+      "imageUrl": null,
+      "tags": ["aws", "comunidad"],
+      "likes": 0,
+      "featured": false
+    }
+  ],
+  "metadata": {
+    "totalPosts": 1,
+    "lastUpdated": "2025-11-25T10:00:00Z",
+    "version": "1.0"
+  }
+}

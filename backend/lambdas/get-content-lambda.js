@@ -1,4 +1,4 @@
-const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
+const { S3Client, GetObjectCommand, PutObjectCommand } = require('@aws-sdk/client-s3');
 const path = require('path');
 
 const s3 = new S3Client({ region: 'us-east-1' });
@@ -15,8 +15,10 @@ exports.handler = async (event) => {
     console.log('Event:', JSON.stringify(event, null, 2));
     
     try {
+        const method = event.requestContext?.http?.method || event.httpMethod;
+        
         // Handle CORS preflight
-        if (event.requestContext.http.method === 'OPTIONS') {
+        if (method === 'OPTIONS') {
             return {
                 statusCode: 200,
                 headers,
@@ -24,15 +26,39 @@ exports.handler = async (event) => {
             };
         }
 
-        if (event.requestContext.http.method !== 'GET') {
+        if (method === 'POST') {
+            // Manejar guardado de contenido
+            const body = JSON.parse(event.body);
+            const { filename, content } = body;
+            
+            if (!filename || !content) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'filename y content son requeridos' })
+                };
+            }
+            
+            const key = `data/${path.basename(filename)}`;
+            const command = new PutObjectCommand({
+                Bucket: BUCKET_NAME,
+                Key: key,
+                Body: content,
+                ContentType: 'application/json'
+            });
+            
+            await s3.send(command);
+            
             return {
-                statusCode: 405,
+                statusCode: 200,
                 headers,
-                body: JSON.stringify({ error: 'Method not allowed' })
+                body: JSON.stringify({ message: 'Contenido guardado exitosamente', key })
             };
         }
 
-        // Extraer filename del path
+        if (method === 'GET') {
+            // Código existente para GET
+            // Extraer filename del path
         const filename = event.pathParameters?.filename;
 
         if (!filename || !filename.endsWith('.json')) {

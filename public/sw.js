@@ -44,8 +44,8 @@ self.addEventListener('fetch', event => {
     // Skip non-GET requests
     if (request.method !== 'GET') return;
     
-    // Handle feed.json with Network First (always fresh)
-    if (request.url.includes('feed.json')) {
+    // Handle DynamoDB API with Network First (always fresh)
+    if (request.url.includes('/posts') || request.url.includes('/events')) {
         event.respondWith(
             fetch(request)
                 .then(response => {
