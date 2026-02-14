@@ -4,9 +4,10 @@
 
 function applyThemeImmediately() {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
     }
+    // Si no hay tema guardado o es 'light', no hacer nada (claro por defecto)
 }
 applyThemeImmediately(); // Ejecutar inmediatamente para prevenir el "flicker"
 
@@ -277,26 +278,26 @@ function toggleTheme() {
     const themeToggle = document.querySelector('.theme-toggle');
     const currentTheme = html.getAttribute('data-theme');
 
-    if (currentTheme === 'light') {
-        html.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'dark');
-        if(themeToggle) themeToggle.textContent = '🌙';
-    } else {
-        html.setAttribute('data-theme', 'light');
+    if (currentTheme === 'dark') {
+        html.removeAttribute('data-theme'); // Volver a claro (default)
         localStorage.setItem('theme', 'light');
         if(themeToggle) themeToggle.textContent = '☀️';
+    } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        if(themeToggle) themeToggle.textContent = '🌙';
     }
 }
 
 function loadTheme() {
     const savedTheme = localStorage.getItem('theme');
     const themeToggle = document.querySelector('.theme-toggle');
-    if (savedTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        if(themeToggle) themeToggle.textContent = '☀️';
-    } else {
-        document.documentElement.removeAttribute('data-theme');
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
         if(themeToggle) themeToggle.textContent = '🌙';
+    } else {
+        document.documentElement.removeAttribute('data-theme'); // Claro por defecto
+        if(themeToggle) themeToggle.textContent = '☀️';
     }
 }
 

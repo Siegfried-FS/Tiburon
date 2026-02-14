@@ -20,12 +20,12 @@
 
 /* -- Estilos Generales del Header -- */
 .header {
-    background: rgba(var(--bg-secondary-rgb), 0.95);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(var(--bg-secondary-rgb), 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     padding: var(--spacing-md) var(--spacing-xl);
-    border-bottom: var(--header-border);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: var(--shadow-md);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,6 +35,11 @@
     z-index: 999;
     box-sizing: border-box;
     height: 80px;
+    transition: all 0.3s ease;
+}
+
+.header:hover {
+    box-shadow: var(--shadow-lg);
 }
 
 .nav {
@@ -47,9 +52,12 @@
 
 .nav-brand h1 {
     font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--nav-brand-color);
+    font-weight: 800;
     margin: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .nav-brand h1 a {
@@ -59,8 +67,7 @@
 }
 
 .nav-brand h1 a:hover {
-    color: var(--primary-color);
-    text-shadow: 0 0 8px var(--primary-color);
+    filter: brightness(1.2);
 }
 
 /* -- Menú de Navegación Principal (Desktop) -- */

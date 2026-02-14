@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración - Tiburón</title>
     
+    <!-- Cognito SDK -->
+    <script src="https://unpkg.com/amazon-cognito-identity-js@6.3.12/dist/amazon-cognito-identity.min.js"></script>
+    
     <!-- Estilos básicos -->
     <style>
         * {
@@ -465,7 +468,7 @@
             const container = document.getElementById('posts-container');
             
             try {
-                const response = await fetch(`${API_BASE_URL}/posts`);
+                const response = await authenticatedFetch(`${API_BASE_URL}/posts`);
                 if (response.ok) {
                     const data = await response.json();
                     posts = data.posts || [];
@@ -525,7 +528,7 @@
             const container = document.getElementById('events-container');
             
             try {
-                const response = await fetch(`${API_BASE_URL}/events`);
+                const response = await authenticatedFetch(`${API_BASE_URL}/events`);
                 if (response.ok) {
                     const data = await response.json();
                     events = data.events || [];
@@ -616,7 +619,7 @@
             if (!confirm('¿Estás seguro de eliminar este evento?')) return;
             
             try {
-                const response = await fetch(`${API_BASE_URL}/events/${eventId}`, {
+                const response = await authenticatedFetch(`${API_BASE_URL}/events/${eventId}`, {
                     method: 'DELETE'
                 });
                 
@@ -648,13 +651,13 @@
             try {
                 let response;
                 if (editingEventId) {
-                    response = await fetch(`${API_BASE_URL}/events/${editingEventId}`, {
+                    response = await authenticatedFetch(`${API_BASE_URL}/events/${editingEventId}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(eventData)
                     });
                 } else {
-                    response = await fetch(`${API_BASE_URL}/events`, {
+                    response = await authenticatedFetch(`${API_BASE_URL}/events`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(eventData)
@@ -740,14 +743,14 @@
                 let response;
                 if (editingPostId) {
                     // Actualizar post existente
-                    response = await fetch(`${API_BASE_URL}/posts/${editingPostId}`, {
+                    response = await authenticatedFetch(`${API_BASE_URL}/posts/${editingPostId}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(postData)
                     });
                 } else {
                     // Crear nuevo post
-                    response = await fetch(`${API_BASE_URL}/posts`, {
+                    response = await authenticatedFetch(`${API_BASE_URL}/posts`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(postData)
@@ -771,7 +774,7 @@
             if (!confirm('¿Estás seguro de eliminar este post?')) return;
             
             try {
-                const response = await fetch(`${API_BASE_URL}/posts/${postId}`, {
+                const response = await authenticatedFetch(`${API_BASE_URL}/posts/${postId}`, {
                     method: 'DELETE'
                 });
                 
