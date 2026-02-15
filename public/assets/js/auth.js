@@ -266,11 +266,11 @@ class AuthManager {
             
             // Actualizar avatar con cache-busting y fallback
             if (userAvatar) {
-                const avatarUrl = this.currentUser.picture || '/assets/images/profile-photo.jpg';
+                const avatarUrl = this.currentUser.picture || '/assets/images/avatar-default.png';
                 // Forzar recarga sin cache
                 userAvatar.src = avatarUrl + (avatarUrl.includes('?') ? '&' : '?') + 't=' + Date.now();
                 userAvatar.onerror = () => {
-                    userAvatar.src = '/assets/images/profile-photo.jpg';
+                    userAvatar.src = '/assets/images/avatar-default.png';
                 };
             }
             if (userName) userName.textContent = this.currentUser.name || this.currentUser.email;
@@ -308,7 +308,7 @@ class AuthManager {
             if (authButtons) authButtons.style.display = 'flex';
             if (userInfoDisplay) userInfoDisplay.style.display = 'none';
             
-            if (userAvatar) userAvatar.src = '/assets/images/profile-photo.jpg';
+            if (userAvatar) userAvatar.src = '/assets/images/avatar-default.png';
             if (userName) userName.textContent = '';
         }
         
