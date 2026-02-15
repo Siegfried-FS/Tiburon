@@ -264,7 +264,15 @@ class AuthManager {
             if (authButtons) authButtons.style.display = 'none';
             if (userInfoDisplay) userInfoDisplay.style.display = 'flex';
             
-            if (userAvatar) userAvatar.src = this.currentUser.picture || '/assets/images/profile-photo.jpg';
+            // Actualizar avatar con cache-busting y fallback
+            if (userAvatar) {
+                const avatarUrl = this.currentUser.picture || '/assets/images/profile-photo.jpg';
+                // Forzar recarga sin cache
+                userAvatar.src = avatarUrl + (avatarUrl.includes('?') ? '&' : '?') + 't=' + Date.now();
+                userAvatar.onerror = () => {
+                    userAvatar.src = '/assets/images/profile-photo.jpg';
+                };
+            }
             if (userName) userName.textContent = this.currentUser.name || this.currentUser.email;
             
             // Admin badge

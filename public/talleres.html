@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Talleres | AWS User Group Playa Vicente</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦈</text></svg>">
+    <link rel="stylesheet" href="assets/css/styles.css?v=3">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/top-bar.css">
+    <link rel="stylesheet" href="assets/css/header.css?v=3">
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="content-section">
+            <h2>🎓 Historial de Talleres</h2>
+            <p>Revisa los talleres y workshops que hemos realizado en la comunidad.</p>
+            <div id="workshops-container" class="workshops-grid">
+                <p style="text-align: center;">Cargando talleres...</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="assets/js/script-loader.js"></script>
+    <script src="assets/js/p.js"></script>
+    <script src="assets/js/app.js?v=3"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('workshops-container');
+            try {
+                const data = await loadData('workshops.json');
+                if (!data || data.length === 0) {
+                    container.innerHTML = `
+                        <div class="workshop-placeholder">
+                            <h3>🚀 Próximamente</h3>
+                            <p>Estamos preparando talleres increíbles sobre AWS, serverless, seguridad y más.</p>
+                            <p>Mantente conectado en nuestro <a href="https://t.me/AUGPlayaVicente" target="_blank">Telegram</a> para recibir notificaciones.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const html = data.map(workshop => `
+                    <div class="workshop-card">
+                        <h3>${workshop.title}</h3>
+                        <p>${workshop.description}</p>
+                        <div class="workshop-meta">
+                            <span>📅 ${workshop.date}</span>
+                            <span>👥 ${workshop.attendees || 0} asistentes</span>
+                        </div>
+                        ${workshop.materials ? `<a href="${workshop.materials}" class="btn-secondary">📚 Materiales</a>` : ''}
+                    </div>
+                `).join('');
+                
+                container.innerHTML = html;
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="workshop-placeholder">
+                        <h3>🚀 Próximamente</h3>
+                        <p>Estamos preparando talleres increíbles sobre AWS, serverless, seguridad y más.</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+    <style>
+        .workshops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .workshop-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .workshop-meta {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .workshop-placeholder {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+        }
+        .workshop-placeholder a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+    </style>
+</body>
+</html>

@@ -22,41 +22,39 @@ const DATA_SOURCES = {
     local: '/assets/data/'
 };
 
-// Función para cargar datos con fallback
+// Función para cargar datos con fallback PARALELO (más rápido)
 async function loadData(filename) {
     console.log(`🔄 Cargando ${filename}...`);
     
-    // 1. Intentar DynamoDB API para posts y eventos
+    // Intentar todas las fuentes EN PARALELO con Promise.race
+    const sources = [];
+    
+    // 1. DynamoDB API para posts y eventos
     if (filename === 'feed.json') {
-        try {
-            console.log('📡 Intentando DynamoDB API...');
-            const response = await fetch(`${DATA_SOURCES.dynamodb}/posts`);
-            if (response.ok) {
-                const data = await response.json();
-                const formattedPosts = (data.posts || []).map(post => ({
-                    id: post.item_id,
-                    title: post.title,
-                    content: post.content,
-                    author: post.author || { name: 'Admin', role: 'Administrator' },
-                    date: post.created_at,
-                    likes: post.likes || 0,
-                    tags: post.tags || []
-                }));
-                console.log(`✅ DynamoDB: Cargados ${formattedPosts.length} posts`);
-                return { posts: formattedPosts };
-            }
-        } catch (error) {
-            console.log('⚠️ DynamoDB no disponible:', error.message);
-        }
+        sources.push(
+            fetch(`${DATA_SOURCES.dynamodb}/posts`, { signal: AbortSignal.timeout(3000) })
+                .then(r => r.ok ? r.json() : Promise.reject())
+                .then(data => ({
+                    posts: (data.posts || []).map(post => ({
+                        id: post.item_id,
+                        title: post.title,
+                        content: post.content,
+                        author: post.author || { name: 'Admin', role: 'Administrator' },
+                        date: post.created_at,
+                        likes: post.likes || 0,
+                        tags: post.tags || []
+                    }))
+                }))
+                .then(result => { console.log('✅ DynamoDB posts'); return result; })
+                .catch(() => Promise.reject('DynamoDB'))
+        );
     }
     
     if (filename === 'events.json') {
-        try {
-            console.log('📡 Intentando DynamoDB API para eventos...');
-            const response = await fetch(`${DATA_SOURCES.dynamodb}/events`);
-            if (response.ok) {
-                const data = await response.json();
-                const formattedEvents = (data.events || []).map(event => ({
+        sources.push(
+            fetch(`${DATA_SOURCES.dynamodb}/events`, { signal: AbortSignal.timeout(3000) })
+                .then(r => r.ok ? r.json() : Promise.reject())
+                .then(data => (data.events || []).map(event => ({
                     id: event.item_id,
                     title: event.title,
                     description: event.description,
@@ -66,37 +64,31 @@ async function loadData(filename) {
                     status: event.status,
                     format: 'Presencial',
                     price: 'free'
-                }));
-                console.log(`✅ DynamoDB: Cargados ${formattedEvents.length} eventos`);
-                return formattedEvents;
-            }
-        } catch (error) {
-            console.log('⚠️ DynamoDB eventos no disponible:', error.message);
-        }
+                })))
+                .then(result => { console.log('✅ DynamoDB events'); return result; })
+                .catch(() => Promise.reject('DynamoDB'))
+        );
     }
     
-    // 2. Fallback a Lambda
-    try {
-        console.log('📡 Intentando Lambda API...');
-        const lambdaResponse = await fetch(DATA_SOURCES.lambda + filename);
-        if (lambdaResponse.ok) {
-            const data = await lambdaResponse.json();
-            console.log(`✅ Lambda: Cargado ${filename}`);
-            return data;
-        }
-    } catch (error) {
-        console.log('⚠️ Lambda no disponible:', error.message);
-    }
+    // 2. Lambda API
+    sources.push(
+        fetch(DATA_SOURCES.lambda + filename, { signal: AbortSignal.timeout(3000) })
+            .then(r => r.ok ? r.json() : Promise.reject())
+            .then(result => { console.log('✅ Lambda'); return result; })
+            .catch(() => Promise.reject('Lambda'))
+    );
     
-    // 3. Fallback a archivo local
+    // 3. Local fallback
+    sources.push(
+        fetch(DATA_SOURCES.local + filename, { signal: AbortSignal.timeout(2000) })
+            .then(r => r.ok ? r.json() : Promise.reject())
+            .then(result => { console.log('✅ Local'); return result; })
+            .catch(() => Promise.reject('Local'))
+    );
+    
+    // Retornar la primera que responda exitosamente
     try {
-        console.log('📁 Intentando archivo local...');
-        const localResponse = await fetch(DATA_SOURCES.local + filename);
-        if (localResponse.ok) {
-            const data = await localResponse.json();
-            console.log(`✅ Local: Cargado ${filename}`);
-            return data;
-        }
+        return await Promise.any(sources);
     } catch (error) {
         console.error(`❌ Error cargando ${filename}:`, error);
     }

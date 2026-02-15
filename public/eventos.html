@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos | AWS User Group Playa Vicente</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦈</text></svg>">
+    <link rel="stylesheet" href="assets/css/styles.css?v=3">
+    <link rel="stylesheet" href="assets/css/auth.css">
+    <link rel="stylesheet" href="assets/css/top-bar.css">
+    <link rel="stylesheet" href="assets/css/header.css?v=3">
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="content-section">
+            <h2>📅 Próximos Eventos</h2>
+            <p>Únete a nuestros eventos y talleres sobre AWS y tecnología cloud.</p>
+            <div id="events-container" class="events-grid">
+                <p style="text-align: center;">Cargando eventos...</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="assets/js/script-loader.js"></script>
+    <script src="assets/js/p.js"></script>
+    <script src="assets/js/app.js?v=3"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('events-container');
+            try {
+                const data = await loadData('events.json');
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align: center;">No hay eventos programados en este momento. ¡Mantente atento!</p>';
+                    return;
+                }
+                
+                const html = data.map(event => `
+                    <div class="event-card">
+                        <h3>${event.title}</h3>
+                        <p>${event.description}</p>
+                        <div class="event-details">
+                            <span>📅 ${event.date}</span>
+                            <span>🕐 ${event.time}</span>
+                            <span>📍 ${event.location}</span>
+                        </div>
+                        <span class="event-status ${event.status}">${event.status === 'upcoming' ? 'Próximamente' : 'Completado'}</span>
+                    </div>
+                `).join('');
+                
+                container.innerHTML = html;
+            } catch (error) {
+                container.innerHTML = '<p style="text-align: center;">Error al cargar eventos.</p>';
+            }
+        });
+    </script>
+    <style>
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .event-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .event-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .event-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .event-status.upcoming {
+            background: #10b981;
+            color: white;
+        }
+    </style>
+</body>
+</html>
