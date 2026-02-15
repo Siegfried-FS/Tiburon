@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tiburon-v1.0';
+const CACHE_NAME = 'tiburon-v1.1';
 const STATIC_CACHE = [
     '/',
     '/feed.html',
@@ -11,7 +11,7 @@ const STATIC_CACHE = [
     '/assets/shared/header.html'
 ];
 
-const DYNAMIC_CACHE = 'tiburon-dynamic-v1.0';
+const DYNAMIC_CACHE = 'tiburon-dynamic-v1.1';
 
 // Install event
 self.addEventListener('install', event => {

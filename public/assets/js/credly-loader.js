@@ -98,9 +98,17 @@ async function loadCredlyBadges() {
     }
 }
 
-// Cargar badges cuando el DOM esté listo
+// Cargar badges inmediatamente y con retry
+function initBadges() {
+    if (document.getElementById('aws-badges-container')) {
+        loadCredlyBadges();
+    } else {
+        setTimeout(initBadges, 100);
+    }
+}
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadCredlyBadges);
+    document.addEventListener('DOMContentLoaded', initBadges);
 } else {
-    loadCredlyBadges();
+    initBadges();
 }
